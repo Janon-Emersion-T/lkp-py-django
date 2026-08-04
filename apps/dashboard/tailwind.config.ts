@@ -10,13 +10,12 @@ export default {
         primary: "#0f3d5e",
         accent: "#d6a35f",
         card: "#ffffff",
-        border: "#d8e0eb"
+        border: "#d8e0eb",
       },
       boxShadow: {
-        panel: "0 24px 60px -32px rgba(15, 23, 42, 0.25)"
-      }
-    }
+        panel: "0 24px 60px -32px rgba(15, 23, 42, 0.25)",
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 } satisfies Config;
-

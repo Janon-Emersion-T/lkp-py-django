@@ -18,9 +18,9 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${env.VITE_API_BASE_URL}${path}`, {
     headers: {
       "Content-Type": "application/json",
-      ...init?.headers
+      ...init?.headers,
     },
-    ...init
+    ...init,
   });
 
   if (!response.ok) {
@@ -34,12 +34,12 @@ export const api = {
   login: (payload: LoginPayload) =>
     request<TokenPair>("/auth/login", {
       method: "POST",
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     }),
   refresh: (payload: RefreshPayload) =>
     request<TokenPair>("/auth/refresh", {
       method: "POST",
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     }),
-  health: () => request<{ status: string }>("/health")
+  health: () => request<{ status: string }>("/health"),
 };

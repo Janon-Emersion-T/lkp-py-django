@@ -5,4 +5,3 @@
   },
   "include": ["src", ".astro/types.d.ts"]
 }
-

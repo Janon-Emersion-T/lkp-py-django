@@ -1,14 +1,13 @@
 {
   "name": "lkprofessionals-new",
   "private": true,
-  "packageManager": "pnpm@10.6.1",
   "scripts": {
-    "dev:website": "pnpm --filter website dev",
-    "dev:dashboard": "pnpm --filter dashboard dev",
-    "build": "pnpm -r build",
-    "lint": "pnpm -r lint",
-    "check": "pnpm -r check",
-    "format": "pnpm -r format"
+    "postinstall": "npm install --prefix apps/website && npm install --prefix apps/dashboard",
+    "dev:website": "npm --prefix apps/website run dev",
+    "dev:dashboard": "npm --prefix apps/dashboard run dev",
+    "build": "npm --prefix apps/website run build && npm --prefix apps/dashboard run build",
+    "lint": "npm --prefix apps/website run lint && npm --prefix apps/dashboard run lint",
+    "check": "npm --prefix apps/website run check && npm --prefix apps/dashboard run check",
+    "format": "npm --prefix apps/website run format && npm --prefix apps/dashboard run format"
   }
 }
-

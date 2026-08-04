@@ -2,7 +2,7 @@ services:
   website:
     image: node:22-alpine
     working_dir: /workspace
-    command: sh -c "corepack enable && pnpm install && pnpm --filter website build && cp -r apps/website/dist/* /srv/website"
+    command: sh -c "npm install && npm run build --workspace website && cp -r apps/website/dist/* /srv/website"
     volumes:
       - .:/workspace
       - website_dist:/srv/website
@@ -10,7 +10,7 @@ services:
   dashboard:
     image: node:22-alpine
     working_dir: /workspace
-    command: sh -c "corepack enable && pnpm install && pnpm --filter dashboard build && cp -r apps/dashboard/dist/* /srv/dashboard"
+    command: sh -c "npm install && npm run build --workspace dashboard && cp -r apps/dashboard/dist/* /srv/dashboard"
     volumes:
       - .:/workspace
       - dashboard_dist:/srv/dashboard

@@ -8,8 +8,7 @@ export default defineConfig({
   integrations: [react(), sitemap()],
   vite: {
     server: {
-      host: true
-    }
-  }
+      host: true,
+    },
+  },
 });
-

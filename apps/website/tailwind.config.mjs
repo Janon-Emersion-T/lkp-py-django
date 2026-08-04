@@ -6,15 +6,14 @@ export default {
         brand: {
           ink: "#0B1F33",
           gold: "#C89F65",
-          mist: "#F4F1EC"
-        }
+          mist: "#F4F1EC",
+        },
       },
       fontFamily: {
         display: ["Fraunces", "serif"],
-        body: ["Manrope", "sans-serif"]
-      }
-    }
+        body: ["Manrope", "sans-serif"],
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 };
-

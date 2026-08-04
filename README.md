@@ -20,6 +20,7 @@ deploy/
 
 ```bash
 cp .env.example .env
+npm install
 docker compose up --build
 ```
 
@@ -29,6 +30,91 @@ Endpoints:
 - Dashboard SPA: `http://localhost/app`
 - API docs: `http://localhost/api/docs`
 - Django admin: `http://localhost/admin`
+
+## Frontend development
+
+Install all frontend dependencies from the repo root:
+
+```bash
+npm install
+```
+
+Run the Astro website:
+
+```bash
+npm run dev:website
+```
+
+Run the React dashboard:
+
+```bash
+npm run dev:dashboard
+```
+
+Install a frontend independently if needed:
+
+```bash
+cd apps/website
+npm install
+npm run dev
+```
+
+```bash
+cd apps/dashboard
+npm install
+npm run dev
+```
+
+## Backend development
+
+Create a virtual environment, install Python dependencies, and run Django locally:
+
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements/base.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+Run Celery locally in a separate shell:
+
+```bash
+cd backend
+source .venv/bin/activate
+celery -A config worker -l info
+```
+
+PostgreSQL and Redis can be started with Docker:
+
+```bash
+docker compose up db redis
+```
+
+## Production-style Docker workflow
+
+Build and start the full stack:
+
+```bash
+cp .env.example .env
+docker compose up --build
+```
+
+## Production builds
+
+Build both frontend applications from the root:
+
+```bash
+npm run build
+```
+
+Build each frontend independently:
+
+```bash
+cd apps/website && npm run build
+cd apps/dashboard && npm run build
+```
 
 ## Architecture notes
 
