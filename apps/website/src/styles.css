@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-brand-mist text-brand-ink font-body antialiased;
+}
+
+.shell {
+  background:
+    radial-gradient(circle at top left, rgba(200, 159, 101, 0.22), transparent 35%),
+    linear-gradient(135deg, #f8f5ef 0%, #eef3f6 100%);
+}
+

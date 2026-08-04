@@ -1,0 +1,28 @@
+{
+  auto_https disable_redirects
+}
+
+:80 {
+  encode gzip zstd
+
+  handle /api/* {
+    reverse_proxy backend:8000
+  }
+
+  handle /admin/* {
+    reverse_proxy backend:8000
+  }
+
+  handle /app* {
+    root * /srv/dashboard
+    try_files {path} /index.html
+    file_server
+  }
+
+  handle {
+    root * /srv/website
+    try_files {path} {path}/ /index.html
+    file_server
+  }
+}
+

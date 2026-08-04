@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+---
+
+<BaseLayout
+  title="LK Professionals | Advisory, Finance, and Compliance Services"
+  description="LK Professionals provides advisory, compliance, and operational support for modern organizations.">
+  <main>
+    <Hero />
+    <section class="mx-auto grid max-w-6xl gap-6 px-6 pb-24 md:grid-cols-3">
+      <article class="rounded-3xl bg-white/80 p-8 shadow-lg shadow-brand-ink/5">
+        <h2 class="font-display text-2xl">Finance Operations</h2>
+        <p class="mt-4 text-slate-700">Process design, controls, and reporting built for scale.</p>
+      </article>
+      <article class="rounded-3xl bg-white/80 p-8 shadow-lg shadow-brand-ink/5">
+        <h2 class="font-display text-2xl">Regulatory Readiness</h2>
+        <p class="mt-4 text-slate-700">Evidence-based compliance programs with defensible documentation.</p>
+      </article>
+      <article class="rounded-3xl bg-white/80 p-8 shadow-lg shadow-brand-ink/5">
+        <h2 class="font-display text-2xl">Executive Support</h2>
+        <p class="mt-4 text-slate-700">Structured advisory for leadership teams that need clarity fast.</p>
+      </article>
+    </section>
+  </main>
+</BaseLayout>
+
