@@ -1,0 +1,39 @@
+# =========================
+# Node
+# =========================
+node_modules/
+npm-debug.log*
+package-lock.json.old
+
+# Build
+dist/
+build/
+coverage/
+
+# Astro
+.astro/
+
+# Python
+backend/.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Django
+db.sqlite3
+media/
+
+# Environment
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# macOS / Linux
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

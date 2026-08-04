@@ -1,0 +1,43 @@
+@theme {
+  --color-brand-primary: #0B2F8F;
+  --color-brand-primary-dark: #071A3D;
+  --color-brand-secondary: #1746C7;
+  --color-brand-gold: #D4AF37;
+  --color-brand-gold-light: #F2D675;
+
+  --color-background-primary: #F8F8F5;
+  --color-background-secondary: #FFFFFF;
+  --color-background-tertiary: #F1F5F9;
+  --color-background-dark: #071A3D;
+
+  --color-surface-primary: #FFFFFF;
+  --color-surface-secondary: #F8F8F5;
+  --color-surface-elevated: #FFFFFF;
+
+  --color-text-primary: #111827;
+  --color-text-secondary: #5B6472;
+  --color-text-muted: #8B94A7;
+  --color-text-inverse: #FFFFFF;
+
+  --color-border-light: #E5E7EB;
+  --color-border-default: #D1D5DB;
+  --color-border-dark: #94A3B8;
+
+  --color-success: #16803C;
+  --color-warning: #B7791F;
+  --color-danger: #C53030;
+  --color-info: #1746C7;
+
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.25rem;
+
+  --shadow-sm: 0 1px 2px rgb(7 26 61 / 0.06);
+  --shadow-md: 0 8px 24px rgb(7 26 61 / 0.08);
+  --shadow-lg: 0 18px 50px rgb(7 26 61 / 0.12);
+}
