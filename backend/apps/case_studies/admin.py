@@ -68,7 +68,7 @@ class CaseStudyAdmin(admin.ModelAdmin):
         "slug",
         "client_name",
         "client__company_name",
-        "project__name",
+        "project__title",
         "short_description",
     )
     readonly_fields = (

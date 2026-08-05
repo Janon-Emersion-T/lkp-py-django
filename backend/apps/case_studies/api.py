@@ -122,7 +122,7 @@ def serialize_case_study(case_study):
         ),
         "project_id": case_study.project_id,
         "project_name": (
-            case_study.project.name
+            case_study.project.title
             if case_study.project
             else None
         ),

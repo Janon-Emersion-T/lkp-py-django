@@ -63,7 +63,7 @@ class CaseStudyRepository(BaseRepository[CaseStudy]):
                 "location",
                 "short_description",
                 "client__company_name",
-                "project__name",
+                "project__title",
                 "industry__name",
                 "service_links__service__title",
             ),

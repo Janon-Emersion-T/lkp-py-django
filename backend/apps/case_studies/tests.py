@@ -50,7 +50,7 @@ class CaseStudiesApiTests(TestCase):
         self.project = Project.objects.create(
             project_code="LKP-PR-2026-00800",
             client=self.client_record,
-            name="Example Website Project",
+            title="Example Website Project",
             created_by=self.admin,
             updated_by=self.admin,
         )
