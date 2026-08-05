@@ -7,7 +7,7 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { loginRequest, saveTokens } from "../../lib/api";
-import { useAuth } from "./auth-context";
+import { useAuth } from "./use-auth";
 import {
   loginSchema,
   type LoginFormValues,

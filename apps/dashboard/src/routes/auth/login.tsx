@@ -1,7 +1,7 @@
 import { Navigate } from "@tanstack/react-router";
 
 import { LoginForm } from "../../features/auth/login-form";
-import { useAuth } from "../../features/auth/auth-context";
+import { useAuth } from "../../features/auth/use-auth";
 
 export function LoginPage() {
   const {

@@ -1,6 +1,5 @@
 import {
-  createContext,
-  useContext,
+  useCallback,
   useEffect,
   useMemo,
   useState,
@@ -13,16 +12,7 @@ import {
   logoutRequest,
   type CurrentUser,
 } from "../../lib/api";
-
-interface AuthContextValue {
-  user: CurrentUser | null;
-  isLoading: boolean;
-  isAuthenticated: boolean;
-  refreshUser: () => Promise<void>;
-  logout: () => Promise<void>;
-}
-
-const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+import { AuthContext, type AuthContextValue } from "./auth-context";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -32,7 +22,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<CurrentUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  async function refreshUser() {
+  const refreshUser = useCallback(async () => {
     try {
       const currentUser = await currentUserRequest();
       setUser(currentUser);
@@ -42,21 +32,44 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } finally {
       setIsLoading(false);
     }
-  }
+  }, []);
 
-  async function logout() {
+  const logout = useCallback(async () => {
     try {
       await logoutRequest();
     } finally {
       setUser(null);
     }
-  }
-
-  useEffect(() => {
-    void refreshUser();
   }, []);
 
-  const value = useMemo(
+  useEffect(() => {
+    let isActive = true;
+
+    currentUserRequest()
+      .then((currentUser) => {
+        if (isActive) {
+          setUser(currentUser);
+        }
+      })
+      .catch(() => {
+        clearTokens();
+
+        if (isActive) {
+          setUser(null);
+        }
+      })
+      .finally(() => {
+        if (isActive) {
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
+  const value = useMemo<AuthContextValue>(
     () => ({
       user,
       isLoading,
@@ -64,22 +77,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       refreshUser,
       logout,
     }),
-    [user, isLoading],
+    [user, isLoading, refreshUser, logout],
   );
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error("useAuth must be used inside AuthProvider");
-  }
-
-  return context;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

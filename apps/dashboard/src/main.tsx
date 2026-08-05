@@ -7,7 +7,7 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RouterProvider } from "@tanstack/react-router";
 
-import { AuthProvider } from "./features/auth/auth-context";
+import { AuthProvider } from "./features/auth/auth-provider";
 import { router } from "./router";
 import "./styles/global.css";
 

@@ -1,58 +1,102 @@
 import { Link } from "@tanstack/react-router";
-import {
-  LayoutDashboard,
-  Settings,
-  Users,
-} from "lucide-react";
+import { LockKeyhole } from "lucide-react";
 
+import { dashboardNavigation } from "../../config/dashboard-navigation";
 import { cn } from "../../lib/utils";
 
-const navigation = [
-  {
-    label: "Dashboard",
-    to: "/dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    label: "Users",
-    to: "/users",
-    icon: Users,
-  },
-  {
-    label: "Settings",
-    to: "/settings",
-    icon: Settings,
-  },
-] as const;
-
 interface SidebarNavProps {
+  collapsed?: boolean;
   onNavigate?: () => void;
 }
 
-export function SidebarNav({ onNavigate }: SidebarNavProps) {
+export function SidebarNav({
+  collapsed = false,
+  onNavigate,
+}: SidebarNavProps) {
   return (
-    <nav className="space-y-2 p-4">
-      {navigation.map((item) => {
-        const Icon = item.icon;
+    <nav
+      aria-label="Dashboard navigation"
+      className="space-y-6 px-3 py-4"
+    >
+      {dashboardNavigation.map((group) => (
+        <section key={group.label}>
+          {!collapsed && (
+            <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+              {group.label}
+            </p>
+          )}
 
-        return (
-          <Link
-            key={item.to}
-            to={item.to}
-            onClick={onNavigate}
-            className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950"
-            activeProps={{
-              className: cn(
-                "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium",
-                "bg-blue-50 text-blue-800",
-              ),
-            }}
-          >
-            <Icon size={18} />
-            {item.label}
-          </Link>
-        );
-      })}
+          <div className="space-y-1">
+            {group.items.map((item) => {
+              const Icon = item.icon;
+
+              if (!item.available || !item.to) {
+                return (
+                  <div
+                    key={item.label}
+                    aria-disabled="true"
+                    title={collapsed ? `${item.label} — Coming soon` : undefined}
+                    className={cn(
+                      "flex cursor-not-allowed items-center rounded-md px-3 py-2 text-sm font-medium text-slate-400",
+                      collapsed ? "justify-center" : "gap-3",
+                    )}
+                  >
+                    <Icon
+                      size={18}
+                      aria-hidden="true"
+                      className="shrink-0"
+                    />
+
+                    {!collapsed && (
+                      <>
+                        <span className="min-w-0 flex-1 truncate">
+                          {item.label}
+                        </span>
+
+                        <LockKeyhole
+                          size={13}
+                          aria-label="Coming soon"
+                          className="shrink-0 text-slate-300"
+                        />
+                      </>
+                    )}
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  onClick={onNavigate}
+                  title={collapsed ? item.label : undefined}
+                  className={cn(
+                    "flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-950",
+                    collapsed ? "justify-center" : "gap-3",
+                  )}
+                  activeProps={{
+                    className: cn(
+                      "flex items-center rounded-md px-3 py-2 text-sm font-medium",
+                      "bg-blue-50 text-blue-800",
+                      collapsed ? "justify-center" : "gap-3",
+                    ),
+                  }}
+                >
+                  <Icon
+                    size={18}
+                    aria-hidden="true"
+                    className="shrink-0"
+                  />
+
+                  {!collapsed && (
+                    <span className="truncate">{item.label}</span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      ))}
     </nav>
   );
 }
