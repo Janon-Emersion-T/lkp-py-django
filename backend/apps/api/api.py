@@ -21,6 +21,7 @@ from apps.clients.api import router as clients_router
 from apps.crm.api import router as crm_router
 from apps.quotations.api import router as quotations_router
 from apps.projects.api import router as projects_router
+from apps.tasks.api import router as tasks_router
 from apps.notifications.api import router as notifications_router
 from apps.settings_manager.api import router as settings_router
 from apps.rbac.api import router as rbac_router
@@ -351,3 +352,5 @@ api.add_router("/clients", clients_router)
 api.add_router("/quotations", quotations_router)
 
 api.add_router("/projects", projects_router)
+
+api.add_router("/tasks", tasks_router)

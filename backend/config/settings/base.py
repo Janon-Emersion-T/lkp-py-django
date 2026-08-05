@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'apps.clients.apps.ClientsConfig',
     'apps.quotations.apps.QuotationsConfig',
     'apps.projects.apps.ProjectsConfig',
+    'apps.tasks.apps.TasksConfig',
     'apps.api.apps.ApiConfig',
 ]
 
