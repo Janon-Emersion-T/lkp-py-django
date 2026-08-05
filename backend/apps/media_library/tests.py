@@ -203,7 +203,7 @@ class MediaLibraryApiTests(TestCase):
         )
         self.assertEqual(
             response.json()["media_type"],
-            MediaType.ICON,
+            MediaType.LOGO,
         )
 
     def test_superuser_can_update_asset(self):
