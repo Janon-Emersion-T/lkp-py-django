@@ -13,8 +13,12 @@ from apps.accounts.security_services import (
     register_failed_login,
     reset_failed_logins,
 )
+from apps.activity.api import router as activity_router
 from apps.activity.services import log_activity
+from apps.audit.api import router as audit_router
 from apps.audit.models import AuditEventType, AuditSeverity
+from apps.notifications.api import router as notifications_router
+from apps.settings_manager.api import router as settings_router
 from apps.rbac.api import router as rbac_router
 from apps.audit.services import log_audit_event
 
@@ -329,3 +333,9 @@ api.add_router("/users", users_router)
 api.add_router("/rbac", rbac_router)
 
 api.add_router("/security", security_router)
+
+
+api.add_router("/settings", settings_router)
+api.add_router("/notifications", notifications_router)
+api.add_router("/activity", activity_router)
+api.add_router("/audit", audit_router)

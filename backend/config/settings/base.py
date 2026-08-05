@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'apps.rbac.apps.RbacConfig',
     'apps.activity.apps.ActivityConfig',
     'apps.audit.apps.AuditConfig',
+    'apps.settings_manager.apps.SettingsManagerConfig',
+    'apps.notifications.apps.NotificationsConfig',
     'apps.api.apps.ApiConfig',
 ]
 
