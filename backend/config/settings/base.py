@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'apps.crm.apps.CrmConfig',
     'apps.clients.apps.ClientsConfig',
     'apps.quotations.apps.QuotationsConfig',
+    'apps.projects.apps.ProjectsConfig',
     'apps.api.apps.ApiConfig',
 ]
 
