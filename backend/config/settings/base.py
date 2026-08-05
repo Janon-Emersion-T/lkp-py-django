@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'apps.audit.apps.AuditConfig',
     'apps.settings_manager.apps.SettingsManagerConfig',
     'apps.notifications.apps.NotificationsConfig',
+    'apps.crm.apps.CrmConfig',
     'apps.api.apps.ApiConfig',
 ]
 
