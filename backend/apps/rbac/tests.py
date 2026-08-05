@@ -158,3 +158,137 @@ class SeedRolesCommandTests(TestCase):
             role.permissions.count(),
             Permission.objects.count(),
         )
+
+
+from ninja.testing import TestClient
+from rest_framework_simplejwt.tokens import RefreshToken
+
+from apps.api.api import api
+from apps.audit.models import AuditEventType, AuditLog
+
+
+class RbacApiTests(TestCase):
+    def setUp(self):
+        self.client = TestClient(api)
+
+        self.admin = User.objects.create_superuser(
+            username="rbac-api-admin",
+            email="rbac-api-admin@example.com",
+            password="StrongPassword123!",
+        )
+
+        token = RefreshToken.for_user(self.admin).access_token
+
+        self.headers = {
+            "Authorization": f"Bearer {token}",
+        }
+
+        self.role = Role.objects.create(
+            name="RBAC API Role",
+            slug="rbac-api-role",
+            priority=30,
+        )
+
+    def test_superuser_can_list_roles(self):
+        response = self.client.get(
+            "/rbac/roles",
+            headers=self.headers,
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        role_slugs = [
+            role["slug"]
+            for role in response.json()
+        ]
+
+        self.assertIn("rbac-api-role", role_slugs)
+
+    def test_superuser_can_list_permissions(self):
+        response = self.client.get(
+            "/rbac/permissions",
+            headers=self.headers,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertGreater(len(response.json()), 0)
+
+    def test_superuser_can_update_role_permissions(self):
+        from django.contrib.auth.models import Permission
+
+        permission = Permission.objects.get(
+            content_type__app_label="accounts",
+            codename="view_user",
+        )
+
+        response = self.client.put(
+            f"/rbac/roles/{self.role.pk}",
+            json={
+                "description": "Updated role",
+                "priority": 25,
+                "is_active": True,
+                "permission_ids": [permission.id],
+            },
+            headers=self.headers,
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        self.role.refresh_from_db()
+
+        self.assertEqual(
+            self.role.description,
+            "Updated role",
+        )
+        self.assertEqual(self.role.priority, 25)
+        self.assertTrue(
+            self.role.permissions.filter(
+                pk=permission.pk,
+            ).exists()
+        )
+
+        self.assertTrue(
+            AuditLog.objects.filter(
+                actor=self.admin,
+                event_type=AuditEventType.PERMISSION_CHANGED,
+                target_id=str(self.role.pk),
+            ).exists()
+        )
+
+    def test_superuser_can_assign_role_to_user(self):
+        user = User.objects.create_user(
+            username="role-target",
+            email="role-target@example.com",
+            password="StrongPassword123!",
+        )
+
+        response = self.client.post(
+            f"/rbac/users/{user.pk}/roles",
+            json={
+                "role_id": str(self.role.pk),
+            },
+            headers=self.headers,
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTrue(
+            UserRole.objects.filter(
+                user=user,
+                role=self.role,
+                is_active=True,
+            ).exists()
+        )
+
+        self.assertTrue(
+            AuditLog.objects.filter(
+                actor=self.admin,
+                event_type=AuditEventType.ROLE_ASSIGNED,
+                target_id=str(user.pk),
+            ).exists()
+        )
+
+    def test_unauthenticated_role_request_is_rejected(self):
+        response = self.client.get("/rbac/roles")
+
+        self.assertEqual(response.status_code, 401)

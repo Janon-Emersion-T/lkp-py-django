@@ -5,8 +5,10 @@ from ninja import NinjaAPI
 from ninja.errors import HttpError, ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from apps.accounts.api import router as users_router
 from apps.activity.services import log_activity
 from apps.audit.models import AuditEventType, AuditSeverity
+from apps.rbac.api import router as rbac_router
 from apps.audit.services import log_audit_event
 
 from .auth import jwt_auth
@@ -283,3 +285,7 @@ def logout(request, payload: LogoutSchema):
             "Invalid refresh token.",
             code="invalid_refresh_token",
         ) from exc
+
+
+api.add_router("/users", users_router)
+api.add_router("/rbac", rbac_router)

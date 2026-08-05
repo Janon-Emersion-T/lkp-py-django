@@ -17,3 +17,5 @@ python-dotenv==1.2.2
 sqlparse==0.5.5
 typing-inspection==0.4.2
 typing_extensions==4.16.0
+Pillow
+email-validator
