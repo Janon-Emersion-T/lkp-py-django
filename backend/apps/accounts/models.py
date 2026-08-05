@@ -39,6 +39,18 @@ class User(AbstractUser):
         blank=True,
     )
 
+    two_factor_enabled = models.BooleanField(default=False)
+    two_factor_secret = models.CharField(
+        max_length=64,
+        blank=True,
+    )
+
+    failed_login_attempts = models.PositiveIntegerField(default=0)
+    locked_until = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
     is_deleted = models.BooleanField(
         default=False,
         db_index=True,

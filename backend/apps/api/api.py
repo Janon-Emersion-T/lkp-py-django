@@ -6,6 +6,13 @@ from ninja.errors import HttpError, ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts.api import router as users_router
+from apps.accounts.models import User
+from apps.accounts.security_api import router as security_router
+from apps.accounts.security_services import (
+    is_account_locked,
+    register_failed_login,
+    reset_failed_logins,
+)
 from apps.activity.services import log_activity
 from apps.audit.models import AuditEventType, AuditSeverity
 from apps.rbac.api import router as rbac_router
@@ -127,6 +134,7 @@ def readiness_check(request):
     response={
         200: TokenSchema,
         401: ErrorSchema,
+        423: ErrorSchema,
     },
     tags=["Authentication"],
 )
@@ -138,6 +146,21 @@ def login(request, payload: LoginSchema):
         window_seconds=300,
     )
 
+    existing_user = User.objects.filter(
+        email__iexact=payload.email,
+        is_deleted=False,
+    ).first()
+
+    if existing_user and is_account_locked(existing_user):
+        raise ApiHttpError(
+            423,
+            "Account is temporarily locked.",
+            code="account_locked",
+            details={
+                "locked_until": existing_user.locked_until.isoformat(),
+            },
+        )
+
     user = authenticate(
         request,
         email=payload.email,
@@ -145,20 +168,35 @@ def login(request, payload: LoginSchema):
     )
 
     if user is None:
-        log_audit_event(
-            request=request,
-            event_type=AuditEventType.LOGIN_FAILED,
-            severity=AuditSeverity.WARNING,
-            module="authentication",
-            message="Failed login attempt.",
-            metadata={"email": payload.email},
-        )
+        if existing_user:
+            register_failed_login(
+                request=request,
+                user=existing_user,
+            )
+        else:
+            log_audit_event(
+                request=request,
+                event_type=AuditEventType.LOGIN_FAILED,
+                severity=AuditSeverity.WARNING,
+                module="authentication",
+                message="Failed login attempt.",
+                metadata={"email": payload.email},
+            )
 
         raise ApiHttpError(
             401,
             "Invalid email or password.",
             code="invalid_credentials",
         )
+
+    if user.two_factor_enabled:
+        raise ApiHttpError(
+            401,
+            "Two-factor authentication code is required.",
+            code="two_factor_required",
+        )
+
+    reset_failed_logins(user)
 
     refresh = RefreshToken.for_user(user)
 
@@ -289,3 +327,5 @@ def logout(request, payload: LogoutSchema):
 
 api.add_router("/users", users_router)
 api.add_router("/rbac", rbac_router)
+
+api.add_router("/security", security_router)

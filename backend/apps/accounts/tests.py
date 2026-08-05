@@ -177,3 +177,268 @@ class UsersApiTests(TestCase):
         response = self.client.get("/users")
 
         self.assertEqual(response.status_code, 401)
+
+
+import pyotp
+from datetime import timedelta
+from django.utils import timezone
+
+from apps.accounts.security_services import (
+    LOCKOUT_MINUTES,
+    MAX_FAILED_ATTEMPTS,
+)
+
+
+class AccountSecurityApiTests(TestCase):
+    def setUp(self):
+        self.client = TestClient(api)
+
+        self.user = User.objects.create_user(
+            username="security-user",
+            email="security@example.com",
+            password="StrongPassword123!",
+        )
+
+        token = RefreshToken.for_user(self.user).access_token
+
+        self.headers = {
+            "Authorization": f"Bearer {token}",
+        }
+
+    def test_authenticated_user_can_change_password(self):
+        response = self.client.post(
+            "/security/change-password",
+            json={
+                "current_password": "StrongPassword123!",
+                "new_password": "NewStrongPassword456!",
+            },
+            headers=self.headers,
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        self.user.refresh_from_db()
+
+        self.assertTrue(
+            self.user.check_password(
+                "NewStrongPassword456!",
+            )
+        )
+        self.assertFalse(self.user.must_change_password)
+        self.assertIsNotNone(
+            self.user.last_password_change_at
+        )
+
+    def test_incorrect_current_password_is_rejected(self):
+        response = self.client.post(
+            "/security/change-password",
+            json={
+                "current_password": "incorrect",
+                "new_password": "NewStrongPassword456!",
+            },
+            headers=self.headers,
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(
+            response.json()["code"],
+            "invalid_current_password",
+        )
+
+    def test_two_factor_setup_returns_secret_and_uri(self):
+        response = self.client.post(
+            "/security/two-factor/setup",
+            headers=self.headers,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.json()["secret"])
+        self.assertIn(
+            "otpauth://totp/",
+            response.json()["provisioning_uri"],
+        )
+
+        self.user.refresh_from_db()
+
+        self.assertEqual(
+            self.user.two_factor_secret,
+            response.json()["secret"],
+        )
+
+    def test_two_factor_can_be_enabled_and_disabled(self):
+        setup_response = self.client.post(
+            "/security/two-factor/setup",
+            headers=self.headers,
+        )
+
+        secret = setup_response.json()["secret"]
+        code = pyotp.TOTP(secret).now()
+
+        enable_response = self.client.post(
+            "/security/two-factor/enable",
+            json={"code": code},
+            headers=self.headers,
+        )
+
+        self.assertEqual(enable_response.status_code, 200)
+        self.assertTrue(enable_response.json()["enabled"])
+
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.two_factor_enabled)
+
+        disable_code = pyotp.TOTP(
+            self.user.two_factor_secret
+        ).now()
+
+        disable_response = self.client.post(
+            "/security/two-factor/disable",
+            json={"code": disable_code},
+            headers=self.headers,
+        )
+
+        self.assertEqual(
+            disable_response.status_code,
+            200,
+        )
+        self.assertFalse(
+            disable_response.json()["enabled"]
+        )
+
+        self.user.refresh_from_db()
+        self.assertFalse(self.user.two_factor_enabled)
+        self.assertEqual(self.user.two_factor_secret, "")
+
+    def test_standard_login_requires_two_factor_code(self):
+        self.user.two_factor_enabled = True
+        self.user.two_factor_secret = pyotp.random_base32()
+        self.user.save(
+            update_fields=[
+                "two_factor_enabled",
+                "two_factor_secret",
+            ],
+        )
+
+        response = self.client.post(
+            "/auth/login",
+            json={
+                "email": self.user.email,
+                "password": "StrongPassword123!",
+            },
+            headers={
+                "X-Forwarded-For": "192.0.2.80",
+            },
+        )
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(
+            response.json()["code"],
+            "two_factor_required",
+        )
+        self.assertNotIn("access", response.json())
+
+    def test_two_factor_login_returns_tokens(self):
+        secret = pyotp.random_base32()
+
+        self.user.two_factor_enabled = True
+        self.user.two_factor_secret = secret
+        self.user.save(
+            update_fields=[
+                "two_factor_enabled",
+                "two_factor_secret",
+            ],
+        )
+
+        response = self.client.post(
+            "/security/two-factor/login",
+            json={
+                "email": self.user.email,
+                "password": "StrongPassword123!",
+                "code": pyotp.TOTP(secret).now(),
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("access", response.json())
+        self.assertIn("refresh", response.json())
+
+    def test_failed_logins_lock_account(self):
+        for attempt in range(MAX_FAILED_ATTEMPTS):
+            response = self.client.post(
+                "/auth/login",
+                json={
+                    "email": self.user.email,
+                    "password": "incorrect-password",
+                },
+                headers={
+                    "X-Forwarded-For": (
+                        f"198.51.100.{attempt + 1}"
+                    ),
+                },
+            )
+
+            self.assertEqual(response.status_code, 401)
+
+        self.user.refresh_from_db()
+
+        self.assertEqual(
+            self.user.failed_login_attempts,
+            MAX_FAILED_ATTEMPTS,
+        )
+        self.assertIsNotNone(self.user.locked_until)
+        self.assertGreater(
+            self.user.locked_until,
+            timezone.now(),
+        )
+
+        locked_response = self.client.post(
+            "/auth/login",
+            json={
+                "email": self.user.email,
+                "password": "StrongPassword123!",
+            },
+            headers={
+                "X-Forwarded-For": "203.0.113.90",
+            },
+        )
+
+        self.assertEqual(locked_response.status_code, 423)
+        self.assertEqual(
+            locked_response.json()["code"],
+            "account_locked",
+        )
+
+    def test_expired_lock_is_cleared_on_successful_login(self):
+        self.user.failed_login_attempts = MAX_FAILED_ATTEMPTS
+        self.user.locked_until = (
+            timezone.now()
+            - timedelta(
+                minutes=LOCKOUT_MINUTES,
+            )
+        )
+        self.user.save(
+            update_fields=[
+                "failed_login_attempts",
+                "locked_until",
+            ],
+        )
+
+        response = self.client.post(
+            "/auth/login",
+            json={
+                "email": self.user.email,
+                "password": "StrongPassword123!",
+            },
+            headers={
+                "X-Forwarded-For": "203.0.113.91",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        self.user.refresh_from_db()
+
+        self.assertEqual(
+            self.user.failed_login_attempts,
+            0,
+        )
+        self.assertIsNone(self.user.locked_until)
