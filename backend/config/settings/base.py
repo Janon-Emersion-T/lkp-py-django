@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'apps.notifications.apps.NotificationsConfig',
     'apps.crm.apps.CrmConfig',
     'apps.clients.apps.ClientsConfig',
+    'apps.quotations.apps.QuotationsConfig',
     'apps.api.apps.ApiConfig',
 ]
 
