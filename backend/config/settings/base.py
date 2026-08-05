@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'apps.projects.apps.ProjectsConfig',
     'apps.tasks.apps.TasksConfig',
     'apps.finance.apps.FinanceConfig',
+    'apps.cms.apps.CmsConfig',
     'apps.api.apps.ApiConfig',
 ]
 
