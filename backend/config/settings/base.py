@@ -49,6 +49,9 @@ INSTALLED_APPS = [
 
     'apps.common.apps.CommonConfig',
     'apps.accounts.apps.AccountsConfig',
+    'apps.rbac.apps.RbacConfig',
+    'apps.activity.apps.ActivityConfig',
+    'apps.audit.apps.AuditConfig',
     'apps.api.apps.ApiConfig',
 ]
 
