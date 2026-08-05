@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'apps.cms.apps.CmsConfig',
     'apps.media_library.apps.MediaLibraryConfig',
     'apps.services_catalog.apps.ServicesCatalogConfig',
+    'apps.packages_catalog.apps.PackagesCatalogConfig',
     'apps.api.apps.ApiConfig',
 ]
 
