@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'apps.quotations.apps.QuotationsConfig',
     'apps.projects.apps.ProjectsConfig',
     'apps.tasks.apps.TasksConfig',
+    'apps.finance.apps.FinanceConfig',
     'apps.api.apps.ApiConfig',
 ]
 
