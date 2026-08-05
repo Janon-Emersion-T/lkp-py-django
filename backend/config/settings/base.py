@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'apps.media_library.apps.MediaLibraryConfig',
     'apps.services_catalog.apps.ServicesCatalogConfig',
     'apps.packages_catalog.apps.PackagesCatalogConfig',
+    'apps.industries.apps.IndustriesConfig',
     'apps.api.apps.ApiConfig',
 ]
 
