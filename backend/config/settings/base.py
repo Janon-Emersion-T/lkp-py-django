@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'apps.packages_catalog.apps.PackagesCatalogConfig',
     'apps.industries.apps.IndustriesConfig',
     'apps.insights.apps.InsightsConfig',
+    'apps.case_studies.apps.CaseStudiesConfig',
     'apps.api.apps.ApiConfig',
 ]
 
