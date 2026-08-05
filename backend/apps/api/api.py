@@ -1,6 +1,8 @@
 from django.contrib.auth import authenticate
+from django.db import connection
+from django.db.utils import OperationalError
 from ninja import NinjaAPI
-from ninja.errors import HttpError
+from ninja.errors import HttpError, ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.activity.services import log_activity
@@ -8,7 +10,21 @@ from apps.audit.models import AuditEventType, AuditSeverity
 from apps.audit.services import log_audit_event
 
 from .auth import jwt_auth
-from .schemas import LoginSchema, LogoutSchema, RefreshSchema, TokenSchema, UserSchema
+from .common_schemas import (
+    ErrorSchema,
+    HealthSchema,
+    MessageSchema,
+    ReadinessSchema,
+)
+from .exceptions import ApiHttpError
+from .rate_limit import enforce_rate_limit
+from .schemas import (
+    LoginSchema,
+    LogoutSchema,
+    RefreshSchema,
+    TokenSchema,
+    UserSchema,
+)
 
 
 api = NinjaAPI(
@@ -19,16 +35,107 @@ api = NinjaAPI(
 )
 
 
-@api.get("/health", tags=["System"])
+@api.exception_handler(ApiHttpError)
+def api_http_error_handler(request, exc):
+    return api.create_response(
+        request,
+        {
+            "status": "error",
+            "message": str(exc),
+            "code": exc.code,
+            "details": exc.details,
+        },
+        status=exc.status_code,
+    )
+
+
+@api.exception_handler(HttpError)
+def http_error_handler(request, exc):
+    return api.create_response(
+        request,
+        {
+            "status": "error",
+            "message": str(exc),
+            "code": "http_error",
+            "details": None,
+        },
+        status=exc.status_code,
+    )
+
+
+@api.exception_handler(ValidationError)
+def validation_error_handler(request, exc):
+    return api.create_response(
+        request,
+        {
+            "status": "error",
+            "message": "Request validation failed.",
+            "code": "validation_error",
+            "details": {
+                "errors": exc.errors,
+            },
+        },
+        status=422,
+    )
+
+
+@api.get(
+    "/health",
+    response={
+        200: HealthSchema,
+    },
+    tags=["System"],
+)
 def health_check(request):
     return {
         "status": "ok",
         "service": "lkprofessionals-api",
+        "version": api.version,
     }
 
 
-@api.post("/auth/login", response=TokenSchema, tags=["Authentication"])
+@api.get(
+    "/ready",
+    response={
+        200: ReadinessSchema,
+        503: ErrorSchema,
+    },
+    tags=["System"],
+)
+def readiness_check(request):
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+            cursor.fetchone()
+    except OperationalError as exc:
+        raise ApiHttpError(
+            503,
+            "Database is unavailable.",
+            code="database_unavailable",
+        ) from exc
+
+    return {
+        "status": "ready",
+        "database": "ok",
+    }
+
+
+@api.post(
+    "/auth/login",
+    response={
+        200: TokenSchema,
+        401: ErrorSchema,
+    },
+    tags=["Authentication"],
+)
 def login(request, payload: LoginSchema):
+    enforce_rate_limit(
+        request,
+        scope="auth-login",
+        limit=10,
+        window_seconds=300,
+    )
+
     user = authenticate(
         request,
         email=payload.email,
@@ -45,7 +152,11 @@ def login(request, payload: LoginSchema):
             metadata={"email": payload.email},
         )
 
-        raise HttpError(401, "Invalid email or password")
+        raise ApiHttpError(
+            401,
+            "Invalid email or password.",
+            code="invalid_credentials",
+        )
 
     refresh = RefreshToken.for_user(user)
 
@@ -75,8 +186,22 @@ def login(request, payload: LoginSchema):
     }
 
 
-@api.post("/auth/refresh", response=TokenSchema, tags=["Authentication"])
+@api.post(
+    "/auth/refresh",
+    response={
+        200: TokenSchema,
+        401: ErrorSchema,
+    },
+    tags=["Authentication"],
+)
 def refresh_token(request, payload: RefreshSchema):
+    enforce_rate_limit(
+        request,
+        scope="auth-refresh",
+        limit=30,
+        window_seconds=300,
+    )
+
     try:
         refresh = RefreshToken(payload.refresh)
 
@@ -93,12 +218,19 @@ def refresh_token(request, payload: RefreshSchema):
             message="Invalid refresh token submitted.",
         )
 
-        raise HttpError(401, "Invalid refresh token") from exc
+        raise ApiHttpError(
+            401,
+            "Invalid refresh token.",
+            code="invalid_refresh_token",
+        ) from exc
 
 
 @api.get(
     "/auth/me",
-    response=UserSchema,
+    response={
+        200: UserSchema,
+        401: ErrorSchema,
+    },
     auth=jwt_auth,
     tags=["Authentication"],
 )
@@ -108,6 +240,11 @@ def current_user(request):
 
 @api.post(
     "/auth/logout",
+    response={
+        200: MessageSchema,
+        400: ErrorSchema,
+        401: ErrorSchema,
+    },
     auth=jwt_auth,
     tags=["Authentication"],
 )
@@ -138,7 +275,11 @@ def logout(request, payload: LogoutSchema):
 
         return {
             "status": "ok",
-            "message": "Signed out successfully",
+            "message": "Signed out successfully.",
         }
     except Exception as exc:
-        raise HttpError(400, "Invalid refresh token") from exc
+        raise ApiHttpError(
+            400,
+            "Invalid refresh token.",
+            code="invalid_refresh_token",
+        ) from exc

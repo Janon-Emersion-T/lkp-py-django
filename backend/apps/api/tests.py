@@ -69,3 +69,89 @@ class AuthenticationAuditTests(TestCase):
             event.metadata["email"],
             self.user.email,
         )
+
+
+class SystemEndpointTests(TestCase):
+    def setUp(self):
+        self.client = TestClient(api)
+
+    def test_health_endpoint(self):
+        response = self.client.get("/health")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["status"], "ok")
+        self.assertEqual(
+            response.json()["service"],
+            "lkprofessionals-api",
+        )
+
+    def test_readiness_endpoint(self):
+        response = self.client.get("/ready")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["database"], "ok")
+
+
+class ApiErrorResponseTests(TestCase):
+    def setUp(self):
+        self.client = TestClient(api)
+
+        self.user = User.objects.create_user(
+            username="error-user",
+            email="error@example.com",
+            password="StrongPassword123!",
+        )
+
+    def test_invalid_login_uses_standard_error_response(self):
+        response = self.client.post(
+            "/auth/login",
+            json={
+                "email": self.user.email,
+                "password": "incorrect",
+            },
+        )
+
+        self.assertEqual(response.status_code, 401)
+
+        body = response.json()
+
+        self.assertEqual(body["status"], "error")
+        self.assertEqual(body["code"], "invalid_credentials")
+        self.assertIn("message", body)
+
+
+class AuthenticationRateLimitTests(TestCase):
+    def setUp(self):
+        self.client = TestClient(api)
+
+    def test_login_rate_limit(self):
+        for index in range(10):
+            response = self.client.post(
+                "/auth/login",
+                json={
+                    "email": f"user{index}@example.com",
+                    "password": "incorrect",
+                },
+                headers={
+                    "X-Forwarded-For": "192.0.2.50",
+                },
+            )
+
+            self.assertEqual(response.status_code, 401)
+
+        response = self.client.post(
+            "/auth/login",
+            json={
+                "email": "blocked@example.com",
+                "password": "incorrect",
+            },
+            headers={
+                "X-Forwarded-For": "192.0.2.50",
+            },
+        )
+
+        self.assertEqual(response.status_code, 429)
+        self.assertEqual(
+            response.json()["code"],
+            "rate_limit_exceeded",
+        )
