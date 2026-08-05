@@ -28,6 +28,7 @@ from apps.media_library.api import router as media_library_router
 from apps.services_catalog.api import router as services_catalog_router
 from apps.packages_catalog.api import router as packages_catalog_router
 from apps.industries.api import router as industries_router
+from apps.insights.api import router as insights_router
 from apps.notifications.api import router as notifications_router
 from apps.settings_manager.api import router as settings_router
 from apps.rbac.api import router as rbac_router
@@ -372,3 +373,5 @@ api.add_router("/services", services_catalog_router)
 api.add_router("/packages", packages_catalog_router)
 
 api.add_router("/industries", industries_router)
+
+api.add_router("/insights", insights_router)
