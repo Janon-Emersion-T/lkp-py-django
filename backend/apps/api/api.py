@@ -3,7 +3,8 @@ from ninja import NinjaAPI
 from ninja.errors import HttpError
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .schemas import LoginSchema, RefreshSchema, TokenSchema, UserSchema
+from .auth import jwt_auth
+from .schemas import LoginSchema, LogoutSchema, RefreshSchema, TokenSchema, UserSchema
 
 
 api = NinjaAPI(
@@ -52,3 +53,31 @@ def refresh_token(request, payload: RefreshSchema):
         }
     except Exception as exc:
         raise HttpError(401, "Invalid refresh token") from exc
+
+
+@api.get(
+    "/auth/me",
+    response=UserSchema,
+    auth=jwt_auth,
+    tags=["Authentication"],
+)
+def current_user(request):
+    return request.auth
+
+
+@api.post(
+    "/auth/logout",
+    auth=jwt_auth,
+    tags=["Authentication"],
+)
+def logout(request, payload: LogoutSchema):
+    try:
+        refresh = RefreshToken(payload.refresh)
+        refresh.blacklist()
+
+        return {
+            "status": "ok",
+            "message": "Signed out successfully",
+        }
+    except Exception as exc:
+        raise HttpError(400, "Invalid refresh token") from exc

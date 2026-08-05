@@ -22,3 +22,7 @@ class UserSchema(Schema):
     first_name: str
     last_name: str
     is_staff: bool
+
+
+class LogoutSchema(Schema):
+    refresh: str
