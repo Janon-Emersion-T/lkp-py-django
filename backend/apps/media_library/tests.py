@@ -189,6 +189,8 @@ class MediaLibraryApiTests(TestCase):
             data={
                 "title": "LKP Logo",
                 "is_public": "true",
+            },
+            FILES={
                 "file": uploaded,
             },
             headers=self.headers,
