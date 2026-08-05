@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'apps.finance.apps.FinanceConfig',
     'apps.cms.apps.CmsConfig',
     'apps.media_library.apps.MediaLibraryConfig',
+    'apps.services_catalog.apps.ServicesCatalogConfig',
     'apps.api.apps.ApiConfig',
 ]
 
