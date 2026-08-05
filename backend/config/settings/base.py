@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'apps.settings_manager.apps.SettingsManagerConfig',
     'apps.notifications.apps.NotificationsConfig',
     'apps.crm.apps.CrmConfig',
+    'apps.clients.apps.ClientsConfig',
     'apps.api.apps.ApiConfig',
 ]
 

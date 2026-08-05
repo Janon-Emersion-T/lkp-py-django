@@ -17,6 +17,7 @@ from apps.activity.api import router as activity_router
 from apps.activity.services import log_activity
 from apps.audit.api import router as audit_router
 from apps.audit.models import AuditEventType, AuditSeverity
+from apps.clients.api import router as clients_router
 from apps.crm.api import router as crm_router
 from apps.notifications.api import router as notifications_router
 from apps.settings_manager.api import router as settings_router
@@ -342,3 +343,5 @@ api.add_router("/activity", activity_router)
 api.add_router("/audit", audit_router)
 
 api.add_router("/crm", crm_router)
+
+api.add_router("/clients", clients_router)
