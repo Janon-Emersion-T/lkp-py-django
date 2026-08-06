@@ -176,3 +176,28 @@ export const teamManagementDashboardSchema =
     team_sizes:
       countMapSchema,
   });
+
+export const serviceSelectorItemSchema =
+  z.object({
+    id: z.string().uuid(),
+    title: z.string(),
+    slug: z.string(),
+    status: z.string(),
+    is_active: z.boolean(),
+  }).passthrough();
+
+export const serviceSelectorResponseSchema =
+  z.object({
+    items:
+      z.array(serviceSelectorItemSchema),
+    pagination: z.object({
+      page:
+        z.number().int().positive(),
+      page_size:
+        z.number().int().positive(),
+      total_items:
+        z.number().int().nonnegative(),
+      total_pages:
+        z.number().int().nonnegative(),
+    }),
+  });

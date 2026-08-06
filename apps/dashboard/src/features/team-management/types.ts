@@ -202,3 +202,101 @@ export interface ReportingLinePayload {
 export interface TeamManagerPayload {
   manager_id: string | null;
 }
+
+export const expertiseLevels = [
+  "awareness",
+  "working",
+  "proficient",
+  "expert",
+  "lead",
+] as const;
+
+export type ExpertiseLevel =
+  (typeof expertiseLevels)[number];
+
+export interface TeamMembershipInput {
+  team_id: string;
+  role_title: string;
+  is_primary: boolean;
+  is_active: boolean;
+  joined_at: string | null;
+  left_at: string | null;
+  sort_order: number;
+}
+
+export interface TeamMemberServiceInput {
+  service_id: string;
+  expertise_level: ExpertiseLevel;
+  years_of_experience: number | null;
+  is_primary: boolean;
+  is_public: boolean;
+  sort_order: number;
+}
+
+export interface TeamMemberPayload {
+  user_id: null;
+  employee_code: string;
+  first_name: string;
+  last_name: string;
+  preferred_name: string;
+  job_title: string;
+  professional_title: string;
+  email: string;
+  phone: string;
+  public_email: string;
+  public_phone: string;
+  profile_image_id: string | null;
+  bio: string;
+  short_bio: string;
+  qualifications: string;
+  years_of_experience: number | null;
+  engagement_type: EngagementType;
+  employment_status: EmploymentStatus;
+  work_location_type: WorkLocationType;
+  office_location: string;
+  country: string;
+  timezone_name: string;
+  joined_at: string | null;
+  employment_ended_at: string | null;
+  reports_to_id: string | null;
+  linkedin_url: string;
+  github_url: string;
+  portfolio_url: string;
+  website_url: string;
+  is_leadership: boolean;
+  is_public: boolean;
+  is_featured: boolean;
+  sort_order: number;
+  metadata: Record<string, unknown>;
+  memberships: TeamMembershipInput[];
+  services: TeamMemberServiceInput[];
+}
+
+export interface ServiceSelectorItem {
+  id: string;
+  title: string;
+  slug: string;
+  status: string;
+  is_active: boolean;
+}
+
+export interface ServiceSelectorResponse {
+  items: ServiceSelectorItem[];
+  pagination: {
+    page: number;
+    page_size: number;
+    total_items: number;
+    total_pages: number;
+  };
+}
+
+export interface ProfileImageSelectorItem {
+  id: string;
+  title: string;
+  file_url: string;
+  media_type:
+    | "image"
+    | "icon"
+    | "logo";
+  alt_text: string;
+}

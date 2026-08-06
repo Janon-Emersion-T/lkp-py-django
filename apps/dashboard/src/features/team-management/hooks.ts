@@ -6,6 +6,7 @@ import {
 
 import {
   createTeam,
+  createTeamMember,
   getMember,
   getMembers,
   getTeamDashboard,
@@ -14,7 +15,12 @@ import {
   updateReportingLine,
   updateTeam,
   updateTeamManager,
+  updateTeamMember,
 } from "./api";
+import {
+  getActiveServices,
+  getProfileImages,
+} from "./selectors";
 import type {
   MemberFilters,
   TeamFilters,
@@ -27,6 +33,16 @@ export const teamManagementQueryKeys = {
   dashboard: [
     "team-management",
     "dashboard",
+  ] as const,
+  services: [
+    "team-management",
+    "selectors",
+    "services",
+  ] as const,
+  profileImages: [
+    "team-management",
+    "selectors",
+    "profile-images",
   ] as const,
   teams: () => [
     "team-management",
@@ -56,6 +72,24 @@ export const teamManagementQueryKeys = {
     memberId,
   ] as const,
 };
+
+export function useTeamMemberServices() {
+  return useQuery({
+    queryKey:
+      teamManagementQueryKeys.services,
+    queryFn: getActiveServices,
+    staleTime: 5 * 60 * 1000,
+  });
+}
+
+export function useTeamMemberProfileImages() {
+  return useQuery({
+    queryKey:
+      teamManagementQueryKeys.profileImages,
+    queryFn: getProfileImages,
+    staleTime: 5 * 60 * 1000,
+  });
+}
 
 export function useTeamDashboard() {
   return useQuery({
@@ -144,6 +178,28 @@ export function useUpdateTeamManager() {
 
   return useMutation({
     mutationFn: updateTeamManager,
+    onSuccess: invalidate,
+  });
+}
+
+export function useCreateTeamMember() {
+  const invalidate =
+    useInvalidateTeamManagement();
+
+  return useMutation({
+    mutationFn:
+      createTeamMember,
+    onSuccess: invalidate,
+  });
+}
+
+export function useUpdateTeamMember() {
+  const invalidate =
+    useInvalidateTeamManagement();
+
+  return useMutation({
+    mutationFn:
+      updateTeamMember,
     onSuccess: invalidate,
   });
 }

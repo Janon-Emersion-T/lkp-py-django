@@ -17,6 +17,7 @@ import type {
   TeamManagementDashboard,
   TeamManagerPayload,
   TeamMember,
+  TeamMemberPayload,
   TeamPayload,
 } from "./types";
 
@@ -284,6 +285,44 @@ export async function getMember(
   const response =
     await apiRequest<unknown>(
       `/team-management/members/${memberId}`,
+    );
+
+  return teamMemberSchema.parse(
+    response,
+  );
+}
+
+export async function createTeamMember(
+  payload: TeamMemberPayload,
+): Promise<TeamMember> {
+  const response =
+    await apiRequest<unknown>(
+      "/team-management/members",
+      {
+        method: "POST",
+        body: JSON.stringify(payload),
+      },
+    );
+
+  return teamMemberSchema.parse(
+    response,
+  );
+}
+
+export async function updateTeamMember({
+  memberId,
+  payload,
+}: {
+  memberId: string;
+  payload: TeamMemberPayload;
+}): Promise<TeamMember> {
+  const response =
+    await apiRequest<unknown>(
+      `/team-management/members/${memberId}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(payload),
+      },
     );
 
   return teamMemberSchema.parse(
