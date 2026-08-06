@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'apps.enquiries.apps.EnquiriesConfig',
     'apps.navigation.apps.NavigationConfig',
     'apps.website_settings.apps.WebsiteSettingsConfig',
+    'apps.team_management.apps.TeamManagementConfig',
     'apps.api.apps.ApiConfig',
 ]
 

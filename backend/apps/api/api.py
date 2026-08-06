@@ -36,6 +36,7 @@ from apps.newsletter.api import router as newsletter_router
 from apps.enquiries.api import router as enquiries_router
 from apps.navigation.api import router as navigation_router
 from apps.website_settings.api import router as website_settings_router
+from apps.team_management.api import router as team_management_router
 from apps.notifications.api import router as notifications_router
 from apps.settings_manager.api import router as settings_router
 from apps.rbac.api import router as rbac_router
@@ -395,3 +396,5 @@ api.add_router("/enquiries", enquiries_router)
 api.add_router("/navigation", navigation_router)
 
 api.add_router("/website-settings", website_settings_router)
+
+api.add_router("/team-management", team_management_router)
