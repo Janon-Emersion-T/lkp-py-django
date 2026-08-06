@@ -13,6 +13,7 @@ from .models import (
     DashboardReportType,
 )
 from .repositories import (
+    CrmReportingRepository,
     DashboardSnapshotRepository,
     ExecutiveDashboardRepository,
     normalize_environment,
@@ -192,6 +193,13 @@ class DashboardReportFoundationService:
 
         if report_type == DashboardReportType.EXECUTIVE:
             data = ExecutiveDashboardRepository.build(
+                period,
+                generated_at,
+            )
+            aggregation_status = "complete"
+            foundation = False
+        elif report_type == DashboardReportType.CRM:
+            data = CrmReportingRepository.build(
                 period,
                 generated_at,
             )

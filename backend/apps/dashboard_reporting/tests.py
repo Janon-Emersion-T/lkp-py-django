@@ -389,6 +389,7 @@ class DashboardReportingOpenApiTests(TestCase):
             "/api/v1/dashboard-reporting/health",
             "/api/v1/dashboard-reporting/period",
             "/api/v1/dashboard-reporting/executive",
+            "/api/v1/dashboard-reporting/crm",
             (
                 "/api/v1/dashboard-reporting/"
                 "foundation/{report_type}"
@@ -515,7 +516,7 @@ class ExecutiveDashboardRepositoryTests(TestCase):
         self.assertIn("summary", report["data"])
         self.assertIn("finance", report["data"])
 
-    def test_non_executive_reports_remain_foundations(self):
+    def test_unimplemented_reports_remain_foundations(self):
         period = DashboardPeriodService.resolve(
             preset=DashboardPeriodPreset.THIS_MONTH,
             reference_date=date(2026, 8, 6),
@@ -524,7 +525,7 @@ class ExecutiveDashboardRepositoryTests(TestCase):
         report = (
             DashboardReportFoundationService
             .build_report_context(
-                report_type=DashboardReportType.CRM,
+                report_type=DashboardReportType.SALES,
                 period=period,
                 environment="test",
             )
@@ -532,6 +533,10 @@ class ExecutiveDashboardRepositoryTests(TestCase):
 
         self.assertTrue(
             report["metadata"]["foundation"]
+        )
+        self.assertEqual(
+            report["metadata"]["aggregation_status"],
+            "foundation_ready",
         )
         self.assertEqual(report["data"], {})
 
@@ -571,6 +576,206 @@ class ExecutiveDashboardOpenApiTests(TestCase):
 
         self.assertIn(path, schema["paths"])
         self.assertIn("get", schema["paths"][path])
+        self.assertTrue(
+            schema["paths"][path]["get"].get(
+                "security"
+            )
+        )
+
+
+class CrmReportingRepositoryTests(TestCase):
+    def test_empty_database_returns_complete_crm_shape(self):
+        from apps.dashboard_reporting.repositories import (
+            CrmReportingRepository,
+        )
+
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = CrmReportingRepository.build(
+            period,
+            timezone.now(),
+        )
+
+        expected_sections = {
+            "summary",
+            "leads_by_status",
+            "leads_by_source",
+            "leads_by_owner",
+            "conversion_funnel",
+            "monthly_lead_trend",
+            "won_lost_trend",
+            "estimated_value_by_currency",
+            "metadata",
+        }
+
+        self.assertEqual(
+            set(report),
+            expected_sections,
+        )
+        self.assertEqual(
+            report["summary"]["total_leads"],
+            0,
+        )
+        self.assertEqual(
+            report["summary"]["conversion_rate"],
+            0.0,
+        )
+        self.assertEqual(
+            report["leads_by_source"],
+            [],
+        )
+        self.assertEqual(
+            report["leads_by_owner"],
+            [],
+        )
+        self.assertEqual(
+            report["monthly_lead_trend"],
+            [],
+        )
+        self.assertEqual(
+            report["won_lost_trend"],
+            [],
+        )
+
+    def test_status_distribution_contains_all_statuses(self):
+        from apps.dashboard_reporting.repositories import (
+            CrmReportingRepository,
+        )
+        from apps.crm.models import Lead
+
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        rows = CrmReportingRepository.leads_by_status(
+            period
+        )
+
+        expected_statuses = {
+            value
+            for value, _label
+            in Lead._meta.get_field(
+                "status"
+            ).choices
+        }
+
+        actual_statuses = {
+            row["status"]
+            for row in rows
+        }
+
+        self.assertEqual(
+            actual_statuses,
+            expected_statuses,
+        )
+        self.assertTrue(
+            all(row["total"] == 0 for row in rows)
+        )
+
+    def test_conversion_funnel_is_ordered(self):
+        from apps.dashboard_reporting.repositories import (
+            CrmReportingRepository,
+        )
+
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        funnel = (
+            CrmReportingRepository
+            .conversion_funnel(period)
+        )
+
+        self.assertEqual(
+            [
+                row["status"]
+                for row in funnel
+            ],
+            list(
+                CrmReportingRepository
+                .FUNNEL_STAGES
+            ),
+        )
+
+        self.assertEqual(
+            [
+                row["position"]
+                for row in funnel
+            ],
+            list(
+                range(
+                    1,
+                    len(funnel) + 1,
+                )
+            ),
+        )
+
+    def test_crm_service_report_is_complete(self):
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = (
+            DashboardReportFoundationService
+            .build_report_context(
+                report_type=DashboardReportType.CRM,
+                period=period,
+                environment="test",
+            )
+        )
+
+        self.assertFalse(
+            report["metadata"]["foundation"]
+        )
+        self.assertEqual(
+            report["metadata"][
+                "aggregation_status"
+            ],
+            "complete",
+        )
+        self.assertIn(
+            "conversion_funnel",
+            report["data"],
+        )
+        self.assertIn(
+            "monthly_lead_trend",
+            report["data"],
+        )
+
+    def test_crm_snapshot_contains_aggregations(self):
+        snapshot = DashboardSnapshotService.generate(
+            report_type=DashboardReportType.CRM,
+            period_preset=DashboardPeriodPreset.THIS_MONTH,
+            environment="test",
+        )
+
+        data = snapshot.payload["data"]
+
+        self.assertIn("summary", data)
+        self.assertIn("leads_by_status", data)
+        self.assertIn("leads_by_source", data)
+        self.assertIn("leads_by_owner", data)
+        self.assertIn("conversion_funnel", data)
+        self.assertIn("monthly_lead_trend", data)
+        self.assertIn("won_lost_trend", data)
+
+
+class CrmReportingOpenApiTests(TestCase):
+    def test_crm_route_is_registered_and_protected(self):
+        schema = api.get_openapi_schema()
+        path = "/api/v1/dashboard-reporting/crm"
+
+        self.assertIn(path, schema["paths"])
+        self.assertIn(
+            "get",
+            schema["paths"][path],
+        )
         self.assertTrue(
             schema["paths"][path]["get"].get(
                 "security"
