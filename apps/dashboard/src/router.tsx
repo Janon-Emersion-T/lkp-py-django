@@ -12,27 +12,16 @@ import {
   Outlet,
 } from "@tanstack/react-router";
 
-import {
-  RouteLoading,
-} from "./features/shell/components/route-loading";
-import {
-  DashboardLayout,
-} from "./layouts/dashboard-layout";
-import {
-  LoginPage,
-} from "./routes/auth/login";
-import {
-  NotFoundPage,
-} from "./routes/errors/not-found";
+import { RouteLoading } from "./features/shell/components/route-loading";
+import { DashboardLayout } from "./layouts/dashboard-layout";
+import { LoginPage } from "./routes/auth/login";
+import { NotFoundPage } from "./routes/errors/not-found";
 
-type RoutePageComponent =
-  LazyExoticComponent<
-    ComponentType<Record<string, never>>
-  >;
+type RoutePageComponent = LazyExoticComponent<
+  ComponentType<Record<string, never>>
+>;
 
-function withRouteSuspense(
-  Component: RoutePageComponent,
-) {
+function withRouteSuspense(Component: RoutePageComponent) {
   return function LazyRoutePage() {
     return (
       <Suspense fallback={<RouteLoading />}>
@@ -42,209 +31,175 @@ function withRouteSuspense(
   };
 }
 
-const DashboardPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import("./routes/dashboard");
+const DashboardPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/dashboard");
 
-      return {
-        default: module.DashboardPage,
-      };
-    }),
-  );
+    return {
+      default: module.DashboardPage,
+    };
+  }),
+);
 
-const CrmPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import("./routes/crm");
+const CrmPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/crm");
 
-      return {
-        default: module.CrmPage,
-      };
-    }),
-  );
+    return {
+      default: module.CrmPage,
+    };
+  }),
+);
 
-const ClientsPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import("./routes/clients");
+const ClientsPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/clients");
 
-      return {
-        default: module.ClientsPage,
-      };
-    }),
-  );
+    return {
+      default: module.ClientsPage,
+    };
+  }),
+);
 
-const QuotationsPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import("./routes/quotations");
+const QuotationsPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/quotations");
 
-      return {
-        default: module.QuotationsPage,
-      };
-    }),
-  );
+    return {
+      default: module.QuotationsPage,
+    };
+  }),
+);
 
-const ProjectsPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import("./routes/projects");
+const ProjectsPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/projects");
 
-      return {
-        default: module.ProjectsPage,
-      };
-    }),
-  );
+    return {
+      default: module.ProjectsPage,
+    };
+  }),
+);
 
-const TasksPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import("./routes/tasks");
+const TasksPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/tasks");
 
-      return {
-        default: module.TasksPage,
-      };
-    }),
-  );
+    return {
+      default: module.TasksPage,
+    };
+  }),
+);
 
-const FinancePage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import("./routes/finance");
+const FinancePage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/finance");
 
-      return {
-        default: module.FinancePage,
-      };
-    }),
-  );
+    return {
+      default: module.FinancePage,
+    };
+  }),
+);
 
-const CmsPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import("./routes/cms");
+const CmsPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/cms");
 
-      return {
-        default: module.CmsPage,
-      };
-    }),
-  );
+    return {
+      default: module.CmsPage,
+    };
+  }),
+);
 
-const NavigationPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import("./routes/navigation");
+const NavigationPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/navigation");
 
-      return {
-        default: module.NavigationPage,
-      };
-    }),
-  );
+    return {
+      default: module.NavigationPage,
+    };
+  }),
+);
 
-const ServicesCatalogPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import(
-          "./routes/services-catalog"
-        );
+const ServicesCatalogPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/services-catalog");
 
-      return {
-        default:
-          module.ServicesCatalogPage,
-      };
-    }),
-  );
+    return {
+      default: module.ServicesCatalogPage,
+    };
+  }),
+);
 
-const MediaLibraryPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import("./routes/media-library");
+const PackagesCatalogPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/packages-catalog");
 
-      return {
-        default: module.MediaLibraryPage,
-      };
-    }),
-  );
+    return {
+      default: module.PackagesCatalogPage,
+    };
+  }),
+);
 
-const PublicWebsiteSnapshotsPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import(
-          "./routes/public-website-snapshots"
-        );
+const MediaLibraryPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/media-library");
 
-      return {
-        default:
-          module.PublicWebsiteSnapshotsPage,
-      };
-    }),
-  );
+    return {
+      default: module.MediaLibraryPage,
+    };
+  }),
+);
 
-const WebsiteSettingsPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import(
-          "./routes/website-settings"
-        );
+const PublicWebsiteSnapshotsPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/public-website-snapshots");
 
-      return {
-        default:
-          module.WebsiteSettingsPage,
-      };
-    }),
-  );
+    return {
+      default: module.PublicWebsiteSnapshotsPage,
+    };
+  }),
+);
 
-const TeamManagementPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import(
-          "./routes/team-management"
-        );
+const WebsiteSettingsPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/website-settings");
 
-      return {
-        default:
-          module.TeamManagementPage,
-      };
-    }),
-  );
+    return {
+      default: module.WebsiteSettingsPage,
+    };
+  }),
+);
 
-const UsersPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import("./routes/users");
+const TeamManagementPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/team-management");
 
-      return {
-        default: module.UsersPage,
-      };
-    }),
-  );
+    return {
+      default: module.TeamManagementPage,
+    };
+  }),
+);
 
-const SettingsPage =
-  withRouteSuspense(
-    lazy(async () => {
-      const module =
-        await import("./routes/settings");
+const UsersPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/users");
 
-      return {
-        default: module.SettingsPage,
-      };
-    }),
-  );
+    return {
+      default: module.UsersPage,
+    };
+  }),
+);
+
+const SettingsPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/settings");
+
+    return {
+      default: module.SettingsPage,
+    };
+  }),
+);
 
 const rootRoute = createRootRoute({
   component: () => <Outlet />,
@@ -254,9 +209,7 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: () => (
-    <Navigate to="/dashboard" />
-  ),
+  component: () => <Navigate to="/dashboard" />,
 });
 
 const loginRoute = createRoute({
@@ -265,156 +218,141 @@ const loginRoute = createRoute({
   component: LoginPage,
 });
 
-const dashboardLayoutRoute =
-  createRoute({
-    getParentRoute: () => rootRoute,
-    id: "dashboard-layout",
-    component: DashboardLayout,
-  });
+const dashboardLayoutRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  id: "dashboard-layout",
+  component: DashboardLayout,
+});
 
 const dashboardRoute = createRoute({
-  getParentRoute: () =>
-    dashboardLayoutRoute,
+  getParentRoute: () => dashboardLayoutRoute,
   path: "/dashboard",
   component: DashboardPage,
 });
 
 const crmRoute = createRoute({
-  getParentRoute: () =>
-    dashboardLayoutRoute,
+  getParentRoute: () => dashboardLayoutRoute,
   path: "/crm",
   component: CrmPage,
 });
 
 const clientsRoute = createRoute({
-  getParentRoute: () =>
-    dashboardLayoutRoute,
+  getParentRoute: () => dashboardLayoutRoute,
   path: "/clients",
   component: ClientsPage,
 });
 
 const quotationsRoute = createRoute({
-  getParentRoute: () =>
-    dashboardLayoutRoute,
+  getParentRoute: () => dashboardLayoutRoute,
   path: "/quotations",
   component: QuotationsPage,
 });
 
 const projectsRoute = createRoute({
-  getParentRoute: () =>
-    dashboardLayoutRoute,
+  getParentRoute: () => dashboardLayoutRoute,
   path: "/projects",
   component: ProjectsPage,
 });
 
 const tasksRoute = createRoute({
-  getParentRoute: () =>
-    dashboardLayoutRoute,
+  getParentRoute: () => dashboardLayoutRoute,
   path: "/tasks",
   component: TasksPage,
 });
 
 const financeRoute = createRoute({
-  getParentRoute: () =>
-    dashboardLayoutRoute,
+  getParentRoute: () => dashboardLayoutRoute,
   path: "/finance",
   component: FinancePage,
 });
 
 const cmsRoute = createRoute({
-  getParentRoute: () =>
-    dashboardLayoutRoute,
+  getParentRoute: () => dashboardLayoutRoute,
   path: "/cms",
   component: CmsPage,
 });
 
 const servicesCatalogRoute = createRoute({
-  getParentRoute: () =>
-    dashboardLayoutRoute,
+  getParentRoute: () => dashboardLayoutRoute,
   path: "/services-catalog",
   component: ServicesCatalogPage,
 });
 
+const packagesCatalogRoute = createRoute({
+  getParentRoute: () => dashboardLayoutRoute,
+  path: "/packages-catalog",
+  component: PackagesCatalogPage,
+});
+
 const mediaLibraryRoute = createRoute({
-  getParentRoute: () =>
-    dashboardLayoutRoute,
+  getParentRoute: () => dashboardLayoutRoute,
   path: "/media-library",
   component: MediaLibraryPage,
 });
 
 const navigationRoute = createRoute({
-  getParentRoute: () =>
-    dashboardLayoutRoute,
+  getParentRoute: () => dashboardLayoutRoute,
   path: "/navigation",
   component: NavigationPage,
 });
 
-const publicWebsiteSnapshotsRoute =
-  createRoute({
-    getParentRoute: () =>
-      dashboardLayoutRoute,
-    path: "/public-website-snapshots",
-    component:
-      PublicWebsiteSnapshotsPage,
-  });
+const publicWebsiteSnapshotsRoute = createRoute({
+  getParentRoute: () => dashboardLayoutRoute,
+  path: "/public-website-snapshots",
+  component: PublicWebsiteSnapshotsPage,
+});
 
-const websiteSettingsRoute =
-  createRoute({
-    getParentRoute: () =>
-      dashboardLayoutRoute,
-    path: "/website-settings",
-    component: WebsiteSettingsPage,
-  });
+const websiteSettingsRoute = createRoute({
+  getParentRoute: () => dashboardLayoutRoute,
+  path: "/website-settings",
+  component: WebsiteSettingsPage,
+});
 
 const teamManagementRoute = createRoute({
-  getParentRoute: () =>
-    dashboardLayoutRoute,
+  getParentRoute: () => dashboardLayoutRoute,
   path: "/team-management",
   component: TeamManagementPage,
 });
 
 const usersRoute = createRoute({
-  getParentRoute: () =>
-    dashboardLayoutRoute,
+  getParentRoute: () => dashboardLayoutRoute,
   path: "/users",
   component: UsersPage,
 });
 
 const settingsRoute = createRoute({
-  getParentRoute: () =>
-    dashboardLayoutRoute,
+  getParentRoute: () => dashboardLayoutRoute,
   path: "/settings",
   component: SettingsPage,
 });
 
-const routeTree =
-  rootRoute.addChildren([
-    indexRoute,
-    loginRoute,
-    dashboardLayoutRoute.addChildren([
-      dashboardRoute,
-      crmRoute,
-      clientsRoute,
-      quotationsRoute,
-      projectsRoute,
-      tasksRoute,
-      financeRoute,
-      cmsRoute,
-      servicesCatalogRoute,
-      mediaLibraryRoute,
-      navigationRoute,
-      publicWebsiteSnapshotsRoute,
-      websiteSettingsRoute,
-      teamManagementRoute,
-      usersRoute,
-      settingsRoute,
-    ]),
-  ]);
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  loginRoute,
+  dashboardLayoutRoute.addChildren([
+    dashboardRoute,
+    crmRoute,
+    clientsRoute,
+    quotationsRoute,
+    projectsRoute,
+    tasksRoute,
+    financeRoute,
+    cmsRoute,
+    servicesCatalogRoute,
+    packagesCatalogRoute,
+    mediaLibraryRoute,
+    navigationRoute,
+    publicWebsiteSnapshotsRoute,
+    websiteSettingsRoute,
+    teamManagementRoute,
+    usersRoute,
+    settingsRoute,
+  ]),
+]);
 
-export const router =
-  createRouter({
-    routeTree,
-  });
+export const router = createRouter({
+  routeTree,
+});
 
 declare module "@tanstack/react-router" {
   interface Register {

@@ -18,12 +18,30 @@ import {
   UsersRound,
   type LucideIcon,
   ListChecks,
+  PackageOpen,
 } from "lucide-react";
 
 export interface DashboardNavigationItem {
   label: string;
   icon: LucideIcon;
-  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/cms" | "/services-catalog" | "/media-library" | "/navigation" | "/public-website-snapshots" | "/website-settings" | "/team-management" | "/users" | "/settings";
+  to?:
+    | "/dashboard"
+    | "/crm"
+    | "/clients"
+    | "/quotations"
+    | "/projects"
+    | "/tasks"
+    | "/finance"
+    | "/cms"
+    | "/services-catalog"
+    | "/packages-catalog"
+    | "/media-library"
+    | "/navigation"
+    | "/public-website-snapshots"
+    | "/website-settings"
+    | "/team-management"
+    | "/users"
+    | "/settings";
   available: boolean;
 }
 
@@ -93,6 +111,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "Services Catalog",
         to: "/services-catalog",
         icon: FileStack,
+        available: true,
+      },
+      {
+        label: "Packages Catalog",
+        to: "/packages-catalog",
+        icon: PackageOpen,
         available: true,
       },
       {
