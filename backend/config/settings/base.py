@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'apps.newsletter.apps.NewsletterConfig',
     'apps.enquiries.apps.EnquiriesConfig',
     'apps.navigation.apps.NavigationConfig',
+    'apps.website_settings.apps.WebsiteSettingsConfig',
     'apps.api.apps.ApiConfig',
 ]
 
