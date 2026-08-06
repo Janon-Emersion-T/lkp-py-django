@@ -11,12 +11,13 @@ import {
   UserRoundCog,
   Users,
   type LucideIcon,
+  ListChecks,
 } from "lucide-react";
 
 export interface DashboardNavigationItem {
   label: string;
   icon: LucideIcon;
-  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/users" | "/settings";
+  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/users" | "/settings";
   available: boolean;
 }
 
@@ -62,6 +63,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "Projects",
         to: "/projects",
         icon: FolderKanban,
+        available: true,
+      },
+      {
+        label: "Tasks",
+        to: "/tasks",
+        icon: ListChecks,
         available: true,
       },
       {

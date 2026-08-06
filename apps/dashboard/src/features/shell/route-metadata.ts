@@ -34,6 +34,12 @@ export const shellRouteMetadata = [
     description: "Project execution, milestones, teams, budgets, and delivery progress.",
   },
   {
+    path: "/tasks",
+    title: "Tasks and Kanban",
+    breadcrumb: "Tasks",
+    description: "Task execution, Kanban status, assignees, deadlines, checklists, and time tracking.",
+  },
+  {
     path: "/users",
     title: "Users",
     breadcrumb: "Users",
