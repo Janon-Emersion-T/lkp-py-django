@@ -181,6 +181,16 @@ const TestimonialsPage = withRouteSuspense(
   }),
 );
 
+const CareersPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/careers");
+
+    return {
+      default: module.CareersPage,
+    };
+  }),
+);
+
 const MediaLibraryPage = withRouteSuspense(
   lazy(async () => {
     const module = await import("./routes/media-library");
@@ -348,6 +358,12 @@ const testimonialsRoute = createRoute({
   component: TestimonialsPage,
 });
 
+const careersRoute = createRoute({
+  getParentRoute: () => dashboardLayoutRoute,
+  path: "/careers",
+  component: CareersPage,
+});
+
 const mediaLibraryRoute = createRoute({
   getParentRoute: () => dashboardLayoutRoute,
   path: "/media-library",
@@ -408,6 +424,7 @@ const routeTree = rootRoute.addChildren([
     insightsRoute,
     caseStudiesRoute,
     testimonialsRoute,
+    careersRoute,
     mediaLibraryRoute,
     navigationRoute,
     publicWebsiteSnapshotsRoute,

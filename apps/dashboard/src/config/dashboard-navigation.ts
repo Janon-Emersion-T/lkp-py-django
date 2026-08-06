@@ -22,6 +22,7 @@ import {
   Landmark,
   BookOpenText,
   Quote,
+  UserRoundSearch,
 } from "lucide-react";
 
 export interface DashboardNavigationItem {
@@ -42,6 +43,7 @@ export interface DashboardNavigationItem {
     | "/insights"
     | "/case-studies"
     | "/testimonials"
+    | "/careers"
     | "/media-library"
     | "/navigation"
     | "/public-website-snapshots"
@@ -148,6 +150,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "Testimonials",
         to: "/testimonials",
         icon: Quote,
+        available: true,
+      },
+      {
+        label: "Careers",
+        to: "/careers",
+        icon: UserRoundSearch,
         available: true,
       },
       {

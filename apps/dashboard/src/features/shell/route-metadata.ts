@@ -99,6 +99,13 @@ export const shellRouteMetadata = [
       "Client feedback, ratings, sources, verification, featured placement, linked clients and projects, publishing schedules, and internal notes.",
   },
   {
+    path: "/careers",
+    title: "Careers",
+    breadcrumb: "Careers",
+    description:
+      "Recruitment dashboard, job listings, applications, candidate reviews, notes, interviews, evaluations, and vacancy publishing lifecycle.",
+  },
+  {
     path: "/media-library",
     title: "Media Library",
     breadcrumb: "Media Library",
