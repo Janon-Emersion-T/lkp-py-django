@@ -46,16 +46,16 @@ export function DashboardLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-950">
+    <div className="min-h-screen bg-slate-100 text-slate-950 transition-colors dark:bg-slate-950 dark:text-slate-100">
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-40 hidden border-r border-slate-200 bg-white transition-[width] duration-200 lg:flex lg:flex-col",
+          "fixed inset-y-0 left-0 z-40 hidden border-r border-slate-200 bg-white transition-[width] duration-200 lg:flex lg:flex-col dark:border-slate-800 dark:bg-slate-900",
           isCollapsed ? "w-20" : "w-64",
         )}
       >
         <div
           className={cn(
-            "flex h-16 shrink-0 items-center border-b border-slate-200",
+            "flex h-16 shrink-0 items-center border-b border-slate-200 dark:border-slate-800",
             isCollapsed
               ? "justify-center px-3"
               : "justify-between px-5",
@@ -67,11 +67,11 @@ export function DashboardLayout() {
               isCollapsed && "hidden",
             )}
           >
-            <p className="truncate font-bold text-blue-800">
+            <p className="truncate font-bold text-blue-800 dark:text-blue-400">
               LKProfessionals
             </p>
 
-            <p className="truncate text-xs text-slate-500">
+            <p className="truncate text-xs text-slate-500 dark:text-slate-400">
               Management Platform
             </p>
           </div>
@@ -90,7 +90,7 @@ export function DashboardLayout() {
           <SidebarNav collapsed={isCollapsed} />
         </div>
 
-        <div className="border-t border-slate-200 p-3">
+        <div className="border-t border-slate-200 p-3 dark:border-slate-800">
           <Button
             variant="ghost"
             size={isCollapsed ? "icon" : "sm"}
@@ -126,16 +126,16 @@ export function DashboardLayout() {
         onOpenChange={setMobileMenuOpen}
       >
         <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 z-40 bg-slate-950/60 lg:hidden" />
+          <Dialog.Overlay className="fixed inset-0 z-40 bg-slate-950/70 backdrop-blur-sm lg:hidden" />
 
-          <Dialog.Content className="fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white shadow-xl lg:hidden">
-            <div className="flex h-16 shrink-0 items-center justify-between border-b border-slate-200 px-5">
+          <Dialog.Content className="fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white shadow-xl lg:hidden dark:bg-slate-900">
+            <div className="flex h-16 shrink-0 items-center justify-between border-b border-slate-200 px-5 dark:border-slate-800">
               <div>
-                <Dialog.Title className="font-bold text-blue-800">
+                <Dialog.Title className="font-bold text-blue-800 dark:text-blue-400">
                   LKProfessionals
                 </Dialog.Title>
 
-                <Dialog.Description className="text-xs text-slate-500">
+                <Dialog.Description className="text-xs text-slate-500 dark:text-slate-400">
                   Management Platform
                 </Dialog.Description>
               </div>
