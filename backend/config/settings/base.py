@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'apps.website_settings.apps.WebsiteSettingsConfig',
     'apps.team_management.apps.TeamManagementConfig',
     'apps.public_website.apps.PublicWebsiteConfig',
+    'apps.dashboard_reporting.apps.DashboardReportingConfig',
     'apps.api.apps.ApiConfig',
 ]
 
@@ -191,3 +192,16 @@ SIMPLE_JWT = {
     "UPDATE_LAST_LOGIN": True,
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
+
+# Dashboard reporting
+DASHBOARD_REPORTING_ENVIRONMENT = os.getenv(
+    "DASHBOARD_REPORTING_ENVIRONMENT",
+    "production",
+).strip().lower()
+
+DASHBOARD_REPORTING_SNAPSHOT_EXPIRY_MINUTES = int(
+    os.getenv(
+        "DASHBOARD_REPORTING_SNAPSHOT_EXPIRY_MINUTES",
+        "30",
+    )
+)

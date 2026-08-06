@@ -38,6 +38,7 @@ from apps.navigation.api import router as navigation_router
 from apps.website_settings.api import router as website_settings_router
 from apps.team_management.api import router as team_management_router
 from apps.public_website.api import router as public_website_router
+from apps.dashboard_reporting.api import router as dashboard_reporting_router
 from apps.notifications.api import router as notifications_router
 from apps.settings_manager.api import router as settings_router
 from apps.rbac.api import router as rbac_router
@@ -401,3 +402,4 @@ api.add_router("/website-settings", website_settings_router)
 api.add_router("/team-management", team_management_router)
 
 api.add_router("/public-website", public_website_router)
+api.add_router("/dashboard-reporting/", dashboard_reporting_router)
