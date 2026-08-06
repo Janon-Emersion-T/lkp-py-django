@@ -14,6 +14,7 @@ from .models import (
 )
 from .repositories import (
     DashboardSnapshotRepository,
+    ExecutiveDashboardRepository,
     normalize_environment,
 )
 
@@ -189,6 +190,18 @@ class DashboardReportFoundationService:
 
         generated_at = timezone.now()
 
+        if report_type == DashboardReportType.EXECUTIVE:
+            data = ExecutiveDashboardRepository.build(
+                period,
+                generated_at,
+            )
+            aggregation_status = "complete"
+            foundation = False
+        else:
+            data = {}
+            aggregation_status = "foundation_ready"
+            foundation = True
+
         return {
             "report_type": report_type,
             "environment": normalized_environment,
@@ -198,10 +211,10 @@ class DashboardReportFoundationService:
                 timezone.get_current_timezone()
             ),
             "schema_version": 1,
-            "data": {},
+            "data": data,
             "metadata": {
-                "foundation": True,
-                "aggregation_status": "foundation_ready",
+                "foundation": foundation,
+                "aggregation_status": aggregation_status,
             },
         }
 

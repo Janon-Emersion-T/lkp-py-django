@@ -234,9 +234,16 @@ class DashboardReportFoundationServiceTests(TestCase):
             report["period"]["date_from"],
             "2026-08-01",
         )
-        self.assertEqual(report["data"], {})
-        self.assertTrue(
+        self.assertIn("summary", report["data"])
+        self.assertIn("clients", report["data"])
+        self.assertIn("crm", report["data"])
+        self.assertIn("finance", report["data"])
+        self.assertFalse(
             report["metadata"]["foundation"]
+        )
+        self.assertEqual(
+            report["metadata"]["aggregation_status"],
+            "complete",
         )
 
 
@@ -381,6 +388,7 @@ class DashboardReportingOpenApiTests(TestCase):
         expected_paths = {
             "/api/v1/dashboard-reporting/health",
             "/api/v1/dashboard-reporting/period",
+            "/api/v1/dashboard-reporting/executive",
             (
                 "/api/v1/dashboard-reporting/"
                 "foundation/{report_type}"
@@ -429,3 +437,142 @@ class DashboardReportingOpenApiTests(TestCase):
                     operation.get("security"),
                     f"{method.upper()} {path} is not protected.",
                 )
+
+
+class ExecutiveDashboardRepositoryTests(TestCase):
+    def test_empty_database_returns_zeroed_dashboard(self):
+        from apps.dashboard_reporting.repositories import (
+            ExecutiveDashboardRepository,
+        )
+
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = ExecutiveDashboardRepository.build(
+            period,
+            timezone.now(),
+        )
+
+        self.assertEqual(
+            report["summary"]["total_clients"],
+            0,
+        )
+        self.assertEqual(
+            report["summary"]["active_clients"],
+            0,
+        )
+        self.assertEqual(
+            report["summary"]["total_leads"],
+            0,
+        )
+        self.assertEqual(
+            report["summary"]["lead_conversion_rate"],
+            0.0,
+        )
+        self.assertEqual(
+            report["projects"]["active_projects"],
+            0,
+        )
+        self.assertEqual(
+            report["tasks"]["open_tasks"],
+            0,
+        )
+        self.assertEqual(
+            report["finance"]["revenue_by_currency"],
+            [],
+        )
+        self.assertEqual(
+            report["finance"]["cash_and_bank_balances"],
+            [],
+        )
+
+    def test_executive_foundation_report_uses_aggregation(self):
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = (
+            DashboardReportFoundationService
+            .build_report_context(
+                report_type=(
+                    DashboardReportType.EXECUTIVE
+                ),
+                period=period,
+                environment="test",
+            )
+        )
+
+        self.assertFalse(
+            report["metadata"]["foundation"]
+        )
+        self.assertEqual(
+            report["metadata"]["aggregation_status"],
+            "complete",
+        )
+        self.assertIn("summary", report["data"])
+        self.assertIn("finance", report["data"])
+
+    def test_non_executive_reports_remain_foundations(self):
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = (
+            DashboardReportFoundationService
+            .build_report_context(
+                report_type=DashboardReportType.CRM,
+                period=period,
+                environment="test",
+            )
+        )
+
+        self.assertTrue(
+            report["metadata"]["foundation"]
+        )
+        self.assertEqual(report["data"], {})
+
+    def test_executive_snapshot_contains_real_data_shape(self):
+        snapshot = DashboardSnapshotService.generate(
+            report_type=DashboardReportType.EXECUTIVE,
+            period_preset=DashboardPeriodPreset.THIS_MONTH,
+            environment="test",
+        )
+
+        self.assertIn(
+            "summary",
+            snapshot.payload["data"],
+        )
+        self.assertIn(
+            "clients",
+            snapshot.payload["data"],
+        )
+        self.assertIn(
+            "finance",
+            snapshot.payload["data"],
+        )
+        self.assertEqual(
+            snapshot.payload["metadata"][
+                "aggregation_status"
+            ],
+            "complete",
+        )
+
+
+class ExecutiveDashboardOpenApiTests(TestCase):
+    def test_executive_route_is_registered_and_protected(self):
+        schema = api.get_openapi_schema()
+        path = (
+            "/api/v1/dashboard-reporting/executive"
+        )
+
+        self.assertIn(path, schema["paths"])
+        self.assertIn("get", schema["paths"][path])
+        self.assertTrue(
+            schema["paths"][path]["get"].get(
+                "security"
+            )
+        )
