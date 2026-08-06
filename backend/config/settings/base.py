@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     'apps.careers.apps.CareersConfig',
     'apps.newsletter.apps.NewsletterConfig',
     'apps.enquiries.apps.EnquiriesConfig',
+    'apps.navigation.apps.NavigationConfig',
     'apps.api.apps.ApiConfig',
 ]
 
