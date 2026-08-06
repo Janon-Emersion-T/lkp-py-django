@@ -1,4 +1,5 @@
 import {
+  DatabaseZap,
   Settings2,
   MenuSquare,
   FileStack,
@@ -20,7 +21,7 @@ import {
 export interface DashboardNavigationItem {
   label: string;
   icon: LucideIcon;
-  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/cms" | "/navigation" | "/website-settings" | "/users" | "/settings";
+  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/cms" | "/navigation" | "/public-website-snapshots" | "/website-settings" | "/users" | "/settings";
   available: boolean;
 }
 
@@ -90,6 +91,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "Navigation",
         to: "/navigation",
         icon: MenuSquare,
+        available: true,
+      },
+      {
+        label: "Website Snapshots",
+        to: "/public-website-snapshots",
+        icon: DatabaseZap,
         available: true,
       },
       {

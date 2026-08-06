@@ -58,6 +58,12 @@ export const shellRouteMetadata = [
     description: "Website menus, nested links, locations, visibility, hierarchy, ordering, and public previews.",
   },
   {
+    path: "/public-website-snapshots",
+    title: "Website Snapshots",
+    breadcrumb: "Website Snapshots",
+    description: "Versioned public API payloads, expiry, checksums, generation, invalidation, and public previews for the Astro website.",
+  },
+  {
     path: "/website-settings",
     title: "Website Settings",
     breadcrumb: "Website Settings",

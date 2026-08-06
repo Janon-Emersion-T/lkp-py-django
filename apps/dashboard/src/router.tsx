@@ -18,6 +18,7 @@ import { FinancePage } from "./routes/finance";
 import { CmsPage } from "./routes/cms";
 import { NavigationPage } from "./routes/navigation";
 import { WebsiteSettingsPage } from "./routes/website-settings";
+import { PublicWebsiteSnapshotsPage } from "./routes/public-website-snapshots";
 import { NotFoundPage } from "./routes/errors/not-found";
 import { SettingsPage } from "./routes/settings";
 import { UsersPage } from "./routes/users";
@@ -99,6 +100,12 @@ const navigationRoute = createRoute({
   component: NavigationPage,
 });
 
+const publicWebsiteSnapshotsRoute = createRoute({
+  getParentRoute: () => dashboardLayoutRoute,
+  path: "/public-website-snapshots",
+  component: PublicWebsiteSnapshotsPage,
+});
+
 const websiteSettingsRoute = createRoute({
   getParentRoute: () => dashboardLayoutRoute,
   path: "/website-settings",
@@ -130,6 +137,7 @@ const routeTree = rootRoute.addChildren([
     financeRoute,
     cmsRoute,
     navigationRoute,
+    publicWebsiteSnapshotsRoute,
     websiteSettingsRoute,
     usersRoute,
     settingsRoute,
