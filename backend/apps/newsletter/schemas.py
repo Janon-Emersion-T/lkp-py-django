@@ -27,6 +27,17 @@ SubscriptionSourceValue = Literal[
 ]
 
 
+class PublicNewsletterSubscribeSchema(Schema):
+    email: str
+    consent_given: bool = True
+    source_reference: str = "website-footer"
+
+
+class PublicNewsletterSubscribeResponseSchema(Schema):
+    status: str
+    message: str
+
+
 class NewsletterListCreateSchema(Schema):
     name: str
     slug: str

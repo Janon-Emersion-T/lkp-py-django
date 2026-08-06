@@ -1,3 +1,7 @@
+from django.core.exceptions import ValidationError as DjangoValidationError
+from django.core.validators import validate_email
+from django.db import models, transaction
+from django.utils import timezone
 from django.utils.text import slugify
 from ninja import Router
 
@@ -10,6 +14,9 @@ from .models import (
     NewsletterList,
     NewsletterTag,
     Subscriber,
+    SubscriberListMembership,
+    SubscriberStatus,
+    SubscriptionSource,
 )
 from .repositories import (
     NewsletterListRepository,
@@ -18,6 +25,8 @@ from .repositories import (
 )
 from .schemas import (
     NewsletterListCreateSchema,
+    PublicNewsletterSubscribeResponseSchema,
+    PublicNewsletterSubscribeSchema,
     NewsletterListSchema,
     NewsletterTagCreateSchema,
     NewsletterTagSchema,
@@ -32,6 +41,113 @@ router = Router(
     tags=["Newsletter"],
     auth=jwt_auth,
 )
+
+
+@router.post(
+    "/subscribe",
+    auth=None,
+    response={
+        200: PublicNewsletterSubscribeResponseSchema,
+        201: PublicNewsletterSubscribeResponseSchema,
+        400: ErrorSchema,
+    },
+)
+@transaction.atomic
+def public_newsletter_subscribe(
+    request,
+    payload: PublicNewsletterSubscribeSchema,
+):
+    normalized_email = payload.email.strip().lower()
+
+    try:
+        validate_email(normalized_email)
+    except DjangoValidationError as exc:
+        raise ApiHttpError(
+            400,
+            "Enter a valid email address.",
+            code="invalid_newsletter_email",
+        ) from exc
+
+    if not payload.consent_given:
+        raise ApiHttpError(
+            400,
+            "Newsletter consent is required.",
+            code="newsletter_consent_required",
+        )
+
+    subscriber = Subscriber.all_objects.filter(
+        email__iexact=normalized_email,
+    ).first()
+
+    now = timezone.now()
+
+    if subscriber is None:
+        subscriber = Subscriber.objects.create(
+            email=normalized_email,
+            status=SubscriberStatus.ACTIVE,
+            source=SubscriptionSource.WEBSITE,
+            source_reference=payload.source_reference,
+            consent_given=True,
+            consent_ip_address=request.META.get("REMOTE_ADDR"),
+            consent_user_agent=request.META.get(
+                "HTTP_USER_AGENT",
+                "",
+            ),
+            subscribed_at=now,
+            confirmed_at=now,
+            metadata={
+                "subscription_location": "website_footer",
+            },
+        )
+
+        response_status = 201
+        message = "You have been subscribed successfully."
+    else:
+        if subscriber.is_deleted:
+            subscriber.is_deleted = False
+
+        subscriber.status = SubscriberStatus.ACTIVE
+        subscriber.source = SubscriptionSource.WEBSITE
+        subscriber.source_reference = payload.source_reference
+        subscriber.consent_given = True
+        subscriber.consent_ip_address = request.META.get(
+            "REMOTE_ADDR"
+        )
+        subscriber.consent_user_agent = request.META.get(
+            "HTTP_USER_AGENT",
+            "",
+        )
+        subscriber.subscribed_at = now
+        subscriber.confirmed_at = now
+        subscriber.unsubscribed_at = None
+
+        metadata = dict(subscriber.metadata or {})
+        metadata["subscription_location"] = "website_footer"
+        subscriber.metadata = metadata
+
+        subscriber.save()
+
+        response_status = 200
+        message = "Your newsletter subscription is active."
+
+    newsletter_lists = NewsletterList.objects.filter(
+        is_active=True,
+        is_deleted=False,
+    ).filter(
+        models.Q(is_default=True)
+        | models.Q(is_public=True)
+    )
+
+    for newsletter_list in newsletter_lists:
+        SubscriberListMembership.objects.get_or_create(
+            subscriber=subscriber,
+            newsletter_list=newsletter_list,
+        )
+
+    return response_status, {
+        "status": "ok",
+        "message": message,
+    }
 
 
 def get_newsletter_list(list_id):

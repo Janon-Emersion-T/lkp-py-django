@@ -1,3 +1,4 @@
+from .models import Subscriber, SubscriberStatus, SubscriptionSource
 from django.test import TestCase
 from django.utils import timezone
 
@@ -597,3 +598,88 @@ class NewsletterCampaignTests(
             stats["draft_campaigns"],
             1,
         )
+
+
+class PublicNewsletterSubscriptionApiTests(TestCase):
+    def setUp(self):
+        self.url = "/api/v1/newsletter/subscribe"
+
+    def test_public_user_can_subscribe(self):
+        response = self.client.post(
+            self.url,
+            data={
+                "email": "newsletter@example.com",
+                "consent_given": True,
+                "source_reference": "website-footer",
+            },
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 201)
+
+        subscriber = Subscriber.objects.get(
+            email="newsletter@example.com"
+        )
+
+        self.assertEqual(
+            subscriber.status,
+            SubscriberStatus.ACTIVE,
+        )
+        self.assertEqual(
+            subscriber.source,
+            SubscriptionSource.WEBSITE,
+        )
+        self.assertTrue(subscriber.consent_given)
+        self.assertIsNotNone(subscriber.confirmed_at)
+
+    def test_existing_subscriber_request_is_idempotent(self):
+        Subscriber.objects.create(
+            email="existing@example.com",
+            status=SubscriberStatus.ACTIVE,
+            source=SubscriptionSource.WEBSITE,
+            consent_given=True,
+        )
+
+        response = self.client.post(
+            self.url,
+            data={
+                "email": "existing@example.com",
+                "consent_given": True,
+                "source_reference": "website-footer",
+            },
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            Subscriber.objects.filter(
+                email="existing@example.com"
+            ).count(),
+            1,
+        )
+
+    def test_invalid_email_is_rejected(self):
+        response = self.client.post(
+            self.url,
+            data={
+                "email": "not-an-email",
+                "consent_given": True,
+                "source_reference": "website-footer",
+            },
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_subscription_requires_consent(self):
+        response = self.client.post(
+            self.url,
+            data={
+                "email": "no-consent@example.com",
+                "consent_given": False,
+                "source_reference": "website-footer",
+            },
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 400)
