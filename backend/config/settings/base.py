@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'apps.testimonials.apps.TestimonialsConfig',
     'apps.careers.apps.CareersConfig',
     'apps.newsletter.apps.NewsletterConfig',
+    'apps.enquiries.apps.EnquiriesConfig',
     'apps.api.apps.ApiConfig',
 ]
 
