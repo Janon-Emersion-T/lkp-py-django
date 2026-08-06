@@ -4165,3 +4165,1068 @@ class FinanceReportingRepository:
                 ),
             },
         }
+
+
+class ContentMarketingReportingRepository:
+    ENQUIRY_OPEN_STATUSES = {
+        "new",
+        "assigned",
+        "contacted",
+        "qualified",
+        "proposal_sent",
+    }
+
+    @staticmethod
+    def _model(app_label, model_name):
+        from django.apps import apps
+
+        return apps.get_model(
+            app_label,
+            model_name,
+        )
+
+    @classmethod
+    def content_summary(cls, period):
+        from django.db.models import (
+            Avg,
+            Count,
+            Q,
+            Sum,
+        )
+
+        InsightArticle = cls._model(
+            "insights",
+            "InsightArticle",
+        )
+        CaseStudy = cls._model(
+            "case_studies",
+            "CaseStudy",
+        )
+        Testimonial = cls._model(
+            "testimonials",
+            "Testimonial",
+        )
+
+        insights = InsightArticle.objects.aggregate(
+            total=Count("id"),
+            published=Count(
+                "id",
+                filter=Q(status="published"),
+            ),
+            draft=Count(
+                "id",
+                filter=Q(status="draft"),
+            ),
+            review=Count(
+                "id",
+                filter=Q(status="review"),
+            ),
+            scheduled=Count(
+                "id",
+                filter=Q(status="scheduled"),
+            ),
+            archived=Count(
+                "id",
+                filter=Q(status="archived"),
+            ),
+            featured=Count(
+                "id",
+                filter=Q(is_featured=True),
+            ),
+            total_views=Sum("view_count"),
+            published_in_period=Count(
+                "id",
+                filter=Q(
+                    status="published",
+                    published_at__gte=(
+                        period.datetime_from
+                    ),
+                    published_at__lt=(
+                        period.datetime_to
+                    ),
+                ),
+            ),
+        )
+
+        case_studies = CaseStudy.objects.aggregate(
+            total=Count("id"),
+            published=Count(
+                "id",
+                filter=Q(status="published"),
+            ),
+            draft=Count(
+                "id",
+                filter=Q(status="draft"),
+            ),
+            review=Count(
+                "id",
+                filter=Q(status="review"),
+            ),
+            scheduled=Count(
+                "id",
+                filter=Q(status="scheduled"),
+            ),
+            archived=Count(
+                "id",
+                filter=Q(status="archived"),
+            ),
+            featured=Count(
+                "id",
+                filter=Q(is_featured=True),
+            ),
+            total_views=Sum("view_count"),
+            published_in_period=Count(
+                "id",
+                filter=Q(
+                    status="published",
+                    published_at__gte=(
+                        period.datetime_from
+                    ),
+                    published_at__lt=(
+                        period.datetime_to
+                    ),
+                ),
+            ),
+        )
+
+        testimonials = Testimonial.objects.aggregate(
+            total=Count("id"),
+            published=Count(
+                "id",
+                filter=Q(status="published"),
+            ),
+            draft=Count(
+                "id",
+                filter=Q(status="draft"),
+            ),
+            review=Count(
+                "id",
+                filter=Q(status="review"),
+            ),
+            scheduled=Count(
+                "id",
+                filter=Q(status="scheduled"),
+            ),
+            archived=Count(
+                "id",
+                filter=Q(status="archived"),
+            ),
+            featured=Count(
+                "id",
+                filter=Q(is_featured=True),
+            ),
+            verified=Count(
+                "id",
+                filter=Q(is_verified=True),
+            ),
+            average_rating=Avg("rating"),
+            published_in_period=Count(
+                "id",
+                filter=Q(
+                    status="published",
+                    published_at__gte=(
+                        period.datetime_from
+                    ),
+                    published_at__lt=(
+                        period.datetime_to
+                    ),
+                ),
+            ),
+        )
+
+        for section in (
+            insights,
+            case_studies,
+            testimonials,
+        ):
+            for key, value in tuple(section.items()):
+                if value is None:
+                    section[key] = 0
+
+        testimonials["average_rating"] = round(
+            float(
+                testimonials[
+                    "average_rating"
+                ] or 0
+            ),
+            2,
+        )
+
+        return {
+            "insights": insights,
+            "case_studies": case_studies,
+            "testimonials": testimonials,
+        }
+
+    @classmethod
+    def content_publication_trend(cls, period):
+        from collections import defaultdict
+
+        from django.db.models import Count
+        from django.db.models.functions import (
+            TruncMonth,
+        )
+
+        models = (
+            (
+                "insights",
+                "InsightArticle",
+                "insights",
+            ),
+            (
+                "case_studies",
+                "CaseStudy",
+                "case_studies",
+            ),
+            (
+                "testimonials",
+                "Testimonial",
+                "testimonials",
+            ),
+        )
+
+        totals = defaultdict(
+            lambda: {
+                "insights": 0,
+                "case_studies": 0,
+                "testimonials": 0,
+            }
+        )
+
+        for app_label, model_name, key in models:
+            model = cls._model(
+                app_label,
+                model_name,
+            )
+
+            rows = (
+                model.objects.filter(
+                    status="published",
+                    published_at__gte=(
+                        period.datetime_from
+                    ),
+                    published_at__lt=(
+                        period.datetime_to
+                    ),
+                )
+                .annotate(
+                    month=TruncMonth(
+                        "published_at"
+                    )
+                )
+                .values("month")
+                .annotate(total=Count("id"))
+                .order_by("month")
+            )
+
+            for row in rows:
+                totals[row["month"]][key] += (
+                    row["total"]
+                )
+
+        return [
+            {
+                "month": month.date(),
+                **totals[month],
+                "total_published": sum(
+                    totals[month].values()
+                ),
+            }
+            for month in sorted(totals)
+        ]
+
+    @classmethod
+    def testimonial_sources(cls):
+        from django.db.models import (
+            Avg,
+            Count,
+        )
+
+        Testimonial = cls._model(
+            "testimonials",
+            "Testimonial",
+        )
+
+        labels = dict(
+            Testimonial._meta.get_field(
+                "source"
+            ).choices
+        )
+
+        rows = list(
+            Testimonial.objects.values("source")
+            .annotate(
+                total=Count("id"),
+                average_rating=Avg("rating"),
+            )
+            .order_by("-total", "source")
+        )
+
+        return [
+            {
+                "source": row["source"],
+                "label": labels.get(
+                    row["source"],
+                    row["source"],
+                ),
+                "total": row["total"],
+                "average_rating": round(
+                    float(
+                        row["average_rating"]
+                        or 0
+                    ),
+                    2,
+                ),
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def subscribers_summary(cls, period):
+        from django.db.models import Count, Q
+
+        Subscriber = cls._model(
+            "newsletter",
+            "Subscriber",
+        )
+
+        return Subscriber.objects.aggregate(
+            total_subscribers=Count("id"),
+            active_subscribers=Count(
+                "id",
+                filter=Q(status="active"),
+            ),
+            pending_subscribers=Count(
+                "id",
+                filter=Q(status="pending"),
+            ),
+            unsubscribed_subscribers=Count(
+                "id",
+                filter=Q(status="unsubscribed"),
+            ),
+            bounced_subscribers=Count(
+                "id",
+                filter=Q(status="bounced"),
+            ),
+            complained_subscribers=Count(
+                "id",
+                filter=Q(status="complained"),
+            ),
+            suppressed_subscribers=Count(
+                "id",
+                filter=Q(status="suppressed"),
+            ),
+            new_subscribers=Count(
+                "id",
+                filter=Q(
+                    created_at__gte=(
+                        period.datetime_from
+                    ),
+                    created_at__lt=(
+                        period.datetime_to
+                    ),
+                ),
+            ),
+            subscribed_in_period=Count(
+                "id",
+                filter=Q(
+                    subscribed_at__gte=(
+                        period.datetime_from
+                    ),
+                    subscribed_at__lt=(
+                        period.datetime_to
+                    ),
+                ),
+            ),
+            confirmed_in_period=Count(
+                "id",
+                filter=Q(
+                    confirmed_at__gte=(
+                        period.datetime_from
+                    ),
+                    confirmed_at__lt=(
+                        period.datetime_to
+                    ),
+                ),
+            ),
+            unsubscribed_in_period=Count(
+                "id",
+                filter=Q(
+                    unsubscribed_at__gte=(
+                        period.datetime_from
+                    ),
+                    unsubscribed_at__lt=(
+                        period.datetime_to
+                    ),
+                ),
+            ),
+        )
+
+    @classmethod
+    def subscribers_by_source(cls):
+        from django.db.models import Count
+
+        Subscriber = cls._model(
+            "newsletter",
+            "Subscriber",
+        )
+
+        labels = dict(
+            Subscriber._meta.get_field(
+                "source"
+            ).choices
+        )
+
+        rows = list(
+            Subscriber.objects.values("source")
+            .annotate(total=Count("id"))
+            .order_by("-total", "source")
+        )
+
+        return [
+            {
+                "source": row["source"],
+                "label": labels.get(
+                    row["source"],
+                    row["source"],
+                ),
+                "total": row["total"],
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def subscriber_trend(cls, period):
+        from django.db.models import Count
+        from django.db.models.functions import (
+            TruncMonth,
+        )
+
+        Subscriber = cls._model(
+            "newsletter",
+            "Subscriber",
+        )
+
+        rows = list(
+            Subscriber.objects.filter(
+                created_at__gte=(
+                    period.datetime_from
+                ),
+                created_at__lt=(
+                    period.datetime_to
+                ),
+            )
+            .annotate(
+                month=TruncMonth("created_at")
+            )
+            .values("month")
+            .annotate(
+                new_subscribers=Count("id")
+            )
+            .order_by("month")
+        )
+
+        return [
+            {
+                "month": row["month"].date(),
+                "new_subscribers": (
+                    row["new_subscribers"]
+                ),
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def campaign_summary(cls, period):
+        from django.db.models import (
+            Count,
+            Q,
+            Sum,
+        )
+
+        Campaign = cls._model(
+            "newsletter",
+            "NewsletterCampaign",
+        )
+
+        metrics = Campaign.objects.aggregate(
+            total_campaigns=Count("id"),
+            draft_campaigns=Count(
+                "id",
+                filter=Q(status="draft"),
+            ),
+            review_campaigns=Count(
+                "id",
+                filter=Q(status="review"),
+            ),
+            scheduled_campaigns=Count(
+                "id",
+                filter=Q(status="scheduled"),
+            ),
+            queued_campaigns=Count(
+                "id",
+                filter=Q(status="queued"),
+            ),
+            sending_campaigns=Count(
+                "id",
+                filter=Q(status="sending"),
+            ),
+            sent_campaigns=Count(
+                "id",
+                filter=Q(status="sent"),
+            ),
+            paused_campaigns=Count(
+                "id",
+                filter=Q(status="paused"),
+            ),
+            cancelled_campaigns=Count(
+                "id",
+                filter=Q(status="cancelled"),
+            ),
+            failed_campaigns=Count(
+                "id",
+                filter=Q(status="failed"),
+            ),
+            archived_campaigns=Count(
+                "id",
+                filter=Q(status="archived"),
+            ),
+            recipient_count=Sum(
+                "recipient_count"
+            ),
+            sent_count=Sum("sent_count"),
+            delivered_count=Sum(
+                "delivered_count"
+            ),
+            opened_count=Sum(
+                "opened_count"
+            ),
+            clicked_count=Sum(
+                "clicked_count"
+            ),
+            bounced_count=Sum(
+                "bounced_count"
+            ),
+            failed_count=Sum("failed_count"),
+            complained_count=Sum(
+                "complained_count"
+            ),
+            unsubscribed_count=Sum(
+                "unsubscribed_count"
+            ),
+            campaigns_sent_in_period=Count(
+                "id",
+                filter=Q(
+                    sent_at__gte=(
+                        period.datetime_from
+                    ),
+                    sent_at__lt=(
+                        period.datetime_to
+                    ),
+                ),
+            ),
+        )
+
+        for key, value in tuple(
+            metrics.items()
+        ):
+            if value is None:
+                metrics[key] = 0
+
+        delivered = metrics["delivered_count"]
+
+        metrics["open_rate"] = (
+            round(
+                metrics["opened_count"]
+                / delivered
+                * 100,
+                2,
+            )
+            if delivered
+            else 0.0
+        )
+
+        metrics["click_rate"] = (
+            round(
+                metrics["clicked_count"]
+                / delivered
+                * 100,
+                2,
+            )
+            if delivered
+            else 0.0
+        )
+
+        metrics["bounce_rate"] = (
+            round(
+                metrics["bounced_count"]
+                / metrics["sent_count"]
+                * 100,
+                2,
+            )
+            if metrics["sent_count"]
+            else 0.0
+        )
+
+        return metrics
+
+    @classmethod
+    def campaign_trend(cls, period):
+        from django.db.models import (
+            Count,
+            Sum,
+        )
+        from django.db.models.functions import (
+            TruncMonth,
+        )
+
+        Campaign = cls._model(
+            "newsletter",
+            "NewsletterCampaign",
+        )
+
+        rows = list(
+            Campaign.objects.filter(
+                sent_at__gte=(
+                    period.datetime_from
+                ),
+                sent_at__lt=(
+                    period.datetime_to
+                ),
+            )
+            .annotate(
+                month=TruncMonth("sent_at")
+            )
+            .values("month")
+            .annotate(
+                campaigns=Count("id"),
+                sent_count=Sum("sent_count"),
+                delivered_count=Sum(
+                    "delivered_count"
+                ),
+                opened_count=Sum(
+                    "opened_count"
+                ),
+                clicked_count=Sum(
+                    "clicked_count"
+                ),
+                bounced_count=Sum(
+                    "bounced_count"
+                ),
+            )
+            .order_by("month")
+        )
+
+        result = []
+
+        for row in rows:
+            for key, value in tuple(
+                row.items()
+            ):
+                if value is None:
+                    row[key] = 0
+
+            delivered = row["delivered_count"]
+            sent = row["sent_count"]
+
+            result.append(
+                {
+                    **row,
+                    "month": row["month"].date(),
+                    "open_rate": (
+                        round(
+                            row["opened_count"]
+                            / delivered
+                            * 100,
+                            2,
+                        )
+                        if delivered
+                        else 0.0
+                    ),
+                    "click_rate": (
+                        round(
+                            row["clicked_count"]
+                            / delivered
+                            * 100,
+                            2,
+                        )
+                        if delivered
+                        else 0.0
+                    ),
+                    "bounce_rate": (
+                        round(
+                            row["bounced_count"]
+                            / sent
+                            * 100,
+                            2,
+                        )
+                        if sent
+                        else 0.0
+                    ),
+                }
+            )
+
+        return result
+
+    @classmethod
+    def _enquiry_models(cls):
+        return (
+            cls._model(
+                "enquiries",
+                "ContactEnquiry",
+            ),
+            cls._model(
+                "enquiries",
+                "QuoteEnquiry",
+            ),
+        )
+
+    @classmethod
+    def enquiry_summary(cls, period):
+        from django.db.models import (
+            Count,
+            Q,
+        )
+
+        combined = {
+            "total_enquiries": 0,
+            "open_enquiries": 0,
+            "won_enquiries": 0,
+            "lost_enquiries": 0,
+            "spam_enquiries": 0,
+            "archived_enquiries": 0,
+            "enquiries_in_period": 0,
+            "overdue_follow_ups": 0,
+            "by_type": {},
+        }
+
+        now = timezone.now()
+
+        for model in cls._enquiry_models():
+            metrics = model.objects.aggregate(
+                total=Count("id"),
+                open=Count(
+                    "id",
+                    filter=Q(
+                        status__in=(
+                            cls.ENQUIRY_OPEN_STATUSES
+                        ),
+                    ),
+                ),
+                won=Count(
+                    "id",
+                    filter=Q(status="won"),
+                ),
+                lost=Count(
+                    "id",
+                    filter=Q(status="lost"),
+                ),
+                spam=Count(
+                    "id",
+                    filter=Q(status="spam"),
+                ),
+                archived=Count(
+                    "id",
+                    filter=Q(status="archived"),
+                ),
+                in_period=Count(
+                    "id",
+                    filter=Q(
+                        submitted_at__gte=(
+                            period.datetime_from
+                        ),
+                        submitted_at__lt=(
+                            period.datetime_to
+                        ),
+                    ),
+                ),
+                overdue_follow_ups=Count(
+                    "id",
+                    filter=Q(
+                        status__in=(
+                            cls.ENQUIRY_OPEN_STATUSES
+                        ),
+                        next_follow_up_at__lt=now,
+                    ),
+                ),
+            )
+
+            model_key = model._meta.model_name
+            combined["by_type"][
+                model_key
+            ] = metrics
+
+            combined[
+                "total_enquiries"
+            ] += metrics["total"]
+            combined[
+                "open_enquiries"
+            ] += metrics["open"]
+            combined[
+                "won_enquiries"
+            ] += metrics["won"]
+            combined[
+                "lost_enquiries"
+            ] += metrics["lost"]
+            combined[
+                "spam_enquiries"
+            ] += metrics["spam"]
+            combined[
+                "archived_enquiries"
+            ] += metrics["archived"]
+            combined[
+                "enquiries_in_period"
+            ] += metrics["in_period"]
+            combined[
+                "overdue_follow_ups"
+            ] += metrics[
+                "overdue_follow_ups"
+            ]
+
+        closed = (
+            combined["won_enquiries"]
+            + combined["lost_enquiries"]
+        )
+
+        combined["closed_enquiries"] = closed
+        combined["conversion_rate"] = (
+            round(
+                combined["won_enquiries"]
+                / closed
+                * 100,
+                2,
+            )
+            if closed
+            else 0.0
+        )
+
+        return combined
+
+    @classmethod
+    def enquiries_by_source(cls, period):
+        from collections import defaultdict
+
+        from django.db.models import Count, Q
+
+        totals = defaultdict(
+            lambda: {
+                "total": 0,
+                "won": 0,
+                "lost": 0,
+            }
+        )
+        labels = {}
+
+        for model in cls._enquiry_models():
+            labels.update(
+                dict(
+                    model._meta.get_field(
+                        "source"
+                    ).choices
+                )
+            )
+
+            rows = (
+                model.objects.filter(
+                    submitted_at__gte=(
+                        period.datetime_from
+                    ),
+                    submitted_at__lt=(
+                        period.datetime_to
+                    ),
+                )
+                .values("source")
+                .annotate(
+                    total=Count("id"),
+                    won=Count(
+                        "id",
+                        filter=Q(status="won"),
+                    ),
+                    lost=Count(
+                        "id",
+                        filter=Q(status="lost"),
+                    ),
+                )
+            )
+
+            for row in rows:
+                item = totals[row["source"]]
+                item["total"] += row["total"]
+                item["won"] += row["won"]
+                item["lost"] += row["lost"]
+
+        result = []
+
+        for source, item in totals.items():
+            closed = (
+                item["won"] + item["lost"]
+            )
+
+            result.append(
+                {
+                    "source": source,
+                    "label": labels.get(
+                        source,
+                        source,
+                    ),
+                    **item,
+                    "conversion_rate": (
+                        round(
+                            item["won"]
+                            / closed
+                            * 100,
+                            2,
+                        )
+                        if closed
+                        else 0.0
+                    ),
+                }
+            )
+
+        return sorted(
+            result,
+            key=lambda row: (
+                -row["total"],
+                row["source"],
+            ),
+        )
+
+    @classmethod
+    def enquiry_trend(cls, period):
+        from collections import defaultdict
+
+        from django.db.models import Count, Q
+        from django.db.models.functions import (
+            TruncMonth,
+        )
+
+        totals = defaultdict(
+            lambda: {
+                "total": 0,
+                "won": 0,
+                "lost": 0,
+            }
+        )
+
+        for model in cls._enquiry_models():
+            rows = (
+                model.objects.filter(
+                    submitted_at__gte=(
+                        period.datetime_from
+                    ),
+                    submitted_at__lt=(
+                        period.datetime_to
+                    ),
+                )
+                .annotate(
+                    month=TruncMonth(
+                        "submitted_at"
+                    )
+                )
+                .values("month")
+                .annotate(
+                    total=Count("id"),
+                    won=Count(
+                        "id",
+                        filter=Q(status="won"),
+                    ),
+                    lost=Count(
+                        "id",
+                        filter=Q(status="lost"),
+                    ),
+                )
+            )
+
+            for row in rows:
+                item = totals[row["month"]]
+                item["total"] += row["total"]
+                item["won"] += row["won"]
+                item["lost"] += row["lost"]
+
+        return [
+            {
+                "month": month.date(),
+                **totals[month],
+                "conversion_rate": (
+                    round(
+                        totals[month]["won"]
+                        / (
+                            totals[month]["won"]
+                            + totals[month]["lost"]
+                        )
+                        * 100,
+                        2,
+                    )
+                    if (
+                        totals[month]["won"]
+                        + totals[month]["lost"]
+                    )
+                    else 0.0
+                ),
+            }
+            for month in sorted(totals)
+        ]
+
+    @classmethod
+    def build(cls, period, now):
+        return {
+            "summary": {
+                "content": cls.content_summary(
+                    period
+                ),
+                "subscribers": (
+                    cls.subscribers_summary(
+                        period
+                    )
+                ),
+                "campaigns": (
+                    cls.campaign_summary(period)
+                ),
+                "enquiries": (
+                    cls.enquiry_summary(period)
+                ),
+            },
+            "content_publication_trend": (
+                cls.content_publication_trend(
+                    period
+                )
+            ),
+            "testimonial_sources": (
+                cls.testimonial_sources()
+            ),
+            "subscribers_by_source": (
+                cls.subscribers_by_source()
+            ),
+            "subscriber_trend": (
+                cls.subscriber_trend(period)
+            ),
+            "campaign_trend": (
+                cls.campaign_trend(period)
+            ),
+            "enquiries_by_source": (
+                cls.enquiries_by_source(period)
+            ),
+            "enquiry_trend": (
+                cls.enquiry_trend(period)
+            ),
+            "metadata": {
+                "insight_model": (
+                    "insights.InsightArticle"
+                ),
+                "content_date_basis": (
+                    "published_at"
+                ),
+                "subscriber_date_basis": (
+                    "created_at"
+                ),
+                "campaign_date_basis": (
+                    "sent_at"
+                ),
+                "enquiry_date_basis": (
+                    "submitted_at"
+                ),
+                "enquiry_conversion_definition": (
+                    "won divided by won plus lost"
+                ),
+            },
+        }

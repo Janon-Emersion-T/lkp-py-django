@@ -13,6 +13,7 @@ from .models import (
     DashboardReportType,
 )
 from .repositories import (
+    ContentMarketingReportingRepository,
     CrmReportingRepository,
     DashboardSnapshotRepository,
     ExecutiveDashboardRepository,
@@ -234,6 +235,19 @@ class DashboardReportFoundationService:
             data = FinanceReportingRepository.build(
                 period,
                 generated_at,
+            )
+            aggregation_status = "complete"
+            foundation = False
+        elif (
+            report_type
+            == DashboardReportType.CONTENT_MARKETING
+        ):
+            data = (
+                ContentMarketingReportingRepository
+                .build(
+                    period,
+                    generated_at,
+                )
             )
             aggregation_status = "complete"
             foundation = False

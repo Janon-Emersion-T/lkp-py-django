@@ -396,6 +396,10 @@ class DashboardReportingOpenApiTests(TestCase):
             "/api/v1/dashboard-reporting/finance",
             (
                 "/api/v1/dashboard-reporting/"
+                "content-marketing"
+            ),
+            (
+                "/api/v1/dashboard-reporting/"
                 "foundation/{report_type}"
             ),
             "/api/v1/dashboard-reporting/snapshots",
@@ -529,9 +533,7 @@ class ExecutiveDashboardRepositoryTests(TestCase):
         report = (
             DashboardReportFoundationService
             .build_report_context(
-                report_type=(
-                    DashboardReportType.CONTENT_MARKETING
-                ),
+                report_type=DashboardReportType.TEAM,
                 period=period,
                 environment="test",
             )
@@ -1498,6 +1500,182 @@ class FinanceReportingOpenApiTests(TestCase):
         schema = api.get_openapi_schema()
         path = (
             "/api/v1/dashboard-reporting/finance"
+        )
+
+        self.assertIn(path, schema["paths"])
+        self.assertIn(
+            "get",
+            schema["paths"][path],
+        )
+        self.assertTrue(
+            schema["paths"][path]["get"].get(
+                "security"
+            )
+        )
+
+
+class ContentMarketingReportingRepositoryTests(
+    TestCase
+):
+    def test_empty_database_returns_complete_shape(self):
+        from apps.dashboard_reporting.repositories import (
+            ContentMarketingReportingRepository,
+        )
+
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = (
+            ContentMarketingReportingRepository
+            .build(
+                period,
+                timezone.now(),
+            )
+        )
+
+        required = {
+            "summary",
+            "content_publication_trend",
+            "testimonial_sources",
+            "subscribers_by_source",
+            "subscriber_trend",
+            "campaign_trend",
+            "enquiries_by_source",
+            "enquiry_trend",
+            "metadata",
+        }
+
+        self.assertEqual(set(report), required)
+        self.assertEqual(
+            report["summary"]["content"][
+                "insights"
+            ]["total"],
+            0,
+        )
+        self.assertEqual(
+            report["summary"]["subscribers"][
+                "total_subscribers"
+            ],
+            0,
+        )
+        self.assertEqual(
+            report["summary"]["campaigns"][
+                "total_campaigns"
+            ],
+            0,
+        )
+        self.assertEqual(
+            report["summary"]["enquiries"][
+                "total_enquiries"
+            ],
+            0,
+        )
+
+    def test_actual_insight_model_is_recorded(self):
+        from apps.dashboard_reporting.repositories import (
+            ContentMarketingReportingRepository,
+        )
+
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = (
+            ContentMarketingReportingRepository
+            .build(
+                period,
+                timezone.now(),
+            )
+        )
+
+        self.assertEqual(
+            report["metadata"]["insight_model"],
+            "insights.InsightArticle",
+        )
+
+    def test_service_report_is_complete(self):
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = (
+            DashboardReportFoundationService
+            .build_report_context(
+                report_type=(
+                    DashboardReportType
+                    .CONTENT_MARKETING
+                ),
+                period=period,
+                environment="test",
+            )
+        )
+
+        self.assertFalse(
+            report["metadata"]["foundation"]
+        )
+        self.assertEqual(
+            report["metadata"][
+                "aggregation_status"
+            ],
+            "complete",
+        )
+        self.assertIn(
+            "content_publication_trend",
+            report["data"],
+        )
+        self.assertIn(
+            "enquiries_by_source",
+            report["data"],
+        )
+
+    def test_snapshot_contains_aggregations(self):
+        snapshot = DashboardSnapshotService.generate(
+            report_type=(
+                DashboardReportType.CONTENT_MARKETING
+            ),
+            period_preset=(
+                DashboardPeriodPreset.THIS_MONTH
+            ),
+            environment="test",
+        )
+
+        data = snapshot.payload["data"]
+
+        self.assertIn("summary", data)
+        self.assertIn(
+            "content_publication_trend",
+            data,
+        )
+        self.assertIn(
+            "testimonial_sources",
+            data,
+        )
+        self.assertIn(
+            "subscribers_by_source",
+            data,
+        )
+        self.assertIn(
+            "campaign_trend",
+            data,
+        )
+        self.assertIn(
+            "enquiries_by_source",
+            data,
+        )
+
+
+class ContentMarketingReportingOpenApiTests(
+    TestCase
+):
+    def test_route_is_registered_and_protected(self):
+        schema = api.get_openapi_schema()
+        path = (
+            "/api/v1/dashboard-reporting/"
+            "content-marketing"
         )
 
         self.assertIn(path, schema["paths"])
