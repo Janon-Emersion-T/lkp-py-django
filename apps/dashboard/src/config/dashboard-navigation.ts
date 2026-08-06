@@ -23,7 +23,7 @@ import {
 export interface DashboardNavigationItem {
   label: string;
   icon: LucideIcon;
-  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/cms" | "/media-library" | "/navigation" | "/public-website-snapshots" | "/website-settings" | "/team-management" | "/users" | "/settings";
+  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/cms" | "/services-catalog" | "/media-library" | "/navigation" | "/public-website-snapshots" | "/website-settings" | "/team-management" | "/users" | "/settings";
   available: boolean;
 }
 
@@ -86,6 +86,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
       {
         label: "CMS",
         to: "/cms",
+        icon: FileStack,
+        available: true,
+      },
+      {
+        label: "Services Catalog",
+        to: "/services-catalog",
         icon: FileStack,
         available: true,
       },

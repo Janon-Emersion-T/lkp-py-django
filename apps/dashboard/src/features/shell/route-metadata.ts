@@ -52,6 +52,12 @@ export const shellRouteMetadata = [
     description: "Website pages, services, packages, industries, insights, case studies, and testimonials.",
   },
   {
+    path: "/services-catalog",
+    title: "Services Catalog",
+    breadcrumb: "Services Catalog",
+    description: "Service pages, nested content, publication lifecycle, schedules, revisions, SEO, media, and Astro public visibility.",
+  },
+  {
     path: "/media-library",
     title: "Media Library",
     breadcrumb: "Media Library",

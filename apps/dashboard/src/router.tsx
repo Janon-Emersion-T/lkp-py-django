@@ -150,6 +150,21 @@ const NavigationPage =
     }),
   );
 
+const ServicesCatalogPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import(
+          "./routes/services-catalog"
+        );
+
+      return {
+        default:
+          module.ServicesCatalogPage,
+      };
+    }),
+  );
+
 const MediaLibraryPage =
   withRouteSuspense(
     lazy(async () => {
@@ -313,6 +328,13 @@ const cmsRoute = createRoute({
   component: CmsPage,
 });
 
+const servicesCatalogRoute = createRoute({
+  getParentRoute: () =>
+    dashboardLayoutRoute,
+  path: "/services-catalog",
+  component: ServicesCatalogPage,
+});
+
 const mediaLibraryRoute = createRoute({
   getParentRoute: () =>
     dashboardLayoutRoute,
@@ -378,6 +400,7 @@ const routeTree =
       tasksRoute,
       financeRoute,
       cmsRoute,
+      servicesCatalogRoute,
       mediaLibraryRoute,
       navigationRoute,
       publicWebsiteSnapshotsRoute,
