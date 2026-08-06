@@ -46,6 +46,12 @@ export const shellRouteMetadata = [
     description: "Accounts, transactions, invoices, payments, expenses, receivables, and profitability.",
   },
   {
+    path: "/cms",
+    title: "CMS Content Hub",
+    breadcrumb: "CMS",
+    description: "Website pages, services, packages, industries, insights, case studies, and testimonials.",
+  },
+  {
     path: "/users",
     title: "Users",
     breadcrumb: "Users",

@@ -1,4 +1,5 @@
 import {
+  FileStack,
   Bot,
   BriefcaseBusiness,
   Building2,
@@ -17,7 +18,7 @@ import {
 export interface DashboardNavigationItem {
   label: string;
   icon: LucideIcon;
-  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/users" | "/settings";
+  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/cms" | "/users" | "/settings";
   available: boolean;
 }
 
@@ -75,6 +76,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "Finance",
         to: "/finance",
         icon: CircleDollarSign,
+        available: true,
+      },
+      {
+        label: "CMS",
+        to: "/cms",
+        icon: FileStack,
         available: true,
       },
       {

@@ -15,6 +15,7 @@ import { QuotationsPage } from "./routes/quotations";
 import { ProjectsPage } from "./routes/projects";
 import { TasksPage } from "./routes/tasks";
 import { FinancePage } from "./routes/finance";
+import { CmsPage } from "./routes/cms";
 import { NotFoundPage } from "./routes/errors/not-found";
 import { SettingsPage } from "./routes/settings";
 import { UsersPage } from "./routes/users";
@@ -84,6 +85,12 @@ const financeRoute = createRoute({
   component: FinancePage,
 });
 
+const cmsRoute = createRoute({
+  getParentRoute: () => dashboardLayoutRoute,
+  path: "/cms",
+  component: CmsPage,
+});
+
 const usersRoute = createRoute({
   getParentRoute: () => dashboardLayoutRoute,
   path: "/users",
@@ -107,6 +114,7 @@ const routeTree = rootRoute.addChildren([
     projectsRoute,
     tasksRoute,
     financeRoute,
+    cmsRoute,
     usersRoute,
     settingsRoute,
   ]),
