@@ -1,185 +1,367 @@
 ---
 import {
-  footerNavigation,
-  site,
-} from "../../config/site";
+  footerKeyPages,
+  footerLegalLinks,
+  footerServices,
+} from "../../config/footer";
+import { site } from "../../config/site";
+import FooterContact from "./footer/FooterContact.astro";
+import FooterNavigation from "./footer/FooterNavigation.astro";
+import FooterNewsletter from "./footer/FooterNewsletter.astro";
+import FooterSocials from "./footer/FooterSocials.astro";
 
 const currentYear = new Date().getFullYear();
 ---
 
+<FooterNewsletter />
+
 <footer class="site-footer">
-  <div class="site-container">
-    <div class="site-footer__lead">
-      <div>
-        <p class="site-footer__eyebrow">A dependable technology partner</p>
-        <h2>Build the next part of your business properly.</h2>
-      </div>
+  <div class="site-footer__watermark" aria-hidden="true">LKP</div>
 
-      <a href="/request-quote" class="site-footer__project-link">
-        Discuss your project
-        <span aria-hidden="true">↗</span>
-      </a>
-    </div>
+  <div class="site-container site-footer__container">
+    <div class="site-footer__main">
+      <section class="site-footer__identity" aria-label="About LKProfessionals">
+        <a href="/" class="site-footer__brand" aria-label={`${site.name} home`}>
+          <img
+            src="/brand/logo-white.png"
+            alt={site.name}
+            width="240"
+            height="76"
+            loading="lazy"
+          />
+        </a>
 
-    <div class="site-footer__grid">
-      <div class="site-footer__company">
-        <a href="/" class="site-footer__brand">{site.name}</a>
-        <p>{site.tagline}</p>
-        <p>
-          {site.location}<br />
-          <a href={`mailto:${site.email}`}>{site.email}</a>
+        <p class="site-footer__introduction">
+          Reliable websites, software systems and digital growth solutions
+          for organisations in Sri Lanka and worldwide. We build technology
+          that supports practical business goals and long-term growth.
         </p>
-      </div>
 
-      {
-        Object.entries(footerNavigation).map(([group, items]) => (
-          <nav aria-label={`${group} links`} class="site-footer__navigation">
-            <h3>{group}</h3>
-            {items.map((item) => (
-              <a href={item.href}>{item.label}</a>
-            ))}
-          </nav>
-        ))
-      }
+        <p class="site-footer__social-title">Follow us</p>
+
+        <FooterSocials />
+      </section>
+
+      <FooterNavigation
+        title="Services"
+        links={footerServices}
+        columns={2}
+      />
+
+      <FooterNavigation
+        title="Key pages"
+        links={footerKeyPages}
+      />
+
+      <FooterContact />
     </div>
 
-    <div class="site-footer__legal">
+    <div class="site-footer__bottom">
       <p>
-        © {currentYear} {site.legalName}. All rights reserved.
+        © {site.foundingYear}–{currentYear} {site.legalName}. All rights reserved.
       </p>
 
-      <p>
-        Established {site.foundingYear} · Built in Sri Lanka
+      <p class="site-footer__trust">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24">
+          <path
+            d="M12 3 5 6v5c0 4.6 2.8 8.4 7 10 4.2-1.6 7-5.4 7-10V6l-7-3Z"
+            fill="none"
+            stroke="currentColor"
+            stroke-linejoin="round"
+            stroke-width="1.6"
+          />
+          <path
+            d="m9 12 2 2 4-5"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.6"
+          />
+        </svg>
+
+        Trusted. Reliable. Professional.
       </p>
+
+      <nav aria-label="Legal policies">
+        {
+          footerLegalLinks.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))
+        }
+      </nav>
     </div>
   </div>
 </footer>
 
+<script>
+  const footer = document.querySelector<HTMLElement>(".site-footer");
+
+  if (footer && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) {
+          return;
+        }
+
+        footer.classList.add("site-footer--visible");
+        observer.disconnect();
+      },
+      {
+        rootMargin: "0px 0px -6% 0px",
+        threshold: 0.06,
+      },
+    );
+
+    observer.observe(footer);
+  } else {
+    footer?.classList.add("site-footer--visible");
+  }
+</script>
+
 <style>
   .site-footer {
-    background: var(--colour-footer);
-    color: rgba(255, 255, 255, 0.72);
-    padding-block: clamp(4.5rem, 8vw, 7rem) 2rem;
+    --footer-blue: #0b2f8f;
+    --footer-blue-deep: #071f65;
+
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(
+        circle at 48% 10%,
+        rgba(66, 133, 255, 0.25),
+        transparent 34rem
+      ),
+      linear-gradient(135deg, var(--footer-blue) 0%, var(--footer-blue-deep) 100%);
+    color: rgba(255, 255, 255, 0.78);
   }
 
-  .site-footer__lead {
+  .site-footer__container {
+    position: relative;
+    z-index: 2;
+  }
+
+  .site-footer__watermark {
+    position: absolute;
+    right: -2rem;
+    bottom: 2rem;
+    color: transparent;
+    font-size: clamp(10rem, 25vw, 26rem);
+    font-weight: 900;
+    letter-spacing: -0.12em;
+    line-height: 0.7;
+    opacity: 0.1;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.65);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .site-footer__main {
     display: grid;
-    grid-template-columns: minmax(0, 1.6fr) auto;
-    align-items: end;
-    gap: 3rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-    padding-bottom: clamp(3rem, 6vw, 5rem);
+    grid-template-columns:
+      minmax(16rem, 1.2fr)
+      minmax(19rem, 1.4fr)
+      minmax(9rem, 0.75fr)
+      minmax(14rem, 1fr);
+    gap: clamp(2.5rem, 4.5vw, 5rem);
+    padding-block: clamp(4.5rem, 8vw, 7rem);
   }
 
-  .site-footer__eyebrow {
-    margin: 0 0 1rem;
-    color: #f58a60;
-    font-size: 0.72rem;
-    font-weight: 750;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+  .site-footer__main > * {
+    transform: translateY(1.25rem);
+    opacity: 0;
+    transition:
+      opacity 520ms ease,
+      transform 520ms ease;
   }
 
-  .site-footer h2 {
-    max-width: 54rem;
-    margin: 0;
-    color: var(--colour-white);
-    font-family: var(--font-serif);
-    font-size: clamp(2.8rem, 6vw, 5.8rem);
-    font-weight: 400;
-    letter-spacing: -0.055em;
-    line-height: 0.95;
+  .site-footer--visible .site-footer__main > * {
+    transform: translateY(0);
+    opacity: 1;
   }
 
-  .site-footer__project-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    border-bottom: 1px solid currentColor;
-    padding-bottom: 0.35rem;
-    color: var(--colour-white);
-    font-size: 0.9rem;
-    font-weight: 750;
+  .site-footer__main > :nth-child(2) {
+    transition-delay: 70ms;
   }
 
-  .site-footer__grid {
-    display: grid;
-    grid-template-columns: minmax(15rem, 1.5fr) repeat(3, minmax(8rem, 0.7fr));
-    gap: clamp(2rem, 5vw, 5rem);
-    padding-block: clamp(3.5rem, 6vw, 5.5rem);
+  .site-footer__main > :nth-child(3) {
+    transition-delay: 140ms;
+  }
+
+  .site-footer__main > :nth-child(4) {
+    transition-delay: 210ms;
   }
 
   .site-footer__brand {
-    color: var(--colour-white);
-    font-size: 1.15rem;
-    font-weight: 800;
+    display: inline-flex;
+    width: min(100%, 14rem);
   }
 
-  .site-footer__company p {
-    max-width: 20rem;
-    margin: 1.25rem 0 0;
+  .site-footer__brand img {
+    width: auto;
+    max-height: 4.6rem;
+    object-fit: contain;
+    object-position: left center;
   }
 
-  .site-footer__navigation {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.7rem;
+  .site-footer__introduction {
+    max-width: 25rem;
+    margin: 1.75rem 0 0;
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 0.9rem;
+    line-height: 1.8;
   }
 
-  .site-footer__navigation h3 {
-    margin: 0 0 0.5rem;
-    color: var(--colour-white);
-    font-size: 0.72rem;
-    font-weight: 750;
-    letter-spacing: 0.14em;
+  .site-footer__social-title {
+    margin: 2rem 0 -0.85rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.68rem;
+    font-weight: 780;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
   }
 
-  .site-footer__navigation a:hover,
-  .site-footer__company a:hover {
-    color: var(--colour-white);
-  }
-
-  .site-footer__legal {
-    display: flex;
-    justify-content: space-between;
+  .site-footer__bottom {
+    display: grid;
+    grid-template-columns: minmax(15rem, 1fr) auto minmax(20rem, 1.25fr);
+    align-items: center;
     gap: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.18);
-    padding-top: 1.75rem;
-    font-size: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-block: 1.7rem;
+    color: rgba(255, 255, 255, 0.66);
+    font-size: 0.7rem;
   }
 
-  .site-footer__legal p {
+  .site-footer__bottom p {
     margin: 0;
   }
 
-  @media (max-width: 54rem) {
-    .site-footer__lead {
-      grid-template-columns: 1fr;
-      align-items: start;
+  .site-footer__trust {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    color: rgba(255, 255, 255, 0.88);
+    font-weight: 650;
+  }
+
+  .site-footer__bottom nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.65rem 1.2rem;
+  }
+
+  .site-footer__bottom a {
+    transition: color 170ms ease;
+  }
+
+  .site-footer__bottom a:hover {
+    color: #ffffff;
+  }
+
+  @media (max-width: 72rem) {
+    .site-footer__main {
+      grid-template-columns:
+        minmax(0, 1.2fr)
+        minmax(0, 1fr)
+        minmax(0, 0.9fr);
     }
 
-    .site-footer__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .site-footer__company {
+    .site-footer__identity {
       grid-column: 1 / -1;
+    }
+
+    .site-footer__bottom {
+      grid-template-columns: 1fr auto;
+    }
+
+    .site-footer__bottom nav {
+      grid-column: 1 / -1;
+      justify-content: flex-start;
     }
   }
 
-  @media (max-width: 34rem) {
-    .site-footer__grid {
-      grid-template-columns: 1fr;
+  @media (max-width: 52rem) {
+    .site-footer__main {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .site-footer__company {
+    .site-footer__identity,
+    .site-footer__main > :nth-child(2) {
+      grid-column: 1 / -1;
+    }
+
+    .site-footer__bottom {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+      text-align: left;
+    }
+
+    .site-footer__trust {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .site-footer__main {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .site-footer__identity,
+    .site-footer__main > :nth-child(2) {
       grid-column: auto;
     }
 
-    .site-footer__legal {
-      flex-direction: column;
+    .site-footer__brand {
+      margin-inline: auto;
+    }
+
+    .site-footer__brand img {
+      object-position: center;
+    }
+
+    .site-footer__introduction {
+      margin-inline: auto;
+    }
+
+    .site-footer__main :global(.footer-navigation ul) {
+      justify-items: center;
+    }
+
+    .site-footer__main :global(.footer-navigation a) {
+      justify-content: center;
+    }
+
+    .site-footer__main :global(.footer-contact address) {
+      justify-items: center;
+    }
+
+    .site-footer__main :global(.footer-contact__item) {
+      justify-items: center;
+    }
+
+    .site-footer__bottom {
+      text-align: center;
+    }
+
+    .site-footer__trust,
+    .site-footer__bottom nav {
+      justify-content: center;
+    }
+
+    .site-footer__watermark {
+      right: 50%;
+      transform: translateX(50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-footer__main > * {
+      transform: none;
+      opacity: 1;
+      transition: none;
     }
   }
 </style>

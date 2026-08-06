@@ -1,0 +1,80 @@
+---
+import { footerContact } from "../../../config/footer";
+---
+
+<section class="footer-contact" aria-labelledby="footer-contact-title">
+  <h2 id="footer-contact-title">Contact</h2>
+
+  <address>
+    <div class="footer-contact__item">
+      <span>Office</span>
+      <p>{footerContact.address}</p>
+    </div>
+
+    <div class="footer-contact__item">
+      <span>WhatsApp</span>
+      <a
+        href={footerContact.whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {footerContact.whatsappDisplay}
+      </a>
+    </div>
+
+    <div class="footer-contact__item">
+      <span>Email</span>
+      <a href={`mailto:${footerContact.email}`}>
+        {footerContact.email}
+      </a>
+    </div>
+  </address>
+</section>
+
+<style>
+  .footer-contact h2 {
+    margin: 0 0 1.5rem;
+    color: rgba(255, 255, 255, 0.48);
+    font-size: 0.69rem;
+    font-weight: 760;
+    letter-spacing: 0.17em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .footer-contact address {
+    display: grid;
+    gap: 1.15rem;
+    font-style: normal;
+  }
+
+  .footer-contact__item {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .footer-contact__item > span {
+    color: rgba(255, 255, 255, 0.42);
+    font-size: 0.69rem;
+    font-weight: 720;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .footer-contact__item p,
+  .footer-contact__item a {
+    max-width: 22rem;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.84rem;
+    line-height: 1.65;
+  }
+
+  .footer-contact__item a {
+    transition: color 170ms ease;
+  }
+
+  .footer-contact__item a:hover {
+    color: #ffffff;
+  }
+</style>
