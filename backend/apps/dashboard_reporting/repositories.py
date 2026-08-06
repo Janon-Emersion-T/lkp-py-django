@@ -5230,3 +5230,693 @@ class ContentMarketingReportingRepository:
                 ),
             },
         }
+
+
+class TeamReportingRepository:
+    CURRENT_EMPLOYMENT_STATUSES = {
+        "active",
+        "on_leave",
+    }
+
+    @staticmethod
+    def _model(model_name):
+        from django.apps import apps
+
+        return apps.get_model(
+            "team_management",
+            model_name,
+        )
+
+    @classmethod
+    def period_queryset(cls, period):
+        TeamMember = cls._model("TeamMember")
+
+        return TeamMember.objects.filter(
+            created_at__gte=period.datetime_from,
+            created_at__lt=period.datetime_to,
+        )
+
+    @classmethod
+    def summary(cls, period):
+        from django.db.models import Count, Q
+
+        Team = cls._model("Team")
+        TeamMember = cls._model("TeamMember")
+        TeamMembership = cls._model(
+            "TeamMembership"
+        )
+
+        member_metrics = TeamMember.objects.aggregate(
+            total_members=Count("id"),
+            active_members=Count(
+                "id",
+                filter=Q(
+                    employment_status="active",
+                ),
+            ),
+            members_on_leave=Count(
+                "id",
+                filter=Q(
+                    employment_status="on_leave",
+                ),
+            ),
+            current_members=Count(
+                "id",
+                filter=Q(
+                    employment_status__in=(
+                        cls.CURRENT_EMPLOYMENT_STATUSES
+                    ),
+                ),
+            ),
+            inactive_members=Count(
+                "id",
+                filter=~Q(
+                    employment_status__in=(
+                        cls.CURRENT_EMPLOYMENT_STATUSES
+                    ),
+                ),
+            ),
+            leadership_members=Count(
+                "id",
+                filter=Q(is_leadership=True),
+            ),
+            public_members=Count(
+                "id",
+                filter=Q(is_public=True),
+            ),
+            members_without_managers=Count(
+                "id",
+                filter=Q(
+                    employment_status__in=(
+                        cls.CURRENT_EMPLOYMENT_STATUSES
+                    ),
+                    reports_to__isnull=True,
+                ),
+            ),
+            members_without_user_accounts=Count(
+                "id",
+                filter=Q(
+                    employment_status__in=(
+                        cls.CURRENT_EMPLOYMENT_STATUSES
+                    ),
+                    user__isnull=True,
+                ),
+            ),
+        )
+
+        membership_metrics = (
+            TeamMembership.objects.aggregate(
+                active_memberships=Count(
+                    "id",
+                    filter=Q(is_active=True),
+                ),
+                active_primary_memberships=Count(
+                    "id",
+                    filter=Q(
+                        is_active=True,
+                        is_primary=True,
+                    ),
+                ),
+            )
+        )
+
+        members_without_primary_teams = (
+            TeamMember.objects.filter(
+                employment_status__in=(
+                    cls.CURRENT_EMPLOYMENT_STATUSES
+                ),
+            )
+            .exclude(
+                team_memberships__is_active=True,
+                team_memberships__is_primary=True,
+            )
+            .distinct()
+            .count()
+        )
+
+        team_metrics = Team.objects.aggregate(
+            total_teams=Count("id"),
+            active_teams=Count(
+                "id",
+                filter=Q(is_active=True),
+            ),
+            public_teams=Count(
+                "id",
+                filter=Q(is_public=True),
+            ),
+            teams_without_managers=Count(
+                "id",
+                filter=Q(
+                    is_active=True,
+                    manager__isnull=True,
+                ),
+            ),
+            root_teams=Count(
+                "id",
+                filter=Q(parent__isnull=True),
+            ),
+        )
+
+        period_metrics = cls.period_queryset(
+            period
+        ).aggregate(
+            new_members=Count("id"),
+            new_active_members=Count(
+                "id",
+                filter=Q(
+                    employment_status="active",
+                ),
+            ),
+        )
+
+        joined_in_period = (
+            TeamMember.objects.filter(
+                joined_at__gte=period.date_from,
+                joined_at__lte=period.date_to,
+            ).count()
+        )
+
+        ended_in_period = (
+            TeamMember.objects.filter(
+                employment_ended_at__gte=(
+                    period.date_from
+                ),
+                employment_ended_at__lte=(
+                    period.date_to
+                ),
+            ).count()
+        )
+
+        return {
+            **member_metrics,
+            **membership_metrics,
+            **team_metrics,
+            **period_metrics,
+            "members_without_primary_teams": (
+                members_without_primary_teams
+            ),
+            "joined_in_period": joined_in_period,
+            "employment_ended_in_period": (
+                ended_in_period
+            ),
+        }
+
+    @classmethod
+    def members_by_employment_status(cls):
+        from django.db.models import Count
+
+        TeamMember = cls._model("TeamMember")
+
+        totals = {
+            row["employment_status"]: row["total"]
+            for row in (
+                TeamMember.objects
+                .values("employment_status")
+                .annotate(total=Count("id"))
+            )
+        }
+
+        return [
+            {
+                "employment_status": value,
+                "label": label,
+                "total": totals.get(value, 0),
+            }
+            for value, label in (
+                TeamMember._meta.get_field(
+                    "employment_status"
+                ).choices
+            )
+        ]
+
+    @classmethod
+    def members_by_engagement_type(cls):
+        from django.db.models import Count
+
+        TeamMember = cls._model("TeamMember")
+
+        totals = {
+            row["engagement_type"]: row["total"]
+            for row in (
+                TeamMember.objects
+                .filter(
+                    employment_status__in=(
+                        cls.CURRENT_EMPLOYMENT_STATUSES
+                    ),
+                )
+                .values("engagement_type")
+                .annotate(total=Count("id"))
+            )
+        }
+
+        return [
+            {
+                "engagement_type": value,
+                "label": label,
+                "total": totals.get(value, 0),
+            }
+            for value, label in (
+                TeamMember._meta.get_field(
+                    "engagement_type"
+                ).choices
+            )
+        ]
+
+    @classmethod
+    def members_by_work_location(cls):
+        from django.db.models import Count
+
+        TeamMember = cls._model("TeamMember")
+
+        totals = {
+            row["work_location_type"]: (
+                row["total"]
+            )
+            for row in (
+                TeamMember.objects
+                .filter(
+                    employment_status__in=(
+                        cls.CURRENT_EMPLOYMENT_STATUSES
+                    ),
+                )
+                .values("work_location_type")
+                .annotate(total=Count("id"))
+            )
+        }
+
+        return [
+            {
+                "work_location_type": value,
+                "label": label,
+                "total": totals.get(value, 0),
+            }
+            for value, label in (
+                TeamMember._meta.get_field(
+                    "work_location_type"
+                ).choices
+            )
+        ]
+
+    @classmethod
+    def members_by_country(cls):
+        from django.db.models import Count
+
+        TeamMember = cls._model("TeamMember")
+
+        rows = list(
+            TeamMember.objects.filter(
+                employment_status__in=(
+                    cls.CURRENT_EMPLOYMENT_STATUSES
+                ),
+            )
+            .values("country")
+            .annotate(total=Count("id"))
+            .order_by("-total", "country")
+        )
+
+        return [
+            {
+                "country": (
+                    row["country"]
+                    or "Not specified"
+                ),
+                "total": row["total"],
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def members_by_team(cls):
+        from django.db.models import (
+            Count,
+            Q,
+        )
+
+        Team = cls._model("Team")
+
+        rows = list(
+            Team.objects.annotate(
+                total_members=Count(
+                    "memberships__member",
+                    distinct=True,
+                ),
+                active_members=Count(
+                    "memberships__member",
+                    filter=Q(
+                        memberships__is_active=True,
+                        memberships__member__employment_status__in=(
+                            cls.CURRENT_EMPLOYMENT_STATUSES
+                        ),
+                    ),
+                    distinct=True,
+                ),
+                primary_members=Count(
+                    "memberships__member",
+                    filter=Q(
+                        memberships__is_active=True,
+                        memberships__is_primary=True,
+                        memberships__member__employment_status__in=(
+                            cls.CURRENT_EMPLOYMENT_STATUSES
+                        ),
+                    ),
+                    distinct=True,
+                ),
+            )
+            .values(
+                "id",
+                "name",
+                "slug",
+                "team_type",
+                "is_active",
+                "manager_id",
+                "manager__employee_code",
+                "manager__first_name",
+                "manager__last_name",
+                "manager__preferred_name",
+                "total_members",
+                "active_members",
+                "primary_members",
+            )
+            .order_by(
+                "-active_members",
+                "name",
+            )
+        )
+
+        result = []
+
+        for row in rows:
+            manager_name = None
+
+            if row["manager_id"] is not None:
+                full_name = (
+                    f"{row['manager__first_name'] or ''} "
+                    f"{row['manager__last_name'] or ''}"
+                ).strip()
+
+                manager_name = (
+                    row["manager__preferred_name"]
+                    or full_name
+                    or row["manager__employee_code"]
+                )
+
+            result.append(
+                {
+                    "team_id": row["id"],
+                    "team_name": row["name"],
+                    "slug": row["slug"],
+                    "team_type": row["team_type"],
+                    "is_active": row["is_active"],
+                    "manager_id": row["manager_id"],
+                    "manager_name": manager_name,
+                    "total_members": (
+                        row["total_members"]
+                    ),
+                    "active_members": (
+                        row["active_members"]
+                    ),
+                    "primary_members": (
+                        row["primary_members"]
+                    ),
+                }
+            )
+
+        return result
+
+    @classmethod
+    def management_span(cls):
+        from django.db.models import Count, Q
+
+        TeamMember = cls._model("TeamMember")
+
+        rows = list(
+            TeamMember.objects.filter(
+                direct_reports__employment_status__in=(
+                    cls.CURRENT_EMPLOYMENT_STATUSES
+                ),
+            )
+            .annotate(
+                direct_report_count=Count(
+                    "direct_reports",
+                    filter=Q(
+                        direct_reports__employment_status__in=(
+                            cls.CURRENT_EMPLOYMENT_STATUSES
+                        ),
+                    ),
+                    distinct=True,
+                )
+            )
+            .values(
+                "id",
+                "employee_code",
+                "first_name",
+                "last_name",
+                "preferred_name",
+                "job_title",
+                "employment_status",
+                "direct_report_count",
+            )
+            .order_by(
+                "-direct_report_count",
+                "first_name",
+            )
+        )
+
+        return [
+            {
+                "member_id": row["id"],
+                "employee_code": (
+                    row["employee_code"]
+                ),
+                "member_name": (
+                    row["preferred_name"]
+                    or (
+                        f"{row['first_name']} "
+                        f"{row['last_name']}"
+                    ).strip()
+                ),
+                "job_title": row["job_title"],
+                "employment_status": (
+                    row["employment_status"]
+                ),
+                "direct_report_count": (
+                    row["direct_report_count"]
+                ),
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def members_without_primary_team(cls):
+        TeamMember = cls._model("TeamMember")
+
+        rows = list(
+            TeamMember.objects.filter(
+                employment_status__in=(
+                    cls.CURRENT_EMPLOYMENT_STATUSES
+                ),
+            )
+            .exclude(
+                team_memberships__is_active=True,
+                team_memberships__is_primary=True,
+            )
+            .values(
+                "id",
+                "employee_code",
+                "first_name",
+                "last_name",
+                "preferred_name",
+                "job_title",
+                "employment_status",
+            )
+            .distinct()
+            .order_by(
+                "first_name",
+                "last_name",
+            )
+        )
+
+        return [
+            {
+                "member_id": row["id"],
+                "employee_code": (
+                    row["employee_code"]
+                ),
+                "member_name": (
+                    row["preferred_name"]
+                    or (
+                        f"{row['first_name']} "
+                        f"{row['last_name']}"
+                    ).strip()
+                ),
+                "job_title": row["job_title"],
+                "employment_status": (
+                    row["employment_status"]
+                ),
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def members_without_manager(cls):
+        TeamMember = cls._model("TeamMember")
+
+        rows = list(
+            TeamMember.objects.filter(
+                employment_status__in=(
+                    cls.CURRENT_EMPLOYMENT_STATUSES
+                ),
+                reports_to__isnull=True,
+            )
+            .values(
+                "id",
+                "employee_code",
+                "first_name",
+                "last_name",
+                "preferred_name",
+                "job_title",
+                "employment_status",
+                "is_leadership",
+            )
+            .order_by(
+                "-is_leadership",
+                "first_name",
+                "last_name",
+            )
+        )
+
+        return [
+            {
+                "member_id": row["id"],
+                "employee_code": (
+                    row["employee_code"]
+                ),
+                "member_name": (
+                    row["preferred_name"]
+                    or (
+                        f"{row['first_name']} "
+                        f"{row['last_name']}"
+                    ).strip()
+                ),
+                "job_title": row["job_title"],
+                "employment_status": (
+                    row["employment_status"]
+                ),
+                "is_leadership": (
+                    row["is_leadership"]
+                ),
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def team_type_distribution(cls):
+        from django.db.models import Count
+
+        Team = cls._model("Team")
+
+        totals = {
+            row["team_type"]: row["total"]
+            for row in (
+                Team.objects
+                .values("team_type")
+                .annotate(total=Count("id"))
+            )
+        }
+
+        return [
+            {
+                "team_type": value,
+                "label": label,
+                "total": totals.get(value, 0),
+            }
+            for value, label in (
+                Team._meta.get_field(
+                    "team_type"
+                ).choices
+            )
+        ]
+
+    @classmethod
+    def joiner_trend(cls, period):
+        from django.db.models import Count
+        from django.db.models.functions import (
+            TruncMonth,
+        )
+
+        TeamMember = cls._model("TeamMember")
+
+        rows = list(
+            TeamMember.objects.filter(
+                joined_at__gte=period.date_from,
+                joined_at__lte=period.date_to,
+            )
+            .annotate(
+                month=TruncMonth("joined_at")
+            )
+            .values("month")
+            .annotate(joined_members=Count("id"))
+            .order_by("month")
+        )
+
+        return [
+            {
+                "month": row["month"],
+                "joined_members": (
+                    row["joined_members"]
+                ),
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def build(cls, period, now):
+        return {
+            "summary": cls.summary(period),
+            "members_by_team": (
+                cls.members_by_team()
+            ),
+            "members_by_employment_status": (
+                cls.members_by_employment_status()
+            ),
+            "members_by_engagement_type": (
+                cls.members_by_engagement_type()
+            ),
+            "members_by_work_location": (
+                cls.members_by_work_location()
+            ),
+            "members_by_country": (
+                cls.members_by_country()
+            ),
+            "team_type_distribution": (
+                cls.team_type_distribution()
+            ),
+            "management_span": (
+                cls.management_span()
+            ),
+            "members_without_primary_team": (
+                cls.members_without_primary_team()
+            ),
+            "members_without_manager": (
+                cls.members_without_manager()
+            ),
+            "joiner_trend": (
+                cls.joiner_trend(period)
+            ),
+            "metadata": {
+                "current_member_definition": (
+                    "employment status active "
+                    "or on_leave"
+                ),
+                "primary_team_definition": (
+                    "active TeamMembership with "
+                    "is_primary true"
+                ),
+                "manager_definition": (
+                    "TeamMember.reports_to"
+                ),
+                "team_manager_definition": (
+                    "Team.manager"
+                ),
+            },
+        }

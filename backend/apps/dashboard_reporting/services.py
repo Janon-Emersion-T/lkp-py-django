@@ -21,6 +21,7 @@ from .repositories import (
     ProjectReportingRepository,
     SalesReportingRepository,
     TaskReportingRepository,
+    TeamReportingRepository,
     normalize_environment,
 )
 
@@ -248,6 +249,13 @@ class DashboardReportFoundationService:
                     period,
                     generated_at,
                 )
+            )
+            aggregation_status = "complete"
+            foundation = False
+        elif report_type == DashboardReportType.TEAM:
+            data = TeamReportingRepository.build(
+                period,
+                generated_at,
             )
             aggregation_status = "complete"
             foundation = False

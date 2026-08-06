@@ -398,6 +398,7 @@ class DashboardReportingOpenApiTests(TestCase):
                 "/api/v1/dashboard-reporting/"
                 "content-marketing"
             ),
+            "/api/v1/dashboard-reporting/team",
             (
                 "/api/v1/dashboard-reporting/"
                 "foundation/{report_type}"
@@ -533,7 +534,7 @@ class ExecutiveDashboardRepositoryTests(TestCase):
         report = (
             DashboardReportFoundationService
             .build_report_context(
-                report_type=DashboardReportType.TEAM,
+                report_type=DashboardReportType.COMPLETE,
                 period=period,
                 environment="test",
             )
@@ -1676,6 +1677,177 @@ class ContentMarketingReportingOpenApiTests(
         path = (
             "/api/v1/dashboard-reporting/"
             "content-marketing"
+        )
+
+        self.assertIn(path, schema["paths"])
+        self.assertIn(
+            "get",
+            schema["paths"][path],
+        )
+        self.assertTrue(
+            schema["paths"][path]["get"].get(
+                "security"
+            )
+        )
+
+
+class TeamReportingRepositoryTests(TestCase):
+    def test_empty_database_returns_complete_team_shape(self):
+        from apps.dashboard_reporting.repositories import (
+            TeamReportingRepository,
+        )
+
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = TeamReportingRepository.build(
+            period,
+            timezone.now(),
+        )
+
+        required = {
+            "summary",
+            "members_by_team",
+            "members_by_employment_status",
+            "members_by_engagement_type",
+            "members_by_work_location",
+            "members_by_country",
+            "team_type_distribution",
+            "management_span",
+            "members_without_primary_team",
+            "members_without_manager",
+            "joiner_trend",
+            "metadata",
+        }
+
+        self.assertEqual(set(report), required)
+
+        self.assertEqual(
+            report["summary"]["total_members"],
+            0,
+        )
+        self.assertEqual(
+            report["summary"]["active_members"],
+            0,
+        )
+        self.assertEqual(
+            report["summary"]["total_teams"],
+            0,
+        )
+        self.assertEqual(
+            report["members_by_team"],
+            [],
+        )
+        self.assertEqual(
+            report["management_span"],
+            [],
+        )
+
+    def test_employment_status_contains_all_choices(self):
+        from apps.dashboard_reporting.repositories import (
+            TeamReportingRepository,
+        )
+        from apps.team_management.models import (
+            TeamMember,
+        )
+
+        rows = (
+            TeamReportingRepository
+            .members_by_employment_status()
+        )
+
+        expected = {
+            value
+            for value, _label in (
+                TeamMember._meta.get_field(
+                    "employment_status"
+                ).choices
+            )
+        }
+
+        actual = {
+            row["employment_status"]
+            for row in rows
+        }
+
+        self.assertEqual(actual, expected)
+
+    def test_team_service_report_is_complete(self):
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = (
+            DashboardReportFoundationService
+            .build_report_context(
+                report_type=DashboardReportType.TEAM,
+                period=period,
+                environment="test",
+            )
+        )
+
+        self.assertFalse(
+            report["metadata"]["foundation"]
+        )
+        self.assertEqual(
+            report["metadata"][
+                "aggregation_status"
+            ],
+            "complete",
+        )
+        self.assertIn(
+            "members_by_team",
+            report["data"],
+        )
+        self.assertIn(
+            "members_without_primary_team",
+            report["data"],
+        )
+        self.assertIn(
+            "members_without_manager",
+            report["data"],
+        )
+
+    def test_team_snapshot_contains_aggregations(self):
+        snapshot = DashboardSnapshotService.generate(
+            report_type=DashboardReportType.TEAM,
+            period_preset=DashboardPeriodPreset.THIS_MONTH,
+            environment="test",
+        )
+
+        data = snapshot.payload["data"]
+
+        self.assertIn("summary", data)
+        self.assertIn(
+            "members_by_team",
+            data,
+        )
+        self.assertIn(
+            "members_by_employment_status",
+            data,
+        )
+        self.assertIn(
+            "management_span",
+            data,
+        )
+        self.assertIn(
+            "members_without_primary_team",
+            data,
+        )
+        self.assertIn(
+            "members_without_manager",
+            data,
+        )
+
+
+class TeamReportingOpenApiTests(TestCase):
+    def test_team_route_is_registered_and_protected(self):
+        schema = api.get_openapi_schema()
+        path = (
+            "/api/v1/dashboard-reporting/team"
         )
 
         self.assertIn(path, schema["paths"])

@@ -130,6 +130,48 @@ def resolve_dashboard_period(
 
 
 @router.get(
+    "/team",
+    response={
+        200: DashboardFoundationReportSchema,
+        400: ErrorSchema,
+        401: ErrorSchema,
+        403: ErrorSchema,
+    },
+)
+def team_dashboard_report(
+    request,
+    preset: DashboardPeriodPreset = (
+        DashboardPeriodPreset.THIS_MONTH
+    ),
+    date_from: date | None = None,
+    date_to: date | None = None,
+    environment: str = "production",
+):
+    require_dashboard_view(request)
+
+    try:
+        period = DashboardPeriodService.resolve(
+            preset=preset,
+            date_from=date_from,
+            date_to=date_to,
+        )
+
+        return (
+            DashboardReportFoundationService
+            .build_report_context(
+                report_type=DashboardReportType.TEAM,
+                period=period,
+                environment=environment,
+            )
+        )
+    except ValueError as exc:
+        api_error(
+            exc,
+            "invalid_team_dashboard_request",
+        )
+
+
+@router.get(
     "/content-marketing",
     response={
         200: DashboardFoundationReportSchema,
