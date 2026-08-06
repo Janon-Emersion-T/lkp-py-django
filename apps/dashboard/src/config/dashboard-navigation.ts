@@ -21,6 +21,7 @@ import {
   PackageOpen,
   Landmark,
   BookOpenText,
+  Quote,
 } from "lucide-react";
 
 export interface DashboardNavigationItem {
@@ -40,6 +41,7 @@ export interface DashboardNavigationItem {
     | "/industries-catalog"
     | "/insights"
     | "/case-studies"
+    | "/testimonials"
     | "/media-library"
     | "/navigation"
     | "/public-website-snapshots"
@@ -140,6 +142,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "Case Studies",
         to: "/case-studies",
         icon: BriefcaseBusiness,
+        available: true,
+      },
+      {
+        label: "Testimonials",
+        to: "/testimonials",
+        icon: Quote,
         available: true,
       },
       {

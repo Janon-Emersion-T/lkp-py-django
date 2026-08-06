@@ -92,6 +92,13 @@ export const shellRouteMetadata = [
       "Client outcomes, projects, industries, services, technologies, media, metrics, milestones, testimonials, SEO, revisions, and publishing lifecycle.",
   },
   {
+    path: "/testimonials",
+    title: "Testimonials",
+    breadcrumb: "Testimonials",
+    description:
+      "Client feedback, ratings, sources, verification, featured placement, linked clients and projects, publishing schedules, and internal notes.",
+  },
+  {
     path: "/media-library",
     title: "Media Library",
     breadcrumb: "Media Library",
