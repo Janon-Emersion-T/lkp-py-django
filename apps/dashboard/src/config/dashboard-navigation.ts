@@ -23,6 +23,7 @@ import {
   BookOpenText,
   Quote,
   UserRoundSearch,
+  Inbox,
 } from "lucide-react";
 
 export interface DashboardNavigationItem {
@@ -44,6 +45,7 @@ export interface DashboardNavigationItem {
     | "/case-studies"
     | "/testimonials"
     | "/careers"
+    | "/enquiries"
     | "/media-library"
     | "/navigation"
     | "/public-website-snapshots"
@@ -78,6 +80,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "CRM",
         to: "/crm",
         icon: BriefcaseBusiness,
+        available: true,
+      },
+      {
+        label: "Enquiries",
+        to: "/enquiries",
+        icon: Inbox,
         available: true,
       },
       {

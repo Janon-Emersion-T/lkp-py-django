@@ -15,6 +15,13 @@ export const shellRouteMetadata = [
       "Lead pipeline, follow-ups, ownership, and conversion management.",
   },
   {
+    path: "/enquiries",
+    title: "Enquiries",
+    breadcrumb: "Enquiries",
+    description:
+      "Contact enquiries, quote requests, assignment, qualification, priority, follow-ups, proposals, outcomes, and internal notes.",
+  },
+  {
     path: "/clients",
     title: "Clients",
     breadcrumb: "Clients",
