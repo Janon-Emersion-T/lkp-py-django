@@ -40,6 +40,12 @@ export const shellRouteMetadata = [
     description: "Task execution, Kanban status, assignees, deadlines, checklists, and time tracking.",
   },
   {
+    path: "/finance",
+    title: "Finance",
+    breadcrumb: "Finance",
+    description: "Accounts, transactions, invoices, payments, expenses, receivables, and profitability.",
+  },
+  {
     path: "/users",
     title: "Users",
     breadcrumb: "Users",

@@ -17,7 +17,7 @@ import {
 export interface DashboardNavigationItem {
   label: string;
   icon: LucideIcon;
-  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/users" | "/settings";
+  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/users" | "/settings";
   available: boolean;
 }
 
@@ -69,6 +69,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "Tasks",
         to: "/tasks",
         icon: ListChecks,
+        available: true,
+      },
+      {
+        label: "Finance",
+        to: "/finance",
+        icon: CircleDollarSign,
         available: true,
       },
       {
