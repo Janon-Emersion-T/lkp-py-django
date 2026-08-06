@@ -1719,3 +1719,739 @@ class SalesReportingRepository:
                 ),
             },
         }
+
+
+class ProjectReportingRepository:
+    ACTIVE_STATUSES = {
+        "planning",
+        "development",
+        "testing",
+        "review",
+    }
+
+    TERMINAL_STATUSES = {
+        "completed",
+        "cancelled",
+    }
+
+    @staticmethod
+    def _project_model():
+        from django.apps import apps
+
+        return apps.get_model(
+            "projects",
+            "Project",
+        )
+
+    @classmethod
+    def period_queryset(cls, period):
+        Project = cls._project_model()
+
+        return Project.objects.filter(
+            created_at__gte=period.datetime_from,
+            created_at__lt=period.datetime_to,
+        )
+
+    @classmethod
+    def summary(cls, period, today):
+        from django.db.models import (
+            Avg,
+            Count,
+            Q,
+        )
+
+        Project = cls._project_model()
+
+        all_time = Project.objects.aggregate(
+            total_projects=Count("id"),
+            active_projects=Count(
+                "id",
+                filter=Q(
+                    status__in=cls.ACTIVE_STATUSES,
+                ),
+            ),
+            completed_projects=Count(
+                "id",
+                filter=Q(status="completed"),
+            ),
+            cancelled_projects=Count(
+                "id",
+                filter=Q(status="cancelled"),
+            ),
+            overdue_projects=Count(
+                "id",
+                filter=Q(
+                    deadline__lt=today,
+                    status__in=cls.ACTIVE_STATUSES,
+                ),
+            ),
+            projects_without_manager=Count(
+                "id",
+                filter=Q(
+                    project_manager__isnull=True,
+                    status__in=cls.ACTIVE_STATUSES,
+                ),
+            ),
+            projects_without_deadline=Count(
+                "id",
+                filter=Q(
+                    deadline__isnull=True,
+                    status__in=cls.ACTIVE_STATUSES,
+                ),
+            ),
+            average_progress=Avg(
+                "progress",
+                filter=Q(
+                    status__in=cls.ACTIVE_STATUSES,
+                ),
+            ),
+        )
+
+        period_metrics = cls.period_queryset(
+            period
+        ).aggregate(
+            new_projects=Count("id"),
+            new_active_projects=Count(
+                "id",
+                filter=Q(
+                    status__in=cls.ACTIVE_STATUSES,
+                ),
+            ),
+        )
+
+        completed_in_period = Project.objects.filter(
+            status="completed",
+            completed_at__gte=period.datetime_from,
+            completed_at__lt=period.datetime_to,
+        ).count()
+
+        all_time["average_progress"] = round(
+            float(all_time["average_progress"] or 0),
+            2,
+        )
+
+        return {
+            **all_time,
+            **period_metrics,
+            "completed_in_period": (
+                completed_in_period
+            ),
+        }
+
+    @classmethod
+    def projects_by_status(cls):
+        from django.db.models import Count
+
+        Project = cls._project_model()
+
+        totals = {
+            row["status"]: row["total"]
+            for row in (
+                Project.objects
+                .values("status")
+                .annotate(total=Count("id"))
+            )
+        }
+
+        return [
+            {
+                "status": value,
+                "label": label,
+                "total": totals.get(value, 0),
+            }
+            for value, label in (
+                Project._meta.get_field(
+                    "status"
+                ).choices
+            )
+        ]
+
+    @classmethod
+    def projects_by_priority(cls):
+        from django.db.models import Count
+
+        Project = cls._project_model()
+
+        totals = {
+            row["priority"]: row["total"]
+            for row in (
+                Project.objects
+                .values("priority")
+                .annotate(total=Count("id"))
+            )
+        }
+
+        return [
+            {
+                "priority": value,
+                "label": label,
+                "total": totals.get(value, 0),
+            }
+            for value, label in (
+                Project._meta.get_field(
+                    "priority"
+                ).choices
+            )
+        ]
+
+    @classmethod
+    def projects_by_manager(cls):
+        from django.db.models import (
+            Avg,
+            Count,
+            Q,
+        )
+
+        rows = list(
+            cls._project_model()
+            .objects.values(
+                "project_manager_id",
+                "project_manager__username",
+                "project_manager__first_name",
+                "project_manager__last_name",
+                "project_manager__email",
+            )
+            .annotate(
+                total_projects=Count("id"),
+                active_projects=Count(
+                    "id",
+                    filter=Q(
+                        status__in=(
+                            cls.ACTIVE_STATUSES
+                        ),
+                    ),
+                ),
+                completed_projects=Count(
+                    "id",
+                    filter=Q(status="completed"),
+                ),
+                overdue_projects=Count(
+                    "id",
+                    filter=Q(
+                        status__in=(
+                            cls.ACTIVE_STATUSES
+                        ),
+                        deadline__lt=(
+                            timezone.localdate()
+                        ),
+                    ),
+                ),
+                average_progress=Avg(
+                    "progress",
+                    filter=Q(
+                        status__in=(
+                            cls.ACTIVE_STATUSES
+                        ),
+                    ),
+                ),
+            )
+            .order_by(
+                "-active_projects",
+                "-total_projects",
+                "project_manager__username",
+            )
+        )
+
+        result = []
+
+        for row in rows:
+            first_name = (
+                row["project_manager__first_name"]
+                or ""
+            ).strip()
+            last_name = (
+                row["project_manager__last_name"]
+                or ""
+            ).strip()
+
+            full_name = (
+                f"{first_name} {last_name}".strip()
+            )
+
+            if row["project_manager_id"] is None:
+                manager_name = "Unassigned"
+            else:
+                manager_name = (
+                    full_name
+                    or row[
+                        "project_manager__username"
+                    ]
+                    or row[
+                        "project_manager__email"
+                    ]
+                    or str(
+                        row["project_manager_id"]
+                    )
+                )
+
+            result.append(
+                {
+                    "manager_id": (
+                        row["project_manager_id"]
+                    ),
+                    "manager_name": manager_name,
+                    "username": row[
+                        "project_manager__username"
+                    ],
+                    "email": row[
+                        "project_manager__email"
+                    ],
+                    "total_projects": (
+                        row["total_projects"]
+                    ),
+                    "active_projects": (
+                        row["active_projects"]
+                    ),
+                    "completed_projects": (
+                        row["completed_projects"]
+                    ),
+                    "overdue_projects": (
+                        row["overdue_projects"]
+                    ),
+                    "average_progress": round(
+                        float(
+                            row["average_progress"]
+                            or 0
+                        ),
+                        2,
+                    ),
+                }
+            )
+
+        return result
+
+    @classmethod
+    def project_health(cls, today):
+        from datetime import timedelta
+
+        from django.db.models import (
+            Case,
+            CharField,
+            Count,
+            Q,
+            Value,
+            When,
+        )
+
+        Project = cls._project_model()
+
+        warning_date = today + timedelta(days=14)
+
+        queryset = Project.objects.annotate(
+            health=Case(
+                When(
+                    status="completed",
+                    then=Value("completed"),
+                ),
+                When(
+                    status="cancelled",
+                    then=Value("cancelled"),
+                ),
+                When(
+                    deadline__lt=today,
+                    status__in=cls.ACTIVE_STATUSES,
+                    then=Value("overdue"),
+                ),
+                When(
+                    deadline__lte=warning_date,
+                    deadline__gte=today,
+                    progress__lt=75,
+                    status__in=cls.ACTIVE_STATUSES,
+                    then=Value("at_risk"),
+                ),
+                When(
+                    progress__lt=25,
+                    status__in={
+                        "development",
+                        "testing",
+                        "review",
+                    },
+                    then=Value("at_risk"),
+                ),
+                When(
+                    status__in=cls.ACTIVE_STATUSES,
+                    then=Value("healthy"),
+                ),
+                default=Value("unknown"),
+                output_field=CharField(),
+            )
+        )
+
+        totals = {
+            row["health"]: row["total"]
+            for row in (
+                queryset.values("health")
+                .annotate(total=Count("id"))
+            )
+        }
+
+        health_order = (
+            "healthy",
+            "at_risk",
+            "overdue",
+            "completed",
+            "cancelled",
+            "unknown",
+        )
+
+        return [
+            {
+                "health": health,
+                "total": totals.get(health, 0),
+            }
+            for health in health_order
+        ]
+
+    @classmethod
+    def overdue_projects(cls, today):
+        from django.db.models import F
+
+        rows = list(
+            cls._project_model()
+            .objects.filter(
+                status__in=cls.ACTIVE_STATUSES,
+                deadline__lt=today,
+            )
+            .select_related(
+                "client",
+                "project_manager",
+            )
+            .annotate(
+                days_overdue=today - F("deadline")
+            )
+            .values(
+                "id",
+                "project_code",
+                "title",
+                "status",
+                "priority",
+                "progress",
+                "deadline",
+                "currency",
+                "budget",
+                "client_id",
+                "client__client_code",
+                "client__company_name",
+                "project_manager_id",
+                "project_manager__username",
+                "project_manager__first_name",
+                "project_manager__last_name",
+                "days_overdue",
+            )
+            .order_by(
+                "deadline",
+                "-priority",
+                "title",
+            )
+        )
+
+        result = []
+
+        for row in rows:
+            manager_name = "Unassigned"
+
+            if row["project_manager_id"]:
+                full_name = (
+                    f"{row['project_manager__first_name'] or ''} "
+                    f"{row['project_manager__last_name'] or ''}"
+                ).strip()
+
+                manager_name = (
+                    full_name
+                    or row[
+                        "project_manager__username"
+                    ]
+                    or str(
+                        row["project_manager_id"]
+                    )
+                )
+
+            days_overdue = row["days_overdue"]
+
+            result.append(
+                {
+                    "project_id": row["id"],
+                    "project_code": (
+                        row["project_code"]
+                    ),
+                    "title": row["title"],
+                    "status": row["status"],
+                    "priority": row["priority"],
+                    "progress": row["progress"],
+                    "deadline": row["deadline"],
+                    "days_overdue": (
+                        days_overdue.days
+                        if days_overdue
+                        else 0
+                    ),
+                    "currency": row["currency"],
+                    "budget": row["budget"],
+                    "client_id": row["client_id"],
+                    "client_code": (
+                        row["client__client_code"]
+                    ),
+                    "client_name": (
+                        row["client__company_name"]
+                    ),
+                    "manager_id": (
+                        row["project_manager_id"]
+                    ),
+                    "manager_name": manager_name,
+                }
+            )
+
+        return result
+
+    @classmethod
+    def budget_by_currency(cls):
+        from django.db.models import (
+            Count,
+            DecimalField,
+            Q,
+            Sum,
+            Value,
+        )
+        from django.db.models.functions import Coalesce
+
+        return list(
+            cls._project_model()
+            .objects.values("currency")
+            .annotate(
+                project_count=Count("id"),
+                total_budget=Coalesce(
+                    Sum("budget"),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+                active_budget=Coalesce(
+                    Sum(
+                        "budget",
+                        filter=Q(
+                            status__in=(
+                                cls.ACTIVE_STATUSES
+                            ),
+                        ),
+                    ),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+                completed_budget=Coalesce(
+                    Sum(
+                        "budget",
+                        filter=Q(status="completed"),
+                    ),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+                overdue_budget=Coalesce(
+                    Sum(
+                        "budget",
+                        filter=Q(
+                            status__in=(
+                                cls.ACTIVE_STATUSES
+                            ),
+                            deadline__lt=(
+                                timezone.localdate()
+                            ),
+                        ),
+                    ),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+            )
+            .order_by("currency")
+        )
+
+    @classmethod
+    def completion_trend(cls, period):
+        from django.db.models import Count
+        from django.db.models.functions import TruncMonth
+
+        rows = list(
+            cls._project_model()
+            .objects.filter(
+                status="completed",
+                completed_at__gte=period.datetime_from,
+                completed_at__lt=period.datetime_to,
+            )
+            .annotate(
+                month=TruncMonth("completed_at")
+            )
+            .values("month")
+            .annotate(
+                completed_projects=Count("id")
+            )
+            .order_by("month")
+        )
+
+        return [
+            {
+                "month": row["month"].date(),
+                "completed_projects": (
+                    row["completed_projects"]
+                ),
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def creation_trend(cls, period):
+        from django.db.models import Count
+        from django.db.models.functions import TruncMonth
+
+        rows = list(
+            cls.period_queryset(period)
+            .annotate(
+                month=TruncMonth("created_at")
+            )
+            .values("month")
+            .annotate(
+                new_projects=Count("id")
+            )
+            .order_by("month")
+        )
+
+        return [
+            {
+                "month": row["month"].date(),
+                "new_projects": row["new_projects"],
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def progress_distribution(cls):
+        from django.db.models import (
+            Case,
+            CharField,
+            Count,
+            Value,
+            When,
+        )
+
+        queryset = (
+            cls._project_model()
+            .objects.filter(
+                status__in=cls.ACTIVE_STATUSES,
+            )
+            .annotate(
+                progress_band=Case(
+                    When(
+                        progress__lt=25,
+                        then=Value("0_24"),
+                    ),
+                    When(
+                        progress__lt=50,
+                        then=Value("25_49"),
+                    ),
+                    When(
+                        progress__lt=75,
+                        then=Value("50_74"),
+                    ),
+                    When(
+                        progress__lt=100,
+                        then=Value("75_99"),
+                    ),
+                    default=Value("100"),
+                    output_field=CharField(),
+                )
+            )
+        )
+
+        totals = {
+            row["progress_band"]: row["total"]
+            for row in (
+                queryset.values("progress_band")
+                .annotate(total=Count("id"))
+            )
+        }
+
+        labels = (
+            ("0_24", "0–24%"),
+            ("25_49", "25–49%"),
+            ("50_74", "50–74%"),
+            ("75_99", "75–99%"),
+            ("100", "100%"),
+        )
+
+        return [
+            {
+                "band": band,
+                "label": label,
+                "total": totals.get(band, 0),
+            }
+            for band, label in labels
+        ]
+
+    @classmethod
+    def build(cls, period, now):
+        today = timezone.localdate()
+
+        return {
+            "summary": cls.summary(
+                period,
+                today,
+            ),
+            "projects_by_status": (
+                cls.projects_by_status()
+            ),
+            "projects_by_priority": (
+                cls.projects_by_priority()
+            ),
+            "projects_by_manager": (
+                cls.projects_by_manager()
+            ),
+            "project_health": (
+                cls.project_health(today)
+            ),
+            "overdue_projects": (
+                cls.overdue_projects(today)
+            ),
+            "budget_by_currency": (
+                cls.budget_by_currency()
+            ),
+            "completion_trend": (
+                cls.completion_trend(period)
+            ),
+            "creation_trend": (
+                cls.creation_trend(period)
+            ),
+            "progress_distribution": (
+                cls.progress_distribution()
+            ),
+            "metadata": {
+                "creation_period_basis": (
+                    "project_created_at"
+                ),
+                "completion_period_basis": (
+                    "project_completed_at"
+                ),
+                "health_definition": {
+                    "overdue": (
+                        "active project with deadline "
+                        "before today"
+                    ),
+                    "at_risk": (
+                        "deadline within 14 days and "
+                        "progress below 75%, or advanced "
+                        "status with progress below 25%"
+                    ),
+                    "healthy": (
+                        "active project not classified "
+                        "as overdue or at risk"
+                    ),
+                },
+            },
+        }

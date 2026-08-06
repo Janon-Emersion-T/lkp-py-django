@@ -391,6 +391,7 @@ class DashboardReportingOpenApiTests(TestCase):
             "/api/v1/dashboard-reporting/executive",
             "/api/v1/dashboard-reporting/crm",
             "/api/v1/dashboard-reporting/sales",
+            "/api/v1/dashboard-reporting/projects",
             (
                 "/api/v1/dashboard-reporting/"
                 "foundation/{report_type}"
@@ -526,7 +527,7 @@ class ExecutiveDashboardRepositoryTests(TestCase):
         report = (
             DashboardReportFoundationService
             .build_report_context(
-                report_type=DashboardReportType.PROJECTS,
+                report_type=DashboardReportType.TASKS,
                 period=period,
                 environment="test",
             )
@@ -949,6 +950,211 @@ class SalesReportingOpenApiTests(TestCase):
         schema = api.get_openapi_schema()
         path = (
             "/api/v1/dashboard-reporting/sales"
+        )
+
+        self.assertIn(path, schema["paths"])
+        self.assertIn(
+            "get",
+            schema["paths"][path],
+        )
+        self.assertTrue(
+            schema["paths"][path]["get"].get(
+                "security"
+            )
+        )
+
+
+class ProjectReportingRepositoryTests(TestCase):
+    def test_empty_database_returns_complete_project_shape(self):
+        from apps.dashboard_reporting.repositories import (
+            ProjectReportingRepository,
+        )
+
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = ProjectReportingRepository.build(
+            period,
+            timezone.now(),
+        )
+
+        required = {
+            "summary",
+            "projects_by_status",
+            "projects_by_priority",
+            "projects_by_manager",
+            "project_health",
+            "overdue_projects",
+            "budget_by_currency",
+            "completion_trend",
+            "creation_trend",
+            "progress_distribution",
+            "metadata",
+        }
+
+        self.assertEqual(set(report), required)
+        self.assertEqual(
+            report["summary"]["total_projects"],
+            0,
+        )
+        self.assertEqual(
+            report["summary"]["active_projects"],
+            0,
+        )
+        self.assertEqual(
+            report["summary"]["average_progress"],
+            0.0,
+        )
+        self.assertEqual(
+            report["projects_by_manager"],
+            [],
+        )
+        self.assertEqual(
+            report["overdue_projects"],
+            [],
+        )
+        self.assertEqual(
+            report["budget_by_currency"],
+            [],
+        )
+        self.assertEqual(
+            report["completion_trend"],
+            [],
+        )
+
+    def test_status_distribution_contains_all_statuses(self):
+        from apps.dashboard_reporting.repositories import (
+            ProjectReportingRepository,
+        )
+        from apps.projects.models import Project
+
+        rows = (
+            ProjectReportingRepository
+            .projects_by_status()
+        )
+
+        expected = {
+            value
+            for value, _label in (
+                Project._meta.get_field(
+                    "status"
+                ).choices
+            )
+        }
+
+        actual = {
+            row["status"]
+            for row in rows
+        }
+
+        self.assertEqual(actual, expected)
+        self.assertTrue(
+            all(
+                row["total"] == 0
+                for row in rows
+            )
+        )
+
+    def test_project_health_contains_all_bands(self):
+        from apps.dashboard_reporting.repositories import (
+            ProjectReportingRepository,
+        )
+
+        rows = (
+            ProjectReportingRepository
+            .project_health(date(2026, 8, 6))
+        )
+
+        self.assertEqual(
+            [row["health"] for row in rows],
+            [
+                "healthy",
+                "at_risk",
+                "overdue",
+                "completed",
+                "cancelled",
+                "unknown",
+            ],
+        )
+
+    def test_project_service_report_is_complete(self):
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = (
+            DashboardReportFoundationService
+            .build_report_context(
+                report_type=(
+                    DashboardReportType.PROJECTS
+                ),
+                period=period,
+                environment="test",
+            )
+        )
+
+        self.assertFalse(
+            report["metadata"]["foundation"]
+        )
+        self.assertEqual(
+            report["metadata"][
+                "aggregation_status"
+            ],
+            "complete",
+        )
+        self.assertIn(
+            "project_health",
+            report["data"],
+        )
+        self.assertIn(
+            "overdue_projects",
+            report["data"],
+        )
+        self.assertIn(
+            "budget_by_currency",
+            report["data"],
+        )
+
+    def test_project_snapshot_contains_aggregations(self):
+        snapshot = DashboardSnapshotService.generate(
+            report_type=DashboardReportType.PROJECTS,
+            period_preset=DashboardPeriodPreset.THIS_MONTH,
+            environment="test",
+        )
+
+        data = snapshot.payload["data"]
+
+        self.assertIn("summary", data)
+        self.assertIn(
+            "projects_by_status",
+            data,
+        )
+        self.assertIn(
+            "projects_by_manager",
+            data,
+        )
+        self.assertIn(
+            "project_health",
+            data,
+        )
+        self.assertIn(
+            "overdue_projects",
+            data,
+        )
+        self.assertIn(
+            "completion_trend",
+            data,
+        )
+
+
+class ProjectReportingOpenApiTests(TestCase):
+    def test_projects_route_is_registered_and_protected(self):
+        schema = api.get_openapi_schema()
+        path = (
+            "/api/v1/dashboard-reporting/projects"
         )
 
         self.assertIn(path, schema["paths"])
