@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'apps.navigation.apps.NavigationConfig',
     'apps.website_settings.apps.WebsiteSettingsConfig',
     'apps.team_management.apps.TeamManagementConfig',
+    'apps.public_website.apps.PublicWebsiteConfig',
     'apps.api.apps.ApiConfig',
 ]
 
