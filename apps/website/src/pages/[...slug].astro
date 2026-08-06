@@ -1,13 +1,13 @@
 ---
 import FoundationPage from "../components/pages/FoundationPage.astro";
 import {
-  footerLinkedPages,
-  type FooterLinkedPage,
-} from "../content/footer-pages";
+  sitePages,
+  type SitePage,
+} from "../content/site-pages";
 import Layout from "../layouts/Layout.astro";
 
 export function getStaticPaths() {
-  return footerLinkedPages.map((page) => ({
+  return sitePages.map((page) => ({
     params: {
       slug: page.path,
     },
@@ -18,7 +18,7 @@ export function getStaticPaths() {
 }
 
 interface Props {
-  page: FooterLinkedPage;
+  page: SitePage;
 }
 
 const { page } = Astro.props;
@@ -26,7 +26,7 @@ const { page } = Astro.props;
 
 <Layout
   title={page.title}
-  description={page.description}
+  description={page.summary}
   canonicalPath={`/${page.path}/`}
   noindex={page.noindex}
 >

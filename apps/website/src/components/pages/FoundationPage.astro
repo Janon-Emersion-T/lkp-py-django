@@ -1,21 +1,23 @@
 ---
-import type { FooterLinkedPage } from "../../content/footer-pages";
+import {
+  sitePageByPath,
+  type SitePage,
+} from "../../content/site-pages";
 import Container from "../ui/Container.astro";
 
 interface Props {
-  page: FooterLinkedPage;
+  page: SitePage;
 }
 
 const { page } = Astro.props;
 
-const parentLabel = page.parentPath
-  ? page.parentPath
-      .split("/")
-      .at(-1)
-      ?.split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ")
+const parent = page.parentPath
+  ? sitePageByPath.get(page.parentPath)
   : null;
+
+const children = page.childPaths
+  .map((path) => sitePageByPath.get(path))
+  .filter((item): item is SitePage => Boolean(item));
 ---
 
 <article class="foundation-page">
@@ -24,10 +26,10 @@ const parentLabel = page.parentPath
       <a href="/">Home</a>
 
       {
-        page.parentPath && parentLabel && (
+        parent && (
           <>
             <span aria-hidden="true">/</span>
-            <a href={`/${page.parentPath}/`}>{parentLabel}</a>
+            <a href={`/${parent.path}/`}>{parent.title}</a>
           </>
         )
       }
@@ -38,18 +40,55 @@ const parentLabel = page.parentPath
 
     <div class="foundation-page__content">
       <p class="eyebrow">{page.eyebrow}</p>
-
       <h1>{page.title}</h1>
-
-      <p>{page.description}</p>
+      <p>{page.summary}</p>
     </div>
+
+    {
+      children.length > 0 && (
+        <section
+          class="foundation-page__children"
+          aria-labelledby="foundation-page-children-title"
+        >
+          <h2 id="foundation-page-children-title">
+            Explore {page.title}
+          </h2>
+
+          <div class="foundation-page__links">
+            {
+              children.map((child, index) => (
+                <a href={`/${child.path}/`}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{child.title}</strong>
+                  <svg
+                    aria-hidden="true"
+                    width="17"
+                    height="17"
+                    viewBox="0 0 17 17"
+                  >
+                    <path
+                      d="M3 8.5h11M10 4.5l4 4-4 4"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                    />
+                  </svg>
+                </a>
+              ))
+            }
+          </div>
+        </section>
+      )
+    }
   </Container>
 </article>
 
 <style>
   .foundation-page {
-    min-height: 48rem;
-    padding-block: clamp(3rem, 7vw, 7rem) clamp(5rem, 10vw, 10rem);
+    min-height: 46rem;
+    padding-block: clamp(3rem, 7vw, 7rem) clamp(5rem, 10vw, 9rem);
     background: var(--colour-paper);
   }
 
@@ -62,16 +101,8 @@ const parentLabel = page.parentPath
     font-weight: 650;
   }
 
-  .foundation-page__breadcrumbs a {
-    transition: color 160ms ease;
-  }
-
   .foundation-page__breadcrumbs a:hover {
     color: var(--colour-accent-dark);
-  }
-
-  .foundation-page__breadcrumbs [aria-current="page"] {
-    color: var(--colour-ink);
   }
 
   .foundation-page__content {
@@ -98,5 +129,58 @@ const parentLabel = page.parentPath
     color: var(--colour-muted);
     font-size: clamp(1.08rem, 1.5vw, 1.28rem);
     line-height: 1.7;
+  }
+
+  .foundation-page__children {
+    margin-top: clamp(5rem, 10vw, 9rem);
+  }
+
+  .foundation-page__children h2 {
+    margin: 0 0 2rem;
+    color: var(--colour-ink-strong);
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 400;
+  }
+
+  .foundation-page__links {
+    border-top: 1px solid var(--colour-line);
+  }
+
+  .foundation-page__links a {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--colour-line);
+    padding-block: 1.25rem;
+    transition:
+      padding-inline 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .foundation-page__links a:hover {
+    padding-inline: 1rem;
+    background: var(--colour-white);
+  }
+
+  .foundation-page__links span {
+    color: var(--colour-accent-dark);
+    font-size: 0.7rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+  }
+
+  .foundation-page__links strong {
+    color: var(--colour-ink-strong);
+    font-size: 1rem;
+  }
+
+  .foundation-page__links svg {
+    transition: transform 160ms ease;
+  }
+
+  .foundation-page__links a:hover svg {
+    transform: translateX(0.25rem);
   }
 </style>
