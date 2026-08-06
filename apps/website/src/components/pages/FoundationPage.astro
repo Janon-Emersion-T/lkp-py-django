@@ -1,0 +1,102 @@
+---
+import type { FooterLinkedPage } from "../../content/footer-pages";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  page: FooterLinkedPage;
+}
+
+const { page } = Astro.props;
+
+const parentLabel = page.parentPath
+  ? page.parentPath
+      .split("/")
+      .at(-1)
+      ?.split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ")
+  : null;
+---
+
+<article class="foundation-page">
+  <Container>
+    <nav class="foundation-page__breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+
+      {
+        page.parentPath && parentLabel && (
+          <>
+            <span aria-hidden="true">/</span>
+            <a href={`/${page.parentPath}/`}>{parentLabel}</a>
+          </>
+        )
+      }
+
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{page.title}</span>
+    </nav>
+
+    <div class="foundation-page__content">
+      <p class="eyebrow">{page.eyebrow}</p>
+
+      <h1>{page.title}</h1>
+
+      <p>{page.description}</p>
+    </div>
+  </Container>
+</article>
+
+<style>
+  .foundation-page {
+    min-height: 48rem;
+    padding-block: clamp(3rem, 7vw, 7rem) clamp(5rem, 10vw, 10rem);
+    background: var(--colour-paper);
+  }
+
+  .foundation-page__breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    color: var(--colour-muted);
+    font-size: 0.76rem;
+    font-weight: 650;
+  }
+
+  .foundation-page__breadcrumbs a {
+    transition: color 160ms ease;
+  }
+
+  .foundation-page__breadcrumbs a:hover {
+    color: var(--colour-accent-dark);
+  }
+
+  .foundation-page__breadcrumbs [aria-current="page"] {
+    color: var(--colour-ink);
+  }
+
+  .foundation-page__content {
+    display: grid;
+    max-width: 58rem;
+    gap: 1.5rem;
+    margin-top: clamp(4rem, 9vw, 8rem);
+  }
+
+  .foundation-page h1 {
+    max-width: 13ch;
+    margin: 0;
+    color: var(--colour-ink-strong);
+    font-family: var(--font-serif);
+    font-size: clamp(3.3rem, 8vw, 7rem);
+    font-weight: 400;
+    letter-spacing: -0.055em;
+    line-height: 0.94;
+  }
+
+  .foundation-page__content > p:last-child {
+    max-width: 44rem;
+    margin: 0;
+    color: var(--colour-muted);
+    font-size: clamp(1.08rem, 1.5vw, 1.28rem);
+    line-height: 1.7;
+  }
+</style>

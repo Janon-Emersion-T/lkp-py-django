@@ -1,0 +1,34 @@
+---
+import FoundationPage from "../components/pages/FoundationPage.astro";
+import {
+  footerLinkedPages,
+  type FooterLinkedPage,
+} from "../content/footer-pages";
+import Layout from "../layouts/Layout.astro";
+
+export function getStaticPaths() {
+  return footerLinkedPages.map((page) => ({
+    params: {
+      slug: page.path,
+    },
+    props: {
+      page,
+    },
+  }));
+}
+
+interface Props {
+  page: FooterLinkedPage;
+}
+
+const { page } = Astro.props;
+---
+
+<Layout
+  title={page.title}
+  description={page.description}
+  canonicalPath={`/${page.path}/`}
+  noindex={page.noindex}
+>
+  <FoundationPage page={page} />
+</Layout>
