@@ -166,6 +166,16 @@ class PublicResourceRepository:
         if queryset is None:
             return []
 
+        if resource_name == "services":
+            queryset = queryset.select_related(
+                "seo",
+            ).prefetch_related(
+                "features",
+                "process_steps",
+                "technologies",
+                "faqs",
+            )
+
         fields = cls.model_fields(
             queryset.model
         )

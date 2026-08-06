@@ -73,6 +73,140 @@ class PublicSerializationService:
         return value
 
     @classmethod
+    def serialize_service(cls, service):
+        try:
+            seo = service.seo
+        except service._meta.get_field(
+            "seo"
+        ).related_model.DoesNotExist:
+            seo = None
+
+        return {
+            "resource_type": "service",
+            "id": str(service.id),
+            "title": service.title,
+            "slug": service.slug,
+            "short_description": (
+                service.short_description
+            ),
+            "description": cls.normalize(
+                service.description
+            ),
+            "hero_title": service.hero_title,
+            "hero_description": (
+                service.hero_description
+            ),
+            "hero_image_id": (
+                str(service.hero_image_id)
+                if service.hero_image_id
+                else None
+            ),
+            "status": service.status,
+            "published_at": cls.normalize(
+                service.published_at
+            ),
+            "scheduled_for": cls.normalize(
+                service.scheduled_for
+            ),
+            "icon": service.icon,
+            "sort_order": service.sort_order,
+            "is_featured": service.is_featured,
+            "is_active": service.is_active,
+            "is_publicly_available": (
+                service.is_publicly_available
+            ),
+            "cta_title": service.cta_title,
+            "cta_text": service.cta_text,
+            "cta_label": service.cta_label,
+            "cta_url": service.cta_url,
+            "features": [
+                {
+                    "id": str(item.id),
+                    "title": item.title,
+                    "description": item.description,
+                    "icon": item.icon,
+                    "sort_order": item.sort_order,
+                }
+                for item in service.features.all()
+            ],
+            "process_steps": [
+                {
+                    "id": str(item.id),
+                    "title": item.title,
+                    "description": item.description,
+                    "step_number": item.step_number,
+                    "sort_order": item.sort_order,
+                }
+                for item in service.process_steps.all()
+            ],
+            "technologies": [
+                {
+                    "id": str(item.id),
+                    "name": item.name,
+                    "description": item.description,
+                    "logo_id": (
+                        str(item.logo_id)
+                        if item.logo_id
+                        else None
+                    ),
+                    "sort_order": item.sort_order,
+                }
+                for item in service.technologies.all()
+            ],
+            "faqs": [
+                {
+                    "id": str(item.id),
+                    "question": item.question,
+                    "answer": item.answer,
+                    "sort_order": item.sort_order,
+                }
+                for item in service.faqs.all()
+            ],
+            "seo": (
+                {
+                    "id": str(seo.id),
+                    "meta_title": seo.meta_title,
+                    "meta_description": (
+                        seo.meta_description
+                    ),
+                    "canonical_url": (
+                        seo.canonical_url
+                    ),
+                    "robots_index": seo.robots_index,
+                    "robots_follow": seo.robots_follow,
+                    "open_graph_title": (
+                        seo.open_graph_title
+                    ),
+                    "open_graph_description": (
+                        seo.open_graph_description
+                    ),
+                    "open_graph_image_id": (
+                        str(seo.open_graph_image_id)
+                        if seo.open_graph_image_id
+                        else None
+                    ),
+                    "twitter_title": (
+                        seo.twitter_title
+                    ),
+                    "twitter_description": (
+                        seo.twitter_description
+                    ),
+                    "structured_data": cls.normalize(
+                        seo.structured_data
+                    ),
+                }
+                if seo
+                else None
+            ),
+            "created_at": cls.normalize(
+                service.created_at
+            ),
+            "updated_at": cls.normalize(
+                service.updated_at
+            ),
+        }
+
+    @classmethod
     def serialize_model(cls, instance):
         fields = {
             field.name
@@ -341,9 +475,14 @@ class PublicWebsiteService:
             )
         )
 
+        serializer = (
+            PublicSerializationService.serialize_service
+            if resource_name == "services"
+            else PublicSerializationService.serialize_model
+        )
+
         return [
-            PublicSerializationService
-            .serialize_model(instance)
+            serializer(instance)
             for instance in instances
         ]
 
