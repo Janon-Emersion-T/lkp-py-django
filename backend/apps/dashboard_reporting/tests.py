@@ -399,6 +399,7 @@ class DashboardReportingOpenApiTests(TestCase):
                 "content-marketing"
             ),
             "/api/v1/dashboard-reporting/team",
+            "/api/v1/dashboard-reporting/complete",
             (
                 "/api/v1/dashboard-reporting/"
                 "foundation/{report_type}"
@@ -525,29 +526,38 @@ class ExecutiveDashboardRepositoryTests(TestCase):
         self.assertIn("summary", report["data"])
         self.assertIn("finance", report["data"])
 
-    def test_unimplemented_reports_remain_foundations(self):
+    def test_all_report_types_are_implemented(self):
         period = DashboardPeriodService.resolve(
             preset=DashboardPeriodPreset.THIS_MONTH,
             reference_date=date(2026, 8, 6),
         )
 
-        report = (
-            DashboardReportFoundationService
-            .build_report_context(
-                report_type=DashboardReportType.COMPLETE,
-                period=period,
-                environment="test",
-            )
-        )
+        for report_type in DashboardReportType:
+            with self.subTest(
+                report_type=report_type
+            ):
+                report = (
+                    DashboardReportFoundationService
+                    .build_report_context(
+                        report_type=report_type,
+                        period=period,
+                        environment="test",
+                    )
+                )
 
-        self.assertTrue(
-            report["metadata"]["foundation"]
-        )
-        self.assertEqual(
-            report["metadata"]["aggregation_status"],
-            "foundation_ready",
-        )
-        self.assertEqual(report["data"], {})
+                self.assertFalse(
+                    report["metadata"]["foundation"]
+                )
+                self.assertEqual(
+                    report["metadata"][
+                        "aggregation_status"
+                    ],
+                    "complete",
+                )
+                self.assertNotEqual(
+                    report["data"],
+                    {},
+                )
 
     def test_executive_snapshot_contains_real_data_shape(self):
         snapshot = DashboardSnapshotService.generate(
@@ -1848,6 +1858,208 @@ class TeamReportingOpenApiTests(TestCase):
         schema = api.get_openapi_schema()
         path = (
             "/api/v1/dashboard-reporting/team"
+        )
+
+        self.assertIn(path, schema["paths"])
+        self.assertIn(
+            "get",
+            schema["paths"][path],
+        )
+        self.assertTrue(
+            schema["paths"][path]["get"].get(
+                "security"
+            )
+        )
+
+
+
+class CompleteDashboardReportingTests(TestCase):
+    COMPONENT_KEYS = {
+        "executive",
+        "crm",
+        "sales",
+        "projects",
+        "tasks",
+        "finance",
+        "content_marketing",
+        "team",
+    }
+
+    def test_complete_report_contains_every_component(self):
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = (
+            DashboardReportFoundationService
+            .build_report_context(
+                report_type=(
+                    DashboardReportType.COMPLETE
+                ),
+                period=period,
+                environment="test",
+            )
+        )
+
+        self.assertFalse(
+            report["metadata"]["foundation"]
+        )
+        self.assertEqual(
+            report["metadata"][
+                "aggregation_status"
+            ],
+            "complete",
+        )
+
+        data = report["data"]
+
+        self.assertEqual(
+            set(data["reports"]),
+            self.COMPONENT_KEYS,
+        )
+        self.assertEqual(
+            data["summary"][
+                "component_report_count"
+            ],
+            8,
+        )
+        self.assertEqual(
+            data["summary"][
+                "completed_component_count"
+            ],
+            8,
+        )
+        self.assertTrue(
+            data["summary"][
+                "all_components_complete"
+            ]
+        )
+        self.assertFalse(
+            data["metadata"][
+                "business_logic_duplicated"
+            ]
+        )
+
+    def test_complete_report_uses_real_component_shapes(self):
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        reports = (
+            DashboardReportFoundationService
+            .build_report_context(
+                report_type=(
+                    DashboardReportType.COMPLETE
+                ),
+                period=period,
+                environment="test",
+            )["data"]["reports"]
+        )
+
+        self.assertIn(
+            "summary",
+            reports["executive"],
+        )
+        self.assertIn(
+            "conversion_funnel",
+            reports["crm"],
+        )
+        self.assertIn(
+            "quotations_by_status",
+            reports["sales"],
+        )
+        self.assertIn(
+            "project_health",
+            reports["projects"],
+        )
+        self.assertIn(
+            "workload_by_assignee",
+            reports["tasks"],
+        )
+        self.assertIn(
+            "monthly_finance_trend",
+            reports["finance"],
+        )
+        self.assertIn(
+            "content_publication_trend",
+            reports["content_marketing"],
+        )
+        self.assertIn(
+            "members_by_team",
+            reports["team"],
+        )
+
+    def test_complete_snapshot_contains_every_component(self):
+        snapshot = DashboardSnapshotService.generate(
+            report_type=DashboardReportType.COMPLETE,
+            period_preset=(
+                DashboardPeriodPreset.THIS_MONTH
+            ),
+            environment="test",
+        )
+
+        data = snapshot.payload["data"]
+
+        self.assertEqual(
+            set(data["reports"]),
+            self.COMPONENT_KEYS,
+        )
+        self.assertEqual(
+            len(data["report_index"]),
+            8,
+        )
+        self.assertTrue(
+            data["summary"][
+                "all_components_complete"
+            ]
+        )
+        self.assertEqual(
+            len(snapshot.checksum),
+            64,
+        )
+
+    def test_complete_report_index_is_fully_complete(self):
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        index = (
+            DashboardReportFoundationService
+            .build_report_context(
+                report_type=(
+                    DashboardReportType.COMPLETE
+                ),
+                period=period,
+                environment="test",
+            )["data"]["report_index"]
+        )
+
+        self.assertEqual(len(index), 8)
+
+        for item in index:
+            self.assertEqual(
+                item["aggregation_status"],
+                "complete",
+            )
+            self.assertFalse(
+                item["foundation"]
+            )
+            self.assertGreater(
+                item["section_count"],
+                0,
+            )
+
+
+class CompleteDashboardReportingOpenApiTests(
+    TestCase
+):
+    def test_complete_route_is_registered_and_protected(self):
+        schema = api.get_openapi_schema()
+        path = (
+            "/api/v1/dashboard-reporting/complete"
         )
 
         self.assertIn(path, schema["paths"])

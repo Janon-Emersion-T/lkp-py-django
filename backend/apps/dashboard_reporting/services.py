@@ -179,6 +179,7 @@ class DashboardReportFoundationService:
         report_type,
         period,
         environment,
+        generated_at=None,
     ):
         valid_report_types = {
             value
@@ -195,8 +196,13 @@ class DashboardReportFoundationService:
             environment
         )
 
-        generated_at = timezone.now()
+        generated_at = (
 
+            generated_at
+
+            or timezone.now()
+
+        )
         if report_type == DashboardReportType.EXECUTIVE:
             data = ExecutiveDashboardRepository.build(
                 period,
@@ -256,6 +262,17 @@ class DashboardReportFoundationService:
             data = TeamReportingRepository.build(
                 period,
                 generated_at,
+            )
+            aggregation_status = "complete"
+            foundation = False
+        elif report_type == DashboardReportType.COMPLETE:
+            data = (
+                CompleteDashboardReportingService
+                .build(
+                    period=period,
+                    generated_at=generated_at,
+                    environment=environment,
+                )
             )
             aggregation_status = "complete"
             foundation = False
@@ -430,3 +447,121 @@ def json_safe_decimal(value):
         return str(value)
 
     return value
+
+
+
+class CompleteDashboardReportingService:
+    COMPONENT_REPORT_TYPES = (
+        DashboardReportType.EXECUTIVE,
+        DashboardReportType.CRM,
+        DashboardReportType.SALES,
+        DashboardReportType.PROJECTS,
+        DashboardReportType.TASKS,
+        DashboardReportType.FINANCE,
+        DashboardReportType.CONTENT_MARKETING,
+        DashboardReportType.TEAM,
+    )
+
+    @classmethod
+    def build(
+        cls,
+        *,
+        period,
+        generated_at,
+        environment,
+    ):
+        reports = {}
+        report_index = []
+
+        for report_type in cls.COMPONENT_REPORT_TYPES:
+            context = (
+                DashboardReportFoundationService
+                .build_report_context(
+                    report_type=report_type,
+                    period=period,
+                    environment=environment,
+                    generated_at=generated_at,
+                )
+            )
+
+            metadata = context["metadata"]
+
+            if metadata["foundation"]:
+                raise ValueError(
+                    "Complete report cannot include "
+                    f"foundation-only report: "
+                    f"{report_type}"
+                )
+
+            if (
+                metadata["aggregation_status"]
+                != "complete"
+            ):
+                raise ValueError(
+                    "Complete report component is not "
+                    f"fully aggregated: {report_type}"
+                )
+
+            report_key = report_type.value
+
+            reports[report_key] = context["data"]
+
+            report_index.append(
+                {
+                    "report_type": report_key,
+                    "aggregation_status": (
+                        metadata[
+                            "aggregation_status"
+                        ]
+                    ),
+                    "foundation": (
+                        metadata["foundation"]
+                    ),
+                    "section_count": len(
+                        context["data"]
+                    ),
+                }
+            )
+
+        return {
+            "reports": reports,
+            "report_index": report_index,
+            "summary": {
+                "component_report_count": len(
+                    cls.COMPONENT_REPORT_TYPES
+                ),
+                "completed_component_count": len(
+                    reports
+                ),
+                "all_components_complete": (
+                    len(reports)
+                    == len(
+                        cls.COMPONENT_REPORT_TYPES
+                    )
+                ),
+                "component_report_types": [
+                    report_type.value
+                    for report_type
+                    in cls.COMPONENT_REPORT_TYPES
+                ],
+            },
+            "metadata": {
+                "composition_strategy": (
+                    "existing report services"
+                ),
+                "business_logic_duplicated": False,
+                "generated_at": (
+                    generated_at.isoformat()
+                ),
+                "environment": environment,
+                "period_preset": str(
+                    period.preset
+                ),
+                "date_from": (
+                    period.date_from.isoformat()
+                ),
+                "date_to": (
+                    period.date_to.isoformat()
+                ),
+            },
+        }

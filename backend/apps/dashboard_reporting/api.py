@@ -130,6 +130,50 @@ def resolve_dashboard_period(
 
 
 @router.get(
+    "/complete",
+    response={
+        200: DashboardFoundationReportSchema,
+        400: ErrorSchema,
+        401: ErrorSchema,
+        403: ErrorSchema,
+    },
+)
+def complete_dashboard_report(
+    request,
+    preset: DashboardPeriodPreset = (
+        DashboardPeriodPreset.THIS_MONTH
+    ),
+    date_from: date | None = None,
+    date_to: date | None = None,
+    environment: str = "production",
+):
+    require_dashboard_view(request)
+
+    try:
+        period = DashboardPeriodService.resolve(
+            preset=preset,
+            date_from=date_from,
+            date_to=date_to,
+        )
+
+        return (
+            DashboardReportFoundationService
+            .build_report_context(
+                report_type=(
+                    DashboardReportType.COMPLETE
+                ),
+                period=period,
+                environment=environment,
+            )
+        )
+    except ValueError as exc:
+        api_error(
+            exc,
+            "invalid_complete_dashboard_request",
+        )
+
+
+@router.get(
     "/team",
     response={
         200: DashboardFoundationReportSchema,
