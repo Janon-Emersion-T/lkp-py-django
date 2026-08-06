@@ -19,6 +19,7 @@ import {
   type LucideIcon,
   ListChecks,
   PackageOpen,
+  Landmark,
 } from "lucide-react";
 
 export interface DashboardNavigationItem {
@@ -35,6 +36,7 @@ export interface DashboardNavigationItem {
     | "/cms"
     | "/services-catalog"
     | "/packages-catalog"
+    | "/industries-catalog"
     | "/media-library"
     | "/navigation"
     | "/public-website-snapshots"
@@ -117,6 +119,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "Packages Catalog",
         to: "/packages-catalog",
         icon: PackageOpen,
+        available: true,
+      },
+      {
+        label: "Industries Catalog",
+        to: "/industries-catalog",
+        icon: Landmark,
         available: true,
       },
       {

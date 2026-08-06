@@ -71,6 +71,13 @@ export const shellRouteMetadata = [
       "Packaged offers, pricing, billing cycles, features, add-ons, audiences, publishing schedules, SEO, and revisions.",
   },
   {
+    path: "/industries-catalog",
+    title: "Industries Catalog",
+    breadcrumb: "Industries Catalog",
+    description:
+      "Industry pages, challenges, solutions, benefits, linked services, FAQs, publishing lifecycle, SEO, and public visibility.",
+  },
+  {
     path: "/media-library",
     title: "Media Library",
     breadcrumb: "Media Library",

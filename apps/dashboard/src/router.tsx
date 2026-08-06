@@ -141,6 +141,16 @@ const PackagesCatalogPage = withRouteSuspense(
   }),
 );
 
+const IndustriesCatalogPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/industries-catalog");
+
+    return {
+      default: module.IndustriesCatalogPage,
+    };
+  }),
+);
+
 const MediaLibraryPage = withRouteSuspense(
   lazy(async () => {
     const module = await import("./routes/media-library");
@@ -284,6 +294,12 @@ const packagesCatalogRoute = createRoute({
   component: PackagesCatalogPage,
 });
 
+const industriesCatalogRoute = createRoute({
+  getParentRoute: () => dashboardLayoutRoute,
+  path: "/industries-catalog",
+  component: IndustriesCatalogPage,
+});
+
 const mediaLibraryRoute = createRoute({
   getParentRoute: () => dashboardLayoutRoute,
   path: "/media-library",
@@ -340,6 +356,7 @@ const routeTree = rootRoute.addChildren([
     cmsRoute,
     servicesCatalogRoute,
     packagesCatalogRoute,
+    industriesCatalogRoute,
     mediaLibraryRoute,
     navigationRoute,
     publicWebsiteSnapshotsRoute,
