@@ -3299,3 +3299,869 @@ class TaskReportingRepository:
                 ),
             },
         }
+
+
+class FinanceReportingRepository:
+    RECEIVABLE_STATUSES = {
+        "sent",
+        "partially_paid",
+        "overdue",
+    }
+
+    OPEN_INVOICE_STATUSES = {
+        "draft",
+        "sent",
+        "partially_paid",
+        "overdue",
+    }
+
+    REALIZED_PAYMENT_STATUS = "completed"
+    REALIZED_EXPENSE_STATUS = "paid"
+
+    @staticmethod
+    def _model(model_name):
+        from django.apps import apps
+
+        return apps.get_model(
+            "finance",
+            model_name,
+        )
+
+    @classmethod
+    def _currency_totals(
+        cls,
+        queryset,
+        amount_field,
+        result_name,
+    ):
+        from django.db.models import (
+            Count,
+            DecimalField,
+            Sum,
+            Value,
+        )
+        from django.db.models.functions import Coalesce
+
+        rows = list(
+            queryset.values("currency")
+            .annotate(
+                count=Count("id"),
+                value=Coalesce(
+                    Sum(amount_field),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+            )
+            .order_by("currency")
+        )
+
+        return [
+            {
+                "currency": row["currency"],
+                "count": row["count"],
+                result_name: row["value"],
+            }
+            for row in rows
+        ]
+
+    @staticmethod
+    def _currency_map(rows, value_key):
+        return {
+            row["currency"]: row[value_key]
+            for row in rows
+        }
+
+    @classmethod
+    def revenue_by_currency(cls, period):
+        Payment = cls._model("Payment")
+
+        queryset = Payment.objects.filter(
+            status=cls.REALIZED_PAYMENT_STATUS,
+            payment_date__gte=period.date_from,
+            payment_date__lte=period.date_to,
+        )
+
+        return cls._currency_totals(
+            queryset,
+            "amount",
+            "revenue",
+        )
+
+    @classmethod
+    def expenses_by_currency(cls, period):
+        Expense = cls._model("Expense")
+
+        queryset = Expense.objects.filter(
+            status=cls.REALIZED_EXPENSE_STATUS,
+            expense_date__gte=period.date_from,
+            expense_date__lte=period.date_to,
+        )
+
+        return cls._currency_totals(
+            queryset,
+            "amount",
+            "expenses",
+        )
+
+    @classmethod
+    def profit_by_currency(cls, period):
+        revenues = cls.revenue_by_currency(period)
+        expenses = cls.expenses_by_currency(period)
+
+        revenue_map = cls._currency_map(
+            revenues,
+            "revenue",
+        )
+        expense_map = cls._currency_map(
+            expenses,
+            "expenses",
+        )
+
+        currencies = sorted(
+            set(revenue_map)
+            | set(expense_map)
+        )
+
+        result = []
+
+        for currency in currencies:
+            revenue = revenue_map.get(currency, 0)
+            expense = expense_map.get(currency, 0)
+            profit = revenue - expense
+
+            result.append(
+                {
+                    "currency": currency,
+                    "revenue": revenue,
+                    "expenses": expense,
+                    "profit": profit,
+                    "profit_margin": (
+                        round(
+                            float(
+                                profit
+                                / revenue
+                                * 100
+                            ),
+                            2,
+                        )
+                        if revenue
+                        else 0.0
+                    ),
+                }
+            )
+
+        return result
+
+    @classmethod
+    def invoice_summary(cls, today):
+        from django.db.models import Count, Q
+
+        Invoice = cls._model("Invoice")
+
+        metrics = Invoice.objects.aggregate(
+            total_invoices=Count("id"),
+            draft_invoices=Count(
+                "id",
+                filter=Q(status="draft"),
+            ),
+            sent_invoices=Count(
+                "id",
+                filter=Q(status="sent"),
+            ),
+            partially_paid_invoices=Count(
+                "id",
+                filter=Q(
+                    status="partially_paid"
+                ),
+            ),
+            paid_invoices=Count(
+                "id",
+                filter=Q(status="paid"),
+            ),
+            overdue_status_invoices=Count(
+                "id",
+                filter=Q(status="overdue"),
+            ),
+            cancelled_invoices=Count(
+                "id",
+                filter=Q(status="cancelled"),
+            ),
+            overdue_invoices=Count(
+                "id",
+                filter=(
+                    Q(status="overdue")
+                    | Q(
+                        due_date__lt=today,
+                        status__in={
+                            "sent",
+                            "partially_paid",
+                        },
+                    )
+                ),
+            ),
+            invoices_without_due_date=Count(
+                "id",
+                filter=Q(
+                    due_date__isnull=True,
+                    status__in=(
+                        cls.OPEN_INVOICE_STATUSES
+                    ),
+                ),
+            ),
+        )
+
+        receivable_rows = cls._currency_totals(
+            Invoice.objects.filter(
+                status__in=cls.RECEIVABLE_STATUSES,
+            ),
+            "balance_due",
+            "accounts_receivable",
+        )
+
+        overdue_rows = cls._currency_totals(
+            Invoice.objects.filter(
+                Q(status="overdue")
+                | Q(
+                    due_date__lt=today,
+                    status__in={
+                        "sent",
+                        "partially_paid",
+                    },
+                )
+            ),
+            "balance_due",
+            "overdue_receivable",
+        )
+
+        return {
+            **metrics,
+            "accounts_receivable_by_currency": (
+                receivable_rows
+            ),
+            "overdue_receivable_by_currency": (
+                overdue_rows
+            ),
+        }
+
+    @classmethod
+    def invoice_value_by_currency(cls):
+        from django.db.models import (
+            Count,
+            DecimalField,
+            Q,
+            Sum,
+            Value,
+        )
+        from django.db.models.functions import Coalesce
+
+        Invoice = cls._model("Invoice")
+
+        return list(
+            Invoice.objects.values("currency")
+            .annotate(
+                invoice_count=Count("id"),
+                invoiced_value=Coalesce(
+                    Sum("total_amount"),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+                paid_value=Coalesce(
+                    Sum("paid_amount"),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+                outstanding_value=Coalesce(
+                    Sum(
+                        "balance_due",
+                        filter=Q(
+                            status__in=(
+                                cls.RECEIVABLE_STATUSES
+                            ),
+                        ),
+                    ),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+            )
+            .order_by("currency")
+        )
+
+    @classmethod
+    def payment_summary(cls, period):
+        from django.db.models import Count, Q
+
+        Payment = cls._model("Payment")
+
+        queryset = Payment.objects.filter(
+            payment_date__gte=period.date_from,
+            payment_date__lte=period.date_to,
+        )
+
+        metrics = queryset.aggregate(
+            total_payments=Count("id"),
+            completed_payments=Count(
+                "id",
+                filter=Q(status="completed"),
+            ),
+            pending_payments=Count(
+                "id",
+                filter=Q(status="pending"),
+            ),
+            failed_payments=Count(
+                "id",
+                filter=Q(status="failed"),
+            ),
+            refunded_payments=Count(
+                "id",
+                filter=Q(status="refunded"),
+            ),
+            voided_payments=Count(
+                "id",
+                filter=Q(status="voided"),
+            ),
+        )
+
+        metrics["payments_by_currency"] = (
+            cls._currency_totals(
+                queryset.filter(status="completed"),
+                "amount",
+                "amount",
+            )
+        )
+
+        return metrics
+
+    @classmethod
+    def payments_by_method(cls, period):
+        from django.db.models import (
+            Count,
+            DecimalField,
+            Sum,
+            Value,
+        )
+        from django.db.models.functions import Coalesce
+
+        Payment = cls._model("Payment")
+
+        labels = dict(
+            Payment._meta.get_field(
+                "method"
+            ).choices
+        )
+
+        rows = list(
+            Payment.objects.filter(
+                status="completed",
+                payment_date__gte=period.date_from,
+                payment_date__lte=period.date_to,
+            )
+            .values("method", "currency")
+            .annotate(
+                payment_count=Count("id"),
+                amount=Coalesce(
+                    Sum("amount"),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+            )
+            .order_by(
+                "currency",
+                "-amount",
+                "method",
+            )
+        )
+
+        return [
+            {
+                "method": row["method"],
+                "label": labels.get(
+                    row["method"],
+                    row["method"],
+                ),
+                "currency": row["currency"],
+                "payment_count": (
+                    row["payment_count"]
+                ),
+                "amount": row["amount"],
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def expenses_by_category(cls, period):
+        from django.db.models import (
+            Count,
+            DecimalField,
+            Sum,
+            Value,
+        )
+        from django.db.models.functions import Coalesce
+
+        Expense = cls._model("Expense")
+
+        labels = dict(
+            Expense._meta.get_field(
+                "category"
+            ).choices
+        )
+
+        rows = list(
+            Expense.objects.filter(
+                status="paid",
+                expense_date__gte=period.date_from,
+                expense_date__lte=period.date_to,
+            )
+            .values("category", "currency")
+            .annotate(
+                expense_count=Count("id"),
+                amount=Coalesce(
+                    Sum("amount"),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+            )
+            .order_by(
+                "currency",
+                "-amount",
+                "category",
+            )
+        )
+
+        return [
+            {
+                "category": row["category"],
+                "label": labels.get(
+                    row["category"],
+                    row["category"],
+                ),
+                "currency": row["currency"],
+                "expense_count": (
+                    row["expense_count"]
+                ),
+                "amount": row["amount"],
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def account_balances(cls):
+        Account = cls._model("Account")
+
+        return list(
+            Account.objects.filter(
+                is_active=True,
+            )
+            .values(
+                "id",
+                "account_code",
+                "name",
+                "account_type",
+                "currency",
+                "opening_balance",
+                "current_balance",
+                "is_system",
+            )
+            .order_by(
+                "account_type",
+                "currency",
+                "account_code",
+            )
+        )
+
+    @classmethod
+    def balances_by_type_and_currency(cls):
+        from django.db.models import (
+            Count,
+            DecimalField,
+            Sum,
+            Value,
+        )
+        from django.db.models.functions import Coalesce
+
+        Account = cls._model("Account")
+
+        return list(
+            Account.objects.filter(
+                is_active=True,
+            )
+            .values(
+                "account_type",
+                "currency",
+            )
+            .annotate(
+                account_count=Count("id"),
+                balance=Coalesce(
+                    Sum("current_balance"),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+            )
+            .order_by(
+                "account_type",
+                "currency",
+            )
+        )
+
+    @classmethod
+    def monthly_finance_trend(cls, period):
+        from django.db.models import (
+            Count,
+            DecimalField,
+            Sum,
+            Value,
+        )
+        from django.db.models.functions import (
+            Coalesce,
+            TruncMonth,
+        )
+
+        Payment = cls._model("Payment")
+        Expense = cls._model("Expense")
+
+        revenue_rows = list(
+            Payment.objects.filter(
+                status="completed",
+                payment_date__gte=period.date_from,
+                payment_date__lte=period.date_to,
+            )
+            .annotate(
+                month=TruncMonth("payment_date")
+            )
+            .values("month", "currency")
+            .annotate(
+                payment_count=Count("id"),
+                revenue=Coalesce(
+                    Sum("amount"),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+            )
+            .order_by("month", "currency")
+        )
+
+        expense_rows = list(
+            Expense.objects.filter(
+                status="paid",
+                expense_date__gte=period.date_from,
+                expense_date__lte=period.date_to,
+            )
+            .annotate(
+                month=TruncMonth("expense_date")
+            )
+            .values("month", "currency")
+            .annotate(
+                expense_count=Count("id"),
+                expenses=Coalesce(
+                    Sum("amount"),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+            )
+            .order_by("month", "currency")
+        )
+
+        combined = {}
+
+        for row in revenue_rows:
+            month = row["month"]
+            key = (
+                month.isoformat(),
+                row["currency"],
+            )
+
+            combined[key] = {
+                "month": month,
+                "currency": row["currency"],
+                "payment_count": (
+                    row["payment_count"]
+                ),
+                "expense_count": 0,
+                "revenue": row["revenue"],
+                "expenses": 0,
+            }
+
+        for row in expense_rows:
+            month = row["month"]
+            key = (
+                month.isoformat(),
+                row["currency"],
+            )
+
+            item = combined.setdefault(
+                key,
+                {
+                    "month": month,
+                    "currency": row["currency"],
+                    "payment_count": 0,
+                    "expense_count": 0,
+                    "revenue": 0,
+                    "expenses": 0,
+                },
+            )
+
+            item["expense_count"] = (
+                row["expense_count"]
+            )
+            item["expenses"] = row["expenses"]
+
+        result = []
+
+        for key in sorted(combined):
+            item = combined[key]
+            revenue = item["revenue"]
+            expenses = item["expenses"]
+            profit = revenue - expenses
+
+            result.append(
+                {
+                    **item,
+                    "profit": profit,
+                    "profit_margin": (
+                        round(
+                            float(
+                                profit
+                                / revenue
+                                * 100
+                            ),
+                            2,
+                        )
+                        if revenue
+                        else 0.0
+                    ),
+                }
+            )
+
+        return result
+
+    @classmethod
+    def invoice_ageing(cls, today):
+        from datetime import timedelta
+
+        from django.db.models import (
+            Count,
+            DecimalField,
+            Q,
+            Sum,
+            Value,
+        )
+        from django.db.models.functions import Coalesce
+
+        Invoice = cls._model("Invoice")
+
+        queryset = Invoice.objects.filter(
+            status__in=cls.RECEIVABLE_STATUSES,
+        )
+
+        buckets = (
+            (
+                "not_due",
+                Q(
+                    due_date__isnull=True,
+                )
+                | Q(due_date__gte=today),
+            ),
+            (
+                "overdue_1_30",
+                Q(
+                    due_date__lt=today,
+                    due_date__gte=(
+                        today - timedelta(days=30)
+                    ),
+                ),
+            ),
+            (
+                "overdue_31_60",
+                Q(
+                    due_date__lt=(
+                        today - timedelta(days=30)
+                    ),
+                    due_date__gte=(
+                        today - timedelta(days=60)
+                    ),
+                ),
+            ),
+            (
+                "overdue_61_90",
+                Q(
+                    due_date__lt=(
+                        today - timedelta(days=60)
+                    ),
+                    due_date__gte=(
+                        today - timedelta(days=90)
+                    ),
+                ),
+            ),
+            (
+                "overdue_90_plus",
+                Q(
+                    due_date__lt=(
+                        today - timedelta(days=90)
+                    ),
+                ),
+            ),
+        )
+
+        result = []
+
+        currencies = list(
+            queryset.values_list(
+                "currency",
+                flat=True,
+            )
+            .distinct()
+            .order_by("currency")
+        )
+
+        for currency in currencies:
+            currency_queryset = queryset.filter(
+                currency=currency,
+            )
+
+            for bucket, condition in buckets:
+                metrics = currency_queryset.filter(
+                    condition
+                ).aggregate(
+                    invoice_count=Count("id"),
+                    balance=Coalesce(
+                        Sum("balance_due"),
+                        Value(0),
+                        output_field=DecimalField(
+                            max_digits=18,
+                            decimal_places=2,
+                        ),
+                    ),
+                )
+
+                result.append(
+                    {
+                        "currency": currency,
+                        "bucket": bucket,
+                        **metrics,
+                    }
+                )
+
+        return result
+
+    @classmethod
+    def transaction_activity(cls, period):
+        from django.db.models import (
+            Count,
+            DecimalField,
+            Sum,
+            Value,
+        )
+        from django.db.models.functions import Coalesce
+
+        Transaction = cls._model("Transaction")
+
+        return list(
+            Transaction.objects.filter(
+                transaction_date__gte=(
+                    period.date_from
+                ),
+                transaction_date__lte=period.date_to,
+            )
+            .values("transaction_type")
+            .annotate(
+                transaction_count=Count("id"),
+                total_amount=Coalesce(
+                    Sum("total_amount"),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+            )
+            .order_by("transaction_type")
+        )
+
+    @classmethod
+    def build(cls, period, now):
+        today = timezone.localdate()
+
+        revenue = cls.revenue_by_currency(period)
+        expenses = cls.expenses_by_currency(period)
+
+        return {
+            "summary": {
+                "revenue_by_currency": revenue,
+                "expenses_by_currency": expenses,
+                "profit_by_currency": (
+                    cls.profit_by_currency(period)
+                ),
+                **cls.invoice_summary(today),
+                **cls.payment_summary(period),
+            },
+            "invoice_value_by_currency": (
+                cls.invoice_value_by_currency()
+            ),
+            "payments_by_method": (
+                cls.payments_by_method(period)
+            ),
+            "expenses_by_category": (
+                cls.expenses_by_category(period)
+            ),
+            "account_balances": (
+                cls.account_balances()
+            ),
+            "balances_by_type_and_currency": (
+                cls.balances_by_type_and_currency()
+            ),
+            "monthly_finance_trend": (
+                cls.monthly_finance_trend(period)
+            ),
+            "invoice_ageing": (
+                cls.invoice_ageing(today)
+            ),
+            "transaction_activity": (
+                cls.transaction_activity(period)
+            ),
+            "metadata": {
+                "revenue_definition": (
+                    "completed payments within period"
+                ),
+                "expense_definition": (
+                    "paid expenses within period"
+                ),
+                "profit_definition": (
+                    "realized revenue minus realized "
+                    "expenses, calculated per currency"
+                ),
+                "receivable_definition": (
+                    "invoice balance_due for sent, "
+                    "partially_paid and overdue invoices"
+                ),
+                "currency_policy": (
+                    "currencies are never combined "
+                    "without conversion"
+                ),
+            },
+        }

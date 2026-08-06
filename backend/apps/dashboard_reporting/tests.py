@@ -393,6 +393,7 @@ class DashboardReportingOpenApiTests(TestCase):
             "/api/v1/dashboard-reporting/sales",
             "/api/v1/dashboard-reporting/projects",
             "/api/v1/dashboard-reporting/tasks",
+            "/api/v1/dashboard-reporting/finance",
             (
                 "/api/v1/dashboard-reporting/"
                 "foundation/{report_type}"
@@ -528,7 +529,9 @@ class ExecutiveDashboardRepositoryTests(TestCase):
         report = (
             DashboardReportFoundationService
             .build_report_context(
-                report_type=DashboardReportType.FINANCE,
+                report_type=(
+                    DashboardReportType.CONTENT_MARKETING
+                ),
                 period=period,
                 environment="test",
             )
@@ -1323,6 +1326,178 @@ class TaskReportingOpenApiTests(TestCase):
         schema = api.get_openapi_schema()
         path = (
             "/api/v1/dashboard-reporting/tasks"
+        )
+
+        self.assertIn(path, schema["paths"])
+        self.assertIn(
+            "get",
+            schema["paths"][path],
+        )
+        self.assertTrue(
+            schema["paths"][path]["get"].get(
+                "security"
+            )
+        )
+
+
+class FinanceReportingRepositoryTests(TestCase):
+    def test_empty_database_returns_complete_finance_shape(self):
+        from apps.dashboard_reporting.repositories import (
+            FinanceReportingRepository,
+        )
+
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = FinanceReportingRepository.build(
+            period,
+            timezone.now(),
+        )
+
+        required = {
+            "summary",
+            "invoice_value_by_currency",
+            "payments_by_method",
+            "expenses_by_category",
+            "account_balances",
+            "balances_by_type_and_currency",
+            "monthly_finance_trend",
+            "invoice_ageing",
+            "transaction_activity",
+            "metadata",
+        }
+
+        self.assertEqual(set(report), required)
+
+        summary = report["summary"]
+
+        self.assertEqual(
+            summary["revenue_by_currency"],
+            [],
+        )
+        self.assertEqual(
+            summary["expenses_by_currency"],
+            [],
+        )
+        self.assertEqual(
+            summary["profit_by_currency"],
+            [],
+        )
+        self.assertEqual(
+            summary["total_invoices"],
+            0,
+        )
+        self.assertEqual(
+            summary["total_payments"],
+            0,
+        )
+        self.assertEqual(
+            report["account_balances"],
+            [],
+        )
+        self.assertEqual(
+            report["monthly_finance_trend"],
+            [],
+        )
+
+    def test_profit_is_kept_separate_by_currency(self):
+        from apps.dashboard_reporting.repositories import (
+            FinanceReportingRepository,
+        )
+
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        self.assertEqual(
+            FinanceReportingRepository
+            .profit_by_currency(period),
+            [],
+        )
+
+    def test_finance_service_report_is_complete(self):
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = (
+            DashboardReportFoundationService
+            .build_report_context(
+                report_type=(
+                    DashboardReportType.FINANCE
+                ),
+                period=period,
+                environment="test",
+            )
+        )
+
+        self.assertFalse(
+            report["metadata"]["foundation"]
+        )
+        self.assertEqual(
+            report["metadata"][
+                "aggregation_status"
+            ],
+            "complete",
+        )
+        self.assertIn(
+            "monthly_finance_trend",
+            report["data"],
+        )
+        self.assertIn(
+            "invoice_ageing",
+            report["data"],
+        )
+        self.assertIn(
+            "account_balances",
+            report["data"],
+        )
+
+    def test_finance_snapshot_contains_aggregations(self):
+        snapshot = DashboardSnapshotService.generate(
+            report_type=DashboardReportType.FINANCE,
+            period_preset=DashboardPeriodPreset.THIS_MONTH,
+            environment="test",
+        )
+
+        data = snapshot.payload["data"]
+
+        self.assertIn("summary", data)
+        self.assertIn(
+            "invoice_value_by_currency",
+            data,
+        )
+        self.assertIn(
+            "payments_by_method",
+            data,
+        )
+        self.assertIn(
+            "expenses_by_category",
+            data,
+        )
+        self.assertIn(
+            "account_balances",
+            data,
+        )
+        self.assertIn(
+            "monthly_finance_trend",
+            data,
+        )
+        self.assertIn(
+            "invoice_ageing",
+            data,
+        )
+
+
+class FinanceReportingOpenApiTests(TestCase):
+    def test_finance_route_is_registered_and_protected(self):
+        schema = api.get_openapi_schema()
+        path = (
+            "/api/v1/dashboard-reporting/finance"
         )
 
         self.assertIn(path, schema["paths"])

@@ -16,6 +16,7 @@ from .repositories import (
     CrmReportingRepository,
     DashboardSnapshotRepository,
     ExecutiveDashboardRepository,
+    FinanceReportingRepository,
     ProjectReportingRepository,
     SalesReportingRepository,
     TaskReportingRepository,
@@ -224,6 +225,13 @@ class DashboardReportFoundationService:
             foundation = False
         elif report_type == DashboardReportType.TASKS:
             data = TaskReportingRepository.build(
+                period,
+                generated_at,
+            )
+            aggregation_status = "complete"
+            foundation = False
+        elif report_type == DashboardReportType.FINANCE:
+            data = FinanceReportingRepository.build(
                 period,
                 generated_at,
             )
