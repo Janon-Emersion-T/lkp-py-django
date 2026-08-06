@@ -1,0 +1,75 @@
+---
+import ButtonLink from "../ui/ButtonLink.astro";
+import Container from "../ui/Container.astro";
+---
+
+<section class="home-cta section-space">
+  <Container class="home-cta__grid">
+    <div>
+      <p class="eyebrow">Start with the requirement</p>
+      <h2 class="section-heading">
+        Tell us what the business needs to achieve.
+      </h2>
+    </div>
+
+    <div class="home-cta__content">
+      <p class="body-large">
+        Whether the requirement is a new website, an operational system,
+        stronger search visibility or dependable technical support, the
+        first step is a practical conversation.
+      </p>
+
+      <div class="home-cta__actions">
+        <ButtonLink
+          href="/request-quote"
+          label="Request a quote"
+        />
+
+        <ButtonLink
+          href="/contact"
+          label="Contact the team"
+          variant="secondary"
+        />
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .home-cta {
+    background: var(--colour-soft-blue);
+  }
+
+  .home-cta__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.65fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 9rem);
+  }
+
+  .home-cta .eyebrow {
+    margin: 0 0 1.5rem;
+  }
+
+  .home-cta__content {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .home-cta__content p {
+    margin: 0;
+  }
+
+  .home-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 50rem) {
+    .home-cta__grid {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+</style>

@@ -1,0 +1,332 @@
+---
+import { primaryNavigation, site } from "../../config/site";
+
+const pathname = Astro.url.pathname;
+---
+
+<header class="site-header" data-site-header>
+  <div class="site-container site-header__inner">
+    <a href="/" class="site-brand" aria-label={`${site.name} home`}>
+      {
+        <img
+          src="/brand/lkprofessionals-logo.svg"
+          alt={site.name}
+          width="188"
+          height="45"
+          class="site-brand__image"
+        />
+      }
+      <span class="site-brand__fallback">{site.name}</span>
+    </a>
+
+    <nav class="desktop-navigation" aria-label="Primary navigation">
+      {
+        primaryNavigation.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "desktop-navigation__link",
+              pathname.startsWith(item.href)
+                && "desktop-navigation__link--active",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="site-header__actions">
+      <a href="/contact" class="site-header__contact">
+        Contact
+      </a>
+
+      <a href="/request-quote" class="site-header__quote">
+        Start a project
+        <span aria-hidden="true">↗</span>
+      </a>
+
+      <button
+        type="button"
+        class="menu-button"
+        aria-expanded="false"
+        aria-controls="mobile-navigation"
+        data-menu-button
+      >
+        <span class="menu-button__label">Menu</span>
+        <span class="menu-button__lines" aria-hidden="true">
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-navigation"
+    class="mobile-navigation"
+    data-mobile-navigation
+    hidden
+  >
+    <div class="site-container mobile-navigation__inner">
+      <nav aria-label="Mobile navigation">
+        {
+          primaryNavigation.map((item, index) => (
+            <a href={item.href} class="mobile-navigation__link">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="mobile-navigation__footer">
+        <a href="/request-quote" class="button-link button-link--primary">
+          Start a project
+        </a>
+
+        <a href={`mailto:${site.email}`}>
+          {site.email}
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>(
+    "[data-menu-button]",
+  );
+  const navigation = document.querySelector<HTMLElement>(
+    "[data-mobile-navigation]",
+  );
+
+  function closeMenu() {
+    if (!button || !navigation) {
+      return;
+    }
+
+    button.setAttribute("aria-expanded", "false");
+    navigation.hidden = true;
+    document.body.classList.remove("menu-open");
+  }
+
+  button?.addEventListener("click", () => {
+    if (!navigation) {
+      return;
+    }
+
+    const isOpen = button.getAttribute("aria-expanded") === "true";
+
+    button.setAttribute(
+      "aria-expanded",
+      isOpen ? "false" : "true",
+    );
+
+    navigation.hidden = isOpen;
+    document.body.classList.toggle("menu-open", !isOpen);
+  });
+
+  navigation
+    ?.querySelectorAll("a")
+    .forEach((link) => link.addEventListener("click", closeMenu));
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMenu();
+    }
+  });
+</script>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 100;
+    border-bottom: 1px solid rgba(16, 35, 61, 0.16);
+    background: rgba(247, 245, 240, 0.97);
+  }
+
+  .site-header__inner {
+    display: grid;
+    min-height: 5.25rem;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .site-brand {
+    display: inline-flex;
+    max-width: 12.5rem;
+    align-items: center;
+  }
+
+  .site-brand__image {
+    width: auto;
+    max-height: 2.75rem;
+    object-fit: contain;
+  }
+
+  .site-brand__fallback {
+    display: none;
+    color: var(--colour-ink-strong);
+    font-size: 1rem;
+    font-weight: 800;
+  }
+
+  .site-brand__image[src=""] {
+    display: none;
+  }
+
+  .site-brand__image[src=""] + .site-brand__fallback {
+    display: inline;
+  }
+
+  .desktop-navigation {
+    display: flex;
+    justify-content: center;
+    gap: clamp(1rem, 2.5vw, 2.2rem);
+  }
+
+  .desktop-navigation__link,
+  .site-header__contact {
+    position: relative;
+    padding-block: 0.75rem;
+    color: var(--colour-ink);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .desktop-navigation__link::after {
+    position: absolute;
+    right: 0;
+    bottom: 0.4rem;
+    left: 0;
+    height: 1px;
+    transform: scaleX(0);
+    transform-origin: right;
+    background: var(--colour-accent);
+    content: "";
+    transition: transform 180ms ease;
+  }
+
+  .desktop-navigation__link:hover::after,
+  .desktop-navigation__link--active::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .site-header__quote {
+    display: inline-flex;
+    min-height: 2.8rem;
+    align-items: center;
+    gap: 0.65rem;
+    background: var(--colour-ink);
+    color: var(--colour-white);
+    padding: 0.65rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 750;
+    transition: background-color 180ms ease;
+  }
+
+  .site-header__quote:hover {
+    background: var(--colour-accent);
+  }
+
+  .menu-button {
+    display: none;
+    align-items: center;
+    gap: 0.65rem;
+    border: 0;
+    background: transparent;
+    color: var(--colour-ink);
+    cursor: pointer;
+    padding: 0.5rem 0;
+    font-size: 0.8rem;
+    font-weight: 750;
+  }
+
+  .menu-button__lines {
+    display: grid;
+    width: 1.3rem;
+    gap: 0.35rem;
+  }
+
+  .menu-button__lines span {
+    display: block;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .mobile-navigation {
+    position: fixed;
+    z-index: 90;
+    inset: 5.25rem 0 0;
+    overflow-y: auto;
+    background: var(--colour-paper);
+  }
+
+  .mobile-navigation[hidden] {
+    display: none;
+  }
+
+  .mobile-navigation__inner {
+    display: flex;
+    min-height: calc(100vh - 5.25rem);
+    flex-direction: column;
+    justify-content: space-between;
+    padding-block: 2rem;
+  }
+
+  .mobile-navigation nav {
+    display: grid;
+  }
+
+  .mobile-navigation__link {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--colour-line);
+    padding: 1.1rem 0;
+    color: var(--colour-ink-strong);
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 9vw, 3.5rem);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .mobile-navigation__link span {
+    color: var(--colour-accent);
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+  }
+
+  .mobile-navigation__footer {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 64rem) {
+    .desktop-navigation,
+    .site-header__contact,
+    .site-header__quote {
+      display: none;
+    }
+
+    .site-header__inner {
+      grid-template-columns: 1fr auto;
+    }
+
+    .menu-button {
+      display: inline-flex;
+    }
+  }
+</style>

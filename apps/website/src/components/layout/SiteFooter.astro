@@ -1,0 +1,185 @@
+---
+import {
+  footerNavigation,
+  site,
+} from "../../config/site";
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="site-container">
+    <div class="site-footer__lead">
+      <div>
+        <p class="site-footer__eyebrow">A dependable technology partner</p>
+        <h2>Build the next part of your business properly.</h2>
+      </div>
+
+      <a href="/request-quote" class="site-footer__project-link">
+        Discuss your project
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <div class="site-footer__grid">
+      <div class="site-footer__company">
+        <a href="/" class="site-footer__brand">{site.name}</a>
+        <p>{site.tagline}</p>
+        <p>
+          {site.location}<br />
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </p>
+      </div>
+
+      {
+        Object.entries(footerNavigation).map(([group, items]) => (
+          <nav aria-label={`${group} links`} class="site-footer__navigation">
+            <h3>{group}</h3>
+            {items.map((item) => (
+              <a href={item.href}>{item.label}</a>
+            ))}
+          </nav>
+        ))
+      }
+    </div>
+
+    <div class="site-footer__legal">
+      <p>
+        © {currentYear} {site.legalName}. All rights reserved.
+      </p>
+
+      <p>
+        Established {site.foundingYear} · Built in Sri Lanka
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--colour-footer);
+    color: rgba(255, 255, 255, 0.72);
+    padding-block: clamp(4.5rem, 8vw, 7rem) 2rem;
+  }
+
+  .site-footer__lead {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) auto;
+    align-items: end;
+    gap: 3rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .site-footer__eyebrow {
+    margin: 0 0 1rem;
+    color: #f58a60;
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .site-footer h2 {
+    max-width: 54rem;
+    margin: 0;
+    color: var(--colour-white);
+    font-family: var(--font-serif);
+    font-size: clamp(2.8rem, 6vw, 5.8rem);
+    font-weight: 400;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+  }
+
+  .site-footer__project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 0.35rem;
+    color: var(--colour-white);
+    font-size: 0.9rem;
+    font-weight: 750;
+  }
+
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: minmax(15rem, 1.5fr) repeat(3, minmax(8rem, 0.7fr));
+    gap: clamp(2rem, 5vw, 5rem);
+    padding-block: clamp(3.5rem, 6vw, 5.5rem);
+  }
+
+  .site-footer__brand {
+    color: var(--colour-white);
+    font-size: 1.15rem;
+    font-weight: 800;
+  }
+
+  .site-footer__company p {
+    max-width: 20rem;
+    margin: 1.25rem 0 0;
+  }
+
+  .site-footer__navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+
+  .site-footer__navigation h3 {
+    margin: 0 0 0.5rem;
+    color: var(--colour-white);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .site-footer__navigation a:hover,
+  .site-footer__company a:hover {
+    color: var(--colour-white);
+  }
+
+  .site-footer__legal {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    padding-top: 1.75rem;
+    font-size: 0.75rem;
+  }
+
+  .site-footer__legal p {
+    margin: 0;
+  }
+
+  @media (max-width: 54rem) {
+    .site-footer__lead {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .site-footer__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .site-footer__company {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .site-footer__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .site-footer__company {
+      grid-column: auto;
+    }
+
+    .site-footer__legal {
+      flex-direction: column;
+    }
+  }
+</style>

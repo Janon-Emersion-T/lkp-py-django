@@ -1,0 +1,96 @@
+---
+import { proofPoints } from "../../config/site";
+import Container from "../ui/Container.astro";
+---
+
+<section class="proof-strip" aria-label="Company facts">
+  <Container class="proof-strip__grid">
+    {
+      proofPoints.map((point) => (
+        <article class="proof-strip__item">
+          <p class="proof-strip__value">{point.value}</p>
+          <h2>{point.label}</h2>
+          <p>{point.note}</p>
+        </article>
+      ))
+    }
+  </Container>
+</section>
+
+<style>
+  .proof-strip {
+    border-bottom: 1px solid var(--colour-line);
+  }
+
+  .proof-strip__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .proof-strip__item {
+    min-height: 13rem;
+    border-left: 1px solid var(--colour-line);
+    padding: 2rem;
+  }
+
+  .proof-strip__item:last-child {
+    border-right: 1px solid var(--colour-line);
+  }
+
+  .proof-strip__value {
+    margin: 0 0 2.5rem;
+    color: var(--colour-accent);
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .proof-strip h2 {
+    margin: 0;
+    color: var(--colour-ink-strong);
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+
+  .proof-strip__item > p:last-child {
+    margin: 0.65rem 0 0;
+    color: var(--colour-muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 55rem) {
+    .proof-strip__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .proof-strip__item:nth-child(2) {
+      border-right: 1px solid var(--colour-line);
+    }
+
+    .proof-strip__item:nth-child(-n + 2) {
+      border-bottom: 1px solid var(--colour-line);
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .proof-strip__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .proof-strip__item {
+      min-height: auto;
+      border-right: 1px solid var(--colour-line);
+      border-bottom: 1px solid var(--colour-line);
+    }
+
+    .proof-strip__item:last-child {
+      border-bottom: 0;
+    }
+
+    .proof-strip__value {
+      margin-bottom: 1.5rem;
+    }
+  }
+</style>

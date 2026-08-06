@@ -1,0 +1,85 @@
+---
+import Container from "../ui/Container.astro";
+import TextLink from "../ui/TextLink.astro";
+---
+
+<section class="company-positioning section-space">
+  <Container class="company-positioning__grid">
+    <div>
+      <p class="eyebrow">Independent by design</p>
+      <h2 class="section-heading">
+        Senior accountability from the first conversation.
+      </h2>
+    </div>
+
+    <div class="company-positioning__content">
+      <p class="body-large">
+        LKProfessionals began in Jaffna in 2013 with a straightforward
+        principle: businesses deserve reliable technical work and honest
+        ownership of the outcome.
+      </p>
+
+      <p>
+        We remain intentionally hands-on. Strategy is connected to delivery,
+        technical decisions are explained plainly, and responsibility does
+        not disappear behind layers of account management.
+      </p>
+
+      <p>
+        This model allows us to support organisations locally and
+        internationally while preserving the standards and direct working
+        relationships on which the company was built.
+      </p>
+
+      <TextLink href="/about" label="About LKProfessionals" />
+    </div>
+  </Container>
+</section>
+
+<style>
+  .company-positioning {
+    background: var(--colour-ink);
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .company-positioning__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.65fr);
+    gap: clamp(3rem, 9vw, 9rem);
+  }
+
+  .company-positioning .eyebrow {
+    margin: 0 0 1.5rem;
+    color: #f58a60;
+  }
+
+  .company-positioning .section-heading {
+    color: var(--colour-white);
+  }
+
+  .company-positioning__content {
+    display: grid;
+    align-content: end;
+    gap: 1.4rem;
+  }
+
+  .company-positioning__content p {
+    margin: 0;
+  }
+
+  .company-positioning__content .body-large {
+    color: var(--colour-white);
+  }
+
+  .company-positioning :global(.text-link) {
+    width: fit-content;
+    margin-top: 1rem;
+    color: var(--colour-white);
+  }
+
+  @media (max-width: 50rem) {
+    .company-positioning__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

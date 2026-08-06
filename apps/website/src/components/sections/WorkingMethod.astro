@@ -1,0 +1,101 @@
+---
+import { processSteps } from "../../config/site";
+import Container from "../ui/Container.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+---
+
+<section class="working-method section-space">
+  <Container>
+    <SectionHeading
+      eyebrow="How we work"
+      title="A disciplined process without unnecessary theatre."
+      description="Clear decisions, visible milestones and direct communication reduce risk more effectively than impressive terminology."
+      align="split"
+    />
+
+    <ol class="working-method__steps">
+      {
+        processSteps.map((step) => (
+          <li class="method-step">
+            <span class="method-step__number">
+              {step.number}
+            </span>
+
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </Container>
+</section>
+
+<style>
+  .working-method {
+    background: var(--colour-paper);
+  }
+
+  .working-method__steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--colour-line);
+    border-left: 1px solid var(--colour-line);
+    list-style: none;
+  }
+
+  .method-step {
+    min-height: 24rem;
+    border-right: 1px solid var(--colour-line);
+    border-bottom: 1px solid var(--colour-line);
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .method-step__number {
+    display: block;
+    margin-bottom: clamp(5rem, 10vw, 8rem);
+    color: var(--colour-accent);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+  }
+
+  .method-step h3 {
+    margin: 0;
+    color: var(--colour-ink-strong);
+    font-family: var(--font-serif);
+    font-size: clamp(1.55rem, 2.4vw, 2.15rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .method-step p {
+    margin: 1rem 0 0;
+    color: var(--colour-muted);
+    font-size: 0.92rem;
+  }
+
+  @media (max-width: 58rem) {
+    .working-method__steps {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .working-method__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .method-step {
+      min-height: auto;
+    }
+
+    .method-step__number {
+      margin-bottom: 3rem;
+    }
+  }
+</style>
