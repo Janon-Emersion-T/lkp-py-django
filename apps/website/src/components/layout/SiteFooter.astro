@@ -326,12 +326,23 @@ const currentYear = new Date().getFullYear();
       margin-inline: auto;
     }
 
+    .site-footer__main :global(.footer-navigation) {
+      width: 100%;
+      text-align: left;
+    }
+
+    .site-footer__main :global(.footer-navigation h2) {
+      text-align: left;
+    }
+
     .site-footer__main :global(.footer-navigation ul) {
-      justify-items: center;
+      width: 100%;
+      justify-items: start;
     }
 
     .site-footer__main :global(.footer-navigation a) {
-      justify-content: center;
+      justify-content: flex-start;
+      text-align: left;
     }
 
     .site-footer__main :global(.footer-contact address) {
