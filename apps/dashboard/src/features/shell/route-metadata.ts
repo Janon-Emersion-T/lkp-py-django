@@ -78,6 +78,13 @@ export const shellRouteMetadata = [
       "Industry pages, challenges, solutions, benefits, linked services, FAQs, publishing lifecycle, SEO, and public visibility.",
   },
   {
+    path: "/insights",
+    title: "Insights",
+    breadcrumb: "Insights",
+    description:
+      "Editorial articles, categories, tags, authorship, publishing schedules, content metrics, internal links, SEO, revisions, and publishing events.",
+  },
+  {
     path: "/media-library",
     title: "Media Library",
     breadcrumb: "Media Library",
