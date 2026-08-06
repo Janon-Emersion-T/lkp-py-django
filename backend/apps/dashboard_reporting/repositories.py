@@ -1191,3 +1191,531 @@ class CrmReportingRepository:
                 ),
             },
         }
+
+
+class SalesReportingRepository:
+    CLOSED_STATUSES = {
+        "accepted",
+        "rejected",
+    }
+
+    OPEN_STATUSES = {
+        "draft",
+        "sent",
+        "viewed",
+    }
+
+    @staticmethod
+    def _quotation_model():
+        from django.apps import apps
+
+        return apps.get_model(
+            "quotations",
+            "Quotation",
+        )
+
+    @classmethod
+    def period_queryset(cls, period):
+        Quotation = cls._quotation_model()
+
+        return Quotation.objects.filter(
+            issue_date__gte=period.date_from,
+            issue_date__lte=period.date_to,
+        )
+
+    @classmethod
+    def summary(cls, period, today):
+        from django.db.models import Count, Q
+
+        Quotation = cls._quotation_model()
+        period_queryset = cls.period_queryset(period)
+
+        all_time = Quotation.objects.aggregate(
+            all_time_total_quotations=Count("id"),
+            all_time_accepted_quotations=Count(
+                "id",
+                filter=Q(status="accepted"),
+            ),
+            all_time_rejected_quotations=Count(
+                "id",
+                filter=Q(status="rejected"),
+            ),
+        )
+
+        period_metrics = period_queryset.aggregate(
+            total_quotations=Count("id"),
+            draft_quotations=Count(
+                "id",
+                filter=Q(status="draft"),
+            ),
+            sent_quotations=Count(
+                "id",
+                filter=Q(status="sent"),
+            ),
+            viewed_quotations=Count(
+                "id",
+                filter=Q(status="viewed"),
+            ),
+            accepted_quotations=Count(
+                "id",
+                filter=Q(status="accepted"),
+            ),
+            rejected_quotations=Count(
+                "id",
+                filter=Q(status="rejected"),
+            ),
+            expired_quotations=Count(
+                "id",
+                filter=Q(status="expired"),
+            ),
+            cancelled_quotations=Count(
+                "id",
+                filter=Q(status="cancelled"),
+            ),
+            naturally_expired_open_quotations=Count(
+                "id",
+                filter=(
+                    Q(
+                        expiry_date__lt=today,
+                        status__in=cls.OPEN_STATUSES,
+                    )
+                ),
+            ),
+            quotations_with_leads=Count(
+                "id",
+                filter=Q(lead__isnull=False),
+            ),
+            quotations_without_leads=Count(
+                "id",
+                filter=Q(lead__isnull=True),
+            ),
+        )
+
+        closed = (
+            period_metrics["accepted_quotations"]
+            + period_metrics["rejected_quotations"]
+        )
+
+        decided = (
+            closed
+            + period_metrics["expired_quotations"]
+        )
+
+        total = period_metrics["total_quotations"]
+
+        period_metrics["closed_quotations"] = closed
+        period_metrics["decided_quotations"] = decided
+
+        period_metrics["quotation_conversion_rate"] = (
+            round(
+                period_metrics["accepted_quotations"]
+                / closed
+                * 100,
+                2,
+            )
+            if closed
+            else 0.0
+        )
+
+        period_metrics[
+            "acceptance_rate_from_total"
+        ] = (
+            round(
+                period_metrics["accepted_quotations"]
+                / total
+                * 100,
+                2,
+            )
+            if total
+            else 0.0
+        )
+
+        period_metrics["rejection_rate"] = (
+            round(
+                period_metrics["rejected_quotations"]
+                / closed
+                * 100,
+                2,
+            )
+            if closed
+            else 0.0
+        )
+
+        return {
+            **all_time,
+            **period_metrics,
+        }
+
+    @classmethod
+    def quotations_by_status(cls, period):
+        from django.db.models import Count
+
+        Quotation = cls._quotation_model()
+
+        rows = {
+            row["status"]: row["total"]
+            for row in (
+                cls.period_queryset(period)
+                .values("status")
+                .annotate(total=Count("id"))
+            )
+        }
+
+        return [
+            {
+                "status": value,
+                "label": label,
+                "total": rows.get(value, 0),
+            }
+            for value, label in (
+                Quotation._meta.get_field(
+                    "status"
+                ).choices
+            )
+        ]
+
+    @classmethod
+    def value_by_currency(cls, period):
+        from django.db.models import (
+            Count,
+            DecimalField,
+            Q,
+            Sum,
+            Value,
+        )
+        from django.db.models.functions import Coalesce
+
+        return list(
+            cls.period_queryset(period)
+            .values("currency")
+            .annotate(
+                quotation_count=Count("id"),
+                total_value=Coalesce(
+                    Sum("total_amount"),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+                accepted_value=Coalesce(
+                    Sum(
+                        "total_amount",
+                        filter=Q(status="accepted"),
+                    ),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+                rejected_value=Coalesce(
+                    Sum(
+                        "total_amount",
+                        filter=Q(status="rejected"),
+                    ),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+                open_value=Coalesce(
+                    Sum(
+                        "total_amount",
+                        filter=Q(
+                            status__in=cls.OPEN_STATUSES,
+                        ),
+                    ),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+            )
+            .order_by("currency")
+        )
+
+    @classmethod
+    def monthly_quotation_trend(cls, period):
+        from django.db.models import (
+            Count,
+            DecimalField,
+            Q,
+            Sum,
+            Value,
+        )
+        from django.db.models.functions import (
+            Coalesce,
+            TruncMonth,
+        )
+
+        rows = list(
+            cls.period_queryset(period)
+            .annotate(
+                month=TruncMonth("issue_date")
+            )
+            .values("month", "currency")
+            .annotate(
+                total_quotations=Count("id"),
+                accepted_quotations=Count(
+                    "id",
+                    filter=Q(status="accepted"),
+                ),
+                rejected_quotations=Count(
+                    "id",
+                    filter=Q(status="rejected"),
+                ),
+                expired_quotations=Count(
+                    "id",
+                    filter=Q(status="expired"),
+                ),
+                total_value=Coalesce(
+                    Sum("total_amount"),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+                accepted_value=Coalesce(
+                    Sum(
+                        "total_amount",
+                        filter=Q(status="accepted"),
+                    ),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+            )
+            .order_by("month", "currency")
+        )
+
+        return [
+            {
+                "month": row["month"],
+                "currency": row["currency"],
+                "total_quotations": (
+                    row["total_quotations"]
+                ),
+                "accepted_quotations": (
+                    row["accepted_quotations"]
+                ),
+                "rejected_quotations": (
+                    row["rejected_quotations"]
+                ),
+                "expired_quotations": (
+                    row["expired_quotations"]
+                ),
+                "total_value": row["total_value"],
+                "accepted_value": (
+                    row["accepted_value"]
+                ),
+                "conversion_rate": (
+                    round(
+                        row["accepted_quotations"]
+                        / (
+                            row["accepted_quotations"]
+                            + row[
+                                "rejected_quotations"
+                            ]
+                        )
+                        * 100,
+                        2,
+                    )
+                    if (
+                        row["accepted_quotations"]
+                        + row[
+                            "rejected_quotations"
+                        ]
+                    )
+                    else 0.0
+                ),
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def acceptance_trend(cls, period):
+        from django.db.models import (
+            Count,
+            DecimalField,
+            Sum,
+            Value,
+        )
+        from django.db.models.functions import (
+            Coalesce,
+            TruncMonth,
+        )
+
+        rows = list(
+            cls._quotation_model()
+            .objects.filter(
+                status="accepted",
+                accepted_at__gte=period.datetime_from,
+                accepted_at__lt=period.datetime_to,
+            )
+            .annotate(
+                month=TruncMonth("accepted_at")
+            )
+            .values("month", "currency")
+            .annotate(
+                accepted_quotations=Count("id"),
+                accepted_value=Coalesce(
+                    Sum("total_amount"),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+            )
+            .order_by("month", "currency")
+        )
+
+        return rows
+
+    @classmethod
+    def expiry_ageing(cls, today):
+        from datetime import timedelta
+
+        from django.db.models import Count, Q
+
+        Quotation = cls._quotation_model()
+
+        queryset = Quotation.objects.filter(
+            status__in=cls.OPEN_STATUSES,
+            expiry_date__isnull=False,
+        )
+
+        return queryset.aggregate(
+            expires_today=Count(
+                "id",
+                filter=Q(expiry_date=today),
+            ),
+            expires_next_7_days=Count(
+                "id",
+                filter=Q(
+                    expiry_date__gt=today,
+                    expiry_date__lte=(
+                        today
+                        + timedelta(days=7)
+                    ),
+                ),
+            ),
+            expires_next_30_days=Count(
+                "id",
+                filter=Q(
+                    expiry_date__gt=(
+                        today
+                        + timedelta(days=7)
+                    ),
+                    expiry_date__lte=(
+                        today
+                        + timedelta(days=30)
+                    ),
+                ),
+            ),
+            already_expired=Count(
+                "id",
+                filter=Q(expiry_date__lt=today),
+            ),
+        )
+
+    @classmethod
+    def client_distribution(cls, period):
+        from django.db.models import (
+            Count,
+            DecimalField,
+            Sum,
+            Value,
+        )
+        from django.db.models.functions import Coalesce
+
+        rows = list(
+            cls.period_queryset(period)
+            .values(
+                "client_id",
+                "client__client_code",
+                "client__company_name",
+            )
+            .annotate(
+                quotation_count=Count("id"),
+                currencies=Count(
+                    "currency",
+                    distinct=True,
+                ),
+                total_value=Coalesce(
+                    Sum("total_amount"),
+                    Value(0),
+                    output_field=DecimalField(
+                        max_digits=18,
+                        decimal_places=2,
+                    ),
+                ),
+            )
+            .order_by(
+                "-quotation_count",
+                "client__company_name",
+            )[:25]
+        )
+
+        return [
+            {
+                "client_id": row["client_id"],
+                "client_code": (
+                    row["client__client_code"]
+                ),
+                "client_name": (
+                    row["client__company_name"]
+                ),
+                "quotation_count": (
+                    row["quotation_count"]
+                ),
+                "currency_count": row["currencies"],
+                "total_value": row["total_value"],
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def build(cls, period, now):
+        today = timezone.localdate()
+
+        return {
+            "summary": cls.summary(
+                period,
+                today,
+            ),
+            "quotations_by_status": (
+                cls.quotations_by_status(period)
+            ),
+            "value_by_currency": (
+                cls.value_by_currency(period)
+            ),
+            "monthly_quotation_trend": (
+                cls.monthly_quotation_trend(period)
+            ),
+            "acceptance_trend": (
+                cls.acceptance_trend(period)
+            ),
+            "expiry_ageing": cls.expiry_ageing(
+                today
+            ),
+            "top_clients": (
+                cls.client_distribution(period)
+            ),
+            "metadata": {
+                "period_date_basis": "issue_date",
+                "acceptance_date_basis": (
+                    "accepted_at"
+                ),
+                "conversion_definition": (
+                    "accepted divided by accepted "
+                    "plus rejected"
+                ),
+            },
+        }

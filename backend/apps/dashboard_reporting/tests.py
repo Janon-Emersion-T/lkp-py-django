@@ -390,6 +390,7 @@ class DashboardReportingOpenApiTests(TestCase):
             "/api/v1/dashboard-reporting/period",
             "/api/v1/dashboard-reporting/executive",
             "/api/v1/dashboard-reporting/crm",
+            "/api/v1/dashboard-reporting/sales",
             (
                 "/api/v1/dashboard-reporting/"
                 "foundation/{report_type}"
@@ -525,7 +526,7 @@ class ExecutiveDashboardRepositoryTests(TestCase):
         report = (
             DashboardReportFoundationService
             .build_report_context(
-                report_type=DashboardReportType.SALES,
+                report_type=DashboardReportType.PROJECTS,
                 period=period,
                 environment="test",
             )
@@ -770,6 +771,185 @@ class CrmReportingOpenApiTests(TestCase):
     def test_crm_route_is_registered_and_protected(self):
         schema = api.get_openapi_schema()
         path = "/api/v1/dashboard-reporting/crm"
+
+        self.assertIn(path, schema["paths"])
+        self.assertIn(
+            "get",
+            schema["paths"][path],
+        )
+        self.assertTrue(
+            schema["paths"][path]["get"].get(
+                "security"
+            )
+        )
+
+
+class SalesReportingRepositoryTests(TestCase):
+    def test_empty_database_returns_complete_sales_shape(self):
+        from apps.dashboard_reporting.repositories import (
+            SalesReportingRepository,
+        )
+
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = SalesReportingRepository.build(
+            period,
+            timezone.now(),
+        )
+
+        required = {
+            "summary",
+            "quotations_by_status",
+            "value_by_currency",
+            "monthly_quotation_trend",
+            "acceptance_trend",
+            "expiry_ageing",
+            "top_clients",
+            "metadata",
+        }
+
+        self.assertEqual(set(report), required)
+
+        self.assertEqual(
+            report["summary"]["total_quotations"],
+            0,
+        )
+        self.assertEqual(
+            report["summary"][
+                "quotation_conversion_rate"
+            ],
+            0.0,
+        )
+        self.assertEqual(
+            report["value_by_currency"],
+            [],
+        )
+        self.assertEqual(
+            report["monthly_quotation_trend"],
+            [],
+        )
+        self.assertEqual(
+            report["acceptance_trend"],
+            [],
+        )
+        self.assertEqual(
+            report["top_clients"],
+            [],
+        )
+
+    def test_status_distribution_contains_all_statuses(self):
+        from apps.dashboard_reporting.repositories import (
+            SalesReportingRepository,
+        )
+        from apps.quotations.models import Quotation
+
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        rows = (
+            SalesReportingRepository
+            .quotations_by_status(period)
+        )
+
+        expected = {
+            value
+            for value, _label in (
+                Quotation._meta.get_field(
+                    "status"
+                ).choices
+            )
+        }
+
+        actual = {
+            row["status"]
+            for row in rows
+        }
+
+        self.assertEqual(actual, expected)
+
+        self.assertTrue(
+            all(
+                row["total"] == 0
+                for row in rows
+            )
+        )
+
+    def test_sales_service_report_is_complete(self):
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = (
+            DashboardReportFoundationService
+            .build_report_context(
+                report_type=DashboardReportType.SALES,
+                period=period,
+                environment="test",
+            )
+        )
+
+        self.assertFalse(
+            report["metadata"]["foundation"]
+        )
+        self.assertEqual(
+            report["metadata"][
+                "aggregation_status"
+            ],
+            "complete",
+        )
+        self.assertIn(
+            "quotations_by_status",
+            report["data"],
+        )
+        self.assertIn(
+            "value_by_currency",
+            report["data"],
+        )
+
+    def test_sales_snapshot_contains_aggregations(self):
+        snapshot = DashboardSnapshotService.generate(
+            report_type=DashboardReportType.SALES,
+            period_preset=DashboardPeriodPreset.THIS_MONTH,
+            environment="test",
+        )
+
+        data = snapshot.payload["data"]
+
+        self.assertIn("summary", data)
+        self.assertIn(
+            "quotations_by_status",
+            data,
+        )
+        self.assertIn(
+            "value_by_currency",
+            data,
+        )
+        self.assertIn(
+            "monthly_quotation_trend",
+            data,
+        )
+        self.assertIn(
+            "acceptance_trend",
+            data,
+        )
+        self.assertIn(
+            "expiry_ageing",
+            data,
+        )
+
+
+class SalesReportingOpenApiTests(TestCase):
+    def test_sales_route_is_registered_and_protected(self):
+        schema = api.get_openapi_schema()
+        path = (
+            "/api/v1/dashboard-reporting/sales"
+        )
 
         self.assertIn(path, schema["paths"])
         self.assertIn(
