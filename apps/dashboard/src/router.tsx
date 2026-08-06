@@ -192,6 +192,21 @@ const WebsiteSettingsPage =
     }),
   );
 
+const TeamManagementPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import(
+          "./routes/team-management"
+        );
+
+      return {
+        default:
+          module.TeamManagementPage,
+      };
+    }),
+  );
+
 const UsersPage =
   withRouteSuspense(
     lazy(async () => {
@@ -329,6 +344,13 @@ const websiteSettingsRoute =
     component: WebsiteSettingsPage,
   });
 
+const teamManagementRoute = createRoute({
+  getParentRoute: () =>
+    dashboardLayoutRoute,
+  path: "/team-management",
+  component: TeamManagementPage,
+});
+
 const usersRoute = createRoute({
   getParentRoute: () =>
     dashboardLayoutRoute,
@@ -360,6 +382,7 @@ const routeTree =
       navigationRoute,
       publicWebsiteSnapshotsRoute,
       websiteSettingsRoute,
+      teamManagementRoute,
       usersRoute,
       settingsRoute,
     ]),

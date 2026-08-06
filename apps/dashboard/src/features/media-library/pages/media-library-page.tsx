@@ -104,8 +104,10 @@ export function MediaLibraryPage() {
   const response =
     assetsQuery.data;
 
-  const assets =
-    response?.items ?? [];
+  const assets = useMemo(
+    () => response?.items ?? [],
+    [response?.items],
+  );
 
   const pagination =
     response?.pagination;

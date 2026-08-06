@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   UserRoundCog,
   Users,
+  UsersRound,
   type LucideIcon,
   ListChecks,
 } from "lucide-react";
@@ -22,7 +23,7 @@ import {
 export interface DashboardNavigationItem {
   label: string;
   icon: LucideIcon;
-  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/cms" | "/media-library" | "/navigation" | "/public-website-snapshots" | "/website-settings" | "/users" | "/settings";
+  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/cms" | "/media-library" | "/navigation" | "/public-website-snapshots" | "/website-settings" | "/team-management" | "/users" | "/settings";
   available: boolean;
 }
 
@@ -117,6 +118,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
   {
     label: "Administration",
     items: [
+      {
+        label: "Team Management",
+        to: "/team-management",
+        icon: UsersRound,
+        available: true,
+      },
       {
         label: "Users",
         to: "/users",

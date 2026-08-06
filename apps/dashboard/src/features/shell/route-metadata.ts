@@ -76,6 +76,12 @@ export const shellRouteMetadata = [
     description: "Grouped, typed, environment-specific website configuration and public runtime values.",
   },
   {
+    path: "/team-management",
+    title: "Team Management",
+    breadcrumb: "Team Management",
+    description: "Organizational teams, staff profiles, managers, employment status, reporting lines, and public team visibility.",
+  },
+  {
     path: "/users",
     title: "Users",
     breadcrumb: "Users",
