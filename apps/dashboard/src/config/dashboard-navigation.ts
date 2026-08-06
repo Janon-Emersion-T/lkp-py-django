@@ -4,6 +4,7 @@ import {
   Building2,
   CircleDollarSign,
   FolderKanban,
+  FileText,
   LayoutDashboard,
   Settings,
   ShieldCheck,
@@ -15,7 +16,7 @@ import {
 export interface DashboardNavigationItem {
   label: string;
   icon: LucideIcon;
-  to?: "/dashboard" | "/crm" | "/clients" | "/users" | "/settings";
+  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/users" | "/settings";
   available: boolean;
 }
 
@@ -49,6 +50,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "Clients",
         to: "/clients",
         icon: Users,
+        available: true,
+      },
+      {
+        label: "Quotations",
+        to: "/quotations",
+        icon: FileText,
         available: true,
       },
       {
