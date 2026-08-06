@@ -39,6 +39,7 @@ export interface DashboardNavigationItem {
     | "/packages-catalog"
     | "/industries-catalog"
     | "/insights"
+    | "/case-studies"
     | "/media-library"
     | "/navigation"
     | "/public-website-snapshots"
@@ -133,6 +134,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "Insights",
         to: "/insights",
         icon: BookOpenText,
+        available: true,
+      },
+      {
+        label: "Case Studies",
+        to: "/case-studies",
+        icon: BriefcaseBusiness,
         available: true,
       },
       {

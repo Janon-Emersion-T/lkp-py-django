@@ -85,6 +85,13 @@ export const shellRouteMetadata = [
       "Editorial articles, categories, tags, authorship, publishing schedules, content metrics, internal links, SEO, revisions, and publishing events.",
   },
   {
+    path: "/case-studies",
+    title: "Case Studies",
+    breadcrumb: "Case Studies",
+    description:
+      "Client outcomes, projects, industries, services, technologies, media, metrics, milestones, testimonials, SEO, revisions, and publishing lifecycle.",
+  },
+  {
     path: "/media-library",
     title: "Media Library",
     breadcrumb: "Media Library",
