@@ -52,6 +52,12 @@ export const shellRouteMetadata = [
     description: "Website pages, services, packages, industries, insights, case studies, and testimonials.",
   },
   {
+    path: "/media-library",
+    title: "Media Library",
+    breadcrumb: "Media Library",
+    description: "Reusable images, documents, logos, folders, SEO metadata, delivery URLs, and usage references.",
+  },
+  {
     path: "/navigation",
     title: "Navigation Management",
     breadcrumb: "Navigation",

@@ -150,6 +150,18 @@ const NavigationPage =
     }),
   );
 
+const MediaLibraryPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import("./routes/media-library");
+
+      return {
+        default: module.MediaLibraryPage,
+      };
+    }),
+  );
+
 const PublicWebsiteSnapshotsPage =
   withRouteSuspense(
     lazy(async () => {
@@ -286,6 +298,13 @@ const cmsRoute = createRoute({
   component: CmsPage,
 });
 
+const mediaLibraryRoute = createRoute({
+  getParentRoute: () =>
+    dashboardLayoutRoute,
+  path: "/media-library",
+  component: MediaLibraryPage,
+});
+
 const navigationRoute = createRoute({
   getParentRoute: () =>
     dashboardLayoutRoute,
@@ -337,6 +356,7 @@ const routeTree =
       tasksRoute,
       financeRoute,
       cmsRoute,
+      mediaLibraryRoute,
       navigationRoute,
       publicWebsiteSnapshotsRoute,
       websiteSettingsRoute,

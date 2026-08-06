@@ -10,6 +10,7 @@ import {
   FolderKanban,
   FileText,
   LayoutDashboard,
+  Images,
   Settings,
   ShieldCheck,
   UserRoundCog,
@@ -21,7 +22,7 @@ import {
 export interface DashboardNavigationItem {
   label: string;
   icon: LucideIcon;
-  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/cms" | "/navigation" | "/public-website-snapshots" | "/website-settings" | "/users" | "/settings";
+  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/cms" | "/media-library" | "/navigation" | "/public-website-snapshots" | "/website-settings" | "/users" | "/settings";
   available: boolean;
 }
 
@@ -88,6 +89,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         available: true,
       },
       {
+        label: "Media Library",
+        to: "/media-library",
+        icon: Images,
+        available: true,
+      },
+      {
         label: "Navigation",
         to: "/navigation",
         icon: MenuSquare,
@@ -104,11 +111,6 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         to: "/website-settings",
         icon: Settings2,
         available: true,
-      },
-      {
-        label: "Projects",
-        icon: FolderKanban,
-        available: false,
       },
     ],
   },
@@ -130,16 +132,6 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "Settings",
         to: "/settings",
         icon: Settings,
-        available: false,
-      },
-    ],
-  },
-  {
-    label: "Finance",
-    items: [
-      {
-        label: "Finance",
-        icon: CircleDollarSign,
         available: false,
       },
     ],
