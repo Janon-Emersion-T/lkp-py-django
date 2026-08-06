@@ -52,6 +52,12 @@ export const shellRouteMetadata = [
     description: "Website pages, services, packages, industries, insights, case studies, and testimonials.",
   },
   {
+    path: "/navigation",
+    title: "Navigation Management",
+    breadcrumb: "Navigation",
+    description: "Website menus, nested links, locations, visibility, hierarchy, ordering, and public previews.",
+  },
+  {
     path: "/users",
     title: "Users",
     breadcrumb: "Users",

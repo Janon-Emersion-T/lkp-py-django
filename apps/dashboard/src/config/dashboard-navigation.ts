@@ -1,4 +1,5 @@
 import {
+  MenuSquare,
   FileStack,
   Bot,
   BriefcaseBusiness,
@@ -18,7 +19,7 @@ import {
 export interface DashboardNavigationItem {
   label: string;
   icon: LucideIcon;
-  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/cms" | "/users" | "/settings";
+  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/cms" | "/navigation" | "/users" | "/settings";
   available: boolean;
 }
 
@@ -82,6 +83,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "CMS",
         to: "/cms",
         icon: FileStack,
+        available: true,
+      },
+      {
+        label: "Navigation",
+        to: "/navigation",
+        icon: MenuSquare,
         available: true,
       },
       {

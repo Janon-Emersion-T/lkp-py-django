@@ -16,6 +16,7 @@ import { ProjectsPage } from "./routes/projects";
 import { TasksPage } from "./routes/tasks";
 import { FinancePage } from "./routes/finance";
 import { CmsPage } from "./routes/cms";
+import { NavigationPage } from "./routes/navigation";
 import { NotFoundPage } from "./routes/errors/not-found";
 import { SettingsPage } from "./routes/settings";
 import { UsersPage } from "./routes/users";
@@ -91,6 +92,12 @@ const cmsRoute = createRoute({
   component: CmsPage,
 });
 
+const navigationRoute = createRoute({
+  getParentRoute: () => dashboardLayoutRoute,
+  path: "/navigation",
+  component: NavigationPage,
+});
+
 const usersRoute = createRoute({
   getParentRoute: () => dashboardLayoutRoute,
   path: "/users",
@@ -115,6 +122,7 @@ const routeTree = rootRoute.addChildren([
     tasksRoute,
     financeRoute,
     cmsRoute,
+    navigationRoute,
     usersRoute,
     settingsRoute,
   ]),
