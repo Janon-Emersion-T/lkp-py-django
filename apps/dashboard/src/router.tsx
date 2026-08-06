@@ -1,4 +1,10 @@
 import {
+  lazy,
+  Suspense,
+  type ComponentType,
+  type LazyExoticComponent,
+} from "react";
+import {
   createRootRoute,
   createRoute,
   createRouter,
@@ -6,22 +12,197 @@ import {
   Outlet,
 } from "@tanstack/react-router";
 
-import { DashboardLayout } from "./layouts/dashboard-layout";
-import { LoginPage } from "./routes/auth/login";
-import { DashboardPage } from "./routes/dashboard";
-import { CrmPage } from "./routes/crm";
-import { ClientsPage } from "./routes/clients";
-import { QuotationsPage } from "./routes/quotations";
-import { ProjectsPage } from "./routes/projects";
-import { TasksPage } from "./routes/tasks";
-import { FinancePage } from "./routes/finance";
-import { CmsPage } from "./routes/cms";
-import { NavigationPage } from "./routes/navigation";
-import { WebsiteSettingsPage } from "./routes/website-settings";
-import { PublicWebsiteSnapshotsPage } from "./routes/public-website-snapshots";
-import { NotFoundPage } from "./routes/errors/not-found";
-import { SettingsPage } from "./routes/settings";
-import { UsersPage } from "./routes/users";
+import {
+  RouteLoading,
+} from "./features/shell/components/route-loading";
+import {
+  DashboardLayout,
+} from "./layouts/dashboard-layout";
+import {
+  LoginPage,
+} from "./routes/auth/login";
+import {
+  NotFoundPage,
+} from "./routes/errors/not-found";
+
+type RoutePageComponent =
+  LazyExoticComponent<
+    ComponentType<Record<string, never>>
+  >;
+
+function withRouteSuspense(
+  Component: RoutePageComponent,
+) {
+  return function LazyRoutePage() {
+    return (
+      <Suspense fallback={<RouteLoading />}>
+        <Component />
+      </Suspense>
+    );
+  };
+}
+
+const DashboardPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import("./routes/dashboard");
+
+      return {
+        default: module.DashboardPage,
+      };
+    }),
+  );
+
+const CrmPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import("./routes/crm");
+
+      return {
+        default: module.CrmPage,
+      };
+    }),
+  );
+
+const ClientsPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import("./routes/clients");
+
+      return {
+        default: module.ClientsPage,
+      };
+    }),
+  );
+
+const QuotationsPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import("./routes/quotations");
+
+      return {
+        default: module.QuotationsPage,
+      };
+    }),
+  );
+
+const ProjectsPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import("./routes/projects");
+
+      return {
+        default: module.ProjectsPage,
+      };
+    }),
+  );
+
+const TasksPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import("./routes/tasks");
+
+      return {
+        default: module.TasksPage,
+      };
+    }),
+  );
+
+const FinancePage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import("./routes/finance");
+
+      return {
+        default: module.FinancePage,
+      };
+    }),
+  );
+
+const CmsPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import("./routes/cms");
+
+      return {
+        default: module.CmsPage,
+      };
+    }),
+  );
+
+const NavigationPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import("./routes/navigation");
+
+      return {
+        default: module.NavigationPage,
+      };
+    }),
+  );
+
+const PublicWebsiteSnapshotsPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import(
+          "./routes/public-website-snapshots"
+        );
+
+      return {
+        default:
+          module.PublicWebsiteSnapshotsPage,
+      };
+    }),
+  );
+
+const WebsiteSettingsPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import(
+          "./routes/website-settings"
+        );
+
+      return {
+        default:
+          module.WebsiteSettingsPage,
+      };
+    }),
+  );
+
+const UsersPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import("./routes/users");
+
+      return {
+        default: module.UsersPage,
+      };
+    }),
+  );
+
+const SettingsPage =
+  withRouteSuspense(
+    lazy(async () => {
+      const module =
+        await import("./routes/settings");
+
+      return {
+        default: module.SettingsPage,
+      };
+    }),
+  );
 
 const rootRoute = createRootRoute({
   component: () => <Outlet />,
@@ -31,7 +212,9 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: () => <Navigate to="/dashboard" />,
+  component: () => (
+    <Navigate to="/dashboard" />
+  ),
 });
 
 const loginRoute = createRoute({
@@ -40,113 +223,132 @@ const loginRoute = createRoute({
   component: LoginPage,
 });
 
-const dashboardLayoutRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  id: "dashboard-layout",
-  component: DashboardLayout,
-});
+const dashboardLayoutRoute =
+  createRoute({
+    getParentRoute: () => rootRoute,
+    id: "dashboard-layout",
+    component: DashboardLayout,
+  });
 
 const dashboardRoute = createRoute({
-  getParentRoute: () => dashboardLayoutRoute,
+  getParentRoute: () =>
+    dashboardLayoutRoute,
   path: "/dashboard",
   component: DashboardPage,
 });
 
 const crmRoute = createRoute({
-  getParentRoute: () => dashboardLayoutRoute,
+  getParentRoute: () =>
+    dashboardLayoutRoute,
   path: "/crm",
   component: CrmPage,
 });
 
 const clientsRoute = createRoute({
-  getParentRoute: () => dashboardLayoutRoute,
+  getParentRoute: () =>
+    dashboardLayoutRoute,
   path: "/clients",
   component: ClientsPage,
 });
 
 const quotationsRoute = createRoute({
-  getParentRoute: () => dashboardLayoutRoute,
+  getParentRoute: () =>
+    dashboardLayoutRoute,
   path: "/quotations",
   component: QuotationsPage,
 });
 
 const projectsRoute = createRoute({
-  getParentRoute: () => dashboardLayoutRoute,
+  getParentRoute: () =>
+    dashboardLayoutRoute,
   path: "/projects",
   component: ProjectsPage,
 });
 
 const tasksRoute = createRoute({
-  getParentRoute: () => dashboardLayoutRoute,
+  getParentRoute: () =>
+    dashboardLayoutRoute,
   path: "/tasks",
   component: TasksPage,
 });
 
 const financeRoute = createRoute({
-  getParentRoute: () => dashboardLayoutRoute,
+  getParentRoute: () =>
+    dashboardLayoutRoute,
   path: "/finance",
   component: FinancePage,
 });
 
 const cmsRoute = createRoute({
-  getParentRoute: () => dashboardLayoutRoute,
+  getParentRoute: () =>
+    dashboardLayoutRoute,
   path: "/cms",
   component: CmsPage,
 });
 
 const navigationRoute = createRoute({
-  getParentRoute: () => dashboardLayoutRoute,
+  getParentRoute: () =>
+    dashboardLayoutRoute,
   path: "/navigation",
   component: NavigationPage,
 });
 
-const publicWebsiteSnapshotsRoute = createRoute({
-  getParentRoute: () => dashboardLayoutRoute,
-  path: "/public-website-snapshots",
-  component: PublicWebsiteSnapshotsPage,
-});
+const publicWebsiteSnapshotsRoute =
+  createRoute({
+    getParentRoute: () =>
+      dashboardLayoutRoute,
+    path: "/public-website-snapshots",
+    component:
+      PublicWebsiteSnapshotsPage,
+  });
 
-const websiteSettingsRoute = createRoute({
-  getParentRoute: () => dashboardLayoutRoute,
-  path: "/website-settings",
-  component: WebsiteSettingsPage,
-});
+const websiteSettingsRoute =
+  createRoute({
+    getParentRoute: () =>
+      dashboardLayoutRoute,
+    path: "/website-settings",
+    component: WebsiteSettingsPage,
+  });
 
 const usersRoute = createRoute({
-  getParentRoute: () => dashboardLayoutRoute,
+  getParentRoute: () =>
+    dashboardLayoutRoute,
   path: "/users",
   component: UsersPage,
 });
 
 const settingsRoute = createRoute({
-  getParentRoute: () => dashboardLayoutRoute,
+  getParentRoute: () =>
+    dashboardLayoutRoute,
   path: "/settings",
   component: SettingsPage,
 });
 
-const routeTree = rootRoute.addChildren([
-  indexRoute,
-  loginRoute,
-  dashboardLayoutRoute.addChildren([
-    dashboardRoute,
-    crmRoute,
-    clientsRoute,
-    quotationsRoute,
-    projectsRoute,
-    tasksRoute,
-    financeRoute,
-    cmsRoute,
-    navigationRoute,
-    publicWebsiteSnapshotsRoute,
-    websiteSettingsRoute,
-    usersRoute,
-    settingsRoute,
-  ]),
-]);
+const routeTree =
+  rootRoute.addChildren([
+    indexRoute,
+    loginRoute,
+    dashboardLayoutRoute.addChildren([
+      dashboardRoute,
+      crmRoute,
+      clientsRoute,
+      quotationsRoute,
+      projectsRoute,
+      tasksRoute,
+      financeRoute,
+      cmsRoute,
+      navigationRoute,
+      publicWebsiteSnapshotsRoute,
+      websiteSettingsRoute,
+      usersRoute,
+      settingsRoute,
+    ]),
+  ]);
 
-export const router = createRouter({
-  routeTree,
-});
+export const router =
+  createRouter({
+    routeTree,
+  });
 
 declare module "@tanstack/react-router" {
   interface Register {
