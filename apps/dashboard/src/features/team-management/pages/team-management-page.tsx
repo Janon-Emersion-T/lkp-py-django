@@ -10,6 +10,7 @@ import {
   Search,
   ShieldCheck,
   Star,
+  UserPlus,
   UserRoundCog,
   UsersRound,
   X,
@@ -19,6 +20,9 @@ import {
   useState,
 } from "react";
 
+import {
+  MemberManagementDialog,
+} from "../components/member-management-dialog";
 import {
   employmentStatusLabels,
   engagementTypeLabels,
@@ -35,6 +39,8 @@ import {
   useMember,
   useMembers,
   useTeamDashboard,
+  useTeamMemberProfileImages,
+  useTeamMemberServices,
   useTeams,
   useUpdateMemberStatus,
   useUpdateReportingLine,
@@ -129,6 +135,11 @@ export function TeamManagementPage() {
     setNotice,
   ] = useState("");
 
+  const [
+    memberEditorOpen,
+    setMemberEditorOpen,
+  ] = useState(false);
+
   const dashboardQuery =
     useTeamDashboard();
 
@@ -137,6 +148,12 @@ export function TeamManagementPage() {
 
   const membersQuery =
     useMembers(memberFilters);
+
+  const memberServicesQuery =
+    useTeamMemberServices();
+
+  const memberImagesQuery =
+    useTeamMemberProfileImages();
 
   const memberDetailQuery =
     useMember(
@@ -177,17 +194,31 @@ export function TeamManagementPage() {
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => {
-            setSelectedTeam(null);
-            setDialog("team");
-          }}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
-        >
-          <Building2 size={16} />
-          Create team
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedMemberId("");
+              setMemberEditorOpen(true);
+            }}
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+          >
+            <UserPlus size={16} />
+            Create member
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedTeam(null);
+              setDialog("team");
+            }}
+            className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold dark:border-slate-700"
+          >
+            <Building2 size={16} />
+            Create team
+          </button>
+        </div>
       </header>
 
       {notice && (
@@ -288,6 +319,10 @@ export function TeamManagementPage() {
           onInspect={(item) =>
             setSelectedMemberId(item.id)
           }
+          onEdit={(item) => {
+            setSelectedMemberId(item.id);
+            setMemberEditorOpen(true);
+          }}
           onStatus={(item) => {
             setSelectedMemberId(item.id);
             setDialog("status");
@@ -299,14 +334,53 @@ export function TeamManagementPage() {
         />
       )}
 
-      <MemberPanel
+      {!memberEditorOpen && (
+        <MemberPanel
+          member={member}
+          loading={
+            memberDetailQuery.isLoading
+          }
+          onClose={() =>
+            setSelectedMemberId("")
+          }
+        />
+      )}
+
+      <MemberManagementDialog
+        key={
+          memberEditorOpen
+            ? selectedMemberId || "new"
+            : "closed"
+        }
+        open={memberEditorOpen}
         member={member}
-        loading={
-          memberDetailQuery.isLoading
+        memberLoading={
+          selectedMemberId !== ""
+          && memberDetailQuery.isLoading
         }
-        onClose={() =>
-          setSelectedMemberId("")
+        teams={teams}
+        members={members}
+        services={
+          memberServicesQuery.data
+          ?? []
         }
+        profileImages={
+          memberImagesQuery.data
+          ?? []
+        }
+        selectorsLoading={
+          memberServicesQuery.isLoading
+          || memberImagesQuery.isLoading
+        }
+        onClose={() => {
+          setMemberEditorOpen(false);
+          setSelectedMemberId("");
+        }}
+        onSaved={(message) => {
+          setNotice(message);
+          setMemberEditorOpen(false);
+          setSelectedMemberId("");
+        }}
       />
 
       <TeamManagementDialog
@@ -820,6 +894,7 @@ function MembersWorkspace({
   error,
   onFilters,
   onInspect,
+  onEdit,
   onStatus,
   onReporting,
 }: {
@@ -832,6 +907,9 @@ function MembersWorkspace({
     value: MemberFilters,
   ) => void;
   onInspect: (
+    member: TeamMember,
+  ) => void;
+  onEdit: (
     member: TeamMember,
   ) => void;
   onStatus: (
@@ -1117,6 +1195,17 @@ function MembersWorkspace({
                           className="rounded-lg border border-slate-200 px-2.5 py-2 text-xs font-semibold dark:border-slate-700"
                         >
                           Status
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            onEdit(item)
+                          }
+                          className="inline-flex items-center gap-1 rounded-lg border border-slate-200 px-2.5 py-2 text-xs font-semibold dark:border-slate-700"
+                        >
+                          <Pencil size={13} />
+                          Edit
                         </button>
 
                         <button
