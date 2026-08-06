@@ -15,7 +15,7 @@ import {
 export interface DashboardNavigationItem {
   label: string;
   icon: LucideIcon;
-  to?: "/dashboard" | "/users" | "/settings";
+  to?: "/dashboard" | "/crm" | "/users" | "/settings";
   available: boolean;
 }
 
@@ -41,8 +41,9 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
     items: [
       {
         label: "CRM",
+        to: "/crm",
         icon: BriefcaseBusiness,
-        available: false,
+        available: true,
       },
       {
         label: "Projects",
