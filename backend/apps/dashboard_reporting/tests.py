@@ -392,6 +392,7 @@ class DashboardReportingOpenApiTests(TestCase):
             "/api/v1/dashboard-reporting/crm",
             "/api/v1/dashboard-reporting/sales",
             "/api/v1/dashboard-reporting/projects",
+            "/api/v1/dashboard-reporting/tasks",
             (
                 "/api/v1/dashboard-reporting/"
                 "foundation/{report_type}"
@@ -527,7 +528,7 @@ class ExecutiveDashboardRepositoryTests(TestCase):
         report = (
             DashboardReportFoundationService
             .build_report_context(
-                report_type=DashboardReportType.TASKS,
+                report_type=DashboardReportType.FINANCE,
                 period=period,
                 environment="test",
             )
@@ -1155,6 +1156,173 @@ class ProjectReportingOpenApiTests(TestCase):
         schema = api.get_openapi_schema()
         path = (
             "/api/v1/dashboard-reporting/projects"
+        )
+
+        self.assertIn(path, schema["paths"])
+        self.assertIn(
+            "get",
+            schema["paths"][path],
+        )
+        self.assertTrue(
+            schema["paths"][path]["get"].get(
+                "security"
+            )
+        )
+
+
+class TaskReportingRepositoryTests(TestCase):
+    def test_empty_database_returns_complete_task_shape(self):
+        from apps.dashboard_reporting.repositories import (
+            TaskReportingRepository,
+        )
+
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = TaskReportingRepository.build(
+            period,
+            timezone.now(),
+        )
+
+        required = {
+            "summary",
+            "tasks_by_status",
+            "tasks_by_priority",
+            "workload_by_assignee",
+            "unassigned_workload",
+            "overdue_tasks",
+            "tasks_by_project",
+            "completion_trend",
+            "creation_trend",
+            "due_date_ageing",
+            "metadata",
+        }
+
+        self.assertEqual(set(report), required)
+        self.assertEqual(
+            report["summary"]["total_tasks"],
+            0,
+        )
+        self.assertEqual(
+            report["summary"]["open_tasks"],
+            0,
+        )
+        self.assertEqual(
+            report["workload_by_assignee"],
+            [],
+        )
+        self.assertEqual(
+            report["overdue_tasks"],
+            [],
+        )
+
+    def test_status_distribution_contains_all_statuses(self):
+        from apps.dashboard_reporting.repositories import (
+            TaskReportingRepository,
+        )
+        from apps.tasks.models import Task
+
+        rows = TaskReportingRepository.tasks_by_status()
+
+        expected = {
+            value
+            for value, _label in (
+                Task._meta.get_field("status").choices
+            )
+        }
+
+        actual = {
+            row["status"]
+            for row in rows
+        }
+
+        self.assertEqual(actual, expected)
+
+    def test_priority_distribution_contains_all_priorities(self):
+        from apps.dashboard_reporting.repositories import (
+            TaskReportingRepository,
+        )
+        from apps.tasks.models import Task
+
+        rows = (
+            TaskReportingRepository.tasks_by_priority()
+        )
+
+        expected = {
+            value
+            for value, _label in (
+                Task._meta.get_field("priority").choices
+            )
+        }
+
+        actual = {
+            row["priority"]
+            for row in rows
+        }
+
+        self.assertEqual(actual, expected)
+
+    def test_task_service_report_is_complete(self):
+        period = DashboardPeriodService.resolve(
+            preset=DashboardPeriodPreset.THIS_MONTH,
+            reference_date=date(2026, 8, 6),
+        )
+
+        report = (
+            DashboardReportFoundationService
+            .build_report_context(
+                report_type=DashboardReportType.TASKS,
+                period=period,
+                environment="test",
+            )
+        )
+
+        self.assertFalse(
+            report["metadata"]["foundation"]
+        )
+        self.assertEqual(
+            report["metadata"]["aggregation_status"],
+            "complete",
+        )
+        self.assertIn(
+            "workload_by_assignee",
+            report["data"],
+        )
+        self.assertIn(
+            "unassigned_workload",
+            report["data"],
+        )
+
+    def test_task_snapshot_contains_aggregations(self):
+        snapshot = DashboardSnapshotService.generate(
+            report_type=DashboardReportType.TASKS,
+            period_preset=DashboardPeriodPreset.THIS_MONTH,
+            environment="test",
+        )
+
+        data = snapshot.payload["data"]
+
+        self.assertIn("summary", data)
+        self.assertIn("tasks_by_status", data)
+        self.assertIn("tasks_by_priority", data)
+        self.assertIn(
+            "workload_by_assignee",
+            data,
+        )
+        self.assertIn(
+            "unassigned_workload",
+            data,
+        )
+        self.assertIn("overdue_tasks", data)
+
+
+class TaskReportingOpenApiTests(TestCase):
+    def test_tasks_route_is_registered_and_protected(self):
+        schema = api.get_openapi_schema()
+        path = (
+            "/api/v1/dashboard-reporting/tasks"
         )
 
         self.assertIn(path, schema["paths"])

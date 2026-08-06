@@ -2455,3 +2455,847 @@ class ProjectReportingRepository:
                 },
             },
         }
+
+
+class TaskReportingRepository:
+    OPEN_STATUSES = {
+        "todo",
+        "in_progress",
+        "testing",
+        "review",
+    }
+
+    TERMINAL_STATUSES = {
+        "completed",
+        "cancelled",
+    }
+
+    @staticmethod
+    def _task_model():
+        from django.apps import apps
+
+        return apps.get_model(
+            "tasks",
+            "Task",
+        )
+
+    @staticmethod
+    def _task_assignee_model():
+        from django.apps import apps
+
+        return apps.get_model(
+            "tasks",
+            "TaskAssignee",
+        )
+
+    @classmethod
+    def period_queryset(cls, period):
+        Task = cls._task_model()
+
+        return Task.objects.filter(
+            created_at__gte=period.datetime_from,
+            created_at__lt=period.datetime_to,
+        )
+
+    @classmethod
+    def summary(cls, period, today):
+        from django.db.models import Count, Q
+
+        Task = cls._task_model()
+
+        all_time = Task.objects.aggregate(
+            total_tasks=Count("id"),
+            open_tasks=Count(
+                "id",
+                filter=Q(
+                    status__in=cls.OPEN_STATUSES,
+                ),
+            ),
+            completed_tasks=Count(
+                "id",
+                filter=Q(status="completed"),
+            ),
+            cancelled_tasks=Count(
+                "id",
+                filter=Q(status="cancelled"),
+            ),
+            overdue_tasks=Count(
+                "id",
+                filter=Q(
+                    status__in=cls.OPEN_STATUSES,
+                    due_date__lt=today,
+                ),
+            ),
+            tasks_without_due_date=Count(
+                "id",
+                filter=Q(
+                    status__in=cls.OPEN_STATUSES,
+                    due_date__isnull=True,
+                ),
+            ),
+            high_priority_open_tasks=Count(
+                "id",
+                filter=Q(
+                    status__in=cls.OPEN_STATUSES,
+                    priority__in={
+                        "high",
+                        "urgent",
+                    },
+                ),
+            ),
+        )
+
+        period_metrics = cls.period_queryset(
+            period
+        ).aggregate(
+            new_tasks=Count("id"),
+            new_open_tasks=Count(
+                "id",
+                filter=Q(
+                    status__in=cls.OPEN_STATUSES,
+                ),
+            ),
+        )
+
+        completed_in_period = (
+            Task.objects.filter(
+                status="completed",
+                completed_at__gte=(
+                    period.datetime_from
+                ),
+                completed_at__lt=(
+                    period.datetime_to
+                ),
+            ).count()
+        )
+
+        period_metrics[
+            "completed_in_period"
+        ] = completed_in_period
+
+        created_count = period_metrics["new_tasks"]
+
+        period_metrics[
+            "period_completion_rate"
+        ] = (
+            round(
+                completed_in_period
+                / created_count
+                * 100,
+                2,
+            )
+            if created_count
+            else 0.0
+        )
+
+        return {
+            **all_time,
+            **period_metrics,
+        }
+
+    @classmethod
+    def tasks_by_status(cls):
+        from django.db.models import Count
+
+        Task = cls._task_model()
+
+        totals = {
+            row["status"]: row["total"]
+            for row in (
+                Task.objects
+                .values("status")
+                .annotate(total=Count("id"))
+            )
+        }
+
+        return [
+            {
+                "status": value,
+                "label": label,
+                "total": totals.get(value, 0),
+            }
+            for value, label in (
+                Task._meta.get_field(
+                    "status"
+                ).choices
+            )
+        ]
+
+    @classmethod
+    def tasks_by_priority(cls):
+        from django.db.models import Count
+
+        Task = cls._task_model()
+
+        totals = {
+            row["priority"]: row["total"]
+            for row in (
+                Task.objects
+                .values("priority")
+                .annotate(total=Count("id"))
+            )
+        }
+
+        return [
+            {
+                "priority": value,
+                "label": label,
+                "total": totals.get(value, 0),
+            }
+            for value, label in (
+                Task._meta.get_field(
+                    "priority"
+                ).choices
+            )
+        ]
+
+    @classmethod
+    def workload_by_assignee(cls, today):
+        from collections import defaultdict
+
+        from django.db.models import Count, Q
+
+        Task = cls._task_model()
+        TaskAssignee = cls._task_assignee_model()
+
+        metrics = defaultdict(
+            lambda: {
+                "task_ids": set(),
+                "open_task_ids": set(),
+                "completed_task_ids": set(),
+                "overdue_task_ids": set(),
+                "urgent_task_ids": set(),
+                "username": None,
+                "first_name": "",
+                "last_name": "",
+                "email": None,
+            }
+        )
+
+        primary_task_rows = Task.objects.filter(
+            assignee__isnull=False,
+        ).values(
+            "id",
+            "assignee_id",
+            "assignee__username",
+            "assignee__first_name",
+            "assignee__last_name",
+            "assignee__email",
+            "status",
+            "priority",
+            "due_date",
+        )
+
+        for task in primary_task_rows:
+            user_id = task["assignee_id"]
+            item = metrics[user_id]
+
+            item["username"] = (
+                task["assignee__username"]
+            )
+            item["first_name"] = (
+                task["assignee__first_name"] or ""
+            )
+            item["last_name"] = (
+                task["assignee__last_name"] or ""
+            )
+            item["email"] = task["assignee__email"]
+
+            task_id = task["id"]
+            item["task_ids"].add(task_id)
+
+            if task["status"] in cls.OPEN_STATUSES:
+                item["open_task_ids"].add(task_id)
+
+                if (
+                    task["due_date"] is not None
+                    and task["due_date"] < today
+                ):
+                    item["overdue_task_ids"].add(
+                        task_id
+                    )
+
+                if task["priority"] == "urgent":
+                    item["urgent_task_ids"].add(
+                        task_id
+                    )
+
+            if task["status"] == "completed":
+                item["completed_task_ids"].add(
+                    task_id
+                )
+
+        additional_rows = (
+            TaskAssignee.objects
+            .select_related("task", "user")
+            .values(
+                "task_id",
+                "user_id",
+                "user__username",
+                "user__first_name",
+                "user__last_name",
+                "user__email",
+                "task__status",
+                "task__priority",
+                "task__due_date",
+            )
+        )
+
+        for assignment in additional_rows:
+            user_id = assignment["user_id"]
+            item = metrics[user_id]
+
+            item["username"] = (
+                assignment["user__username"]
+            )
+            item["first_name"] = (
+                assignment["user__first_name"] or ""
+            )
+            item["last_name"] = (
+                assignment["user__last_name"] or ""
+            )
+            item["email"] = assignment["user__email"]
+
+            task_id = assignment["task_id"]
+            item["task_ids"].add(task_id)
+
+            status = assignment["task__status"]
+
+            if status in cls.OPEN_STATUSES:
+                item["open_task_ids"].add(task_id)
+
+                due_date = assignment[
+                    "task__due_date"
+                ]
+
+                if (
+                    due_date is not None
+                    and due_date < today
+                ):
+                    item["overdue_task_ids"].add(
+                        task_id
+                    )
+
+                if (
+                    assignment["task__priority"]
+                    == "urgent"
+                ):
+                    item["urgent_task_ids"].add(
+                        task_id
+                    )
+
+            if status == "completed":
+                item["completed_task_ids"].add(
+                    task_id
+                )
+
+        result = []
+
+        for user_id, item in metrics.items():
+            full_name = (
+                f"{item['first_name']} "
+                f"{item['last_name']}"
+            ).strip()
+
+            total = len(item["task_ids"])
+            completed = len(
+                item["completed_task_ids"]
+            )
+
+            result.append(
+                {
+                    "user_id": user_id,
+                    "user_name": (
+                        full_name
+                        or item["username"]
+                        or item["email"]
+                        or str(user_id)
+                    ),
+                    "username": item["username"],
+                    "email": item["email"],
+                    "total_tasks": total,
+                    "open_tasks": len(
+                        item["open_task_ids"]
+                    ),
+                    "completed_tasks": completed,
+                    "overdue_tasks": len(
+                        item["overdue_task_ids"]
+                    ),
+                    "urgent_tasks": len(
+                        item["urgent_task_ids"]
+                    ),
+                    "completion_rate": (
+                        round(
+                            completed
+                            / total
+                            * 100,
+                            2,
+                        )
+                        if total
+                        else 0.0
+                    ),
+                }
+            )
+
+        return sorted(
+            result,
+            key=lambda row: (
+                -row["open_tasks"],
+                -row["overdue_tasks"],
+                row["user_name"].lower(),
+            ),
+        )
+
+    @classmethod
+    def unassigned_workload(cls, today):
+        from django.db.models import Count, Q
+
+        Task = cls._task_model()
+
+        queryset = Task.objects.filter(
+            assignee__isnull=True,
+            additional_assignees__isnull=True,
+        )
+
+        return queryset.aggregate(
+            total_unassigned_tasks=Count(
+                "id",
+                distinct=True,
+            ),
+            open_unassigned_tasks=Count(
+                "id",
+                filter=Q(
+                    status__in=cls.OPEN_STATUSES,
+                ),
+                distinct=True,
+            ),
+            overdue_unassigned_tasks=Count(
+                "id",
+                filter=Q(
+                    status__in=cls.OPEN_STATUSES,
+                    due_date__lt=today,
+                ),
+                distinct=True,
+            ),
+            urgent_unassigned_tasks=Count(
+                "id",
+                filter=Q(
+                    status__in=cls.OPEN_STATUSES,
+                    priority="urgent",
+                ),
+                distinct=True,
+            ),
+        )
+
+    @classmethod
+    def overdue_tasks(cls, today):
+        from django.db.models import F
+
+        Task = cls._task_model()
+        TaskAssignee = cls._task_assignee_model()
+
+        rows = list(
+            Task.objects.filter(
+                status__in=cls.OPEN_STATUSES,
+                due_date__lt=today,
+            )
+            .select_related(
+                "project",
+                "assignee",
+            )
+            .annotate(
+                days_overdue=today - F("due_date")
+            )
+            .values(
+                "id",
+                "title",
+                "status",
+                "priority",
+                "due_date",
+                "project_id",
+                "project__project_code",
+                "project__title",
+                "assignee_id",
+                "assignee__username",
+                "assignee__first_name",
+                "assignee__last_name",
+                "assignee__email",
+                "days_overdue",
+            )
+            .order_by(
+                "due_date",
+                "-priority",
+                "title",
+            )
+        )
+
+        task_ids = [
+            row["id"]
+            for row in rows
+        ]
+
+        assignees_by_task = {
+            task_id: {}
+            for task_id in task_ids
+        }
+
+        for row in rows:
+            user_id = row["assignee_id"]
+
+            if user_id is None:
+                continue
+
+            full_name = (
+                f"{row['assignee__first_name'] or ''} "
+                f"{row['assignee__last_name'] or ''}"
+            ).strip()
+
+            assignees_by_task[row["id"]][user_id] = {
+                "user_id": user_id,
+                "user_name": (
+                    full_name
+                    or row["assignee__username"]
+                    or row["assignee__email"]
+                    or str(user_id)
+                ),
+                "assignment_type": "primary",
+            }
+
+        additional_rows = (
+            TaskAssignee.objects
+            .filter(task_id__in=task_ids)
+            .values(
+                "task_id",
+                "user_id",
+                "user__username",
+                "user__first_name",
+                "user__last_name",
+                "user__email",
+            )
+            .order_by(
+                "task_id",
+                "user__username",
+            )
+        )
+
+        for assignment in additional_rows:
+            full_name = (
+                f"{assignment['user__first_name'] or ''} "
+                f"{assignment['user__last_name'] or ''}"
+            ).strip()
+
+            task_id = assignment["task_id"]
+            user_id = assignment["user_id"]
+
+            existing = assignees_by_task[
+                task_id
+            ].get(user_id)
+
+            if existing is not None:
+                existing[
+                    "assignment_type"
+                ] = "primary_and_additional"
+                continue
+
+            assignees_by_task[task_id][user_id] = {
+                "user_id": user_id,
+                "user_name": (
+                    full_name
+                    or assignment["user__username"]
+                    or assignment["user__email"]
+                    or str(user_id)
+                ),
+                "assignment_type": "additional",
+            }
+
+        result = []
+
+        for row in rows:
+            duration = row["days_overdue"]
+
+            assignees = sorted(
+                assignees_by_task[
+                    row["id"]
+                ].values(),
+                key=lambda item: (
+                    item["user_name"].lower()
+                ),
+            )
+
+            result.append(
+                {
+                    "task_id": row["id"],
+                    "title": row["title"],
+                    "status": row["status"],
+                    "priority": row["priority"],
+                    "due_date": row["due_date"],
+                    "days_overdue": (
+                        duration.days
+                        if duration
+                        else 0
+                    ),
+                    "project_id": (
+                        row["project_id"]
+                    ),
+                    "project_code": (
+                        row["project__project_code"]
+                    ),
+                    "project_title": (
+                        row["project__title"]
+                    ),
+                    "assignees": assignees,
+                }
+            )
+
+        return result
+
+    @classmethod
+    def tasks_by_project(cls):
+        from django.db.models import Count, Q
+
+        rows = list(
+            cls._task_model()
+            .objects.values(
+                "project_id",
+                "project__project_code",
+                "project__title",
+            )
+            .annotate(
+                total_tasks=Count("id"),
+                open_tasks=Count(
+                    "id",
+                    filter=Q(
+                        status__in=(
+                            cls.OPEN_STATUSES
+                        ),
+                    ),
+                ),
+                completed_tasks=Count(
+                    "id",
+                    filter=Q(status="completed"),
+                ),
+                overdue_tasks=Count(
+                    "id",
+                    filter=Q(
+                        status__in=(
+                            cls.OPEN_STATUSES
+                        ),
+                        due_date__lt=(
+                            timezone.localdate()
+                        ),
+                    ),
+                ),
+            )
+            .order_by(
+                "-open_tasks",
+                "-total_tasks",
+                "project__title",
+            )
+        )
+
+        result = []
+
+        for row in rows:
+            total = row["total_tasks"]
+            completed = row["completed_tasks"]
+
+            result.append(
+                {
+                    "project_id": (
+                        row["project_id"]
+                    ),
+                    "project_code": (
+                        row["project__project_code"]
+                    ),
+                    "project_title": (
+                        row["project__title"]
+                    ),
+                    "total_tasks": total,
+                    "open_tasks": row["open_tasks"],
+                    "completed_tasks": completed,
+                    "overdue_tasks": (
+                        row["overdue_tasks"]
+                    ),
+                    "completion_rate": (
+                        round(
+                            completed / total * 100,
+                            2,
+                        )
+                        if total
+                        else 0.0
+                    ),
+                }
+            )
+
+        return result
+
+    @classmethod
+    def completion_trend(cls, period):
+        from django.db.models import Count
+        from django.db.models.functions import (
+            TruncMonth,
+        )
+
+        rows = list(
+            cls._task_model()
+            .objects.filter(
+                status="completed",
+                completed_at__gte=(
+                    period.datetime_from
+                ),
+                completed_at__lt=(
+                    period.datetime_to
+                ),
+            )
+            .annotate(
+                month=TruncMonth("completed_at")
+            )
+            .values("month")
+            .annotate(
+                completed_tasks=Count("id")
+            )
+            .order_by("month")
+        )
+
+        return [
+            {
+                "month": row["month"].date(),
+                "completed_tasks": (
+                    row["completed_tasks"]
+                ),
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def creation_trend(cls, period):
+        from django.db.models import Count
+        from django.db.models.functions import (
+            TruncMonth,
+        )
+
+        rows = list(
+            cls.period_queryset(period)
+            .annotate(
+                month=TruncMonth("created_at")
+            )
+            .values("month")
+            .annotate(
+                new_tasks=Count("id")
+            )
+            .order_by("month")
+        )
+
+        return [
+            {
+                "month": row["month"].date(),
+                "new_tasks": row["new_tasks"],
+            }
+            for row in rows
+        ]
+
+    @classmethod
+    def due_date_ageing(cls, today):
+        from datetime import timedelta
+
+        from django.db.models import Count, Q
+
+        Task = cls._task_model()
+
+        queryset = Task.objects.filter(
+            status__in=cls.OPEN_STATUSES,
+            due_date__isnull=False,
+        )
+
+        return queryset.aggregate(
+            overdue=Count(
+                "id",
+                filter=Q(due_date__lt=today),
+            ),
+            due_today=Count(
+                "id",
+                filter=Q(due_date=today),
+            ),
+            due_next_7_days=Count(
+                "id",
+                filter=Q(
+                    due_date__gt=today,
+                    due_date__lte=(
+                        today
+                        + timedelta(days=7)
+                    ),
+                ),
+            ),
+            due_next_30_days=Count(
+                "id",
+                filter=Q(
+                    due_date__gt=(
+                        today
+                        + timedelta(days=7)
+                    ),
+                    due_date__lte=(
+                        today
+                        + timedelta(days=30)
+                    ),
+                ),
+            ),
+            due_later=Count(
+                "id",
+                filter=Q(
+                    due_date__gt=(
+                        today
+                        + timedelta(days=30)
+                    ),
+                ),
+            ),
+        )
+
+    @classmethod
+    def build(cls, period, now):
+        today = timezone.localdate()
+
+        return {
+            "summary": cls.summary(
+                period,
+                today,
+            ),
+            "tasks_by_status": (
+                cls.tasks_by_status()
+            ),
+            "tasks_by_priority": (
+                cls.tasks_by_priority()
+            ),
+            "workload_by_assignee": (
+                cls.workload_by_assignee(today)
+            ),
+            "unassigned_workload": (
+                cls.unassigned_workload(today)
+            ),
+            "overdue_tasks": (
+                cls.overdue_tasks(today)
+            ),
+            "tasks_by_project": (
+                cls.tasks_by_project()
+            ),
+            "completion_trend": (
+                cls.completion_trend(period)
+            ),
+            "creation_trend": (
+                cls.creation_trend(period)
+            ),
+            "due_date_ageing": (
+                cls.due_date_ageing(today)
+            ),
+            "metadata": {
+                "creation_period_basis": (
+                    "task_created_at"
+                ),
+                "completion_period_basis": (
+                    "task_completed_at"
+                ),
+                "overdue_definition": (
+                    "open task with due date "
+                    "before today"
+                ),
+            },
+        }
