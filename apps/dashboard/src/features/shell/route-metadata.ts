@@ -58,6 +58,12 @@ export const shellRouteMetadata = [
     description: "Website menus, nested links, locations, visibility, hierarchy, ordering, and public previews.",
   },
   {
+    path: "/website-settings",
+    title: "Website Settings",
+    breadcrumb: "Website Settings",
+    description: "Grouped, typed, environment-specific website configuration and public runtime values.",
+  },
+  {
     path: "/users",
     title: "Users",
     breadcrumb: "Users",

@@ -1,4 +1,5 @@
 import {
+  Settings2,
   MenuSquare,
   FileStack,
   Bot,
@@ -19,7 +20,7 @@ import {
 export interface DashboardNavigationItem {
   label: string;
   icon: LucideIcon;
-  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/cms" | "/navigation" | "/users" | "/settings";
+  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/tasks" | "/finance" | "/cms" | "/navigation" | "/website-settings" | "/users" | "/settings";
   available: boolean;
 }
 
@@ -89,6 +90,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "Navigation",
         to: "/navigation",
         icon: MenuSquare,
+        available: true,
+      },
+      {
+        label: "Website Settings",
+        to: "/website-settings",
+        icon: Settings2,
         available: true,
       },
       {
