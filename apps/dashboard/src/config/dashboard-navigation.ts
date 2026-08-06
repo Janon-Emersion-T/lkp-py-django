@@ -16,7 +16,7 @@ import {
 export interface DashboardNavigationItem {
   label: string;
   icon: LucideIcon;
-  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/users" | "/settings";
+  to?: "/dashboard" | "/crm" | "/clients" | "/quotations" | "/projects" | "/users" | "/settings";
   available: boolean;
 }
 
@@ -56,6 +56,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "Quotations",
         to: "/quotations",
         icon: FileText,
+        available: true,
+      },
+      {
+        label: "Projects",
+        to: "/projects",
+        icon: FolderKanban,
         available: true,
       },
       {

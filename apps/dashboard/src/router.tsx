@@ -12,6 +12,7 @@ import { DashboardPage } from "./routes/dashboard";
 import { CrmPage } from "./routes/crm";
 import { ClientsPage } from "./routes/clients";
 import { QuotationsPage } from "./routes/quotations";
+import { ProjectsPage } from "./routes/projects";
 import { NotFoundPage } from "./routes/errors/not-found";
 import { SettingsPage } from "./routes/settings";
 import { UsersPage } from "./routes/users";
@@ -63,6 +64,12 @@ const quotationsRoute = createRoute({
   component: QuotationsPage,
 });
 
+const projectsRoute = createRoute({
+  getParentRoute: () => dashboardLayoutRoute,
+  path: "/projects",
+  component: ProjectsPage,
+});
+
 const usersRoute = createRoute({
   getParentRoute: () => dashboardLayoutRoute,
   path: "/users",
@@ -83,6 +90,7 @@ const routeTree = rootRoute.addChildren([
     crmRoute,
     clientsRoute,
     quotationsRoute,
+    projectsRoute,
     usersRoute,
     settingsRoute,
   ]),

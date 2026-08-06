@@ -28,6 +28,12 @@ export const shellRouteMetadata = [
     description: "Sales quotations, recipients, validity, pricing, and acceptance.",
   },
   {
+    path: "/projects",
+    title: "Projects",
+    breadcrumb: "Projects",
+    description: "Project execution, milestones, teams, budgets, and delivery progress.",
+  },
+  {
     path: "/users",
     title: "Users",
     breadcrumb: "Users",
