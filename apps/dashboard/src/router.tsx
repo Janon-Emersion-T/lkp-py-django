@@ -10,6 +10,7 @@ import { DashboardLayout } from "./layouts/dashboard-layout";
 import { LoginPage } from "./routes/auth/login";
 import { DashboardPage } from "./routes/dashboard";
 import { CrmPage } from "./routes/crm";
+import { ClientsPage } from "./routes/clients";
 import { NotFoundPage } from "./routes/errors/not-found";
 import { SettingsPage } from "./routes/settings";
 import { UsersPage } from "./routes/users";
@@ -49,6 +50,12 @@ const crmRoute = createRoute({
   component: CrmPage,
 });
 
+const clientsRoute = createRoute({
+  getParentRoute: () => dashboardLayoutRoute,
+  path: "/clients",
+  component: ClientsPage,
+});
+
 const usersRoute = createRoute({
   getParentRoute: () => dashboardLayoutRoute,
   path: "/users",
@@ -67,6 +74,7 @@ const routeTree = rootRoute.addChildren([
   dashboardLayoutRoute.addChildren([
     dashboardRoute,
     crmRoute,
+    clientsRoute,
     usersRoute,
     settingsRoute,
   ]),
