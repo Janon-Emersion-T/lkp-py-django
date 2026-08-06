@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'apps.case_studies.apps.CaseStudiesConfig',
     'apps.testimonials.apps.TestimonialsConfig',
     'apps.careers.apps.CareersConfig',
+    'apps.newsletter.apps.NewsletterConfig',
     'apps.api.apps.ApiConfig',
 ]
 
