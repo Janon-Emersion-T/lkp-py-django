@@ -22,6 +22,13 @@ export const shellRouteMetadata = [
       "Contact enquiries, quote requests, assignment, qualification, priority, follow-ups, proposals, outcomes, and internal notes.",
   },
   {
+    path: "/newsletter",
+    title: "Newsletter",
+    breadcrumb: "Newsletter",
+    description:
+      "Subscribers, consent, mailing lists, audience tags, campaigns, scheduling, recipient preparation, delivery statistics, opens, and clicks.",
+  },
+  {
     path: "/clients",
     title: "Clients",
     breadcrumb: "Clients",

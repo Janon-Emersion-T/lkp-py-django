@@ -24,6 +24,7 @@ import {
   Quote,
   UserRoundSearch,
   Inbox,
+  MailPlus,
 } from "lucide-react";
 
 export interface DashboardNavigationItem {
@@ -46,6 +47,7 @@ export interface DashboardNavigationItem {
     | "/testimonials"
     | "/careers"
     | "/enquiries"
+    | "/newsletter"
     | "/media-library"
     | "/navigation"
     | "/public-website-snapshots"
@@ -86,6 +88,12 @@ export const dashboardNavigation: DashboardNavigationGroup[] = [
         label: "Enquiries",
         to: "/enquiries",
         icon: Inbox,
+        available: true,
+      },
+      {
+        label: "Newsletter",
+        to: "/newsletter",
+        icon: MailPlus,
         available: true,
       },
       {

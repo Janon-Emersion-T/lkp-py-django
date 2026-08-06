@@ -201,6 +201,16 @@ const EnquiriesPage = withRouteSuspense(
   }),
 );
 
+const NewsletterPage = withRouteSuspense(
+  lazy(async () => {
+    const module = await import("./routes/newsletter");
+
+    return {
+      default: module.NewsletterPage,
+    };
+  }),
+);
+
 const MediaLibraryPage = withRouteSuspense(
   lazy(async () => {
     const module = await import("./routes/media-library");
@@ -380,6 +390,12 @@ const enquiriesRoute = createRoute({
   component: EnquiriesPage,
 });
 
+const newsletterRoute = createRoute({
+  getParentRoute: () => dashboardLayoutRoute,
+  path: "/newsletter",
+  component: NewsletterPage,
+});
+
 const mediaLibraryRoute = createRoute({
   getParentRoute: () => dashboardLayoutRoute,
   path: "/media-library",
@@ -442,6 +458,7 @@ const routeTree = rootRoute.addChildren([
     testimonialsRoute,
     careersRoute,
     enquiriesRoute,
+    newsletterRoute,
     mediaLibraryRoute,
     navigationRoute,
     publicWebsiteSnapshotsRoute,
