@@ -6,12 +6,15 @@ import {
 } from "../../config/footer";
 import { site } from "../../config/site";
 import FooterContact from "./footer/FooterContact.astro";
+import FooterCta from "./footer/FooterCta.astro";
 import FooterNavigation from "./footer/FooterNavigation.astro";
 import FooterNewsletter from "./footer/FooterNewsletter.astro";
 import FooterSocials from "./footer/FooterSocials.astro";
 
 const currentYear = new Date().getFullYear();
 ---
+
+<FooterCta />
 
 <FooterNewsletter />
 

@@ -1,3 +1,9 @@
+---
+const apiBaseUrl =
+  import.meta.env.PUBLIC_API_BASE_URL
+  ?? "http://localhost:8000/api/v1";
+---
+
 <section
   class="footer-newsletter-shell"
   aria-labelledby="footer-newsletter-title"
@@ -42,8 +48,9 @@
 
       <form
         class="footer-newsletter__form"
-        action="/newsletter/subscribe"
-        method="post"
+        data-newsletter-form
+        data-endpoint={`${apiBaseUrl}/newsletter/subscribe`}
+        novalidate
       >
         <label class="sr-only" for="footer-newsletter-email">
           Work email address
@@ -79,6 +86,7 @@
               autocomplete="email"
               inputmode="email"
               placeholder="Your work email"
+              aria-describedby="footer-newsletter-message"
               required
             />
           </div>
@@ -98,6 +106,13 @@
             </svg>
           </button>
         </div>
+
+        <p
+          id="footer-newsletter-message"
+          class="footer-newsletter__message"
+          data-newsletter-message
+          aria-live="polite"
+        ></p>
 
         <p class="footer-newsletter__privacy">
           By subscribing, you agree to our
@@ -316,4 +331,130 @@
       width: 100%;
     }
   }
+
+  .footer-newsletter__message {
+    min-height: 1.3rem;
+    margin: 0.65rem 0 0;
+    font-size: 0.72rem;
+    font-weight: 650;
+    line-height: 1.45;
+  }
+
+  .footer-newsletter__message:empty {
+    display: none;
+  }
+
+  .footer-newsletter__message--success {
+    color: #16803c;
+  }
+
+  .footer-newsletter__message--error {
+    color: #c53030;
+  }
+
+  .footer-newsletter button:disabled {
+    cursor: wait;
+    opacity: 0.72;
+    transform: none;
+  }
+
 </style>
+
+
+<script>
+  const newsletterForms = document.querySelectorAll<HTMLFormElement>(
+    "[data-newsletter-form]",
+  );
+
+  newsletterForms.forEach((form) => {
+    const emailInput = form.querySelector<HTMLInputElement>(
+      'input[name="email"]',
+    );
+    const submitButton = form.querySelector<HTMLButtonElement>(
+      'button[type="submit"]',
+    );
+    const message = form.querySelector<HTMLElement>(
+      "[data-newsletter-message]",
+    );
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!emailInput || !submitButton || !message) {
+        return;
+      }
+
+      const email = emailInput.value.trim();
+
+      message.className = "footer-newsletter__message";
+
+      if (!email || !emailInput.checkValidity()) {
+        message.textContent = "Enter a valid work email address.";
+        message.classList.add("footer-newsletter__message--error");
+        emailInput.focus();
+        return;
+      }
+
+      const endpoint = form.dataset.endpoint;
+
+      if (!endpoint) {
+        message.textContent =
+          "Newsletter subscription is temporarily unavailable.";
+        message.classList.add("footer-newsletter__message--error");
+        return;
+      }
+
+      const originalLabel = submitButton.innerHTML;
+
+      submitButton.disabled = true;
+      submitButton.setAttribute("aria-busy", "true");
+      submitButton.textContent = "Subscribing…";
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            consent_given: true,
+            source_reference: "website-footer",
+          }),
+        });
+
+        const payload = await response.json().catch(() => null);
+
+        if (!response.ok) {
+          throw new Error(
+            payload?.message
+              ?? "Unable to complete your subscription.",
+          );
+        }
+
+        message.textContent =
+          payload?.message
+          ?? "You have been subscribed successfully.";
+
+        message.classList.add(
+          "footer-newsletter__message--success",
+        );
+
+        form.reset();
+      } catch (error) {
+        message.textContent =
+          error instanceof Error
+            ? error.message
+            : "Unable to complete your subscription.";
+
+        message.classList.add(
+          "footer-newsletter__message--error",
+        );
+      } finally {
+        submitButton.disabled = false;
+        submitButton.removeAttribute("aria-busy");
+        submitButton.innerHTML = originalLabel;
+      }
+    });
+  });
+</script>

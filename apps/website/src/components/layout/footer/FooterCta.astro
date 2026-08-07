@@ -1,0 +1,207 @@
+<section class="footer-cta-shell" aria-labelledby="footer-cta-title">
+  <div class="site-container">
+    <div class="footer-cta">
+      <div class="footer-cta__content">
+        <p class="footer-cta__eyebrow">Have a project in mind?</p>
+
+        <h2 id="footer-cta-title">
+          Let’s build something that delivers real business value.
+        </h2>
+
+        <p>
+          Tell us what you need, where the challenge sits and what success
+          should look like. We will respond with practical next steps.
+        </p>
+      </div>
+
+      <div class="footer-cta__actions">
+        <a class="footer-cta__primary" href="/get-a-quote/">
+          <span>Get a quote</span>
+
+          <svg aria-hidden="true" width="17" height="17" viewBox="0 0 17 17">
+            <path
+              d="M3 8.5h11M10 4.5l4 4-4 4"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+            />
+          </svg>
+        </a>
+
+        <a class="footer-cta__secondary" href="/book-a-consultation/">
+          Book a consultation
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .footer-cta-shell {
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    padding-block: clamp(3rem, 6vw, 5.5rem);
+  }
+
+  .footer-cta {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) auto;
+    align-items: center;
+    gap: clamp(2rem, 6vw, 6rem);
+    overflow: hidden;
+    border-radius: 1.4rem;
+    background:
+      radial-gradient(
+        circle at 90% 20%,
+        rgba(60, 128, 255, 0.28),
+        transparent 25rem
+      ),
+      linear-gradient(135deg, #071f65 0%, #0b2f8f 55%, #1746c7 100%);
+    padding: clamp(2rem, 5vw, 4.25rem);
+    box-shadow: 0 28px 70px rgba(7, 31, 101, 0.18);
+  }
+
+  .footer-cta::after {
+    position: absolute;
+    right: -3rem;
+    bottom: -6rem;
+    color: transparent;
+    content: "LKP";
+    font-size: clamp(8rem, 18vw, 16rem);
+    font-weight: 900;
+    letter-spacing: -0.12em;
+    line-height: 1;
+    opacity: 0.09;
+    pointer-events: none;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.9);
+  }
+
+  .footer-cta__content {
+    position: relative;
+    z-index: 1;
+    max-width: 48rem;
+  }
+
+  .footer-cta__eyebrow {
+    margin: 0 0 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.7rem;
+    font-weight: 780;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+  }
+
+  .footer-cta h2 {
+    max-width: 18ch;
+    margin: 0;
+    color: #ffffff;
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5vw, 4.5rem);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .footer-cta__content > p:last-child {
+    max-width: 41rem;
+    margin: 1.4rem 0 0;
+    color: rgba(255, 255, 255, 0.73);
+    font-size: 0.93rem;
+    line-height: 1.75;
+  }
+
+  .footer-cta__actions {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    min-width: 13rem;
+    gap: 0.85rem;
+  }
+
+  .footer-cta__primary,
+  .footer-cta__secondary {
+    display: inline-flex;
+    min-height: 3.45rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    border-radius: 0.65rem;
+    padding-inline: 1.35rem;
+    font-size: 0.84rem;
+    font-weight: 760;
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .footer-cta__primary {
+    background: #ffffff;
+    color: #0b2f8f;
+  }
+
+  .footer-cta__secondary {
+    border: 1px solid rgba(255, 255, 255, 0.46);
+    color: #ffffff;
+  }
+
+  .footer-cta__primary:hover,
+  .footer-cta__secondary:hover {
+    transform: translateY(-2px);
+  }
+
+  .footer-cta__primary:hover {
+    background: #edf3ff;
+  }
+
+  .footer-cta__secondary:hover {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.09);
+  }
+
+  .footer-cta__primary svg {
+    transition: transform 180ms ease;
+  }
+
+  .footer-cta__primary:hover svg {
+    transform: translateX(0.25rem);
+  }
+
+  @media (max-width: 48rem) {
+    .footer-cta {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .footer-cta__actions {
+      width: 100%;
+      min-width: 0;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .footer-cta {
+      text-align: center;
+    }
+
+    .footer-cta h2,
+    .footer-cta__content > p:last-child {
+      margin-inline: auto;
+    }
+
+    .footer-cta__actions {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-cta::after {
+      right: 50%;
+      transform: translateX(50%);
+    }
+  }
+</style>
