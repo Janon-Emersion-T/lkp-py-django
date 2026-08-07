@@ -1,0 +1,328 @@
+---
+import {
+  headerNavigation,
+  type HeaderNavigationGroup,
+} from "../../../config/navigation";
+
+interface Props {
+  pathname: string;
+}
+
+const { pathname } = Astro.props;
+
+const routeMatches = (href: string) => {
+  if (href === "/") {
+    return pathname === "/";
+  }
+
+  return pathname === href
+    || pathname.startsWith(`${href}/`);
+};
+
+const isActive = (item: HeaderNavigationGroup) => {
+  if (routeMatches(item.href)) {
+    return true;
+  }
+
+  return item.children?.some((child) =>
+    routeMatches(child.href)
+  ) ?? false;
+};
+---
+
+<nav class="desktop-nav" aria-label="Primary navigation">
+  {
+    headerNavigation.map((item) => (
+      <div class="desktop-nav__item">
+        {
+          item.children?.length ? (
+            <>
+              <button
+                type="button"
+                class:list={[
+                  "desktop-nav__trigger",
+                  isActive(item) && "desktop-nav__trigger--active",
+                ]}
+                aria-expanded="false"
+                data-nav-trigger
+              >
+                <span>{item.label}</span>
+
+                <svg
+                  aria-hidden="true"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                >
+                  <path
+                    d="m3 4.5 3 3 3-3"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.4"
+                  />
+                </svg>
+              </button>
+
+              <div
+                class:list={[
+                  "desktop-nav__dropdown",
+                  item.layout === "mega"
+                    && "desktop-nav__dropdown--mega",
+                  item.layout === "two-column"
+                    && "desktop-nav__dropdown--two-column",
+                ]}
+                data-nav-dropdown
+              >
+                <div class="desktop-nav__dropdown-inner">
+                  {
+                    item.href && (
+                      <div class="desktop-nav__overview">
+                        <span>{item.label}</span>
+
+                        <a href={item.href}>
+                          View all {item.label.toLowerCase()}
+
+                          <svg
+                            aria-hidden="true"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 14 14"
+                          >
+                            <path
+                              d="M2.5 7h9M8 3.5 11.5 7 8 10.5"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="1.4"
+                            />
+                          </svg>
+                        </a>
+                      </div>
+                    )
+                  }
+
+                  <div class="desktop-nav__links">
+                    {
+                      item.children.map((child) => (
+                        <a
+                          href={child.href}
+                          class:list={[
+                            "desktop-nav__dropdown-link",
+                            pathname.startsWith(child.href)
+                              && "desktop-nav__dropdown-link--active",
+                          ]}
+                        >
+                          <strong>{child.label}</strong>
+
+                          {
+                            child.description && (
+                              <span>{child.description}</span>
+                            )
+                          }
+                        </a>
+                      ))
+                    }
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <a
+              href={item.href}
+              class:list={[
+                "desktop-nav__link",
+                isActive(item) && "desktop-nav__link--active",
+              ]}
+            >
+              {item.label}
+            </a>
+          )
+        }
+      </div>
+    ))
+  }
+</nav>
+
+<style>
+  .desktop-nav {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: clamp(0.2rem, 0.8vw, 0.75rem);
+  }
+
+  .desktop-nav__item {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .desktop-nav__trigger,
+  .desktop-nav__link {
+    position: relative;
+    display: inline-flex;
+    min-height: 4.75rem;
+    align-items: center;
+    gap: 0.35rem;
+    border: 0;
+    background: transparent;
+    color: #26354a;
+    cursor: pointer;
+    padding-inline: clamp(0.55rem, 1vw, 0.85rem);
+    font: inherit;
+    font-size: 0.79rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .desktop-nav__trigger::after,
+  .desktop-nav__link::after {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0;
+    left: 0.75rem;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: right;
+    background: #0b2f8f;
+    content: "";
+    transition: transform 180ms ease;
+  }
+
+  .desktop-nav__trigger:hover::after,
+  .desktop-nav__trigger--active::after,
+  .desktop-nav__link:hover::after,
+  .desktop-nav__link--active::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .desktop-nav__trigger svg {
+    transition: transform 180ms ease;
+  }
+
+  .desktop-nav__item:hover .desktop-nav__trigger svg,
+  .desktop-nav__trigger[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  .desktop-nav__dropdown {
+    position: absolute;
+    top: calc(100% - 1px);
+    left: 50%;
+    width: min(24rem, calc(100vw - 2rem));
+    transform: translate(-50%, 0.5rem);
+    border: 1px solid #dce3ed;
+    border-radius: 0.75rem;
+    background: #ffffff;
+    box-shadow:
+      0 22px 55px rgba(12, 31, 60, 0.12),
+      0 4px 14px rgba(12, 31, 60, 0.06);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease,
+      visibility 160ms ease;
+  }
+
+  .desktop-nav__dropdown--mega {
+    position: fixed;
+    top: var(--header-height, 4.75rem);
+    left: 50%;
+    width: min(76rem, calc(100vw - 2rem));
+  }
+
+  .desktop-nav__dropdown--two-column {
+    width: min(36rem, calc(100vw - 2rem));
+  }
+
+  .desktop-nav__item:hover .desktop-nav__dropdown,
+  .desktop-nav__item:focus-within .desktop-nav__dropdown {
+    transform: translate(-50%, 0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .desktop-nav__dropdown-inner {
+    padding: 1.25rem;
+  }
+
+  .desktop-nav__overview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid #e6eaf0;
+    margin-bottom: 0.7rem;
+    padding: 0 0.25rem 1rem;
+  }
+
+  .desktop-nav__overview > span {
+    color: #778195;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .desktop-nav__overview a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #0b2f8f;
+    font-size: 0.74rem;
+    font-weight: 750;
+  }
+
+  .desktop-nav__links {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .desktop-nav__dropdown--two-column .desktop-nav__links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .desktop-nav__dropdown--mega .desktop-nav__links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.3rem 0.8rem;
+  }
+
+  .desktop-nav__dropdown-link {
+    display: grid;
+    gap: 0.22rem;
+    border-radius: 0.5rem;
+    padding: 0.72rem 0.75rem;
+    transition: background-color 150ms ease;
+  }
+
+  .desktop-nav__dropdown-link:hover,
+  .desktop-nav__dropdown-link--active {
+    background: #f3f6fb;
+  }
+
+  .desktop-nav__dropdown-link strong {
+    color: #14233a;
+    font-size: 0.78rem;
+    font-weight: 750;
+    line-height: 1.35;
+  }
+
+  .desktop-nav__dropdown-link span {
+    color: #748094;
+    font-size: 0.68rem;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 68rem) {
+    .desktop-nav {
+      display: none;
+    }
+  }
+</style>

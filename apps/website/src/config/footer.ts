@@ -84,10 +84,6 @@ export const footerKeyPages: FooterLink[] = [
     href: "/insights",
   },
   {
-    label: "Pricing",
-    href: "/pricing",
-  },
-  {
     label: "Testimonials",
     href: "/testimonials",
   },

@@ -1,5 +1,7 @@
 ---
 import SiteFooter from "../components/layout/SiteFooter.astro";
+import BackToTop from "../components/ui/BackToTop.astro";
+import FloatingWhatsapp from "../components/ui/FloatingWhatsapp.astro";
 import SiteHeader from "../components/layout/SiteHeader.astro";
 import { site } from "../config/site";
 import "../styles/global.css";
@@ -37,7 +39,7 @@ const organizationSchema = {
   alternateName: site.name,
   url: site.url,
   logo: new URL(
-    "/brand/lkprofessionals-logo.svg",
+    "/brand/logo.png",
     site.url,
   ).toString(),
   foundingDate: String(site.foundingYear),
@@ -112,5 +114,8 @@ const schemas = structuredData
     </main>
 
     <SiteFooter />
+
+    <FloatingWhatsapp />
+    <BackToTop />
   </body>
 </html>

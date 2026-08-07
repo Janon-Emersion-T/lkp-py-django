@@ -1,0 +1,241 @@
+---
+import { headerNavigation } from "../../../config/navigation";
+
+interface Props {
+  pathname: string;
+}
+
+const { pathname } = Astro.props;
+---
+
+<div
+  id="mobile-navigation"
+  class="mobile-nav"
+  data-mobile-navigation
+  hidden
+>
+  <div class="mobile-nav__inner">
+    <nav class="mobile-nav__navigation" aria-label="Mobile navigation">
+      {
+        headerNavigation.map((item) => (
+          item.children?.length ? (
+            <details
+              class="mobile-nav__group"
+              open={item.href ? pathname.startsWith(item.href) : false}
+            >
+              <summary>
+                <span>{item.label}</span>
+
+                <svg
+                  aria-hidden="true"
+                  width="15"
+                  height="15"
+                  viewBox="0 0 15 15"
+                >
+                  <path
+                    d="m4 6 3.5 3.5L11 6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                </svg>
+              </summary>
+
+              <div class="mobile-nav__children">
+                {
+                  item.href && (
+                    <a
+                      class="mobile-nav__overview"
+                      href={item.href}
+                    >
+                      All {item.label}
+                    </a>
+                  )
+                }
+
+                {
+                  item.children.map((child) => (
+                    <a
+                      href={child.href}
+                      class:list={[
+                        pathname.startsWith(child.href)
+                          && "mobile-nav__child--active",
+                      ]}
+                    >
+                      {child.label}
+                    </a>
+                  ))
+                }
+              </div>
+            </details>
+          ) : (
+            <a
+              class:list={[
+                "mobile-nav__direct",
+                (
+                  item.href === "/"
+                    ? pathname === "/"
+                    : (
+                        pathname === item.href
+                        || pathname.startsWith(`${item.href}/`)
+                      )
+                )
+                  && "mobile-nav__direct--active",
+              ]}
+              href={item.href}
+            >
+              {item.label}
+            </a>
+          )
+        ))
+      }
+    </nav>
+
+    <div class="mobile-nav__actions">
+      <a href="/contact/" class="mobile-nav__contact">
+        Contact
+      </a>
+
+      <a href="/get-a-quote/" class="mobile-nav__quote">
+        Get a Quote
+
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16">
+          <path
+            d="M3 8h10M9 4l4 4-4 4"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          />
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mobile-nav {
+    position: fixed;
+    inset: var(--header-height, 4.75rem) 0 0;
+    z-index: 95;
+    overflow-y: auto;
+    background: #ffffff;
+  }
+
+  .mobile-nav[hidden] {
+    display: none;
+  }
+
+  .mobile-nav__inner {
+    display: flex;
+    width: min(100% - 2rem, 72rem);
+    min-height: calc(100dvh - var(--header-height, 4.75rem));
+    flex-direction: column;
+    justify-content: space-between;
+    margin-inline: auto;
+    padding-block: 1.1rem 1.5rem;
+  }
+
+  .mobile-nav__navigation {
+    border-top: 1px solid #e4e8ee;
+  }
+
+  .mobile-nav__direct,
+  .mobile-nav__group summary {
+    display: flex;
+    min-height: 3.65rem;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e4e8ee;
+    color: #14233a;
+    cursor: pointer;
+    font-size: 0.96rem;
+    font-weight: 750;
+    list-style: none;
+  }
+
+  .mobile-nav__group summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-nav__group summary svg {
+    transition: transform 170ms ease;
+  }
+
+  .mobile-nav__group[open] summary svg {
+    transform: rotate(180deg);
+  }
+
+  .mobile-nav__direct--active,
+  .mobile-nav__group[open] summary {
+    color: #0b2f8f;
+  }
+
+  .mobile-nav__children {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.2rem;
+    border-bottom: 1px solid #e4e8ee;
+    background: #f7f9fc;
+    padding: 0.65rem;
+  }
+
+  .mobile-nav__children a {
+    border-radius: 0.4rem;
+    color: #536074;
+    padding: 0.72rem;
+    font-size: 0.78rem;
+    font-weight: 650;
+  }
+
+  .mobile-nav__children a:hover,
+  .mobile-nav__child--active {
+    background: #ffffff;
+    color: #0b2f8f;
+  }
+
+  .mobile-nav__overview {
+    color: #0b2f8f !important;
+    font-weight: 800 !important;
+  }
+
+  .mobile-nav__actions {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 0.7rem;
+    border-top: 1px solid #e4e8ee;
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+  }
+
+  .mobile-nav__contact,
+  .mobile-nav__quote {
+    display: inline-flex;
+    min-height: 3.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.55rem;
+    font-size: 0.79rem;
+    font-weight: 750;
+  }
+
+  .mobile-nav__contact {
+    border: 1px solid #ccd5e2;
+    color: #24344a;
+  }
+
+  .mobile-nav__quote {
+    gap: 0.6rem;
+    background: #0b2f8f;
+    color: #ffffff;
+  }
+
+  @media (max-width: 34rem) {
+    .mobile-nav__children {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
