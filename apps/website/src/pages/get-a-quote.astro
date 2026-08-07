@@ -1,0 +1,192 @@
+---
+import QuoteRequestForm from "../components/quote/QuoteRequestForm.astro";
+import Layout from "../layouts/Layout.astro";
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Get a Quote",
+  url: "https://lkprofessionals.com/get-a-quote/",
+  description:
+    "Request a free project quote from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Get a Quote"
+  description="Tell LKProfessionals about your project and request a free, practical quotation."
+  canonicalPath="/get-a-quote/"
+  structuredData={pageSchema}
+>
+  <article class="quote-page">
+    <div class="site-container quote-page__layout">
+      <section class="quote-page__intro">
+        <p class="eyebrow">
+          Start a project
+        </p>
+
+        <h1>
+          Tell us what you need.
+        </h1>
+
+        <p class="quote-page__lead">
+          Give us the essential details about your project.
+          We’ll review the requirements and respond with a
+          practical next step—not a generic sales script.
+        </p>
+
+        <div class="quote-page__points">
+          <div>
+            <strong>01</strong>
+            <span>Free initial quotation</span>
+          </div>
+
+          <div>
+            <strong>02</strong>
+            <span>Clear scope and practical guidance</span>
+          </div>
+
+          <div>
+            <strong>03</strong>
+            <span>Your details stay private</span>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="quote-page__form"
+        aria-label="Quote request form"
+      >
+        <div class="quote-page__form-heading">
+          <span>Project enquiry</span>
+
+          <p>
+            Fields marked with * are required.
+          </p>
+        </div>
+
+        <QuoteRequestForm surface="page" />
+      </section>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .quote-page {
+    background:
+      linear-gradient(
+        180deg,
+        #f7f9fc,
+        #ffffff 24rem
+      );
+    padding-block:
+      clamp(3rem, 7vw, 6rem)
+      clamp(5rem, 9vw, 8rem);
+  }
+
+  .quote-page__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.78fr)
+      minmax(0, 1.35fr);
+    gap: clamp(3rem, 8vw, 7rem);
+    align-items: start;
+  }
+
+  .quote-page__intro {
+    position: sticky;
+    top: 7rem;
+  }
+
+  .quote-page h1 {
+    max-width: 9ch;
+    margin: 1rem 0 0;
+    color: #0c1e39;
+    font-family: var(--font-serif);
+    font-size: clamp(3.1rem, 6vw, 5.6rem);
+    font-weight: 400;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+  }
+
+  .quote-page__lead {
+    max-width: 32rem;
+    margin: 1.5rem 0 0;
+    color: #647084;
+    font-size: 0.96rem;
+    line-height: 1.75;
+  }
+
+  .quote-page__points {
+    display: grid;
+    margin-top: 2.6rem;
+    border-top: 1px solid #dce2ea;
+  }
+
+  .quote-page__points div {
+    display: grid;
+    grid-template-columns: 2.2rem 1fr;
+    gap: 0.75rem;
+    border-bottom: 1px solid #dce2ea;
+    padding-block: 0.9rem;
+  }
+
+  .quote-page__points strong {
+    color: #0b2f8f;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+  }
+
+  .quote-page__points span {
+    color: #34435a;
+    font-size: 0.78rem;
+    font-weight: 650;
+  }
+
+  .quote-page__form {
+    border: 1px solid #dde4ed;
+    border-radius: 1rem;
+    background: #ffffff;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    box-shadow:
+      0 24px 60px rgba(10, 32, 65, 0.07);
+  }
+
+  .quote-page__form-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid #e2e7ee;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .quote-page__form-heading span {
+    color: #1d2e47;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .quote-page__form-heading p {
+    margin: 0;
+    color: #8791a2;
+    font-size: 0.67rem;
+  }
+
+  @media (max-width: 58rem) {
+    .quote-page__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .quote-page__intro {
+      position: static;
+    }
+
+    .quote-page h1 {
+      max-width: 12ch;
+    }
+  }
+</style>

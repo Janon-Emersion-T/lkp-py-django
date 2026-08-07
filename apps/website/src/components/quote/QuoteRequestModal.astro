@@ -1,0 +1,329 @@
+---
+import QuoteRequestForm from "./QuoteRequestForm.astro";
+---
+
+<dialog
+  class="quote-modal"
+  data-quote-modal
+  aria-labelledby="quote-modal-title"
+>
+  <div class="quote-modal__shell">
+    <header class="quote-modal__header">
+      <div>
+        <p class="quote-modal__eyebrow">
+          Start a project
+        </p>
+
+        <h2 id="quote-modal-title">
+          Request a free quote
+        </h2>
+
+        <p>
+          Give us the essentials. We’ll review your requirements
+          and respond with practical next steps.
+        </p>
+      </div>
+
+      <button
+        class="quote-modal__close"
+        type="button"
+        aria-label="Close quote form"
+        data-close-quote-modal
+      >
+        <svg
+          aria-hidden="true"
+          width="18"
+          height="18"
+          viewBox="0 0 18 18"
+        >
+          <path
+            d="m4.5 4.5 9 9m0-9-9 9"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-width="1.5"
+          />
+        </svg>
+      </button>
+    </header>
+
+    <div class="quote-modal__body">
+      <QuoteRequestForm surface="modal" />
+    </div>
+
+    <footer class="quote-modal__footer">
+      <span>
+        Prefer a dedicated page?
+      </span>
+
+      <a href="/get-a-quote/">
+        Open full quote page
+      </a>
+    </footer>
+  </div>
+</dialog>
+
+<script>
+  const initialiseQuoteModal = () => {
+    const modal =
+      document.querySelector<HTMLDialogElement>(
+        "[data-quote-modal]",
+      );
+
+    if (
+      !modal
+      || modal.dataset.initialised === "true"
+    ) {
+      return;
+    }
+
+    modal.dataset.initialised = "true";
+
+    let opener: HTMLElement | null = null;
+
+    const openModal = (
+      trigger?: HTMLElement,
+    ) => {
+      opener =
+        trigger
+        ?? document.activeElement as HTMLElement;
+
+      if (!modal.open) {
+        modal.showModal();
+      }
+
+      document.documentElement.classList.add(
+        "quote-modal-open",
+      );
+
+      window.setTimeout(() => {
+        modal
+          .querySelector<HTMLInputElement>(
+            'input[name="full_name"]',
+          )
+          ?.focus();
+      }, 30);
+    };
+
+    const closeModal = () => {
+      if (modal.open) {
+        modal.close();
+      }
+
+      document.documentElement.classList.remove(
+        "quote-modal-open",
+      );
+
+      opener?.focus();
+    };
+
+    document.addEventListener(
+      "click",
+      (event) => {
+        const target =
+          event.target as HTMLElement;
+
+        const trigger =
+          target.closest<HTMLElement>(
+            "[data-open-quote-modal]",
+          );
+
+        if (!trigger) {
+          return;
+        }
+
+        event.preventDefault();
+
+        openModal(trigger);
+      },
+    );
+
+    modal
+      .querySelector(
+        "[data-close-quote-modal]",
+      )
+      ?.addEventListener(
+        "click",
+        closeModal,
+      );
+
+    modal.addEventListener(
+      "click",
+      (event) => {
+        if (event.target === modal) {
+          closeModal();
+        }
+      },
+    );
+
+    modal.addEventListener(
+      "cancel",
+      (event) => {
+        event.preventDefault();
+        closeModal();
+      },
+    );
+
+    document.addEventListener(
+      "lkp:quote-submitted",
+      () => {
+        window.setTimeout(
+          closeModal,
+          2200,
+        );
+      },
+    );
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initialiseQuoteModal,
+      {
+        once: true,
+      },
+    );
+  } else {
+    initialiseQuoteModal();
+  }
+
+  document.addEventListener(
+    "astro:page-load",
+    initialiseQuoteModal,
+  );
+</script>
+
+<style is:global>
+  html.quote-modal-open {
+    overflow: hidden;
+  }
+</style>
+
+<style>
+  .quote-modal {
+    width: min(56rem, calc(100vw - 2rem));
+    max-height: min(54rem, calc(100dvh - 2rem));
+    border: 0;
+    border-radius: 1rem;
+    outline: 0;
+    background: transparent;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .quote-modal::backdrop {
+    background: rgba(5, 16, 35, 0.62);
+    backdrop-filter: blur(4px);
+  }
+
+  .quote-modal__shell {
+    display: flex;
+    max-height: min(54rem, calc(100dvh - 2rem));
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 1rem;
+    background: #ffffff;
+    box-shadow:
+      0 35px 90px rgba(5, 20, 50, 0.3),
+      0 8px 24px rgba(5, 20, 50, 0.14);
+  }
+
+  .quote-modal__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1.5rem;
+    background:
+      radial-gradient(
+        circle at 90% 10%,
+        rgba(80, 143, 255, 0.25),
+        transparent 22rem
+      ),
+      linear-gradient(
+        135deg,
+        #071f65,
+        #0b2f8f
+      );
+    color: #f4f1e8;
+    padding: 1.5rem 1.6rem;
+  }
+
+  .quote-modal__eyebrow {
+    margin: 0 0 0.4rem;
+    color: rgba(244, 241, 232, 0.68);
+    font-size: 0.63rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .quote-modal h2 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+  }
+
+  .quote-modal__header p:last-child {
+    max-width: 37rem;
+    margin: 0.55rem 0 0;
+    color: rgba(244, 241, 232, 0.72);
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+
+  .quote-modal__close {
+    display: inline-flex;
+    width: 2.75rem;
+    height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 0.55rem;
+    background: rgba(255, 255, 255, 0.08);
+    color: #f4f1e8;
+    cursor: pointer;
+  }
+
+  .quote-modal__body {
+    overflow-y: auto;
+    padding: 1.5rem 1.6rem 1.25rem;
+  }
+
+  .quote-modal__footer {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    border-top: 1px solid #e5e9ef;
+    background: #f8fafc;
+    padding: 0.8rem 1rem;
+    color: #7a8597;
+    font-size: 0.66rem;
+  }
+
+  .quote-modal__footer a {
+    color: #0b2f8f;
+    font-weight: 750;
+  }
+
+  @media (max-width: 42rem) {
+    .quote-modal {
+      width: calc(100vw - 0.7rem);
+      max-height: calc(100dvh - 0.7rem);
+    }
+
+    .quote-modal__shell {
+      max-height: calc(100dvh - 0.7rem);
+      border-radius: 0.8rem;
+    }
+
+    .quote-modal__header {
+      padding: 1.2rem;
+    }
+
+    .quote-modal__body {
+      padding: 1.2rem;
+    }
+  }
+</style>

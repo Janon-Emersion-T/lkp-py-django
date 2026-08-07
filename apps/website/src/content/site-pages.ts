@@ -1449,16 +1449,6 @@ export const sitePages: SitePage[] = [
     noindex: false,
   },
   {
-    title: "Get a Quote",
-    path: "get-a-quote",
-    eyebrow: "Start a Project",
-    summary:
-      "Tell us about your requirements and receive a practical quotation.",
-    parentPath: null,
-    childPaths: [],
-    noindex: false,
-  },
-  {
     title: "Book a Consultation",
     path: "book-a-consultation",
     eyebrow: "Consultation",

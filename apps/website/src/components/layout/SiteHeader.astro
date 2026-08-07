@@ -74,36 +74,52 @@ const pathname = Astro.url.pathname;
     </div>
   </div>
 
-  <MobileNavigation pathname={pathname} />
 </header>
+
+<MobileNavigation pathname={pathname} />
 
 <script>
   const initialiseSiteHeader = () => {
-    const header = document.querySelector<HTMLElement>(
-      "[data-site-header]",
-    );
-
-    if (!header || header.dataset.initialised === "true") {
-      return;
-    }
+    const header =
+      document.querySelector<HTMLElement>(
+        "[data-site-header]",
+      );
 
     const menuButton =
-      header.querySelector<HTMLButtonElement>(
+      document.querySelector<HTMLButtonElement>(
         "[data-menu-button]",
       );
 
     const mobileNavigation =
-      header.querySelector<HTMLElement>(
+      document.querySelector<HTMLElement>(
         "[data-mobile-navigation]",
       );
 
-    if (!menuButton || !mobileNavigation) {
+    const backdrop =
+      document.querySelector<HTMLElement>(
+        "[data-mobile-navigation-backdrop]",
+      );
+
+    if (
+      !header
+      || !menuButton
+      || !mobileNavigation
+    ) {
       return;
     }
 
-    header.dataset.initialised = "true";
+    if (
+      header.dataset.controllerReady
+      === "true"
+    ) {
+      return;
+    }
 
-    const setMenuState = (open: boolean) => {
+    header.dataset.controllerReady = "true";
+
+    const setMenuState = (
+      open: boolean,
+    ) => {
       menuButton.setAttribute(
         "aria-expanded",
         String(open),
@@ -117,30 +133,52 @@ const pathname = Astro.url.pathname;
       );
 
       mobileNavigation.dataset.open =
-        open ? "true" : "false";
+        String(open);
 
       mobileNavigation.setAttribute(
         "aria-hidden",
         String(!open),
       );
 
-      document.documentElement.classList.toggle(
-        "navigation-open",
-        open,
-      );
+      if (open) {
+        mobileNavigation.removeAttribute(
+          "inert",
+        );
+      } else {
+        mobileNavigation.setAttribute(
+          "inert",
+          "",
+        );
+      }
+
+      document.documentElement
+        .classList
+        .toggle(
+          "navigation-open",
+          open,
+        );
     };
 
     const closeMenu = () => {
       setMenuState(false);
     };
 
-    menuButton.addEventListener("click", () => {
-      const isOpen =
-        menuButton.getAttribute("aria-expanded")
-          === "true";
+    menuButton.addEventListener(
+      "click",
+      () => {
+        const currentlyOpen =
+          menuButton.getAttribute(
+            "aria-expanded",
+          ) === "true";
 
-      setMenuState(!isOpen);
-    });
+        setMenuState(!currentlyOpen);
+      },
+    );
+
+    backdrop?.addEventListener(
+      "click",
+      closeMenu,
+    );
 
     mobileNavigation
       .querySelectorAll("a")
@@ -161,7 +199,9 @@ const pathname = Astro.url.pathname;
     );
 
     const desktopBreakpoint =
-      window.matchMedia("(min-width: 68.001rem)");
+      window.matchMedia(
+        "(min-width: 68.001rem)",
+      );
 
     desktopBreakpoint.addEventListener(
       "change",
@@ -191,7 +231,9 @@ const pathname = Astro.url.pathname;
     updateHeader();
   };
 
-  if (document.readyState === "loading") {
+  if (
+    document.readyState === "loading"
+  ) {
     document.addEventListener(
       "DOMContentLoaded",
       initialiseSiteHeader,
