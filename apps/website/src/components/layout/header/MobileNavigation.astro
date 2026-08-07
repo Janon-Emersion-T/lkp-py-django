@@ -12,7 +12,8 @@ const { pathname } = Astro.props;
   id="mobile-navigation"
   class="mobile-nav"
   data-mobile-navigation
-  hidden
+  data-open="false"
+  aria-hidden="true"
 >
   <div class="mobile-nav__inner">
     <nav class="mobile-nav__navigation" aria-label="Mobile navigation">
@@ -119,14 +120,31 @@ const { pathname } = Astro.props;
 <style>
   .mobile-nav {
     position: fixed;
-    inset: var(--header-height, 4.75rem) 0 0;
+    inset:
+      calc(var(--header-height, 4.75rem) + 0.9rem)
+      0
+      0;
     z-index: 95;
     overflow-y: auto;
     background: #ffffff;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translateY(-0.5rem);
+
+    transition:
+      opacity 180ms ease,
+      visibility 180ms ease,
+      transform 180ms ease;
   }
 
-  .mobile-nav[hidden] {
-    display: none;
+  .mobile-nav[data-open="true"] {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
   }
 
   .mobile-nav__inner {
@@ -236,6 +254,13 @@ const { pathname } = Astro.props;
   @media (max-width: 34rem) {
     .mobile-nav__children {
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-nav,
+    .mobile-nav__group summary svg {
+      transition: none;
     }
   }
 </style>

@@ -13,13 +13,24 @@ const pathname = Astro.url.pathname;
       class="site-brand"
       aria-label={`${site.name} home`}
     >
-      <img
-        src="/brand/logo.png"
-        alt={site.name}
-        width="188"
-        height="65"
-        class="site-brand__image"
-      />
+      <span class="site-brand__logos">
+        <img
+          src="/brand/logo.png"
+          alt={site.name}
+          width="188"
+          height="65"
+          class="site-brand__image site-brand__image--default"
+        />
+
+        <img
+          src="/brand/logo-white.png"
+          alt=""
+          width="188"
+          height="65"
+          class="site-brand__image site-brand__image--scrolled"
+          aria-hidden="true"
+        />
+      </span>
     </a>
 
     <DesktopNavigation pathname={pathname} />
@@ -67,81 +78,135 @@ const pathname = Astro.url.pathname;
 </header>
 
 <script>
-  const header = document.querySelector<HTMLElement>(
-    "[data-site-header]",
-  );
+  const initialiseSiteHeader = () => {
+    const header = document.querySelector<HTMLElement>(
+      "[data-site-header]",
+    );
 
-  const menuButton = document.querySelector<HTMLButtonElement>(
-    "[data-menu-button]",
-  );
+    if (!header || header.dataset.initialised === "true") {
+      return;
+    }
 
-  const mobileNavigation = document.querySelector<HTMLElement>(
-    "[data-mobile-navigation]",
-  );
+    const menuButton =
+      header.querySelector<HTMLButtonElement>(
+        "[data-menu-button]",
+      );
 
-  const closeMenu = () => {
+    const mobileNavigation =
+      header.querySelector<HTMLElement>(
+        "[data-mobile-navigation]",
+      );
+
     if (!menuButton || !mobileNavigation) {
       return;
     }
 
-    menuButton.setAttribute("aria-expanded", "false");
-    menuButton.setAttribute("aria-label", "Open navigation menu");
+    header.dataset.initialised = "true";
 
-    mobileNavigation.hidden = true;
+    const setMenuState = (open: boolean) => {
+      menuButton.setAttribute(
+        "aria-expanded",
+        String(open),
+      );
 
-    document.documentElement.classList.remove("navigation-open");
-  };
+      menuButton.setAttribute(
+        "aria-label",
+        open
+          ? "Close navigation menu"
+          : "Open navigation menu",
+      );
 
-  const openMenu = () => {
-    if (!menuButton || !mobileNavigation) {
-      return;
-    }
+      mobileNavigation.dataset.open =
+        open ? "true" : "false";
 
-    menuButton.setAttribute("aria-expanded", "true");
-    menuButton.setAttribute("aria-label", "Close navigation menu");
+      mobileNavigation.setAttribute(
+        "aria-hidden",
+        String(!open),
+      );
 
-    mobileNavigation.hidden = false;
+      document.documentElement.classList.toggle(
+        "navigation-open",
+        open,
+      );
+    };
 
-    document.documentElement.classList.add("navigation-open");
-  };
+    const closeMenu = () => {
+      setMenuState(false);
+    };
 
-  menuButton?.addEventListener("click", () => {
-    const isOpen =
-      menuButton.getAttribute("aria-expanded") === "true";
+    menuButton.addEventListener("click", () => {
+      const isOpen =
+        menuButton.getAttribute("aria-expanded")
+          === "true";
 
-    if (isOpen) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  });
-
-  mobileNavigation
-    ?.querySelectorAll("a")
-    .forEach((link) => {
-      link.addEventListener("click", closeMenu);
+      setMenuState(!isOpen);
     });
 
-  window.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeMenu();
-    }
-  });
+    mobileNavigation
+      .querySelectorAll("a")
+      .forEach((link) => {
+        link.addEventListener(
+          "click",
+          closeMenu,
+        );
+      });
 
-  const updateHeader = () => {
-    header?.toggleAttribute(
-      "data-scrolled",
-      window.scrollY > 12,
+    window.addEventListener(
+      "keydown",
+      (event) => {
+        if (event.key === "Escape") {
+          closeMenu();
+        }
+      },
     );
+
+    const desktopBreakpoint =
+      window.matchMedia("(min-width: 68.001rem)");
+
+    desktopBreakpoint.addEventListener(
+      "change",
+      (event) => {
+        if (event.matches) {
+          closeMenu();
+        }
+      },
+    );
+
+    const updateHeader = () => {
+      header.toggleAttribute(
+        "data-scrolled",
+        window.scrollY > 12,
+      );
+    };
+
+    window.addEventListener(
+      "scroll",
+      updateHeader,
+      {
+        passive: true,
+      },
+    );
+
+    setMenuState(false);
+    updateHeader();
   };
 
-  window.addEventListener(
-    "scroll",
-    updateHeader,
-    { passive: true },
-  );
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initialiseSiteHeader,
+      {
+        once: true,
+      },
+    );
+  } else {
+    initialiseSiteHeader();
+  }
 
-  updateHeader();
+  document.addEventListener(
+    "astro:page-load",
+    initialiseSiteHeader,
+  );
 </script>
 
 <style is:global>
@@ -156,24 +221,56 @@ const pathname = Astro.url.pathname;
 
 <style>
   .site-header {
+    --header-foreground: #26354a;
+    --header-muted: #314056;
+    --header-background: rgba(255, 255, 255, 0.96);
+
     position: sticky;
     top: 0;
     z-index: 100;
+
+    width: 100%;
+    margin-inline: auto;
+
+    border-radius: 0;
     border-bottom: 1px solid rgba(14, 35, 67, 0.1);
-    background: rgba(255, 255, 255, 0.96);
+    background: var(--header-background);
+    color: var(--header-foreground);
     backdrop-filter: blur(12px);
+
     transition:
-      box-shadow 180ms ease,
-      border-color 180ms ease;
+      background-color 220ms ease,
+      color 220ms ease,
+      width 220ms ease,
+      top 220ms ease,
+      border-radius 220ms ease,
+      box-shadow 220ms ease,
+      border-color 220ms ease;
   }
 
   .site-header[data-scrolled] {
-    border-bottom-color: rgba(14, 35, 67, 0.14);
-    box-shadow: 0 8px 26px rgba(13, 32, 63, 0.055);
+    top: 0.65rem;
+
+    width: calc(100% - 1.3rem);
+    max-width: 94rem;
+
+    border-radius: 1rem;
+
+    overflow: visible;
+    --header-foreground: #f4f1e8;
+    --header-muted: rgba(244, 241, 232, 0.84);
+    --header-background: #0b2f8f;
+
+    border-bottom-color: rgba(255, 255, 255, 0.16);
+
+    box-shadow:
+      0 10px 30px rgba(7, 31, 101, 0.2),
+      0 2px 8px rgba(7, 31, 101, 0.1);
   }
 
   .site-header__inner {
     display: grid;
+    border-radius: inherit;
     min-height: var(--header-height);
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: stretch;
@@ -186,12 +283,42 @@ const pathname = Astro.url.pathname;
     align-items: center;
   }
 
+  .site-brand__logos {
+    position: relative;
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+  }
+
   .site-brand__image {
     width: auto;
     max-width: 100%;
     max-height: 3.15rem;
     object-fit: contain;
     object-position: left center;
+
+    transition:
+      opacity 220ms ease,
+      visibility 220ms ease;
+  }
+
+  .site-brand__image--scrolled {
+    position: absolute;
+    inset: 0 auto auto 0;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .site-header[data-scrolled]
+    .site-brand__image--default {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .site-header[data-scrolled]
+    .site-brand__image--scrolled {
+    opacity: 1;
+    visibility: visible;
   }
 
   .site-header__actions {
@@ -201,7 +328,7 @@ const pathname = Astro.url.pathname;
   }
 
   .site-header__contact {
-    color: #314056;
+    color: var(--header-muted);
     font-size: 0.78rem;
     font-weight: 700;
     transition: color 150ms ease;
@@ -211,12 +338,18 @@ const pathname = Astro.url.pathname;
     color: #0b2f8f;
   }
 
+  .site-header[data-scrolled]
+    .site-header__contact:hover {
+    color: #ffffff;
+  }
+
   .site-header__quote {
     display: inline-flex;
     min-height: 2.8rem;
     align-items: center;
     justify-content: center;
     gap: 0.55rem;
+    border: 1px solid transparent;
     border-radius: 0.5rem;
     background: #0b2f8f;
     color: #ffffff;
@@ -225,12 +358,27 @@ const pathname = Astro.url.pathname;
     font-weight: 750;
     transition:
       background-color 170ms ease,
+      border-color 170ms ease,
+      color 170ms ease,
       transform 170ms ease;
   }
 
   .site-header__quote:hover {
     transform: translateY(-1px);
     background: #1746c7;
+  }
+
+  .site-header[data-scrolled]
+    .site-header__quote {
+    border-color: rgba(255, 255, 255, 0.9);
+    background: #f4f1e8;
+    color: #0b2f8f;
+  }
+
+  .site-header[data-scrolled]
+    .site-header__quote:hover {
+    background: #ffffff;
+    color: #071f65;
   }
 
   .site-header__quote svg {
@@ -257,6 +405,24 @@ const pathname = Astro.url.pathname;
     font: inherit;
     font-size: 0.75rem;
     font-weight: 750;
+
+    transition:
+      background-color 170ms ease,
+      border-color 170ms ease,
+      color 170ms ease;
+  }
+
+  .site-header[data-scrolled]
+    .menu-button {
+    border-color: rgba(244, 241, 232, 0.42);
+    background: rgba(255, 255, 255, 0.08);
+    color: #f4f1e8;
+  }
+
+  .site-header[data-scrolled]
+    .menu-button:hover {
+    border-color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.14);
   }
 
   .menu-button__lines {
@@ -300,6 +466,12 @@ const pathname = Astro.url.pathname;
   }
 
   @media (max-width: 34rem) {
+    .site-header[data-scrolled] {
+      top: 0.45rem;
+      width: calc(100% - 0.8rem);
+      border-radius: 0.8rem;
+    }
+
     .site-brand {
       width: 9.5rem;
     }

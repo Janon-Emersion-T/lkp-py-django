@@ -169,7 +169,7 @@ const isActive = (item: HeaderNavigationGroup) => {
     gap: 0.35rem;
     border: 0;
     background: transparent;
-    color: #26354a;
+    color: var(--header-foreground, #26354a);
     cursor: pointer;
     padding-inline: clamp(0.55rem, 1vw, 0.85rem);
     font: inherit;
@@ -198,6 +198,20 @@ const isActive = (item: HeaderNavigationGroup) => {
   .desktop-nav__link--active::after {
     transform: scaleX(1);
     transform-origin: left;
+  }
+
+  :global(.site-header[data-scrolled])
+    .desktop-nav__trigger,
+  :global(.site-header[data-scrolled])
+    .desktop-nav__link {
+    color: #f4f1e8;
+  }
+
+  :global(.site-header[data-scrolled])
+    .desktop-nav__trigger::after,
+  :global(.site-header[data-scrolled])
+    .desktop-nav__link::after {
+    background: #f4f1e8;
   }
 
   .desktop-nav__trigger svg {
