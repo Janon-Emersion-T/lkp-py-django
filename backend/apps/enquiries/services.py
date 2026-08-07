@@ -63,7 +63,7 @@ class EnquiryService:
 
         log_audit_event(
             request=request,
-            actor=request.auth,
+            actor=getattr(request, "auth", None),
             event_type=AuditEventType.RECORD_CREATED,
             module="enquiries",
             message="Contact enquiry created.",
@@ -76,7 +76,7 @@ class EnquiryService:
 
         log_activity(
             request=request,
-            actor=request.auth,
+            actor=getattr(request, "auth", None),
             action="create_contact_enquiry",
             module="enquiries",
             description=(
@@ -110,7 +110,7 @@ class EnquiryService:
 
         log_audit_event(
             request=request,
-            actor=request.auth,
+            actor=getattr(request, "auth", None),
             event_type=AuditEventType.RECORD_CREATED,
             module="enquiries",
             message="Quote enquiry created.",
@@ -123,7 +123,7 @@ class EnquiryService:
 
         log_activity(
             request=request,
-            actor=request.auth,
+            actor=getattr(request, "auth", None),
             action="create_quote_enquiry",
             module="enquiries",
             description=(
@@ -155,7 +155,7 @@ class EnquiryService:
 
         log_audit_event(
             request=request,
-            actor=request.auth,
+            actor=getattr(request, "auth", None),
             event_type=AuditEventType.RECORD_UPDATED,
             module="enquiries",
             message="Contact enquiry updated.",
@@ -199,7 +199,7 @@ class EnquiryService:
 
         log_audit_event(
             request=request,
-            actor=request.auth,
+            actor=getattr(request, "auth", None),
             event_type=AuditEventType.RECORD_UPDATED,
             module="enquiries",
             message="Quote enquiry updated.",
@@ -262,7 +262,7 @@ class EnquiryService:
 
         log_audit_event(
             request=request,
-            actor=request.auth,
+            actor=getattr(request, "auth", None),
             event_type=AuditEventType.RECORD_UPDATED,
             module="enquiries",
             message="Enquiry status updated.",
@@ -316,7 +316,7 @@ class EnquiryService:
 
         log_audit_event(
             request=request,
-            actor=request.auth,
+            actor=getattr(request, "auth", None),
             event_type=AuditEventType.RECORD_UPDATED,
             module="enquiries",
             message="Enquiry assignment updated.",
@@ -361,7 +361,7 @@ class EnquiryService:
 
         log_activity(
             request=request,
-            actor=request.auth,
+            actor=getattr(request, "auth", None),
             action="add_enquiry_note",
             module="enquiries",
             description=(
@@ -401,7 +401,7 @@ class EnquiryService:
 
         log_audit_event(
             request=request,
-            actor=request.auth,
+            actor=getattr(request, "auth", None),
             event_type=AuditEventType.RECORD_UPDATED,
             module="enquiries",
             message="Enquiry follow-up completed.",
@@ -417,7 +417,7 @@ class EnquiryService:
 
         log_activity(
             request=request,
-            actor=request.auth,
+            actor=getattr(request, "auth", None),
             action="complete_follow_up",
             module="enquiries",
             description=(

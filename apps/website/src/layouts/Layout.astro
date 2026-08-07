@@ -3,6 +3,7 @@ import SiteFooter from "../components/layout/SiteFooter.astro";
 import BackToTop from "../components/ui/BackToTop.astro";
 import FloatingWhatsapp from "../components/ui/FloatingWhatsapp.astro";
 import SiteHeader from "../components/layout/SiteHeader.astro";
+import QuoteRequestModal from "../components/quote/QuoteRequestModal.astro";
 import { site } from "../config/site";
 import "../styles/global.css";
 
@@ -114,6 +115,8 @@ const schemas = structuredData
     </main>
 
     <SiteFooter />
+
+    <QuoteRequestModal />
 
     <FloatingWhatsapp />
     <BackToTop />

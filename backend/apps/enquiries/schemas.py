@@ -42,6 +42,45 @@ EnquirySourceValue = Literal[
 ]
 
 
+PublicQuoteContactMethodValue = Literal[
+    "email",
+    "whatsapp",
+]
+
+PublicQuoteContactTimeValue = Literal[
+    "",
+    "morning",
+    "afternoon",
+    "evening",
+    "anytime",
+]
+
+PublicQuoteSurfaceValue = Literal[
+    "page",
+    "modal",
+]
+
+
+class PublicQuoteRequestSchema(Schema):
+    full_name: str
+    company_name: str = ""
+    service_required: str
+    email: str
+    whatsapp_number: str = ""
+    preferred_contact_method: PublicQuoteContactMethodValue
+    country: str
+    project_description: str
+    best_time_to_contact: PublicQuoteContactTimeValue = ""
+    source_surface: PublicQuoteSurfaceValue = "page"
+    source_url: str = ""
+
+
+class PublicQuoteResponseSchema(Schema):
+    status: str
+    reference_code: str
+    message: str
+
+
 class ContactEnquiryCreateSchema(Schema):
     reference_code: str
     name: str

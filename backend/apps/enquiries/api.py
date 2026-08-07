@@ -1,17 +1,26 @@
+from uuid import uuid4
+
 from django.core.exceptions import ValidationError
+from django.core.validators import URLValidator, validate_email
 from ninja import Router
 
 from apps.accounts.models import User
 from apps.api.auth import jwt_auth
 from apps.api.common_schemas import ErrorSchema
 from apps.api.exceptions import ApiHttpError
+from apps.api.rate_limit import enforce_rate_limit
 from apps.clients.models import Client
 from apps.crm.models import Lead
 from apps.packages_catalog.models import Package
 from apps.rbac.services import require_permissions
 from apps.services_catalog.models import Service
 
-from .models import ContactEnquiry, QuoteEnquiry
+from .emails import QuoteEnquiryEmailService
+from .models import (
+    ContactEnquiry,
+    EnquirySource,
+    QuoteEnquiry,
+)
 from .repositories import (
     ContactEnquiryRepository,
     QuoteEnquiryRepository,
@@ -23,6 +32,8 @@ from .schemas import (
     EnquiryNoteCreateSchema,
     EnquiryNoteSchema,
     EnquiryStatusUpdateSchema,
+    PublicQuoteRequestSchema,
+    PublicQuoteResponseSchema,
     QuoteEnquiryCreateSchema,
     QuoteEnquirySchema,
 )
@@ -294,6 +305,233 @@ def serialize_quote(enquiry):
         ],
         "created_at": enquiry.created_at,
         "updated_at": enquiry.updated_at,
+    }
+
+
+PUBLIC_QUOTE_SERVICES = {
+    "Website Development",
+    "E-commerce Development",
+    "Custom Software Development",
+    "Mobile App Development",
+    "ERP Development",
+    "CRM Development",
+    "UI/UX Design",
+    "Website Redesign",
+    "Website Maintenance",
+    "SEO Services",
+    "Digital Marketing",
+    "Google Ads Management",
+    "Hosting & Domain",
+    "IT Consultation",
+    "Other",
+}
+
+
+def normalize_public_quote_source_url(value):
+    value = value.strip()
+
+    if not value:
+        return ""
+
+    validator = URLValidator(
+        schemes=[
+            "http",
+            "https",
+        ],
+    )
+
+    try:
+        validator(value)
+    except ValidationError:
+        return ""
+
+    return value
+
+
+def generate_public_quote_reference():
+    for _ in range(5):
+        reference_code = (
+            "WEBQ-"
+            + uuid4().hex[:12].upper()
+        )
+
+        if not QuoteEnquiry.all_objects.filter(
+            reference_code=reference_code,
+        ).exists():
+            return reference_code
+
+    raise ApiHttpError(
+        503,
+        "Unable to generate a quote reference.",
+        code="quote_reference_unavailable",
+    )
+
+
+@router.post(
+    "/quotes/public",
+    auth=None,
+    response={
+        201: PublicQuoteResponseSchema,
+        400: ErrorSchema,
+        429: ErrorSchema,
+        503: ErrorSchema,
+    },
+)
+def create_public_quote_enquiry(
+    request,
+    payload: PublicQuoteRequestSchema,
+):
+    enforce_rate_limit(
+        request,
+        scope="public-quote-request",
+        limit=10,
+        window_seconds=600,
+    )
+
+    full_name = payload.full_name.strip()
+    company_name = payload.company_name.strip()
+    service_required = payload.service_required.strip()
+    email = payload.email.strip().lower()
+    whatsapp_number = payload.whatsapp_number.strip()
+    country = payload.country.strip()
+    project_description = (
+        payload.project_description.strip()
+    )
+
+    errors = {}
+
+    if not full_name:
+        errors["full_name"] = [
+            "Enter your full name.",
+        ]
+
+    if service_required not in PUBLIC_QUOTE_SERVICES:
+        errors["service_required"] = [
+            "Select a valid service.",
+        ]
+
+    if not email:
+        errors["email"] = [
+            "Enter your email address.",
+        ]
+    else:
+        try:
+            validate_email(email)
+        except ValidationError:
+            errors["email"] = [
+                "Enter a valid email address.",
+            ]
+
+    if not country:
+        errors["country"] = [
+            "Enter your country.",
+        ]
+
+    if not project_description:
+        errors["project_description"] = [
+            "Tell us about your project.",
+        ]
+
+    if len(project_description) > 5000:
+        errors["project_description"] = [
+            "Project description must be 5000 characters or fewer.",
+        ]
+
+    if (
+        payload.preferred_contact_method == "whatsapp"
+        and not whatsapp_number
+    ):
+        errors["whatsapp_number"] = [
+            (
+                "WhatsApp number is required when "
+                "WhatsApp is your preferred contact method."
+            ),
+        ]
+
+    if errors:
+        raise ApiHttpError(
+            400,
+            "Please correct the highlighted fields.",
+            code="invalid_public_quote",
+            details={
+                "errors": errors,
+            },
+        )
+
+    reference_code = generate_public_quote_reference()
+
+    source_url = normalize_public_quote_source_url(
+        payload.source_url
+    )
+
+    values = {
+        "reference_code": reference_code,
+        "name": full_name,
+        "email": email,
+        "phone": whatsapp_number,
+        "company_name": company_name,
+        "country": country,
+        "project_title": service_required,
+        "project_description": project_description,
+        "source": EnquirySource.WEBSITE,
+        "source_url": source_url,
+        "metadata": {
+            "service_required": service_required,
+            "preferred_contact_method": (
+                payload.preferred_contact_method
+            ),
+            "best_time_to_contact": (
+                payload.best_time_to_contact
+            ),
+            "source_surface": (
+                payload.source_surface
+            ),
+            "submitted_source_url": (
+                payload.source_url
+            ),
+            "website_form": "public_quote",
+        },
+    }
+
+    enquiry = QuoteEnquiry(**values)
+
+    try:
+        enquiry.full_clean()
+    except ValidationError as exc:
+        raise ApiHttpError(
+            400,
+            "Quote enquiry validation failed.",
+            code="invalid_public_quote",
+            details={
+                "errors": getattr(
+                    exc,
+                    "message_dict",
+                    {
+                        "__all__": exc.messages,
+                    },
+                ),
+            },
+        ) from exc
+
+    # The existing service layer is intentionally reused so
+    # public website submissions enter the same enquiry,
+    # audit and activity workflow as dashboard-created quotes.
+    enquiry = EnquiryService.create_quote_enquiry(
+        request=request,
+        values=values,
+        services=[],
+    )
+
+    QuoteEnquiryEmailService.send_quote_emails(
+        enquiry
+    )
+
+    return 201, {
+        "status": "ok",
+        "reference_code": enquiry.reference_code,
+        "message": (
+            "Your quote request has been received."
+        ),
     }
 
 

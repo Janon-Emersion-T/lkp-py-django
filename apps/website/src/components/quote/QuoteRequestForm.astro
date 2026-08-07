@@ -25,7 +25,7 @@ const formId = `quote-request-${surface}`;
   ]}
   data-quote-form
   data-surface={surface}
-  data-endpoint={`${apiBaseUrl}/enquiries/public/quote`}
+  data-endpoint={`${apiBaseUrl}/enquiries/quotes/public`}
   novalidate
 >
   <div class="quote-form__grid">
@@ -487,22 +487,11 @@ const formId = `quote-request-${surface}`;
                 window.location.href,
             };
 
-            let firstInvalid:
-              | HTMLElement
-              | null = null;
-
             const invalid = (
               field: string,
               message: string,
             ) => {
               setFieldError(field, message);
-
-              if (!firstInvalid) {
-                firstInvalid =
-                  form.querySelector<HTMLElement>(
-                    `[name="${field}"]`,
-                  );
-              }
             };
 
             if (!payload.full_name) {
@@ -568,8 +557,20 @@ const formId = `quote-request-${surface}`;
               );
             }
 
-            if (firstInvalid) {
-              firstInvalid.focus();
+            const invalidField =
+              form.querySelector<HTMLElement>(
+                ".quote-field--invalid input, "
+                + ".quote-field--invalid select, "
+                + ".quote-field--invalid textarea",
+              );
+
+            const hasValidationErrors =
+              form.querySelector(
+                ".quote-field--invalid",
+              ) !== null;
+
+            if (hasValidationErrors) {
+              invalidField?.focus();
               return;
             }
 

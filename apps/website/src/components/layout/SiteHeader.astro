@@ -36,7 +36,11 @@ const pathname = Astro.url.pathname;
     <DesktopNavigation pathname={pathname} />
 
     <div class="site-header__actions">
-      <a href="/get-a-quote/" class="site-header__quote">
+      <a
+        href="/get-a-quote/"
+        class="site-header__quote"
+        data-open-quote-modal
+      >
         Get a Quote
 
         <svg

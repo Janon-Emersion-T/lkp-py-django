@@ -132,6 +132,10 @@ import QuoteRequestForm from "./QuoteRequestForm.astro";
           return;
         }
 
+        if (typeof modal.showModal !== "function") {
+          return;
+        }
+
         event.preventDefault();
 
         openModal(trigger);
@@ -232,7 +236,7 @@ import QuoteRequestForm from "./QuoteRequestForm.astro";
   .quote-modal__header {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    gap: 1.5rem;
+    gap: .875rem;
     background:
       radial-gradient(
         circle at 90% 10%,
@@ -287,7 +291,7 @@ import QuoteRequestForm from "./QuoteRequestForm.astro";
   }
 
   .quote-modal__body {
-    overflow-y: auto;
+    overflow: hidden;
     padding: 1.5rem 1.6rem 1.25rem;
   }
 
@@ -327,3 +331,433 @@ import QuoteRequestForm from "./QuoteRequestForm.astro";
     }
   }
 </style>
+
+<!-- LKP_QUOTE_MODAL_LAYOUT_FIX_START -->
+<style is:global>
+  /*
+   * Final quote modal geometry.
+   *
+   * Desktop:
+   * - genuinely centred in viewport
+   * - compact two-column layout
+   * - no clipped fields
+   *
+   * Mobile:
+   * - centred sheet
+   * - body scrolls when required
+   * - no content is hidden
+   */
+
+  .quote-modal {
+    position: fixed !important;
+
+    inset: 0 !important;
+
+    width: min(
+      56rem,
+      calc(100vw - 2rem)
+    ) !important;
+
+    height: auto !important;
+
+    max-width: none !important;
+
+    max-height: min(
+      92dvh,
+      54rem
+    ) !important;
+
+    margin: auto !important;
+
+    padding: 0 !important;
+
+    border: 0 !important;
+    border-radius: 1rem !important;
+
+    overflow: visible !important;
+
+    background: transparent !important;
+  }
+
+  .quote-modal[open] {
+    display: block !important;
+  }
+
+  .quote-modal::backdrop {
+    background: rgba(
+      5,
+      16,
+      35,
+      0.62
+    ) !important;
+
+    backdrop-filter: blur(4px);
+  }
+
+  .quote-modal__shell {
+    display: flex !important;
+
+    width: 100% !important;
+    height: auto !important;
+
+    max-height: min(
+      92dvh,
+      54rem
+    ) !important;
+
+    flex-direction: column !important;
+
+    border-radius: 1rem !important;
+
+    overflow: hidden !important;
+
+    background: #ffffff !important;
+
+    box-shadow:
+      0 30px 80px rgba(5, 20, 50, 0.28),
+      0 8px 24px rgba(5, 20, 50, 0.14) !important;
+  }
+
+  .quote-modal__header {
+    flex: 0 0 auto !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      auto !important;
+
+    gap: 1rem !important;
+
+    padding:
+      1rem
+      1.35rem !important;
+
+    background:
+      linear-gradient(
+        125deg,
+        #071f65,
+        #1746c7
+      ) !important;
+  }
+
+  .quote-modal__eyebrow {
+    margin:
+      0
+      0
+      0.28rem !important;
+
+    font-size: 0.58rem !important;
+    letter-spacing: 0.16em !important;
+  }
+
+  .quote-modal h2 {
+    margin: 0 !important;
+
+    font-size:
+      clamp(
+        1.65rem,
+        3vw,
+        2.15rem
+      ) !important;
+
+    line-height: 1.05 !important;
+  }
+
+  .quote-modal__header p:last-child {
+    max-width: 40rem !important;
+
+    margin:
+      0.38rem
+      0
+      0 !important;
+
+    font-size: 0.7rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .quote-modal__close {
+    width: 2.45rem !important;
+    height: 2.45rem !important;
+
+    border-radius: 0.5rem !important;
+  }
+
+  /*
+   * Critical correction:
+   * never clip the actual form.
+   */
+  .quote-modal__body {
+    flex:
+      1
+      1
+      auto !important;
+
+    min-height: 0 !important;
+
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+
+    padding:
+      1rem
+      1.35rem
+      0.8rem !important;
+
+    scrollbar-width: thin;
+  }
+
+  .quote-modal__footer {
+    flex: 0 0 auto !important;
+
+    padding:
+      0.6rem
+      1rem !important;
+
+    font-size: 0.62rem !important;
+  }
+
+  /*
+   * Compact form only inside the modal.
+   * The dedicated /get-a-quote/ page is unaffected.
+   */
+  .quote-modal .quote-form__grid {
+    display: grid !important;
+
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      ) !important;
+
+    column-gap: 1rem !important;
+    row-gap: 0.62rem !important;
+  }
+
+  .quote-modal .quote-field {
+    gap: 0.28rem !important;
+  }
+
+  .quote-modal
+    .quote-field--full {
+    grid-column:
+      1 / -1 !important;
+  }
+
+  .quote-modal
+    .quote-field label,
+  .quote-modal
+    .quote-field legend {
+    font-size: 0.68rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .quote-modal
+    .quote-field input,
+  .quote-modal
+    .quote-field select {
+    min-height: 2.7rem !important;
+
+    padding-inline:
+      0.75rem !important;
+
+    font-size: 0.78rem !important;
+  }
+
+  .quote-modal
+    .quote-field textarea {
+    min-height: 6.2rem !important;
+    max-height: 8rem !important;
+
+    padding: 0.7rem !important;
+
+    font-size: 0.76rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .quote-modal
+    .quote-options {
+    gap: 0.45rem !important;
+  }
+
+  .quote-modal
+    .quote-option {
+    min-height: 2.7rem !important;
+
+    padding-inline:
+      0.7rem !important;
+
+    font-size: 0.72rem !important;
+  }
+
+  .quote-modal
+    .quote-field__error {
+    min-height: 0 !important;
+
+    font-size: 0.59rem !important;
+  }
+
+  .quote-modal
+    .quote-field__footer {
+    min-height: 0 !important;
+  }
+
+  .quote-modal
+    .quote-form__status {
+    min-height: 0 !important;
+
+    margin-top:
+      0.45rem !important;
+  }
+
+  .quote-modal
+    .quote-form__submit {
+    min-height: 2.85rem !important;
+
+    margin-top:
+      0.5rem !important;
+
+    font-size: 0.74rem !important;
+  }
+
+  .quote-modal
+    .quote-form__privacy {
+    margin-top:
+      0.42rem !important;
+
+    font-size: 0.6rem !important;
+    line-height: 1.4 !important;
+  }
+
+  /*
+   * Normal desktop/laptop screens should now fit
+   * without needing internal scrolling.
+   *
+   * If height is genuinely insufficient, we keep
+   * scrolling available instead of clipping fields.
+   */
+  @media (
+    min-width: 43rem
+  ) and (
+    min-height: 48rem
+  ) {
+    .quote-modal__body {
+      overflow-y: visible !important;
+    }
+  }
+
+  /*
+   * Mobile.
+   *
+   * We cannot physically fit nine form controls,
+   * labels, textarea and actions into 430x932
+   * without either scrolling or making controls
+   * unusably small.
+   *
+   * Therefore mobile gets a properly centred,
+   * nearly-full-height sheet with safe scrolling.
+   */
+  @media (
+    max-width: 42rem
+  ) {
+    .quote-modal {
+      width:
+        calc(
+          100vw - 0.8rem
+        ) !important;
+
+      max-height:
+        calc(
+          100dvh - 0.8rem
+        ) !important;
+
+      border-radius:
+        0.85rem !important;
+    }
+
+    .quote-modal__shell {
+      max-height:
+        calc(
+          100dvh - 0.8rem
+        ) !important;
+
+      border-radius:
+        0.85rem !important;
+    }
+
+    .quote-modal__header {
+      padding:
+        0.9rem
+        1rem !important;
+    }
+
+    .quote-modal__body {
+      overflow-y:
+        auto !important;
+
+      padding:
+        0.9rem
+        1rem
+        0.75rem !important;
+    }
+
+    .quote-modal__footer {
+      padding:
+        0.55rem
+        0.8rem !important;
+    }
+
+    .quote-modal
+      .quote-form__grid {
+      grid-template-columns:
+        1fr !important;
+
+      row-gap:
+        0.65rem !important;
+    }
+
+    .quote-modal
+      .quote-field--full {
+      grid-column:
+        auto !important;
+    }
+
+    .quote-modal
+      .quote-field input,
+    .quote-modal
+      .quote-field select {
+      min-height:
+        2.8rem !important;
+    }
+
+    .quote-modal
+      .quote-field textarea {
+      min-height:
+        6.5rem !important;
+    }
+  }
+
+  @media (
+    max-width: 28rem
+  ) {
+    .quote-modal
+      .quote-options {
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0, 1fr)
+        ) !important;
+    }
+  }
+
+  @media (
+    prefers-reduced-motion:
+      reduce
+  ) {
+    .quote-modal *,
+    .quote-modal {
+      scroll-behavior:
+        auto !important;
+    }
+  }
+</style>
+<!-- LKP_QUOTE_MODAL_LAYOUT_FIX_END -->

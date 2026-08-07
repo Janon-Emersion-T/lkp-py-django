@@ -193,6 +193,74 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
+
+# Email delivery
+EMAIL_BACKEND = os.getenv(
+    "EMAIL_BACKEND",
+    "django.core.mail.backends.console.EmailBackend",
+)
+
+EMAIL_HOST = os.getenv(
+    "EMAIL_HOST",
+    "",
+)
+
+EMAIL_PORT = int(
+    os.getenv(
+        "EMAIL_PORT",
+        "587",
+    )
+)
+
+EMAIL_USE_TLS = (
+    os.getenv(
+        "EMAIL_USE_TLS",
+        "true",
+    ).lower()
+    == "true"
+)
+
+EMAIL_USE_SSL = (
+    os.getenv(
+        "EMAIL_USE_SSL",
+        "false",
+    ).lower()
+    == "true"
+)
+
+EMAIL_HOST_USER = os.getenv(
+    "EMAIL_HOST_USER",
+    "",
+)
+
+EMAIL_HOST_PASSWORD = os.getenv(
+    "EMAIL_HOST_PASSWORD",
+    "",
+)
+
+DEFAULT_FROM_EMAIL = os.getenv(
+    "DEFAULT_FROM_EMAIL",
+    "LKProfessionals <noreply@lkprofessionals.com>",
+)
+
+LKP_CONTACT_EMAIL = os.getenv(
+    "LKP_CONTACT_EMAIL",
+    "info@lkprofessionals.com",
+)
+
+LKP_QUOTE_NOTIFICATION_EMAIL = os.getenv(
+    "LKP_QUOTE_NOTIFICATION_EMAIL",
+    LKP_CONTACT_EMAIL,
+)
+
+EMAIL_TIMEOUT = int(
+    os.getenv(
+        "EMAIL_TIMEOUT",
+        "15",
+    )
+)
+
+
 # Dashboard reporting
 DASHBOARD_REPORTING_ENVIRONMENT = os.getenv(
     "DASHBOARD_REPORTING_ENVIRONMENT",
