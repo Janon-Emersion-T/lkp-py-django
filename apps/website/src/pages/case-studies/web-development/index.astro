@@ -1,0 +1,33 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import WebDevelopmentCaseStudiesHero from "../../../components/case-studies/WebDevelopmentCaseStudiesHero.astro";
+import WebDevelopmentCaseStudiesDirectory from "../../../components/case-studies/WebDevelopmentCaseStudiesDirectory.astro";
+import WebDevelopmentCaseStudiesContext from "../../../components/case-studies/WebDevelopmentCaseStudiesContext.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Web Development Case Studies",
+  url:
+    "https://lkprofessionals.com/case-studies/web-development/",
+  description:
+    "Web development case studies from LKProfessionals covering business objectives, architecture, design, engineering and measurable outcomes.",
+  isPartOf: {
+    "@type": "CollectionPage",
+    name: "LKProfessionals Case Studies",
+    url:
+      "https://lkprofessionals.com/case-studies/",
+  },
+};
+---
+
+<Layout
+  title="Web Development Case Studies"
+  description="Explore web development case studies from LKProfessionals covering business objectives, structure, design, engineering and measurable outcomes."
+  canonicalPath="/case-studies/web-development/"
+  structuredData={schema}
+>
+  <WebDevelopmentCaseStudiesHero />
+  <WebDevelopmentCaseStudiesDirectory />
+  <WebDevelopmentCaseStudiesContext />
+</Layout>

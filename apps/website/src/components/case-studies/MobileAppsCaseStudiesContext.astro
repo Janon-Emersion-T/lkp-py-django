@@ -1,0 +1,135 @@
+<section class="mobile-case-context">
+  <div class="site-container mobile-case-context__layout">
+    <div>
+      <p>What these case studies document</p>
+
+      <h2>
+        More than screenshots and launch announcements.
+      </h2>
+    </div>
+
+    <div class="mobile-case-context__list">
+      <article>
+        <span>01</span>
+
+        <div>
+          <h3>The business problem</h3>
+          <p>
+            What needed to change and why a mobile product
+            was appropriate for the workflow.
+          </p>
+        </div>
+      </article>
+
+      <article>
+        <span>02</span>
+
+        <div>
+          <h3>The product decision</h3>
+          <p>
+            How platform, interface and feature decisions were
+            shaped around users rather than technology fashion.
+          </p>
+        </div>
+      </article>
+
+      <article>
+        <span>03</span>
+
+        <div>
+          <h3>The engineering work</h3>
+          <p>
+            How APIs, authentication, backend systems and
+            integrations supported the application.
+          </p>
+        </div>
+      </article>
+
+      <article>
+        <span>04</span>
+
+        <div>
+          <h3>The outcome</h3>
+          <p>
+            What changed after delivery and which results can
+            reasonably be demonstrated.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mobile-case-context {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .mobile-case-context__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.72fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .mobile-case-context__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: rgba(246, 243, 235, 0.56);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .mobile-case-context h2 {
+    max-width: 11ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .mobile-case-context__list {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .mobile-case-context article {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    padding-block: 1.2rem;
+  }
+
+  .mobile-case-context article > span {
+    color: rgba(246, 243, 235, 0.4);
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .mobile-case-context h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 0.82rem;
+  }
+
+  .mobile-case-context article p {
+    max-width: 42rem;
+    margin: 0.45rem 0 0;
+    color: rgba(246, 243, 235, 0.65);
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 52rem) {
+    .mobile-case-context__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,33 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import DigitalMarketingCaseStudiesHero from "../../../components/case-studies/DigitalMarketingCaseStudiesHero.astro";
+import DigitalMarketingCaseStudiesDirectory from "../../../components/case-studies/DigitalMarketingCaseStudiesDirectory.astro";
+import DigitalMarketingCaseStudiesContext from "../../../components/case-studies/DigitalMarketingCaseStudiesContext.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Digital Marketing Case Studies",
+  url:
+    "https://lkprofessionals.com/case-studies/digital-marketing/",
+  description:
+    "Digital marketing case studies from LKProfessionals covering commercial challenges, strategy, execution and measurable results.",
+  isPartOf: {
+    "@type": "CollectionPage",
+    name: "LKProfessionals Case Studies",
+    url:
+      "https://lkprofessionals.com/case-studies/",
+  },
+};
+---
+
+<Layout
+  title="Digital Marketing Case Studies"
+  description="Explore digital marketing case studies from LKProfessionals covering commercial challenges, strategy, execution and measurable outcomes."
+  canonicalPath="/case-studies/digital-marketing/"
+  structuredData={schema}
+>
+  <DigitalMarketingCaseStudiesHero />
+  <DigitalMarketingCaseStudiesDirectory />
+  <DigitalMarketingCaseStudiesContext />
+</Layout>

@@ -1,0 +1,136 @@
+<section class="software-case-context">
+  <div class="site-container software-case-context__layout">
+    <div>
+      <p>What we document</p>
+
+      <h2>
+        Software case studies should explain the operation behind the interface.
+      </h2>
+    </div>
+
+    <div class="software-case-context__list">
+      <article>
+        <span>01</span>
+
+        <div>
+          <h3>The operational problem</h3>
+          <p>
+            The manual work, disconnected systems, visibility
+            problems or process constraints that created the need
+            for software.
+          </p>
+        </div>
+      </article>
+
+      <article>
+        <span>02</span>
+
+        <div>
+          <h3>The system model</h3>
+          <p>
+            How users, permissions, data, workflows and integrations
+            were translated into a maintainable software structure.
+          </p>
+        </div>
+      </article>
+
+      <article>
+        <span>03</span>
+
+        <div>
+          <h3>The implementation</h3>
+          <p>
+            Important engineering decisions, development phases,
+            integrations and constraints encountered during delivery.
+          </p>
+        </div>
+      </article>
+
+      <article>
+        <span>04</span>
+
+        <div>
+          <h3>The operational result</h3>
+          <p>
+            What improved after deployment — whether that was time,
+            visibility, accuracy, control, customer experience or scale.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .software-case-context {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .software-case-context__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.72fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .software-case-context__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: rgba(246, 243, 235, 0.56);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .software-case-context h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .software-case-context__list {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .software-case-context article {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    padding-block: 1.2rem;
+  }
+
+  .software-case-context article > span {
+    color: rgba(246, 243, 235, 0.4);
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .software-case-context h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 0.82rem;
+  }
+
+  .software-case-context article p {
+    max-width: 42rem;
+    margin: 0.45rem 0 0;
+    color: rgba(246, 243, 235, 0.65);
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 52rem) {
+    .software-case-context__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

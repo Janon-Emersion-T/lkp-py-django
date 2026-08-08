@@ -1,0 +1,249 @@
+---
+const categories = [
+  {
+    number: "01",
+    title: "Web Development",
+    href: "/case-studies/web-development/",
+    description:
+      "Websites and web platforms examined through business objectives, structure, engineering and measurable results.",
+    scope:
+      "Websites · E-commerce · Web applications",
+  },
+  {
+    number: "02",
+    title: "Software Development",
+    href: "/case-studies/software-development/",
+    description:
+      "Business software examined through workflows, architecture, implementation and operational change.",
+    scope:
+      "ERP · CRM · POS · SaaS · Custom software",
+  },
+  {
+    number: "03",
+    title: "Mobile Apps",
+    href: "/case-studies/mobile-apps/",
+    description:
+      "Mobile products examined through user requirements, platform decisions, integrations and real-world use.",
+    scope:
+      "Android · iOS · Cross-platform",
+  },
+  {
+    number: "04",
+    title: "Digital Marketing",
+    href: "/case-studies/digital-marketing/",
+    description:
+      "Marketing work documented through commercial objectives, acquisition strategy, execution and measurable results.",
+    scope:
+      "Paid · Social · Content · Acquisition",
+  },
+  {
+    number: "05",
+    title: "SEO",
+    href: "/case-studies/seo/",
+    description:
+      "Organic search work examined against the starting position, implemented changes and measurable search outcomes.",
+    scope:
+      "Technical · Content · Local · Organic",
+  },
+];
+---
+
+<section
+  class="case-categories"
+  aria-labelledby="case-categories-title"
+>
+  <div class="site-container">
+    <header class="case-categories__heading">
+      <div>
+        <p>Browse by discipline</p>
+
+        <h2 id="case-categories-title">
+          Different work needs different evidence.
+        </h2>
+      </div>
+
+      <p>
+        Each archive is connected to the same Case Studies
+        management system and filters published work by service.
+      </p>
+    </header>
+
+    <div class="case-categories__list">
+      {
+        categories.map((category) => (
+          <a href={category.href}>
+            <span class="case-categories__number">
+              {category.number}
+            </span>
+
+            <div>
+              <h3>{category.title}</h3>
+              <small>{category.scope}</small>
+            </div>
+
+            <p>
+              {category.description}
+            </p>
+
+            <svg
+              aria-hidden="true"
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+            >
+              <path
+                d="M3 9.5h13M12 5.5l4 4-4 4"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+              />
+            </svg>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .case-categories {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .case-categories__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, 0.38fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .case-categories__heading
+    > div > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .case-categories h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.7rem, 5vw, 4.9rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .case-categories__heading > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.73rem;
+    line-height: 1.7;
+  }
+
+  .case-categories__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .case-categories__list > a {
+    display: grid;
+    grid-template-columns:
+      2.5rem
+      minmax(11rem, 0.35fr)
+      minmax(0, 1fr)
+      auto;
+    gap: clamp(1rem, 3vw, 2.5rem);
+    align-items: start;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.45rem;
+    transition:
+      background-color 180ms ease,
+      padding-inline 180ms ease;
+  }
+
+  .case-categories__list > a:hover {
+    padding-inline: 0.8rem;
+    background: #f7f9fc;
+  }
+
+  .case-categories__number {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .case-categories h3 {
+    margin: 0;
+    color: #263850;
+    font-size: 0.86rem;
+  }
+
+  .case-categories small {
+    display: block;
+    margin-top: 0.4rem;
+    color: #8994a4;
+    font-size: 0.52rem;
+    line-height: 1.5;
+  }
+
+  .case-categories__list p {
+    max-width: 42rem;
+    margin: 0;
+    color: #748095;
+    font-size: 0.69rem;
+    line-height: 1.65;
+  }
+
+  .case-categories svg {
+    color: #0b2f8f;
+    transition: transform 180ms ease;
+  }
+
+  .case-categories__list > a:hover svg {
+    transform: translateX(0.3rem);
+  }
+
+  @media (max-width: 46rem) {
+    .case-categories__heading {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .case-categories__list > a {
+      grid-template-columns:
+        2rem
+        1fr
+        auto;
+    }
+
+    .case-categories__list p {
+      grid-column: 2;
+    }
+  }
+
+  @media (max-width: 32rem) {
+    .case-categories__list > a {
+      grid-template-columns:
+        1.7rem
+        1fr;
+    }
+
+    .case-categories svg {
+      display: none;
+    }
+
+    .case-categories__list p {
+      grid-column: 2;
+    }
+  }
+</style>

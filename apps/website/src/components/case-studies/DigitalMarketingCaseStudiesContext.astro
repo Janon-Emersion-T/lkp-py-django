@@ -1,0 +1,139 @@
+<section class="dm-case-context">
+  <div class="site-container dm-case-context__layout">
+    <div>
+      <p>What we document</p>
+
+      <h2>
+        Good marketing case studies need more than impressive numbers.
+      </h2>
+    </div>
+
+    <div class="dm-case-context__list">
+      <article>
+        <span>01</span>
+
+        <div>
+          <h3>The commercial problem</h3>
+          <p>
+            What the business needed to improve — visibility,
+            lead generation, customer acquisition, conversion
+            or another measurable commercial outcome.
+          </p>
+        </div>
+      </article>
+
+      <article>
+        <span>02</span>
+
+        <div>
+          <h3>The starting position</h3>
+          <p>
+            Existing traffic, campaigns, market conditions,
+            website constraints and other context that affects
+            how results should be interpreted.
+          </p>
+        </div>
+      </article>
+
+      <article>
+        <span>03</span>
+
+        <div>
+          <h3>The work performed</h3>
+          <p>
+            Search optimisation, paid campaigns, content,
+            landing experiences, tracking and the specific
+            changes introduced.
+          </p>
+        </div>
+      </article>
+
+      <article>
+        <span>04</span>
+
+        <div>
+          <h3>The measurable outcome</h3>
+          <p>
+            Results that can reasonably be connected to the
+            work without pretending every change happened in
+            isolation.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .dm-case-context {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .dm-case-context__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.72fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .dm-case-context__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: rgba(246, 243, 235, 0.56);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .dm-case-context h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .dm-case-context__list {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .dm-case-context article {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    padding-block: 1.2rem;
+  }
+
+  .dm-case-context article > span {
+    color: rgba(246, 243, 235, 0.4);
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .dm-case-context h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 0.82rem;
+  }
+
+  .dm-case-context article p {
+    max-width: 42rem;
+    margin: 0.45rem 0 0;
+    color: rgba(246, 243, 235, 0.65);
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 52rem) {
+    .dm-case-context__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

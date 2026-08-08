@@ -1,0 +1,202 @@
+<section
+  class="seo-case-hero"
+  aria-labelledby="seo-case-hero-title"
+>
+  <div class="site-container seo-case-hero__layout">
+    <div>
+      <p class="seo-case-hero__eyebrow">
+        Case Studies / SEO
+      </p>
+
+      <h1 id="seo-case-hero-title">
+        Search growth should be measured by
+        <span>what became discoverable.</span>
+      </h1>
+    </div>
+
+    <div class="seo-case-hero__context">
+      <p>
+        Selected SEO work from LKProfessionals, documenting the
+        search problem, technical and content decisions, execution,
+        and measurable changes in visibility and qualified traffic.
+      </p>
+
+      <dl>
+        <div>
+          <dt>Scope</dt>
+          <dd>Technical · On-page · Content · Local</dd>
+        </div>
+
+        <div>
+          <dt>Focus</dt>
+          <dd>Visibility · Rankings · Traffic · Leads</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <div
+    class="site-container seo-case-hero__rail"
+    aria-hidden="true"
+  >
+    <span>Baseline</span>
+    <i></i>
+    <span>Audit</span>
+    <i></i>
+    <span>Optimise</span>
+    <i></i>
+    <span>Measure</span>
+    <i></i>
+    <span>Improve</span>
+  </div>
+</section>
+
+<style>
+  .seo-case-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dde4ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(5rem, 10vw, 9rem)
+      clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .seo-case-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .seo-case-hero__layout,
+  .seo-case-hero__rail {
+    position: relative;
+    z-index: 1;
+  }
+
+  .seo-case-hero__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(17rem, 0.38fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .seo-case-hero__eyebrow {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .seo-case-hero h1 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3.8rem, 8vw, 7.3rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  .seo-case-hero h1 span {
+    display: block;
+    color: #0b2f8f;
+  }
+
+  .seo-case-hero__context {
+    border-left: 1px solid #cdd6e2;
+    padding-left: 1.4rem;
+  }
+
+  .seo-case-hero__context > p {
+    margin: 0;
+    color: #6e7b8d;
+    font-size: 0.78rem;
+    line-height: 1.75;
+  }
+
+  .seo-case-hero dl {
+    display: grid;
+    gap: 0.8rem;
+    border-top: 1px solid #d8e0e9;
+    margin: 1.5rem 0 0;
+    padding-top: 1rem;
+  }
+
+  .seo-case-hero dl div {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 1rem;
+  }
+
+  .seo-case-hero dt {
+    color: #8a95a5;
+    font-size: 0.55rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .seo-case-hero dd {
+    margin: 0;
+    color: #293b53;
+    font-size: 0.66rem;
+    font-weight: 700;
+  }
+
+  .seo-case-hero__rail {
+    display: grid;
+    grid-template-columns:
+      auto 1fr auto 1fr auto 1fr auto 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    border-top: 1px solid #d9e0e9;
+    margin-top: clamp(4rem, 8vw, 7rem);
+    padding-top: 1.25rem;
+  }
+
+  .seo-case-hero__rail span {
+    color: #53647a;
+    font-size: 0.58rem;
+    font-weight: 750;
+  }
+
+  .seo-case-hero__rail i {
+    height: 1px;
+    background: #cfd8e4;
+  }
+
+  @media (max-width: 52rem) {
+    .seo-case-hero__layout {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .seo-case-hero h1 {
+      font-size: clamp(3rem, 15vw, 5rem);
+    }
+
+    .seo-case-hero__rail {
+      display: none;
+    }
+  }
+</style>

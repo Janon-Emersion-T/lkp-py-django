@@ -1,0 +1,700 @@
+---
+const apiBaseUrl =
+  import.meta.env.PUBLIC_API_BASE_URL
+  ?? "http://127.0.0.1:8082/api/v1";
+
+const endpoint =
+  `${apiBaseUrl}/case-studies/public?service_slug=software-development`;
+---
+
+<section
+  class="software-cases"
+  data-software-case-studies
+  data-endpoint={endpoint}
+  aria-labelledby="software-cases-title"
+>
+  <div class="site-container">
+    <header class="software-cases__heading">
+      <div>
+        <p>Published work</p>
+
+        <h2 id="software-cases-title">
+          The real result is what changed in the operation.
+        </h2>
+      </div>
+
+      <p>
+        Published Software Development case studies are loaded
+        directly from the LKProfessionals Case Studies system.
+      </p>
+    </header>
+
+    <div
+      class="software-cases__status"
+      data-case-status
+      role="status"
+    >
+      Loading published software development work…
+    </div>
+
+    <div
+      class="software-cases__list"
+      data-case-list
+      hidden
+    ></div>
+
+    <div
+      class="software-cases__empty"
+      data-case-empty
+      hidden
+    >
+      <span>Current archive</span>
+
+      <h3>
+        No software development case studies have been published yet.
+      </h3>
+
+      <p>
+        This archive is dynamic. Once a Software Development case
+        study is linked and published in the dashboard, it will
+        appear here automatically.
+      </p>
+    </div>
+  </div>
+</section>
+
+<template id="software-case-template">
+  <article class="software-case">
+    <div class="software-case__index">
+      <span data-index></span>
+    </div>
+
+    <div class="software-case__main">
+      <div class="software-case__meta">
+        <span data-client></span>
+        <span data-location></span>
+      </div>
+
+      <h3 data-title></h3>
+
+      <p data-description></p>
+
+      <div
+        class="software-case__technologies"
+        data-technologies
+      ></div>
+    </div>
+
+    <div
+      class="software-case__metrics"
+      data-metrics
+    ></div>
+
+    <a
+      class="software-case__link"
+      data-detail-link
+      href="#"
+    >
+      <span>Read case study</span>
+
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 20 20"
+        width="19"
+        height="19"
+      >
+        <path
+          d="M3 10h14M12 5l5 5-5 5"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        />
+      </svg>
+    </a>
+  </article>
+</template>
+
+<script>
+  interface CaseTechnology {
+    name?: string;
+  }
+
+  interface CaseMetric {
+    label?: string;
+    value?: string;
+  }
+
+  interface PublicCaseStudy {
+    title?: string;
+    slug?: string;
+    client_name?: string;
+    location?: string;
+    short_description?: string;
+    project_duration?: string;
+    technologies?: CaseTechnology[];
+    metrics?: CaseMetric[];
+  }
+
+  interface PublicCaseResponse {
+    count?: number;
+    items?: PublicCaseStudy[];
+  }
+
+  document
+    .querySelectorAll<HTMLElement>(
+      "[data-software-case-studies]",
+    )
+    .forEach((root) => {
+      const endpoint =
+        root.dataset.endpoint;
+
+      const status =
+        root.querySelector<HTMLElement>(
+          "[data-case-status]",
+        );
+
+      const list =
+        root.querySelector<HTMLElement>(
+          "[data-case-list]",
+        );
+
+      const empty =
+        root.querySelector<HTMLElement>(
+          "[data-case-empty]",
+        );
+
+      const template =
+        document.querySelector<HTMLTemplateElement>(
+          "#software-case-template",
+        );
+
+      if (
+        !endpoint
+        || !status
+        || !list
+        || !empty
+        || !template
+      ) {
+        return;
+      }
+
+      const setText = (
+        parent: ParentNode,
+        selector: string,
+        value: string,
+      ) => {
+        const element =
+          parent.querySelector<HTMLElement>(
+            selector,
+          );
+
+        if (element) {
+          element.textContent = value;
+        }
+      };
+
+      const render = (
+        cases: PublicCaseStudy[],
+      ) => {
+        list.innerHTML = "";
+
+        cases.forEach(
+          (caseStudy, index) => {
+            const fragment =
+              template.content.cloneNode(
+                true,
+              ) as DocumentFragment;
+
+            setText(
+              fragment,
+              "[data-index]",
+              String(index + 1).padStart(
+                2,
+                "0",
+              ),
+            );
+
+            setText(
+              fragment,
+              "[data-client]",
+              caseStudy.client_name
+                || "LKProfessionals project",
+            );
+
+            const location =
+              fragment.querySelector<HTMLElement>(
+                "[data-location]",
+              );
+
+            if (location) {
+              if (caseStudy.location) {
+                location.textContent =
+                  caseStudy.location;
+              } else {
+                location.remove();
+              }
+            }
+
+            setText(
+              fragment,
+              "[data-title]",
+              caseStudy.title
+                || "Untitled case study",
+            );
+
+            setText(
+              fragment,
+              "[data-description]",
+              caseStudy.short_description
+                || "Project details available in the full case study.",
+            );
+
+            const technologies =
+              fragment.querySelector<HTMLElement>(
+                "[data-technologies]",
+              );
+
+            if (technologies) {
+              (
+                caseStudy.technologies
+                ?? []
+              )
+                .slice(0, 6)
+                .forEach(
+                  (technology) => {
+                    if (!technology.name) {
+                      return;
+                    }
+
+                    const chip =
+                      document.createElement(
+                        "span",
+                      );
+
+                    chip.textContent =
+                      technology.name;
+
+                    technologies.appendChild(
+                      chip,
+                    );
+                  },
+                );
+
+              if (
+                technologies
+                  .childElementCount === 0
+              ) {
+                technologies.remove();
+              }
+            }
+
+            const metrics =
+              fragment.querySelector<HTMLElement>(
+                "[data-metrics]",
+              );
+
+            if (metrics) {
+              (
+                caseStudy.metrics
+                ?? []
+              )
+                .slice(0, 3)
+                .forEach(
+                  (metric) => {
+                    if (
+                      !metric.label
+                      && !metric.value
+                    ) {
+                      return;
+                    }
+
+                    const item =
+                      document.createElement(
+                        "div",
+                      );
+
+                    const value =
+                      document.createElement(
+                        "strong",
+                      );
+
+                    const label =
+                      document.createElement(
+                        "span",
+                      );
+
+                    value.textContent =
+                      metric.value ?? "";
+
+                    label.textContent =
+                      metric.label ?? "";
+
+                    item.append(
+                      value,
+                      label,
+                    );
+
+                    metrics.appendChild(
+                      item,
+                    );
+                  },
+                );
+
+              if (
+                caseStudy.project_duration
+                && metrics.childElementCount < 3
+              ) {
+                const item =
+                  document.createElement(
+                    "div",
+                  );
+
+                const value =
+                  document.createElement(
+                    "strong",
+                  );
+
+                const label =
+                  document.createElement(
+                    "span",
+                  );
+
+                value.textContent =
+                  caseStudy.project_duration;
+
+                label.textContent =
+                  "Project duration";
+
+                item.append(
+                  value,
+                  label,
+                );
+
+                metrics.appendChild(
+                  item,
+                );
+              }
+
+              if (
+                metrics.childElementCount === 0
+              ) {
+                metrics.remove();
+              }
+            }
+
+            const link =
+              fragment.querySelector<HTMLAnchorElement>(
+                "[data-detail-link]",
+              );
+
+            if (
+              link
+              && caseStudy.slug
+            ) {
+              link.href =
+                `/case-studies/${caseStudy.slug}/`;
+
+              link.setAttribute(
+                "aria-label",
+                `Read ${caseStudy.title ?? "case study"}`,
+              );
+            } else if (link) {
+              link.remove();
+            }
+
+            list.appendChild(
+              fragment,
+            );
+          },
+        );
+      };
+
+      fetch(endpoint, {
+        headers: {
+          Accept: "application/json",
+        },
+      })
+        .then(
+          async (response) => {
+            if (!response.ok) {
+              throw new Error(
+                `HTTP ${response.status}`,
+              );
+            }
+
+            return (
+              await response.json()
+            ) as PublicCaseResponse;
+          },
+        )
+        .then((payload) => {
+          const cases =
+            Array.isArray(
+              payload.items,
+            )
+              ? payload.items
+              : [];
+
+          status.hidden = true;
+
+          if (
+            cases.length === 0
+          ) {
+            list.hidden = true;
+            empty.hidden = false;
+            return;
+          }
+
+          render(cases);
+
+          empty.hidden = true;
+          list.hidden = false;
+        })
+        .catch(() => {
+          status.textContent =
+            "Published case studies are temporarily unavailable. Please try again shortly.";
+        });
+    });
+</script>
+
+<style>
+  .software-cases {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .software-cases__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, 0.38fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .software-cases__heading
+    > div > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .software-cases__heading h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.7rem, 5vw, 4.9rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .software-cases__heading > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.73rem;
+    line-height: 1.7;
+  }
+
+  .software-cases__status {
+    border-top: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    color: #748095;
+    padding-block: 1.5rem;
+    font-size: 0.7rem;
+  }
+
+  .software-cases__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  :global(.software-case) {
+    display: grid;
+    grid-template-columns:
+      2.5rem
+      minmax(0, 1fr)
+      minmax(12rem, 0.4fr)
+      auto;
+    align-items: start;
+    gap: clamp(1.2rem, 3vw, 2.5rem);
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 2rem;
+  }
+
+  :global(.software-case__index) {
+    color: #0b2f8f;
+    font-size: 0.6rem;
+    font-weight: 800;
+  }
+
+  :global(.software-case__meta) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-bottom: 0.65rem;
+    color: #8a95a5;
+    font-size: 0.54rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  :global(.software-case__meta span + span::before) {
+    margin-right: 0.7rem;
+    content: "·";
+  }
+
+  :global(.software-case h3) {
+    max-width: 17ch;
+    margin: 0;
+    color: #263850;
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+
+  :global(.software-case__main > p) {
+    max-width: 43rem;
+    margin: 0.8rem 0 0;
+    color: #748095;
+    font-size: 0.7rem;
+    line-height: 1.7;
+  }
+
+  :global(.software-case__technologies) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 1rem;
+  }
+
+  :global(.software-case__technologies span) {
+    border: 1px solid #d6dee8;
+    border-radius: 999px;
+    color: #66758a;
+    padding: 0.31rem 0.48rem;
+    font-size: 0.5rem;
+  }
+
+  :global(.software-case__metrics) {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  :global(.software-case__metrics div) {
+    border-left: 1px solid #d4dce7;
+    padding-left: 0.8rem;
+  }
+
+  :global(.software-case__metrics strong) {
+    display: block;
+    color: #0b2f8f;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  :global(.software-case__metrics span) {
+    display: block;
+    margin-top: 0.1rem;
+    color: #8792a2;
+    font-size: 0.52rem;
+  }
+
+  :global(.software-case__link) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: #0b2f8f;
+    font-size: 0.62rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  :global(.software-case__link svg) {
+    transition: transform 180ms ease;
+  }
+
+  :global(.software-case__link:hover svg) {
+    transform: translateX(0.3rem);
+  }
+
+  .software-cases__empty {
+    max-width: 48rem;
+    border-top: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: clamp(2.8rem, 6vw, 5rem);
+  }
+
+  .software-cases__empty > span {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .software-cases__empty h3 {
+    max-width: 14ch;
+    margin: 0.8rem 0 0;
+    color: #263850;
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+  }
+
+  .software-cases__empty p {
+    max-width: 39rem;
+    margin: 1rem 0 0;
+    color: #788497;
+    font-size: 0.72rem;
+    line-height: 1.75;
+  }
+
+  @media (max-width: 56rem) {
+    :global(.software-case) {
+      grid-template-columns:
+        2rem
+        1fr
+        auto;
+    }
+
+    :global(.software-case__metrics) {
+      grid-column: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .software-cases__heading {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    :global(.software-case) {
+      grid-template-columns:
+        1.6rem
+        1fr;
+    }
+
+    :global(.software-case__metrics),
+    :global(.software-case__link) {
+      grid-column: 2;
+    }
+  }
+</style>

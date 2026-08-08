@@ -274,6 +274,219 @@ def serialize_case_study(case_study):
     }
 
 
+
+def public_media_url(request, asset):
+    if asset is None:
+        return None
+
+    candidate_names = (
+        "file",
+        "image",
+        "asset",
+        "media_file",
+    )
+
+    for name in candidate_names:
+        value = getattr(asset, name, None)
+
+        if not value:
+            continue
+
+        try:
+            url = value.url
+        except (AttributeError, ValueError):
+            continue
+
+        if not url:
+            continue
+
+        try:
+            return request.build_absolute_uri(url)
+        except Exception:
+            return url
+
+    for name in (
+        "public_url",
+        "url",
+        "file_url",
+    ):
+        value = getattr(asset, name, None)
+
+        if callable(value):
+            try:
+                value = value()
+            except TypeError:
+                continue
+
+        if value:
+            return str(value)
+
+    return None
+
+
+def serialize_public_case_study(
+    request,
+    case_study,
+):
+    try:
+        seo = case_study.seo
+    except CaseStudySeo.DoesNotExist:
+        seo = None
+
+    return {
+        "id": str(case_study.id),
+        "title": case_study.title,
+        "slug": case_study.slug,
+        "client_name": (
+            case_study.client_name
+            or (
+                case_study.client.company_name
+                if case_study.client
+                else ""
+            )
+        ),
+        "industry_name": (
+            case_study.industry.name
+            if case_study.industry
+            else ""
+        ),
+        "location": case_study.location,
+        "website_url": case_study.website_url,
+        "short_description": (
+            case_study.short_description
+        ),
+        "overview": case_study.overview,
+        "challenge": case_study.challenge,
+        "solution": case_study.solution,
+        "implementation": (
+            case_study.implementation
+        ),
+        "results": case_study.results,
+        "testimonial": case_study.testimonial,
+        "testimonial_author": (
+            case_study.testimonial_author
+        ),
+        "testimonial_position": (
+            case_study.testimonial_position
+        ),
+        "featured_image_url": (
+            public_media_url(
+                request,
+                case_study.featured_image,
+            )
+        ),
+        "project_start_date": (
+            case_study.project_start_date
+        ),
+        "project_completion_date": (
+            case_study.project_completion_date
+        ),
+        "project_duration": (
+            case_study.project_duration
+        ),
+        "is_featured": case_study.is_featured,
+        "published_at": case_study.published_at,
+        "services": [
+            {
+                "id": str(item.service_id),
+                "title": item.service.title,
+                "slug": item.service.slug,
+                "description": item.description,
+            }
+            for item
+            in case_study.service_links.all()
+            if item.service.is_active
+        ],
+        "technologies": [
+            {
+                "id": str(item.id),
+                "name": item.name,
+                "description": item.description,
+                "logo_url": (
+                    public_media_url(
+                        request,
+                        item.logo,
+                    )
+                ),
+            }
+            for item in case_study.technologies.all()
+        ],
+        "media_items": [
+            {
+                "id": str(item.id),
+                "title": item.title,
+                "caption": item.caption,
+                "media_role": item.media_role,
+                "url": public_media_url(
+                    request,
+                    item.asset,
+                ),
+            }
+            for item in case_study.media_items.all()
+        ],
+        "metrics": [
+            {
+                "id": str(item.id),
+                "label": item.label,
+                "value": item.value,
+                "description": item.description,
+                "icon": item.icon,
+            }
+            for item in case_study.metrics.all()
+        ],
+        "milestones": [
+            {
+                "id": str(item.id),
+                "title": item.title,
+                "description": item.description,
+                "milestone_date": (
+                    item.milestone_date
+                ),
+            }
+            for item in case_study.milestones.all()
+        ],
+        "seo": (
+            {
+                "meta_title": seo.meta_title,
+                "meta_description": (
+                    seo.meta_description
+                ),
+                "canonical_url": (
+                    seo.canonical_url
+                ),
+                "robots_index": (
+                    seo.robots_index
+                ),
+                "robots_follow": (
+                    seo.robots_follow
+                ),
+                "open_graph_title": (
+                    seo.open_graph_title
+                ),
+                "open_graph_description": (
+                    seo.open_graph_description
+                ),
+                "open_graph_image_url": (
+                    public_media_url(
+                        request,
+                        seo.open_graph_image,
+                    )
+                ),
+                "twitter_title": (
+                    seo.twitter_title
+                ),
+                "twitter_description": (
+                    seo.twitter_description
+                ),
+                "structured_data": (
+                    seo.structured_data
+                ),
+            }
+            if seo
+            else None
+        ),
+    }
+
 def payload_parts(payload):
     raw = payload.dict()
 
@@ -468,6 +681,72 @@ def create_case_study(
 
     return 201, serialize_case_study(
         refresh_case_study(case_study)
+    )
+
+
+
+@router.get(
+    "/public",
+    auth=None,
+    response={
+        200: dict,
+    },
+)
+def public_case_studies(
+    request,
+    service_slug: str | None = None,
+    featured_only: bool = False,
+):
+    queryset = (
+        CaseStudyRepository.public_case_studies(
+            service_slug=service_slug,
+            featured_only=featured_only,
+        )
+    )
+
+    items = [
+        serialize_public_case_study(
+            request,
+            case_study,
+        )
+        for case_study in queryset
+    ]
+
+    return {
+        "count": len(items),
+        "service_slug": service_slug,
+        "items": items,
+    }
+
+
+@router.get(
+    "/public/{slug}",
+    auth=None,
+    response={
+        200: dict,
+        404: ErrorSchema,
+    },
+)
+def public_case_study_detail(
+    request,
+    slug: str,
+):
+    case_study = (
+        CaseStudyRepository.public_case_studies()
+        .filter(slug=slug)
+        .first()
+    )
+
+    if case_study is None:
+        raise ApiHttpError(
+            404,
+            "Case study not found.",
+            code="case_study_not_found",
+        )
+
+    return serialize_public_case_study(
+        request,
+        case_study,
     )
 
 

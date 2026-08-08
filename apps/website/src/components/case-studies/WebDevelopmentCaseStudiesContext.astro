@@ -1,0 +1,136 @@
+<section class="web-case-context">
+  <div class="site-container web-case-context__layout">
+    <div>
+      <p>What we document</p>
+
+      <h2>
+        Web case studies should explain more than the visual redesign.
+      </h2>
+    </div>
+
+    <div class="web-case-context__list">
+      <article>
+        <span>01</span>
+
+        <div>
+          <h3>The business objective</h3>
+          <p>
+            Whether the project needed to improve credibility,
+            enquiries, ecommerce, bookings, search visibility or
+            another defined business outcome.
+          </p>
+        </div>
+      </article>
+
+      <article>
+        <span>02</span>
+
+        <div>
+          <h3>The structural decision</h3>
+          <p>
+            How information architecture, navigation and page
+            hierarchy were designed around visitors and search.
+          </p>
+        </div>
+      </article>
+
+      <article>
+        <span>03</span>
+
+        <div>
+          <h3>The technical work</h3>
+          <p>
+            Development, responsive behaviour, integrations,
+            performance and the engineering behind the experience.
+          </p>
+        </div>
+      </article>
+
+      <article>
+        <span>04</span>
+
+        <div>
+          <h3>The measurable result</h3>
+          <p>
+            What changed after launch, using meaningful evidence
+            where the project provides enough data to measure it.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .web-case-context {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .web-case-context__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.72fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .web-case-context__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: rgba(246, 243, 235, 0.56);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .web-case-context h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .web-case-context__list {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .web-case-context article {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    padding-block: 1.2rem;
+  }
+
+  .web-case-context article > span {
+    color: rgba(246, 243, 235, 0.4);
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .web-case-context h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 0.82rem;
+  }
+
+  .web-case-context article p {
+    max-width: 42rem;
+    margin: 0.45rem 0 0;
+    color: rgba(246, 243, 235, 0.65);
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 52rem) {
+    .web-case-context__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

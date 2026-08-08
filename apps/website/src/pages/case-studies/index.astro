@@ -1,0 +1,61 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import CaseStudiesHero from "../../components/case-studies/CaseStudiesHero.astro";
+import CaseStudiesCategories from "../../components/case-studies/CaseStudiesCategories.astro";
+import CaseStudiesDirectory from "../../components/case-studies/CaseStudiesDirectory.astro";
+import CaseStudiesStandard from "../../components/case-studies/CaseStudiesStandard.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "LKProfessionals Case Studies",
+  url:
+    "https://lkprofessionals.com/case-studies/",
+  description:
+    "Case studies from LKProfessionals covering web development, software development, mobile applications, digital marketing and SEO projects.",
+  hasPart: [
+    {
+      "@type": "CollectionPage",
+      name: "Web Development Case Studies",
+      url:
+        "https://lkprofessionals.com/case-studies/web-development/",
+    },
+    {
+      "@type": "CollectionPage",
+      name: "Software Development Case Studies",
+      url:
+        "https://lkprofessionals.com/case-studies/software-development/",
+    },
+    {
+      "@type": "CollectionPage",
+      name: "Mobile App Case Studies",
+      url:
+        "https://lkprofessionals.com/case-studies/mobile-apps/",
+    },
+    {
+      "@type": "CollectionPage",
+      name: "Digital Marketing Case Studies",
+      url:
+        "https://lkprofessionals.com/case-studies/digital-marketing/",
+    },
+    {
+      "@type": "CollectionPage",
+      name: "SEO Case Studies",
+      url:
+        "https://lkprofessionals.com/case-studies/seo/",
+    },
+  ],
+};
+---
+
+<Layout
+  title="Case Studies"
+  description="Explore published LKProfessionals case studies across web development, software development, mobile applications, digital marketing and SEO."
+  canonicalPath="/case-studies/"
+  structuredData={schema}
+>
+  <CaseStudiesHero />
+  <CaseStudiesCategories />
+  <CaseStudiesDirectory />
+  <CaseStudiesStandard />
+</Layout>

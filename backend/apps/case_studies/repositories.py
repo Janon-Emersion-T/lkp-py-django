@@ -121,9 +121,31 @@ class CaseStudyRepository(BaseRepository[CaseStudy]):
         )
 
     @classmethod
-    def public_case_studies(cls):
-        return cls.queryset().filter(
+    def public_case_studies(
+        cls,
+        *,
+        service_slug: str | None = None,
+        featured_only: bool = False,
+    ) -> QuerySet[CaseStudy]:
+        queryset = cls.queryset().filter(
             is_active=True,
             status=CaseStudyStatus.PUBLISHED,
             published_at__lte=timezone.now(),
+        )
+
+        if service_slug:
+            queryset = queryset.filter(
+                service_links__service__slug=service_slug,
+                service_links__service__is_active=True,
+            ).distinct()
+
+        if featured_only:
+            queryset = queryset.filter(
+                is_featured=True,
+            )
+
+        return queryset.order_by(
+            "sort_order",
+            "-published_at",
+            "-created_at",
         )

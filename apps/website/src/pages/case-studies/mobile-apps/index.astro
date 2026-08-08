@@ -1,0 +1,33 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import MobileAppsCaseStudiesHero from "../../../components/case-studies/MobileAppsCaseStudiesHero.astro";
+import MobileAppsCaseStudiesDirectory from "../../../components/case-studies/MobileAppsCaseStudiesDirectory.astro";
+import MobileAppsCaseStudiesContext from "../../../components/case-studies/MobileAppsCaseStudiesContext.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Mobile App Case Studies",
+  url:
+    "https://lkprofessionals.com/case-studies/mobile-apps/",
+  description:
+    "Selected mobile application case studies from LKProfessionals covering business challenges, product decisions, engineering and project outcomes.",
+  isPartOf: {
+    "@type": "CollectionPage",
+    name: "LKProfessionals Case Studies",
+    url:
+      "https://lkprofessionals.com/case-studies/",
+  },
+};
+---
+
+<Layout
+  title="Mobile App Case Studies"
+  description="Explore mobile application case studies from LKProfessionals covering business challenges, product decisions, engineering and measurable outcomes."
+  canonicalPath="/case-studies/mobile-apps/"
+  structuredData={schema}
+>
+  <MobileAppsCaseStudiesHero />
+  <MobileAppsCaseStudiesDirectory />
+  <MobileAppsCaseStudiesContext />
+</Layout>

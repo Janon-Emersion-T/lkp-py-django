@@ -1,0 +1,33 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import SoftwareDevelopmentCaseStudiesHero from "../../../components/case-studies/SoftwareDevelopmentCaseStudiesHero.astro";
+import SoftwareDevelopmentCaseStudiesDirectory from "../../../components/case-studies/SoftwareDevelopmentCaseStudiesDirectory.astro";
+import SoftwareDevelopmentCaseStudiesContext from "../../../components/case-studies/SoftwareDevelopmentCaseStudiesContext.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Software Development Case Studies",
+  url:
+    "https://lkprofessionals.com/case-studies/software-development/",
+  description:
+    "Software development case studies from LKProfessionals covering operational problems, system architecture, implementation and measurable business outcomes.",
+  isPartOf: {
+    "@type": "CollectionPage",
+    name: "LKProfessionals Case Studies",
+    url:
+      "https://lkprofessionals.com/case-studies/",
+  },
+};
+---
+
+<Layout
+  title="Software Development Case Studies"
+  description="Explore software development case studies from LKProfessionals covering operational problems, architecture, implementation and measurable outcomes."
+  canonicalPath="/case-studies/software-development/"
+  structuredData={schema}
+>
+  <SoftwareDevelopmentCaseStudiesHero />
+  <SoftwareDevelopmentCaseStudiesDirectory />
+  <SoftwareDevelopmentCaseStudiesContext />
+</Layout>

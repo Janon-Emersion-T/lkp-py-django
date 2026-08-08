@@ -1,0 +1,33 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import SeoCaseStudiesHero from "../../../components/case-studies/SeoCaseStudiesHero.astro";
+import SeoCaseStudiesDirectory from "../../../components/case-studies/SeoCaseStudiesDirectory.astro";
+import SeoCaseStudiesContext from "../../../components/case-studies/SeoCaseStudiesContext.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "SEO Case Studies",
+  url:
+    "https://lkprofessionals.com/case-studies/seo/",
+  description:
+    "SEO case studies from LKProfessionals covering search baselines, optimisation work and measurable organic search outcomes.",
+  isPartOf: {
+    "@type": "CollectionPage",
+    name: "LKProfessionals Case Studies",
+    url:
+      "https://lkprofessionals.com/case-studies/",
+  },
+};
+---
+
+<Layout
+  title="SEO Case Studies"
+  description="Explore SEO case studies from LKProfessionals covering search baselines, technical and content optimisation, and measurable organic search results."
+  canonicalPath="/case-studies/seo/"
+  structuredData={schema}
+>
+  <SeoCaseStudiesHero />
+  <SeoCaseStudiesDirectory />
+  <SeoCaseStudiesContext />
+</Layout>

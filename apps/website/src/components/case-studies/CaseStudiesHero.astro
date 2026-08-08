@@ -1,0 +1,216 @@
+<section
+  class="cases-hero"
+  aria-labelledby="cases-hero-title"
+>
+  <div class="site-container cases-hero__layout">
+    <div>
+      <p class="cases-hero__eyebrow">
+        Case Studies
+      </p>
+
+      <h1 id="cases-hero-title">
+        The work matters.
+        <span>The outcome matters more.</span>
+      </h1>
+    </div>
+
+    <div class="cases-hero__context">
+      <p>
+        A selection of LKProfessionals projects documenting the
+        business problem, decisions made, work delivered and the
+        outcome that followed.
+      </p>
+
+      <p>
+        No fabricated projects. No decorative success stories.
+        Published work comes directly from our Case Studies system.
+      </p>
+
+      <div class="cases-hero__index">
+        <strong>05</strong>
+
+        <div>
+          <span>specialist archives</span>
+          <small>
+            Web · Software · Mobile · Marketing · SEO
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="site-container cases-hero__rail"
+    aria-hidden="true"
+  >
+    <span>Challenge</span>
+    <i></i>
+    <span>Decision</span>
+    <i></i>
+    <span>Delivery</span>
+    <i></i>
+    <span>Evidence</span>
+    <i></i>
+    <span>Outcome</span>
+  </div>
+</section>
+
+<style>
+  .cases-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dde4ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(5rem, 10vw, 9rem)
+      clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .cases-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .cases-hero__layout,
+  .cases-hero__rail {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cases-hero__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(17rem, 0.4fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .cases-hero__eyebrow {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .cases-hero h1 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(4rem, 8.5vw, 7.7rem);
+    font-weight: 400;
+    letter-spacing: -0.065em;
+    line-height: 0.9;
+  }
+
+  .cases-hero h1 span {
+    display: block;
+    color: #0b2f8f;
+  }
+
+  .cases-hero__context {
+    border-left: 1px solid #cdd6e2;
+    padding-left: 1.4rem;
+  }
+
+  .cases-hero__context > p {
+    margin: 0;
+    color: #6d798b;
+    font-size: 0.77rem;
+    line-height: 1.75;
+  }
+
+  .cases-hero__context > p + p {
+    margin-top: 1rem;
+  }
+
+  .cases-hero__index {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    border-top: 1px solid #d8e0e9;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+  }
+
+  .cases-hero__index > strong {
+    color: #0b2f8f;
+    font-family: var(--font-serif);
+    font-size: 2.7rem;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .cases-hero__index div {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .cases-hero__index span {
+    color: #293b53;
+    font-size: 0.61rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .cases-hero__index small {
+    color: #8792a2;
+    font-size: 0.55rem;
+  }
+
+  .cases-hero__rail {
+    display: grid;
+    grid-template-columns:
+      auto 1fr auto 1fr auto 1fr auto 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    border-top: 1px solid #d9e0e9;
+    margin-top: clamp(4rem, 8vw, 7rem);
+    padding-top: 1.25rem;
+  }
+
+  .cases-hero__rail span {
+    color: #53647a;
+    font-size: 0.58rem;
+    font-weight: 750;
+  }
+
+  .cases-hero__rail i {
+    height: 1px;
+    background: #cfd8e4;
+  }
+
+  @media (max-width: 52rem) {
+    .cases-hero__layout {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .cases-hero h1 {
+      font-size: clamp(3.2rem, 16vw, 5.2rem);
+    }
+
+    .cases-hero__rail {
+      display: none;
+    }
+  }
+</style>
