@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can LKProfessionals build custom logistics management software?",
+    answer:
+      "Yes. Custom systems can be designed around orders, shipments, warehouses, dispatch, assignments, delivery status, exceptions and management reporting.",
+  },
+  {
+    question:
+      "Can drivers or field teams update delivery information from mobile devices?",
+    answer:
+      "Yes. Mobile-friendly workflows can support assignments, status updates, photographs, proof records and other agreed field activities.",
+  },
+  {
+    question:
+      "Can logistics software integrate with ecommerce or ERP platforms?",
+    answer:
+      "Where suitable APIs or supported integration methods exist, logistics workflows can be connected with ecommerce, ERP, CRM, accounting and other operational platforms.",
+  },
+  {
+    question:
+      "Can customers receive automatic delivery updates?",
+    answer:
+      "Yes. Appropriate notifications can be triggered by defined workflow events such as dispatch or delivery status changes.",
+  },
+  {
+    question:
+      "Can warehouse inventory be connected to dispatch workflows?",
+    answer:
+      "Yes. Stock, picking, movement and dispatch information can be designed as connected parts of the operational workflow.",
+  },
+  {
+    question:
+      "Can dashboards show delivery performance and operational exceptions?",
+    answer:
+      "Yes. Reporting can be developed around available data such as order volumes, delivery status, exceptions, warehouse activity and other operational KPIs.",
+  },
+];
+---
+
+<section class="logistics-faq">
+  <div class="site-container logistics-faq__layout">
+    <div>
+      <p>Logistics FAQ</p>
+
+      <h2>
+        Questions to answer before adding another tracking spreadsheet.
+      </h2>
+    </div>
+
+    <div class="logistics-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .logistics-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .logistics-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .logistics-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .logistics-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .logistics-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .logistics-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .logistics-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .logistics-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .logistics-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Does LKProfessionals only work with the industries listed here?",
+    answer:
+      "No. These pages represent sectors where our broader technology capabilities can be applied clearly. We can assess requirements from other industries where the project fits our technical and delivery capabilities.",
+  },
+  {
+    question:
+      "Do you use the same solution for every industry?",
+    answer:
+      "No. Reusable engineering patterns can improve efficiency, but workflows, permissions, integrations, terminology and user journeys should be shaped around the organisation and its operating requirements.",
+  },
+  {
+    question:
+      "Can one project combine several LKProfessionals services?",
+    answer:
+      "Yes. Many practical projects combine web or software development with integrations, automation, analytics, infrastructure, cybersecurity or ongoing support.",
+  },
+  {
+    question:
+      "Can you work with systems an organisation already uses?",
+    answer:
+      "Potentially. Existing systems can be retained or integrated where they remain useful and suitable technical interfaces, permissions and project conditions are available.",
+  },
+  {
+    question:
+      "Do industry pages mean every organisation needs custom software?",
+    answer:
+      "No. Custom development should be used where it creates enough operational value. In some cases a website, integration, configuration change or smaller automation project is the better solution.",
+  },
+  {
+    question:
+      "Can LKProfessionals support organisations outside Sri Lanka?",
+    answer:
+      "Yes. Projects can be delivered remotely for international organisations, subject to the requirements, communication model, contractual arrangements and any project-specific constraints.",
+  },
+];
+---
+
+<section class="industries-faq">
+  <div class="site-container industries-faq__layout">
+    <div>
+      <p>Industries FAQ</p>
+
+      <h2>
+        Industry knowledge without one-size-fits-all thinking.
+      </h2>
+    </div>
+
+    <div class="industries-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .industries-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #f6f8fb;
+  }
+
+  .industries-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .industries-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .industries-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .industries-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .industries-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .industries-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .industries-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .industries-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

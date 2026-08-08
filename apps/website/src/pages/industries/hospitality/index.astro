@@ -1,0 +1,44 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import HospitalityHero from "../../../components/industries/hospitality/HospitalityHero.astro";
+import HospitalityChallenges from "../../../components/industries/hospitality/HospitalityChallenges.astro";
+import HospitalityCapabilities from "../../../components/industries/hospitality/HospitalityCapabilities.astro";
+import HospitalityJourney from "../../../components/industries/hospitality/HospitalityJourney.astro";
+import HospitalityPrinciples from "../../../components/industries/hospitality/HospitalityPrinciples.astro";
+import HospitalityFaq from "../../../components/industries/hospitality/HospitalityFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name:
+    "Hospitality Technology Solutions",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType:
+      "Hotels, villas, guesthouses, serviced apartments and hospitality businesses",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/industries/hospitality/",
+  description:
+    "Hospitality websites, booking systems, payments, digital marketing, automation, integrations and analytics services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Hospitality Technology Solutions"
+  description="Hospitality websites, booking systems, payments, digital marketing, automation, integrations and analytics services from LKProfessionals."
+  canonicalPath="/industries/hospitality/"
+  structuredData={schema}
+>
+  <HospitalityHero />
+  <HospitalityChallenges />
+  <HospitalityCapabilities />
+  <HospitalityJourney />
+  <HospitalityPrinciples />
+  <HospitalityFaq />
+</Layout>

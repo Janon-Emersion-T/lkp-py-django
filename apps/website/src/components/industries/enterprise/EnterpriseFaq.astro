@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can LKProfessionals work with existing enterprise systems?",
+    answer:
+      "Yes. Enterprise projects often involve existing platforms, databases, APIs and operational processes. Integration or phased modernisation may be more appropriate than replacing everything.",
+  },
+  {
+    question:
+      "Can enterprise transformation be delivered in phases?",
+    answer:
+      "Yes. Phased delivery is usually preferable because dependencies, users and operational risks can be controlled more carefully than in a single large cutover.",
+  },
+  {
+    question:
+      "Can new systems integrate with existing ERP, CRM or third-party platforms?",
+    answer:
+      "Yes, where suitable integration mechanisms are available. APIs, data exchange and system boundaries should be reviewed early in the architecture process.",
+  },
+  {
+    question:
+      "How do you approach data migration?",
+    answer:
+      "Migration should include source assessment, mapping, validation, test migrations, ownership decisions and fallback planning rather than treating data transfer as a final deployment step.",
+  },
+  {
+    question:
+      "Do enterprise systems require ongoing maintenance?",
+    answer:
+      "Yes. Production systems, infrastructure, integrations, dependencies and security requirements continue to change after launch.",
+  },
+  {
+    question:
+      "Can LKProfessionals support architecture and planning before development begins?",
+    answer:
+      "Yes. IT consultancy can be used before implementation to assess requirements, dependencies, integration constraints, risks and delivery options.",
+  },
+];
+---
+
+<section class="enterprise-faq">
+  <div class="site-container enterprise-faq__layout">
+    <div>
+      <p>Enterprise FAQ</p>
+
+      <h2>
+        Questions worth resolving before large systems start moving.
+      </h2>
+    </div>
+
+    <div class="enterprise-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .enterprise-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .enterprise-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .enterprise-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .enterprise-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .enterprise-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .enterprise-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .enterprise-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .enterprise-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .enterprise-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

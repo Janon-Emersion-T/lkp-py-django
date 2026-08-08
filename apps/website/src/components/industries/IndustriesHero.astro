@@ -1,0 +1,200 @@
+<section
+  class="industries-hero"
+  aria-labelledby="industries-hero-title"
+>
+  <div class="site-container industries-hero__layout">
+    <div>
+      <p class="industries-hero__eyebrow">
+        Industries
+      </p>
+
+      <h1 id="industries-hero-title">
+        Technology shaped by
+        <span>how your industry actually works.</span>
+      </h1>
+    </div>
+
+    <div class="industries-hero__context">
+      <p>
+        The technology may be similar. The operational reality rarely
+        is. A hotel, manufacturer, school and logistics company should
+        not be forced into the same digital blueprint.
+      </p>
+
+      <p>
+        LKProfessionals combines software engineering, digital
+        strategy and operational thinking to build technology around
+        the users, workflows and commercial realities of each sector.
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="site-container industries-hero__index"
+    aria-label="Industry overview"
+  >
+    <div>
+      <strong>12</strong>
+      <span>Industry sectors</span>
+    </div>
+
+    <div>
+      <strong>01</strong>
+      <span>Technology partner</span>
+    </div>
+
+    <div>
+      <strong>End-to-end</strong>
+      <span>Digital capability</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .industries-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dde4ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(5rem, 10vw, 9rem)
+      clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .industries-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .industries-hero__layout,
+  .industries-hero__index {
+    position: relative;
+    z-index: 1;
+  }
+
+  .industries-hero__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(17rem, 0.4fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .industries-hero__eyebrow {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .industries-hero h1 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3.8rem, 8vw, 7.3rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  .industries-hero h1 span {
+    display: block;
+    color: #0b2f8f;
+  }
+
+  .industries-hero__context {
+    border-left: 1px solid #cdd6e2;
+    padding-left: 1.4rem;
+  }
+
+  .industries-hero__context p {
+    margin: 0;
+    color: #6d798b;
+    font-size: 0.78rem;
+    line-height: 1.75;
+  }
+
+  .industries-hero__context p + p {
+    margin-top: 1rem;
+  }
+
+  .industries-hero__index {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid #d9e0e9;
+    margin-top: clamp(4rem, 8vw, 7rem);
+  }
+
+  .industries-hero__index > div {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    border-right: 1px solid #d9e0e9;
+    padding: 1.15rem 1rem;
+  }
+
+  .industries-hero__index > div:first-child {
+    padding-left: 0;
+  }
+
+  .industries-hero__index > div:last-child {
+    border-right: 0;
+  }
+
+  .industries-hero__index strong {
+    color: #0b2f8f;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  .industries-hero__index span {
+    color: #758195;
+    font-size: 0.58rem;
+  }
+
+  @media (max-width: 52rem) {
+    .industries-hero__layout {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .industries-hero h1 {
+      font-size: clamp(3rem, 15vw, 5rem);
+    }
+
+    .industries-hero__index {
+      grid-template-columns: 1fr;
+    }
+
+    .industries-hero__index > div,
+    .industries-hero__index > div:first-child {
+      border-right: 0;
+      border-bottom: 1px solid #d9e0e9;
+      padding-inline: 0;
+    }
+
+    .industries-hero__index > div:last-child {
+      border-bottom: 0;
+    }
+  }
+</style>

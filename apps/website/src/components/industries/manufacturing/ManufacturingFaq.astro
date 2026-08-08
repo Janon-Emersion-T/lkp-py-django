@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can LKProfessionals build manufacturing or production management software?",
+    answer:
+      "Yes. Custom systems can be designed around production orders, stages, inventory, purchasing, approvals, reporting and other agreed operational requirements.",
+  },
+  {
+    question:
+      "Can manufacturing software integrate with accounting, CRM or ecommerce systems?",
+    answer:
+      "Where suitable APIs or supported integration mechanisms exist, operational systems can be connected to reduce duplicate data entry and improve continuity.",
+  },
+  {
+    question:
+      "Can inventory and production be managed in the same system?",
+    answer:
+      "Yes. Depending on the workflow, materials, work orders, consumption, finished goods and related movements can be designed into one connected system.",
+  },
+  {
+    question:
+      "Can production alerts or approvals be automated?",
+    answer:
+      "Yes. Predictable alerts, approvals and status-driven actions can often be automated once the manufacturing rules are clearly defined.",
+  },
+  {
+    question:
+      "Can dashboards show production and stock performance?",
+    answer:
+      "Yes. Reporting can be developed around available data such as production status, stock levels, purchasing, order progress and other operational KPIs.",
+  },
+  {
+    question:
+      "Do you have to replace our existing ERP?",
+    answer:
+      "No. Replacement is only one option. Existing systems may be extended, integrated or complemented with additional software where that is operationally more sensible.",
+  },
+];
+---
+
+<section class="manufacturing-faq">
+  <div class="site-container manufacturing-faq__layout">
+    <div>
+      <p>Manufacturing FAQ</p>
+
+      <h2>
+        Questions to answer before replacing another production spreadsheet.
+      </h2>
+    </div>
+
+    <div class="manufacturing-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .manufacturing-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .manufacturing-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .manufacturing-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .manufacturing-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .manufacturing-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .manufacturing-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .manufacturing-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .manufacturing-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .manufacturing-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

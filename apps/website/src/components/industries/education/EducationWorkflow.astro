@@ -1,0 +1,130 @@
+---
+import {
+  educationWorkflows,
+} from "../../../config/education-industry";
+---
+
+<section
+  class="education-workflow"
+  aria-labelledby="education-workflow-title"
+>
+  <div class="site-container">
+    <header class="education-workflow__heading">
+      <p>Student lifecycle</p>
+
+      <h2 id="education-workflow-title">
+        Design around what happens before, during and after enrolment.
+      </h2>
+    </header>
+
+    <div class="education-workflow__steps">
+      {
+        educationWorkflows.map((workflow) => (
+          <article>
+            <span>{workflow.number}</span>
+            <h3>{workflow.title}</h3>
+            <p>{workflow.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .education-workflow {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .education-workflow__heading {
+    max-width: 50rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .education-workflow__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .education-workflow h2 {
+    max-width: 13ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.7rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .education-workflow__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(6, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .education-workflow article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .education-workflow article:first-child {
+    padding-left: 0;
+  }
+
+  .education-workflow article:last-child {
+    border-right: 0;
+  }
+
+  .education-workflow article > span {
+    color: #0b2f8f;
+    font-size: 0.56rem;
+    font-weight: 800;
+  }
+
+  .education-workflow h3 {
+    margin: 1rem 0 0;
+    color: #293b53;
+    font-size: 0.79rem;
+  }
+
+  .education-workflow article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.66rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 64rem) {
+    .education-workflow__steps {
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .education-workflow__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .education-workflow__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .education-workflow article,
+    .education-workflow article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

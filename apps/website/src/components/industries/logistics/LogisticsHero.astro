@@ -1,0 +1,172 @@
+<section
+  class="logistics-hero"
+  aria-labelledby="logistics-hero-title"
+>
+  <div class="site-container logistics-hero__layout">
+    <div>
+      <p class="logistics-hero__eyebrow">
+        Industries / Logistics
+      </p>
+
+      <h1 id="logistics-hero-title">
+        Keep goods moving
+        <span>and information moving with them.</span>
+      </h1>
+    </div>
+
+    <div class="logistics-hero__context">
+      <p>
+        Logistics depends on coordinated handovers between orders,
+        warehouses, dispatch teams, drivers, carriers and customers.
+        A physical movement without reliable information quickly
+        becomes an operational problem.
+      </p>
+
+      <p>
+        LKProfessionals develops software, integrations and digital
+        workflows that help logistics businesses maintain clearer
+        visibility from order intake through delivery.
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="site-container logistics-hero__rail"
+    aria-hidden="true"
+  >
+    <span>Receive</span>
+    <i></i>
+    <span>Prepare</span>
+    <i></i>
+    <span>Dispatch</span>
+    <i></i>
+    <span>Track</span>
+    <i></i>
+    <span>Deliver</span>
+  </div>
+</section>
+
+<style>
+  .logistics-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dde4ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(5rem, 10vw, 9rem)
+      clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .logistics-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .logistics-hero__layout,
+  .logistics-hero__rail {
+    position: relative;
+    z-index: 1;
+  }
+
+  .logistics-hero__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(17rem, 0.4fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .logistics-hero__eyebrow {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logistics-hero h1 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3.8rem, 8vw, 7.3rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  .logistics-hero h1 span {
+    display: block;
+    color: #0b2f8f;
+  }
+
+  .logistics-hero__context {
+    border-left: 1px solid #cdd6e2;
+    padding-left: 1.4rem;
+  }
+
+  .logistics-hero__context p {
+    margin: 0;
+    color: #6d798b;
+    font-size: 0.78rem;
+    line-height: 1.75;
+  }
+
+  .logistics-hero__context p + p {
+    margin-top: 1rem;
+  }
+
+  .logistics-hero__rail {
+    display: grid;
+    grid-template-columns:
+      auto 1fr auto 1fr auto 1fr auto 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    border-top: 1px solid #d9e0e9;
+    margin-top: clamp(4rem, 8vw, 7rem);
+    padding-top: 1.25rem;
+  }
+
+  .logistics-hero__rail span {
+    color: #53647a;
+    font-size: 0.58rem;
+    font-weight: 750;
+  }
+
+  .logistics-hero__rail i {
+    height: 1px;
+    background: #cfd8e4;
+  }
+
+  @media (max-width: 52rem) {
+    .logistics-hero__layout {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .logistics-hero h1 {
+      font-size: clamp(3rem, 15vw, 5rem);
+    }
+
+    .logistics-hero__rail {
+      display: none;
+    }
+  }
+</style>

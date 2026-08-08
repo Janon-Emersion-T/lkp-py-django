@@ -1,0 +1,130 @@
+---
+import {
+  logisticsFlow,
+} from "../../../config/logistics-industry";
+---
+
+<section
+  class="logistics-flow"
+  aria-labelledby="logistics-flow-title"
+>
+  <div class="site-container">
+    <header class="logistics-flow__heading">
+      <p>Operational journey</p>
+
+      <h2 id="logistics-flow-title">
+        Maintain visibility from intake to completed delivery.
+      </h2>
+    </header>
+
+    <div class="logistics-flow__steps">
+      {
+        logisticsFlow.map((step) => (
+          <article>
+            <span>{step.number}</span>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .logistics-flow {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .logistics-flow__heading {
+    max-width: 49rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .logistics-flow__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .logistics-flow h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.7rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .logistics-flow__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(6, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .logistics-flow article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .logistics-flow article:first-child {
+    padding-left: 0;
+  }
+
+  .logistics-flow article:last-child {
+    border-right: 0;
+  }
+
+  .logistics-flow article > span {
+    color: #0b2f8f;
+    font-size: 0.56rem;
+    font-weight: 800;
+  }
+
+  .logistics-flow h3 {
+    margin: 1rem 0 0;
+    color: #293b53;
+    font-size: 0.79rem;
+  }
+
+  .logistics-flow article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.66rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 64rem) {
+    .logistics-flow__steps {
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .logistics-flow__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .logistics-flow__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .logistics-flow article,
+    .logistics-flow article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

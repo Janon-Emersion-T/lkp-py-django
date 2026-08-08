@@ -1,0 +1,44 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import ConstructionHero from "../../../components/industries/construction/ConstructionHero.astro";
+import ConstructionChallenges from "../../../components/industries/construction/ConstructionChallenges.astro";
+import ConstructionCapabilities from "../../../components/industries/construction/ConstructionCapabilities.astro";
+import ConstructionFlow from "../../../components/industries/construction/ConstructionFlow.astro";
+import ConstructionPrinciples from "../../../components/industries/construction/ConstructionPrinciples.astro";
+import ConstructionFaq from "../../../components/industries/construction/ConstructionFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name:
+    "Construction Technology Solutions",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType:
+      "Construction companies, contractors and project-based businesses",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/industries/construction/",
+  description:
+    "Construction project management software, quotations, procurement, material tracking, mobile site workflows, integrations and analytics services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Construction Technology Solutions"
+  description="Construction project management software, quotations, procurement, material tracking, mobile site workflows, integrations and analytics services from LKProfessionals."
+  canonicalPath="/industries/construction/"
+  structuredData={schema}
+>
+  <ConstructionHero />
+  <ConstructionChallenges />
+  <ConstructionCapabilities />
+  <ConstructionFlow />
+  <ConstructionPrinciples />
+  <ConstructionFaq />
+</Layout>

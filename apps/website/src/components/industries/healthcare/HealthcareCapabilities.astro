@@ -1,0 +1,219 @@
+---
+import {
+  healthcareCapabilities,
+} from "../../../config/healthcare-industry";
+---
+
+<section
+  class="healthcare-capabilities"
+  aria-labelledby="healthcare-capabilities-title"
+>
+  <div class="site-container">
+    <header class="healthcare-capabilities__heading">
+      <div>
+        <p>Healthcare technology capability</p>
+
+        <h2 id="healthcare-capabilities-title">
+          Support the operation without adding unnecessary friction.
+        </h2>
+      </div>
+
+      <p>
+        The right solution depends on how patients, staff,
+        administrators and systems interact throughout the
+        organisation.
+      </p>
+    </header>
+
+    <div class="healthcare-capabilities__list">
+      {
+        healthcareCapabilities.map((capability) => (
+          <a href={capability.href}>
+            <span class="healthcare-capabilities__number">
+              {capability.number}
+            </span>
+
+            <div class="healthcare-capabilities__main">
+              <h3>{capability.title}</h3>
+              <p>{capability.description}</p>
+            </div>
+
+            <div class="healthcare-capabilities__outcomes">
+              {
+                capability.outcomes.map((outcome) => (
+                  <span>{outcome}</span>
+                ))
+              }
+            </div>
+
+            <svg
+              aria-hidden="true"
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+            >
+              <path
+                d="M3 9h12M11 5l4 4-4 4"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+              />
+            </svg>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .healthcare-capabilities {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #f6f8fb;
+  }
+
+  .healthcare-capabilities__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, 0.4fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .healthcare-capabilities__heading
+    > div > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .healthcare-capabilities h2 {
+    max-width: 13ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.7rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .healthcare-capabilities__heading > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.73rem;
+    line-height: 1.7;
+  }
+
+  .healthcare-capabilities__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .healthcare-capabilities__list > a {
+    display: grid;
+    grid-template-columns:
+      2.5rem
+      minmax(13rem, 0.6fr)
+      minmax(13rem, 0.55fr)
+      auto;
+    align-items: start;
+    gap: clamp(1rem, 3vw, 2rem);
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.5rem;
+    transition:
+      background-color 180ms ease,
+      padding-inline 180ms ease;
+  }
+
+  .healthcare-capabilities__list > a:hover {
+    padding-inline: 0.8rem;
+    background: #ffffff;
+  }
+
+  .healthcare-capabilities__number {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .healthcare-capabilities h3 {
+    margin: 0;
+    color: #293b53;
+    font-size: 0.86rem;
+  }
+
+  .healthcare-capabilities__main p {
+    max-width: 38rem;
+    margin: 0.5rem 0 0;
+    color: #748095;
+    font-size: 0.69rem;
+    line-height: 1.65;
+  }
+
+  .healthcare-capabilities__outcomes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .healthcare-capabilities__outcomes span {
+    border: 1px solid #d4dce7;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #66758a;
+    padding: 0.31rem 0.48rem;
+    font-size: 0.5rem;
+  }
+
+  .healthcare-capabilities svg {
+    color: #0b2f8f;
+    transition: transform 180ms ease;
+  }
+
+  .healthcare-capabilities__list > a:hover svg {
+    transform: translateX(0.3rem);
+  }
+
+  @media (max-width: 55rem) {
+    .healthcare-capabilities__list > a {
+      grid-template-columns:
+        2rem
+        1fr
+        auto;
+    }
+
+    .healthcare-capabilities__outcomes {
+      grid-column: 2;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .healthcare-capabilities__heading {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .healthcare-capabilities__list > a {
+      grid-template-columns:
+        1.6rem
+        1fr;
+    }
+
+    .healthcare-capabilities__outcomes {
+      grid-column: 2;
+    }
+
+    .healthcare-capabilities svg {
+      display: none;
+    }
+  }
+</style>

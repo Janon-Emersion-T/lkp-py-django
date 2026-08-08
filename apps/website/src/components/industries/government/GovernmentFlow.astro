@@ -1,0 +1,130 @@
+---
+import {
+  governmentFlow,
+} from "../../../config/government-industry";
+---
+
+<section
+  class="government-flow"
+  aria-labelledby="government-flow-title"
+>
+  <div class="site-container">
+    <header class="government-flow__heading">
+      <p>Service workflow</p>
+
+      <h2 id="government-flow-title">
+        Give every request a visible path through the organisation.
+      </h2>
+    </header>
+
+    <div class="government-flow__steps">
+      {
+        governmentFlow.map((step) => (
+          <article>
+            <span>{step.number}</span>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .government-flow {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .government-flow__heading {
+    max-width: 49rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .government-flow__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .government-flow h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.7rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .government-flow__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(6, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .government-flow article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .government-flow article:first-child {
+    padding-left: 0;
+  }
+
+  .government-flow article:last-child {
+    border-right: 0;
+  }
+
+  .government-flow article > span {
+    color: #0b2f8f;
+    font-size: 0.56rem;
+    font-weight: 800;
+  }
+
+  .government-flow h3 {
+    margin: 1rem 0 0;
+    color: #293b53;
+    font-size: 0.79rem;
+  }
+
+  .government-flow article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.66rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 64rem) {
+    .government-flow__steps {
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .government-flow__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .government-flow__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .government-flow article,
+    .government-flow article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

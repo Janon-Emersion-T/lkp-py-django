@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can LKProfessionals develop a school or student management system?",
+    answer:
+      "Yes. Custom systems can be designed around admissions, student records, attendance, classes, staff workflows, payments and management reporting according to the organisation's actual requirements.",
+  },
+  {
+    question:
+      "Can admissions be handled online?",
+    answer:
+      "Yes. Online application forms, document collection, review statuses and communication workflows can be structured digitally.",
+  },
+  {
+    question:
+      "Can students or parents have their own portal?",
+    answer:
+      "Yes. Authenticated portals can provide controlled access to approved information and self-service workflows.",
+  },
+  {
+    question:
+      "Can education systems integrate with payment gateways or learning platforms?",
+    answer:
+      "Where suitable APIs or supported integration mechanisms are available, payment, messaging, learning and other systems can be connected.",
+  },
+  {
+    question:
+      "Can attendance and payment reminders be automated?",
+    answer:
+      "Yes. Predictable reminders and notifications can often be automated once the underlying workflow and communication rules are clearly defined.",
+  },
+  {
+    question:
+      "Can the system support multiple intakes, classes or branches?",
+    answer:
+      "Yes. Those requirements can be designed into the system architecture where the organisation operates multiple programmes, cohorts, locations or recurring academic cycles.",
+  },
+];
+---
+
+<section class="education-faq">
+  <div class="site-container education-faq__layout">
+    <div>
+      <p>Education FAQ</p>
+
+      <h2>
+        Questions before replacing the spreadsheet with a student system.
+      </h2>
+    </div>
+
+    <div class="education-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .education-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .education-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .education-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .education-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .education-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .education-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .education-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .education-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .education-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

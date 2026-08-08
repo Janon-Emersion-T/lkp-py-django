@@ -1,0 +1,44 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import HealthcareHero from "../../../components/industries/healthcare/HealthcareHero.astro";
+import HealthcareChallenges from "../../../components/industries/healthcare/HealthcareChallenges.astro";
+import HealthcareCapabilities from "../../../components/industries/healthcare/HealthcareCapabilities.astro";
+import HealthcareWorkflow from "../../../components/industries/healthcare/HealthcareWorkflow.astro";
+import HealthcarePrinciples from "../../../components/industries/healthcare/HealthcarePrinciples.astro";
+import HealthcareFaq from "../../../components/industries/healthcare/HealthcareFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name:
+    "Healthcare Technology Solutions",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType:
+      "Healthcare organisations, clinics and practices",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/industries/healthcare/",
+  description:
+    "Healthcare software, appointment systems, websites, automation, cybersecurity, hosting and analytics services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Healthcare Technology Solutions"
+  description="Healthcare software, appointment systems, websites, automation, cybersecurity, hosting and analytics services from LKProfessionals."
+  canonicalPath="/industries/healthcare/"
+  structuredData={schema}
+>
+  <HealthcareHero />
+  <HealthcareChallenges />
+  <HealthcareCapabilities />
+  <HealthcareWorkflow />
+  <HealthcarePrinciples />
+  <HealthcareFaq />
+</Layout>

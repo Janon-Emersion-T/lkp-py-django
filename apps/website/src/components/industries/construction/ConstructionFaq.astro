@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can LKProfessionals build custom construction project management software?",
+    answer:
+      "Yes. Systems can be designed around projects, phases, tasks, approvals, documents, procurement, materials, subcontractors, costs and reporting according to the actual workflow.",
+  },
+  {
+    question:
+      "Can quotations and BOQs be managed digitally?",
+    answer:
+      "Yes. Estimation, quotation, BOQ-related records, approvals and revisions can be structured digitally where the business needs better control than spreadsheets currently provide.",
+  },
+  {
+    question:
+      "Can site teams update projects from mobile devices?",
+    answer:
+      "Yes. Mobile-friendly workflows can support tasks, progress updates, photographs, inspections and other approved site activities.",
+  },
+  {
+    question:
+      "Can construction software integrate with accounting or ERP systems?",
+    answer:
+      "Where suitable APIs or supported integration methods exist, project software can be connected to accounting, ERP, CRM, document and other systems.",
+  },
+  {
+    question:
+      "Can procurement and material delivery be tracked?",
+    answer:
+      "Yes. Requirements, purchase requests, supplier information, approvals, expected deliveries and stock movements can be included in the workflow.",
+  },
+  {
+    question:
+      "Can management dashboards show project progress and costs?",
+    answer:
+      "Yes. Dashboards can report against available project, cost, procurement, milestone and operational data, provided the underlying records are maintained consistently.",
+  },
+];
+---
+
+<section class="construction-faq">
+  <div class="site-container construction-faq__layout">
+    <div>
+      <p>Construction FAQ</p>
+
+      <h2>
+        Questions worth answering before adding another project spreadsheet.
+      </h2>
+    </div>
+
+    <div class="construction-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .construction-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .construction-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .construction-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .construction-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .construction-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .construction-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .construction-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .construction-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .construction-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

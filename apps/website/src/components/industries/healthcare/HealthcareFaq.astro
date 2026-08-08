@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can LKProfessionals develop clinic or healthcare management software?",
+    answer:
+      "Yes. Systems can be designed around appointments, administration, staff workflows, operational records, reporting and other agreed business requirements.",
+  },
+  {
+    question:
+      "Can healthcare websites include online appointments?",
+    answer:
+      "Yes. Booking workflows can be developed or integrated depending on the scheduling model and systems already used by the organisation.",
+  },
+  {
+    question:
+      "Can new software integrate with existing healthcare systems?",
+    answer:
+      "Where suitable APIs or supported integration mechanisms are available, systems can be connected. Integration requirements should be reviewed before implementation.",
+  },
+  {
+    question:
+      "How should access to sensitive information be handled?",
+    answer:
+      "Access should be role-based and limited to what each user needs for their responsibilities. Specific legal, regulatory and organisational requirements must also be assessed for the market in which the system operates.",
+  },
+  {
+    question:
+      "Can reminders and administrative workflows be automated?",
+    answer:
+      "Yes. Predictable workflows such as appointment reminders and internal notifications can often be automated when the underlying rules and communication permissions are clearly defined.",
+  },
+  {
+    question:
+      "Does healthcare technology require ongoing maintenance?",
+    answer:
+      "Yes. Production software, infrastructure, integrations, dependencies, security controls and operational requirements continue to change after launch.",
+  },
+];
+---
+
+<section class="healthcare-faq">
+  <div class="site-container healthcare-faq__layout">
+    <div>
+      <p>Healthcare FAQ</p>
+
+      <h2>
+        Questions to resolve before technology enters the workflow.
+      </h2>
+    </div>
+
+    <div class="healthcare-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .healthcare-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .healthcare-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .healthcare-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .healthcare-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .healthcare-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .healthcare-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .healthcare-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .healthcare-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .healthcare-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

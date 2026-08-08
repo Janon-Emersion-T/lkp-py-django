@@ -1,0 +1,183 @@
+<section
+  class="sb-growth"
+  aria-labelledby="sb-growth-title"
+>
+  <div class="site-container">
+    <header class="sb-growth__heading">
+      <p>A practical technology path</p>
+
+      <h2 id="sb-growth-title">
+        Not every system needs to arrive at once.
+      </h2>
+    </header>
+
+    <div class="sb-growth__steps">
+      <article>
+        <span>01</span>
+        <strong>Establish</strong>
+        <h3>Be credible and reachable.</h3>
+        <p>
+          Website, domain, business email and the basic digital
+          foundation customers expect.
+        </p>
+      </article>
+
+      <article>
+        <span>02</span>
+        <strong>Acquire</strong>
+        <h3>Create dependable demand.</h3>
+        <p>
+          Search, content, advertising and conversion paths for
+          finding and winning customers.
+        </p>
+      </article>
+
+      <article>
+        <span>03</span>
+        <strong>Organise</strong>
+        <h3>Reduce operational disorder.</h3>
+        <p>
+          CRM, structured records and clearer internal processes
+          as transaction volume increases.
+        </p>
+      </article>
+
+      <article>
+        <span>04</span>
+        <strong>Automate</strong>
+        <h3>Remove repetitive administration.</h3>
+        <p>
+          Connect recurring workflows once the business rules are
+          stable enough to automate safely.
+        </p>
+      </article>
+
+      <article>
+        <span>05</span>
+        <strong>Integrate</strong>
+        <h3>Stop systems working in isolation.</h3>
+        <p>
+          APIs and connected software reduce duplicate entry and
+          fragmented information.
+        </p>
+      </article>
+
+      <article>
+        <span>06</span>
+        <strong>Scale</strong>
+        <h3>Strengthen what growth depends on.</h3>
+        <p>
+          Improve infrastructure, security, software and reporting
+          as the business becomes more operationally complex.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sb-growth {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .sb-growth__heading {
+    max-width: 49rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .sb-growth__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .sb-growth h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.7rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .sb-growth__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(6, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .sb-growth article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .sb-growth article:first-child {
+    padding-left: 0;
+  }
+
+  .sb-growth article:last-child {
+    border-right: 0;
+  }
+
+  .sb-growth article > span {
+    color: #0b2f8f;
+    font-size: 0.56rem;
+    font-weight: 800;
+  }
+
+  .sb-growth article > strong {
+    display: block;
+    margin-top: 1.2rem;
+    color: #8591a2;
+    font-size: 0.53rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .sb-growth h3 {
+    margin: 0.35rem 0 0;
+    color: #293b53;
+    font-size: 0.78rem;
+  }
+
+  .sb-growth article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.66rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 64rem) {
+    .sb-growth__steps {
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .sb-growth__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .sb-growth__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .sb-growth article,
+    .sb-growth article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

@@ -1,0 +1,44 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import EnterpriseHero from "../../../components/industries/enterprise/EnterpriseHero.astro";
+import EnterpriseChallenges from "../../../components/industries/enterprise/EnterpriseChallenges.astro";
+import EnterpriseCapabilities from "../../../components/industries/enterprise/EnterpriseCapabilities.astro";
+import EnterpriseTransformationPath from "../../../components/industries/enterprise/EnterpriseTransformationPath.astro";
+import EnterprisePrinciples from "../../../components/industries/enterprise/EnterprisePrinciples.astro";
+import EnterpriseFaq from "../../../components/industries/enterprise/EnterpriseFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name:
+    "Enterprise Technology Services",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType:
+      "Enterprise organisations",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/industries/enterprise/",
+  description:
+    "Enterprise software, integration, automation, cybersecurity, cloud, analytics and IT consultancy services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Enterprise Technology Solutions"
+  description="Enterprise software, integration, automation, cybersecurity, cloud, analytics and IT consultancy services from LKProfessionals."
+  canonicalPath="/industries/enterprise/"
+  structuredData={schema}
+>
+  <EnterpriseHero />
+  <EnterpriseChallenges />
+  <EnterpriseCapabilities />
+  <EnterpriseTransformationPath />
+  <EnterprisePrinciples />
+  <EnterpriseFaq />
+</Layout>

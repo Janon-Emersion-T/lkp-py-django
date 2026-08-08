@@ -1,0 +1,130 @@
+---
+import {
+  retailJourney,
+} from "../../../config/retail-ecommerce-industry";
+---
+
+<section
+  class="retail-journey"
+  aria-labelledby="retail-journey-title"
+>
+  <div class="site-container">
+    <header class="retail-journey__heading">
+      <p>Commerce journey</p>
+
+      <h2 id="retail-journey-title">
+        Every sale passes through more than checkout.
+      </h2>
+    </header>
+
+    <div class="retail-journey__steps">
+      {
+        retailJourney.map((step) => (
+          <article>
+            <span>{step.number}</span>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .retail-journey {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .retail-journey__heading {
+    max-width: 49rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .retail-journey__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .retail-journey h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.7rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .retail-journey__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(6, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .retail-journey article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .retail-journey article:first-child {
+    padding-left: 0;
+  }
+
+  .retail-journey article:last-child {
+    border-right: 0;
+  }
+
+  .retail-journey article > span {
+    color: #0b2f8f;
+    font-size: 0.56rem;
+    font-weight: 800;
+  }
+
+  .retail-journey h3 {
+    margin: 1rem 0 0;
+    color: #293b53;
+    font-size: 0.79rem;
+  }
+
+  .retail-journey article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.66rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 64rem) {
+    .retail-journey__steps {
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .retail-journey__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .retail-journey__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .retail-journey article,
+    .retail-journey article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

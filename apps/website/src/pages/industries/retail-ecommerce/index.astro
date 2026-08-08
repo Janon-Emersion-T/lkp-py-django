@@ -1,0 +1,44 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import RetailEcommerceHero from "../../../components/industries/retail-ecommerce/RetailEcommerceHero.astro";
+import RetailEcommerceChallenges from "../../../components/industries/retail-ecommerce/RetailEcommerceChallenges.astro";
+import RetailEcommerceCapabilities from "../../../components/industries/retail-ecommerce/RetailEcommerceCapabilities.astro";
+import RetailEcommerceJourney from "../../../components/industries/retail-ecommerce/RetailEcommerceJourney.astro";
+import RetailEcommercePrinciples from "../../../components/industries/retail-ecommerce/RetailEcommercePrinciples.astro";
+import RetailEcommerceFaq from "../../../components/industries/retail-ecommerce/RetailEcommerceFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name:
+    "Retail and E-commerce Technology Solutions",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType:
+      "Retailers, online stores and e-commerce businesses",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/industries/retail-ecommerce/",
+  description:
+    "E-commerce websites, retail software, inventory, payments, automation, CRM, digital marketing and analytics services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Retail & E-commerce Technology Solutions"
+  description="E-commerce websites, retail software, inventory, payments, automation, CRM, digital marketing and analytics services from LKProfessionals."
+  canonicalPath="/industries/retail-ecommerce/"
+  structuredData={schema}
+>
+  <RetailEcommerceHero />
+  <RetailEcommerceChallenges />
+  <RetailEcommerceCapabilities />
+  <RetailEcommerceJourney />
+  <RetailEcommercePrinciples />
+  <RetailEcommerceFaq />
+</Layout>

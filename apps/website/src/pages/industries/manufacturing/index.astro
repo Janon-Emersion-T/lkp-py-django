@@ -1,0 +1,44 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import ManufacturingHero from "../../../components/industries/manufacturing/ManufacturingHero.astro";
+import ManufacturingChallenges from "../../../components/industries/manufacturing/ManufacturingChallenges.astro";
+import ManufacturingCapabilities from "../../../components/industries/manufacturing/ManufacturingCapabilities.astro";
+import ManufacturingFlow from "../../../components/industries/manufacturing/ManufacturingFlow.astro";
+import ManufacturingPrinciples from "../../../components/industries/manufacturing/ManufacturingPrinciples.astro";
+import ManufacturingFaq from "../../../components/industries/manufacturing/ManufacturingFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name:
+    "Manufacturing Technology Solutions",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType:
+      "Manufacturers and production businesses",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/industries/manufacturing/",
+  description:
+    "Manufacturing ERP, inventory, production software, automation, integrations, cloud and analytics services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Manufacturing Technology Solutions"
+  description="Manufacturing ERP, inventory, production software, automation, integrations, cloud and analytics services from LKProfessionals."
+  canonicalPath="/industries/manufacturing/"
+  structuredData={schema}
+>
+  <ManufacturingHero />
+  <ManufacturingChallenges />
+  <ManufacturingCapabilities />
+  <ManufacturingFlow />
+  <ManufacturingPrinciples />
+  <ManufacturingFaq />
+</Layout>

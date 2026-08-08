@@ -1,0 +1,44 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import NonProfitHero from "../../../components/industries/non-profit/NonProfitHero.astro";
+import NonProfitChallenges from "../../../components/industries/non-profit/NonProfitChallenges.astro";
+import NonProfitCapabilities from "../../../components/industries/non-profit/NonProfitCapabilities.astro";
+import NonProfitFlow from "../../../components/industries/non-profit/NonProfitFlow.astro";
+import NonProfitPrinciples from "../../../components/industries/non-profit/NonProfitPrinciples.astro";
+import NonProfitFaq from "../../../components/industries/non-profit/NonProfitFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name:
+    "Non-profit Technology Solutions",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType:
+      "Non-profit organisations, charities, foundations and community organisations",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/industries/non-profit/",
+  description:
+    "Non-profit websites, donation workflows, donor CRM, volunteer management, programme systems, automation, integrations and analytics services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Non-profit Technology Solutions"
+  description="Non-profit websites, donation workflows, donor CRM, volunteer management, programme systems, automation, integrations and analytics services from LKProfessionals."
+  canonicalPath="/industries/non-profit/"
+  structuredData={schema}
+>
+  <NonProfitHero />
+  <NonProfitChallenges />
+  <NonProfitCapabilities />
+  <NonProfitFlow />
+  <NonProfitPrinciples />
+  <NonProfitFaq />
+</Layout>

@@ -1,0 +1,109 @@
+---
+import {
+  healthcareChallenges,
+} from "../../../config/healthcare-industry";
+---
+
+<section
+  class="healthcare-challenges"
+  aria-labelledby="healthcare-challenges-title"
+>
+  <div class="site-container healthcare-challenges__layout">
+    <div>
+      <p>Healthcare operations</p>
+
+      <h2 id="healthcare-challenges-title">
+        The technology has to fit around responsibility.
+      </h2>
+    </div>
+
+    <div class="healthcare-challenges__list">
+      {
+        healthcareChallenges.map((challenge) => (
+          <article>
+            <span>{challenge.number}</span>
+
+            <div>
+              <h3>{challenge.title}</h3>
+              <p>{challenge.description}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .healthcare-challenges {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .healthcare-challenges__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.72fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .healthcare-challenges__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .healthcare-challenges h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .healthcare-challenges__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .healthcare-challenges article {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.25rem;
+  }
+
+  .healthcare-challenges article > span {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .healthcare-challenges h3 {
+    margin: 0;
+    color: #293b53;
+    font-size: 0.82rem;
+  }
+
+  .healthcare-challenges article p {
+    max-width: 43rem;
+    margin: 0.45rem 0 0;
+    color: #788497;
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 52rem) {
+    .healthcare-challenges__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

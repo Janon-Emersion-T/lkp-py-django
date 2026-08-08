@@ -1,0 +1,51 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import IndustriesHero from "../../components/industries/IndustriesHero.astro";
+import IndustriesDirectory from "../../components/industries/IndustriesDirectory.astro";
+import IndustriesCapabilities from "../../components/industries/IndustriesCapabilities.astro";
+import IndustriesApproach from "../../components/industries/IndustriesApproach.astro";
+import IndustriesServicePaths from "../../components/industries/IndustriesServicePaths.astro";
+import IndustriesFaq from "../../components/industries/IndustriesFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Industries",
+  url: "https://lkprofessionals.com/industries/",
+  description:
+    "Explore technology solutions from LKProfessionals for small business, enterprise, healthcare, education, hospitality, retail, manufacturing, construction, logistics, finance, government and non-profit organisations.",
+  isPartOf: {
+    "@type": "WebSite",
+    name: "LKProfessionals",
+    url: "https://lkprofessionals.com/",
+  },
+  about: [
+    "Small Business",
+    "Enterprise",
+    "Healthcare",
+    "Education",
+    "Hospitality",
+    "Retail and E-commerce",
+    "Manufacturing",
+    "Construction",
+    "Logistics",
+    "Finance",
+    "Government",
+    "Non-profit",
+  ],
+};
+---
+
+<Layout
+  title="Industries | Technology Solutions by Sector"
+  description="Explore technology solutions from LKProfessionals for small business, enterprise, healthcare, education, hospitality, retail, manufacturing, construction, logistics, finance, government and non-profit organisations."
+  canonicalPath="/industries/"
+  structuredData={schema}
+>
+  <IndustriesHero />
+  <IndustriesDirectory />
+  <IndustriesCapabilities />
+  <IndustriesApproach />
+  <IndustriesServicePaths />
+  <IndustriesFaq />
+</Layout>

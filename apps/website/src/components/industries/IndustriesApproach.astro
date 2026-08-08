@@ -1,0 +1,144 @@
+---
+import {
+  industryApproach,
+} from "../../config/industries";
+---
+
+<section
+  class="industries-approach"
+  aria-labelledby="industries-approach-title"
+>
+  <div class="site-container">
+    <header class="industries-approach__heading">
+      <p>How we approach industry work</p>
+
+      <h2 id="industries-approach-title">
+        Start with the operation. Then design the technology.
+      </h2>
+    </header>
+
+    <div class="industries-approach__steps">
+      {
+        industryApproach.map((item) => (
+          <article>
+            <span>{item.number}</span>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .industries-approach {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #0b2f8f;
+    color: #ffffff;
+  }
+
+  .industries-approach__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(17rem, 0.42fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .industries-approach__heading > p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .industries-approach h2 {
+    grid-column: 1;
+    max-width: 12ch;
+    margin: 0.8rem 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.8rem, 5vw, 5rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 0.98;
+  }
+
+  .industries-approach__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr));
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .industries-approach article {
+    min-height: 18rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 1.3rem 1rem;
+  }
+
+  .industries-approach article:first-child {
+    padding-left: 0;
+  }
+
+  .industries-approach article:last-child {
+    border-right: 0;
+  }
+
+  .industries-approach article > span {
+    color: rgba(255, 255, 255, 0.42);
+    font-size: 0.56rem;
+    font-weight: 800;
+  }
+
+  .industries-approach h3 {
+    margin: 3rem 0 0;
+    color: #ffffff;
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+
+  .industries-approach article p {
+    margin: 0.7rem 0 0;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.66rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 64rem) {
+    .industries-approach__steps {
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    }
+
+    .industries-approach article {
+      min-height: auto;
+      border-bottom: 1px solid
+        rgba(255, 255, 255, 0.18);
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .industries-approach__heading {
+      grid-template-columns: 1fr;
+    }
+
+    .industries-approach__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .industries-approach article,
+    .industries-approach article:first-child {
+      border-right: 0;
+      padding: 1.5rem 0;
+    }
+
+    .industries-approach h3 {
+      margin-top: 1.5rem;
+    }
+  }
+</style>

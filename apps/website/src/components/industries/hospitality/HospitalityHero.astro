@@ -1,0 +1,171 @@
+<section
+  class="hospitality-hero"
+  aria-labelledby="hospitality-hero-title"
+>
+  <div class="site-container hospitality-hero__layout">
+    <div>
+      <p class="hospitality-hero__eyebrow">
+        Industries / Hospitality
+      </p>
+
+      <h1 id="hospitality-hero-title">
+        Turn digital discovery into
+        <span>more direct guest relationships.</span>
+      </h1>
+    </div>
+
+    <div class="hospitality-hero__context">
+      <p>
+        Hospitality businesses compete long before the guest arrives.
+        Search visibility, property presentation, booking experience
+        and communication all influence whether a stay is booked.
+      </p>
+
+      <p>
+        LKProfessionals helps accommodation and hospitality operators
+        build the digital systems behind direct bookings, guest
+        communication, marketing and day-to-day operations.
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="site-container hospitality-hero__rail"
+    aria-hidden="true"
+  >
+    <span>Discover</span>
+    <i></i>
+    <span>Evaluate</span>
+    <i></i>
+    <span>Book</span>
+    <i></i>
+    <span>Stay</span>
+    <i></i>
+    <span>Return</span>
+  </div>
+</section>
+
+<style>
+  .hospitality-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dde4ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(5rem, 10vw, 9rem)
+      clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .hospitality-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .hospitality-hero__layout,
+  .hospitality-hero__rail {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hospitality-hero__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(17rem, 0.4fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .hospitality-hero__eyebrow {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .hospitality-hero h1 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3.8rem, 8vw, 7.3rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  .hospitality-hero h1 span {
+    display: block;
+    color: #0b2f8f;
+  }
+
+  .hospitality-hero__context {
+    border-left: 1px solid #cdd6e2;
+    padding-left: 1.4rem;
+  }
+
+  .hospitality-hero__context p {
+    margin: 0;
+    color: #6d798b;
+    font-size: 0.78rem;
+    line-height: 1.75;
+  }
+
+  .hospitality-hero__context p + p {
+    margin-top: 1rem;
+  }
+
+  .hospitality-hero__rail {
+    display: grid;
+    grid-template-columns:
+      auto 1fr auto 1fr auto 1fr auto 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    border-top: 1px solid #d9e0e9;
+    margin-top: clamp(4rem, 8vw, 7rem);
+    padding-top: 1.25rem;
+  }
+
+  .hospitality-hero__rail span {
+    color: #53647a;
+    font-size: 0.58rem;
+    font-weight: 750;
+  }
+
+  .hospitality-hero__rail i {
+    height: 1px;
+    background: #cfd8e4;
+  }
+
+  @media (max-width: 52rem) {
+    .hospitality-hero__layout {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .hospitality-hero h1 {
+      font-size: clamp(3rem, 15vw, 5rem);
+    }
+
+    .hospitality-hero__rail {
+      display: none;
+    }
+  }
+</style>

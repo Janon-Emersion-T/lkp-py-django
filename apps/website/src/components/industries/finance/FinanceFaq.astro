@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can LKProfessionals build custom finance or financial administration software?",
+    answer:
+      "Yes. Custom software can be developed around organisation-specific financial administration, approvals, transaction records, reporting and related operational workflows.",
+  },
+  {
+    question:
+      "Can financial workflows use role-based approvals?",
+    answer:
+      "Yes. Permissions, approval levels and workflow states can be designed around defined organisational responsibilities.",
+  },
+  {
+    question:
+      "Can finance software integrate with accounting, ERP or payment systems?",
+    answer:
+      "Where suitable APIs or supported integration mechanisms are available, financial and operational platforms can be connected. The exact integration should be assessed against the systems involved.",
+  },
+  {
+    question:
+      "Can repetitive finance administration be automated?",
+    answer:
+      "Yes. Defined tasks such as approval routing, notifications, document generation and selected data movement can often be automated where the underlying rules are stable.",
+  },
+  {
+    question:
+      "Can dashboards provide financial and operational reporting?",
+    answer:
+      "Yes. Reporting can be developed around reliable source data such as revenue, expenditure, receivables, project finance and other available business information.",
+  },
+  {
+    question:
+      "Does LKProfessionals guarantee financial-regulatory compliance?",
+    answer:
+      "No blanket compliance claim should be made. Regulatory and security requirements depend on the organisation, jurisdiction, data, infrastructure, third-party services and exact implementation. Those requirements must be assessed specifically for each project.",
+  },
+];
+---
+
+<section class="finance-faq">
+  <div class="site-container finance-faq__layout">
+    <div>
+      <p>Finance FAQ</p>
+
+      <h2>
+        Questions to settle before automating a financial workflow.
+      </h2>
+    </div>
+
+    <div class="finance-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .finance-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .finance-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .finance-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .finance-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .finance-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .finance-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .finance-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .finance-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .finance-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

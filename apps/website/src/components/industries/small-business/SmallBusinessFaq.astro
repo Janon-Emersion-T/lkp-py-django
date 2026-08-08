@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Does a small business need custom software?",
+    answer:
+      "Not necessarily. Existing software is often the better choice when it fits the workflow well. Custom software becomes useful when important processes are constrained by spreadsheets, disconnected tools or repeated manual work that generic products cannot solve adequately.",
+  },
+  {
+    question:
+      "What technology should a new business prioritise first?",
+    answer:
+      "That depends on the business model, but a professional domain, business email, a credible website and reliable data management are common foundations. More complex systems should follow actual operational need.",
+  },
+  {
+    question:
+      "Can LKProfessionals work with an existing website or software system?",
+    answer:
+      "Yes. Work can include improving, integrating, maintaining or replacing existing technology rather than starting from zero.",
+  },
+  {
+    question:
+      "Can projects be delivered in stages to control cost?",
+    answer:
+      "Yes. Phased delivery is often sensible for smaller businesses because the highest-value requirements can be implemented first while later phases remain dependent on proven need.",
+  },
+  {
+    question:
+      "How can automation help a small business?",
+    answer:
+      "Automation can reduce repetitive administration such as notifications, lead routing, document handling and data movement when the underlying process has predictable rules.",
+  },
+  {
+    question:
+      "Do you support businesses after a project launches?",
+    answer:
+      "Yes. Maintenance and support can continue after launch where the website, software or infrastructure requires ongoing technical attention.",
+  },
+];
+---
+
+<section class="sb-faq">
+  <div class="site-container sb-faq__layout">
+    <div>
+      <p>Small business FAQ</p>
+
+      <h2>
+        Technology decisions without enterprise-sized assumptions.
+      </h2>
+    </div>
+
+    <div class="sb-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .sb-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .sb-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .sb-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .sb-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .sb-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .sb-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .sb-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .sb-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .sb-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

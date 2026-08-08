@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can LKProfessionals build a complete e-commerce website?",
+    answer:
+      "Yes. E-commerce projects can include catalogue structure, product pages, cart, checkout, payment integrations, customer accounts and agreed operational workflows.",
+  },
+  {
+    question:
+      "Can an online store integrate with inventory or POS software?",
+    answer:
+      "Where suitable APIs or supported integration methods are available, storefront, inventory, POS and other systems can be connected.",
+  },
+  {
+    question:
+      "Can product and order updates be automated?",
+    answer:
+      "Yes. Predictable events such as order confirmation, status changes, notifications and selected data synchronisation can often be automated.",
+  },
+  {
+    question:
+      "Can you develop a custom commerce platform instead of using standard store software?",
+    answer:
+      "Yes. Custom development can be appropriate when pricing, catalogue structure, workflows, integrations or business rules cannot be handled adequately by standard e-commerce platforms.",
+  },
+  {
+    question:
+      "Can LKProfessionals help bring more traffic to an online store?",
+    answer:
+      "Yes. SEO, paid acquisition, content and other digital marketing services can be used to improve discoverability and customer acquisition.",
+  },
+  {
+    question:
+      "Can analytics show which products and campaigns are performing?",
+    answer:
+      "Yes. Reporting can be developed around product sales, order values, campaign performance and other available business data, provided tracking and source data are implemented reliably.",
+  },
+];
+---
+
+<section class="retail-faq">
+  <div class="site-container retail-faq__layout">
+    <div>
+      <p>Retail & e-commerce FAQ</p>
+
+      <h2>
+        Questions to settle before adding another plugin to the store.
+      </h2>
+    </div>
+
+    <div class="retail-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .retail-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .retail-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .retail-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .retail-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .retail-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .retail-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .retail-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .retail-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .retail-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

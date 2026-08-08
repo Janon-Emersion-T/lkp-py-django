@@ -1,0 +1,178 @@
+---
+import {
+  industryServicePaths,
+} from "../../config/industries";
+---
+
+<section
+  class="industry-services"
+  aria-labelledby="industry-services-title"
+>
+  <div class="site-container">
+    <header class="industry-services__heading">
+      <div>
+        <p>From industry need to capability</p>
+
+        <h2 id="industry-services-title">
+          The sector defines the context. The service provides the capability.
+        </h2>
+      </div>
+
+      <p>
+        Projects often combine several disciplines. A customer portal
+        may require web development, API integration, automation,
+        analytics and ongoing infrastructure support rather than one
+        isolated service.
+      </p>
+    </header>
+
+    <div class="industry-services__list">
+      {
+        industryServicePaths.map((service, index) => (
+          <a href={service.href}>
+            <span>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            <h3>{service.title}</h3>
+
+            <p>{service.description}</p>
+
+            <svg
+              aria-hidden="true"
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+            >
+              <path
+                d="M3 9h12M11 5l4 4-4 4"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+              />
+            </svg>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .industry-services {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .industry-services__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, 0.4fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .industry-services__heading
+    > div > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .industry-services h2 {
+    max-width: 13ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.7rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .industry-services__heading > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.73rem;
+    line-height: 1.7;
+  }
+
+  .industry-services__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .industry-services__list > a {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(10rem, 0.42fr)
+      minmax(15rem, 1fr)
+      auto;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.2rem;
+    transition:
+      background-color 180ms ease,
+      padding-inline 180ms ease;
+  }
+
+  .industry-services__list > a:hover {
+    padding-inline: 0.7rem;
+    background: #f7f9fc;
+  }
+
+  .industry-services__list > a > span {
+    color: #0b2f8f;
+    font-size: 0.56rem;
+    font-weight: 800;
+  }
+
+  .industry-services h3 {
+    margin: 0;
+    color: #293b53;
+    font-size: 0.8rem;
+  }
+
+  .industry-services__list p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.68rem;
+    line-height: 1.6;
+  }
+
+  .industry-services svg {
+    color: #0b2f8f;
+    transition: transform 180ms ease;
+  }
+
+  .industry-services__list > a:hover svg {
+    transform: translateX(0.3rem);
+  }
+
+  @media (max-width: 48rem) {
+    .industry-services__heading {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .industry-services__list > a {
+      grid-template-columns:
+        2rem
+        1fr
+        auto;
+      align-items: start;
+    }
+
+    .industry-services__list p {
+      grid-column: 2 / -1;
+    }
+  }
+</style>

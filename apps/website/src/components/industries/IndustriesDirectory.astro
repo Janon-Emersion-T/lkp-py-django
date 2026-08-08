@@ -1,0 +1,221 @@
+---
+import {
+  industries,
+} from "../../config/industries";
+---
+
+<section
+  class="industries-directory"
+  aria-labelledby="industries-directory-title"
+>
+  <div class="site-container">
+    <header class="industries-directory__heading">
+      <div>
+        <p>Sector experience</p>
+
+        <h2 id="industries-directory-title">
+          Different industries. Different operating realities.
+        </h2>
+      </div>
+
+      <p>
+        Explore how our technology capability can be applied to
+        the workflows, customers, teams and operational priorities
+        found across different sectors.
+      </p>
+    </header>
+
+    <div class="industries-directory__grid">
+      {
+        industries.map((industry) => (
+          <a
+            href={industry.href}
+            class="industries-directory__item"
+          >
+            <div class="industries-directory__top">
+              <span>{industry.number}</span>
+
+              <svg
+                aria-hidden="true"
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+              >
+                <path
+                  d="M3 9h12M11 5l4 4-4 4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                />
+              </svg>
+            </div>
+
+            <h3>{industry.title}</h3>
+
+            <p>{industry.description}</p>
+
+            <div class="industries-directory__areas">
+              {
+                industry.areas.map((area) => (
+                  <span>{area}</span>
+                ))
+              }
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .industries-directory {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .industries-directory__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, 0.4fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .industries-directory__heading
+    > div > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .industries-directory h2 {
+    max-width: 13ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.7rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .industries-directory__heading > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.73rem;
+    line-height: 1.7;
+  }
+
+  .industries-directory__grid {
+    display: grid;
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+    border-left: 1px solid #dce3ec;
+  }
+
+  .industries-directory__item {
+    display: flex;
+    min-height: 22rem;
+    flex-direction: column;
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: clamp(1.3rem, 3vw, 2rem);
+    transition:
+      background-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .industries-directory__item:hover {
+    position: relative;
+    z-index: 1;
+    background: #f7f9fc;
+    transform: translateY(-0.2rem);
+  }
+
+  .industries-directory__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .industries-directory__top span {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .industries-directory__top svg {
+    color: #0b2f8f;
+    transition: transform 180ms ease;
+  }
+
+  .industries-directory__item:hover
+    .industries-directory__top svg {
+    transform: translateX(0.3rem);
+  }
+
+  .industries-directory h3 {
+    margin: 2.5rem 0 0;
+    color: #172c49;
+    font-family: var(--font-serif);
+    font-size: clamp(1.65rem, 3vw, 2.35rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .industries-directory__item > p {
+    margin: 0.8rem 0 2rem;
+    color: #788497;
+    font-size: 0.7rem;
+    line-height: 1.7;
+  }
+
+  .industries-directory__areas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: auto;
+  }
+
+  .industries-directory__areas span {
+    border: 1px solid #d7dfe9;
+    border-radius: 999px;
+    color: #66758a;
+    padding: 0.32rem 0.48rem;
+    font-size: 0.5rem;
+  }
+
+  @media (max-width: 62rem) {
+    .industries-directory__grid {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .industries-directory__heading {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .industries-directory__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .industries-directory__item {
+      min-height: 19rem;
+    }
+  }
+</style>

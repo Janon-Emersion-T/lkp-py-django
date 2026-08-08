@@ -1,0 +1,171 @@
+<section
+  class="nonprofit-hero"
+  aria-labelledby="nonprofit-hero-title"
+>
+  <div class="site-container nonprofit-hero__layout">
+    <div>
+      <p class="nonprofit-hero__eyebrow">
+        Industries / Non-profit
+      </p>
+
+      <h1 id="nonprofit-hero-title">
+        Make technology support
+        <span>the mission behind the organisation.</span>
+      </h1>
+    </div>
+
+    <div class="nonprofit-hero__context">
+      <p>
+        Non-profit organisations manage supporters, programmes,
+        volunteers, communications, reporting and limited resources
+        while staying focused on the work they exist to deliver.
+      </p>
+
+      <p>
+        LKProfessionals builds websites, software and digital
+        workflows that help reduce administrative friction and give
+        organisations clearer operational visibility.
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="site-container nonprofit-hero__rail"
+    aria-hidden="true"
+  >
+    <span>Reach</span>
+    <i></i>
+    <span>Engage</span>
+    <i></i>
+    <span>Coordinate</span>
+    <i></i>
+    <span>Report</span>
+    <i></i>
+    <span>Sustain</span>
+  </div>
+</section>
+
+<style>
+  .nonprofit-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dde4ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(5rem, 10vw, 9rem)
+      clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .nonprofit-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .nonprofit-hero__layout,
+  .nonprofit-hero__rail {
+    position: relative;
+    z-index: 1;
+  }
+
+  .nonprofit-hero__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(17rem, 0.4fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .nonprofit-hero__eyebrow {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .nonprofit-hero h1 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3.8rem, 8vw, 7.3rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  .nonprofit-hero h1 span {
+    display: block;
+    color: #0b2f8f;
+  }
+
+  .nonprofit-hero__context {
+    border-left: 1px solid #cdd6e2;
+    padding-left: 1.4rem;
+  }
+
+  .nonprofit-hero__context p {
+    margin: 0;
+    color: #6d798b;
+    font-size: 0.78rem;
+    line-height: 1.75;
+  }
+
+  .nonprofit-hero__context p + p {
+    margin-top: 1rem;
+  }
+
+  .nonprofit-hero__rail {
+    display: grid;
+    grid-template-columns:
+      auto 1fr auto 1fr auto 1fr auto 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    border-top: 1px solid #d9e0e9;
+    margin-top: clamp(4rem, 8vw, 7rem);
+    padding-top: 1.25rem;
+  }
+
+  .nonprofit-hero__rail span {
+    color: #53647a;
+    font-size: 0.58rem;
+    font-weight: 750;
+  }
+
+  .nonprofit-hero__rail i {
+    height: 1px;
+    background: #cfd8e4;
+  }
+
+  @media (max-width: 52rem) {
+    .nonprofit-hero__layout {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .nonprofit-hero h1 {
+      font-size: clamp(3rem, 15vw, 5rem);
+    }
+
+    .nonprofit-hero__rail {
+      display: none;
+    }
+  }
+</style>

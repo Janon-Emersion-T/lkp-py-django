@@ -1,0 +1,109 @@
+---
+import {
+  nonProfitChallenges,
+} from "../../../config/non-profit-industry";
+---
+
+<section
+  class="nonprofit-challenges"
+  aria-labelledby="nonprofit-challenges-title"
+>
+  <div class="site-container nonprofit-challenges__layout">
+    <div>
+      <p>Non-profit operations</p>
+
+      <h2 id="nonprofit-challenges-title">
+        Administrative effort should not compete with the mission.
+      </h2>
+    </div>
+
+    <div class="nonprofit-challenges__list">
+      {
+        nonProfitChallenges.map((challenge) => (
+          <article>
+            <span>{challenge.number}</span>
+
+            <div>
+              <h3>{challenge.title}</h3>
+              <p>{challenge.description}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .nonprofit-challenges {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .nonprofit-challenges__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.72fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .nonprofit-challenges__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .nonprofit-challenges h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .nonprofit-challenges__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .nonprofit-challenges article {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.25rem;
+  }
+
+  .nonprofit-challenges article > span {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .nonprofit-challenges h3 {
+    margin: 0;
+    color: #293b53;
+    font-size: 0.82rem;
+  }
+
+  .nonprofit-challenges article p {
+    max-width: 43rem;
+    margin: 0.45rem 0 0;
+    color: #788497;
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 52rem) {
+    .nonprofit-challenges__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,130 @@
+---
+import {
+  hospitalityJourney,
+} from "../../../config/hospitality-industry";
+---
+
+<section
+  class="hospitality-journey"
+  aria-labelledby="hospitality-journey-title"
+>
+  <div class="site-container">
+    <header class="hospitality-journey__heading">
+      <p>Guest journey</p>
+
+      <h2 id="hospitality-journey-title">
+        The digital experience starts before the stay.
+      </h2>
+    </header>
+
+    <div class="hospitality-journey__steps">
+      {
+        hospitalityJourney.map((step) => (
+          <article>
+            <span>{step.number}</span>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .hospitality-journey {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .hospitality-journey__heading {
+    max-width: 49rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .hospitality-journey__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .hospitality-journey h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.7rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .hospitality-journey__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(6, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .hospitality-journey article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .hospitality-journey article:first-child {
+    padding-left: 0;
+  }
+
+  .hospitality-journey article:last-child {
+    border-right: 0;
+  }
+
+  .hospitality-journey article > span {
+    color: #0b2f8f;
+    font-size: 0.56rem;
+    font-weight: 800;
+  }
+
+  .hospitality-journey h3 {
+    margin: 1rem 0 0;
+    color: #293b53;
+    font-size: 0.79rem;
+  }
+
+  .hospitality-journey article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.66rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 64rem) {
+    .hospitality-journey__steps {
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .hospitality-journey__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .hospitality-journey__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .hospitality-journey article,
+    .hospitality-journey article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

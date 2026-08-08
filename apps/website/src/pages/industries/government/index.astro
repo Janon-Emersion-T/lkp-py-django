@@ -1,0 +1,43 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import GovernmentHero from "../../../components/industries/government/GovernmentHero.astro";
+import GovernmentChallenges from "../../../components/industries/government/GovernmentChallenges.astro";
+import GovernmentCapabilities from "../../../components/industries/government/GovernmentCapabilities.astro";
+import GovernmentFlow from "../../../components/industries/government/GovernmentFlow.astro";
+import GovernmentPrinciples from "../../../components/industries/government/GovernmentPrinciples.astro";
+import GovernmentFaq from "../../../components/industries/government/GovernmentFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Government Technology Solutions",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType:
+      "Government departments, public-sector organisations and public-service programmes",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/industries/government/",
+  description:
+    "Public service portals, government administrative systems, workflow automation, integrations, analytics, cybersecurity and infrastructure services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Government Technology Solutions"
+  description="Public service portals, government administrative systems, workflow automation, integrations, analytics, cybersecurity and infrastructure services from LKProfessionals."
+  canonicalPath="/industries/government/"
+  structuredData={schema}
+>
+  <GovernmentHero />
+  <GovernmentChallenges />
+  <GovernmentCapabilities />
+  <GovernmentFlow />
+  <GovernmentPrinciples />
+  <GovernmentFaq />
+</Layout>

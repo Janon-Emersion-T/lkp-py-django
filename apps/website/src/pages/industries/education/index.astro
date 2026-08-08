@@ -1,0 +1,44 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import EducationHero from "../../../components/industries/education/EducationHero.astro";
+import EducationChallenges from "../../../components/industries/education/EducationChallenges.astro";
+import EducationCapabilities from "../../../components/industries/education/EducationCapabilities.astro";
+import EducationWorkflow from "../../../components/industries/education/EducationWorkflow.astro";
+import EducationPrinciples from "../../../components/industries/education/EducationPrinciples.astro";
+import EducationFaq from "../../../components/industries/education/EducationFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name:
+    "Education Technology Solutions",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  audience: {
+    "@type": "EducationalAudience",
+    educationalRole:
+      "Schools, academies, training providers and education organisations",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/industries/education/",
+  description:
+    "Student management systems, admissions workflows, education websites, portals, mobile apps, integrations and analytics services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Education Technology Solutions"
+  description="Student management systems, admissions workflows, education websites, portals, mobile apps, integrations and analytics services from LKProfessionals."
+  canonicalPath="/industries/education/"
+  structuredData={schema}
+>
+  <EducationHero />
+  <EducationChallenges />
+  <EducationCapabilities />
+  <EducationWorkflow />
+  <EducationPrinciples />
+  <EducationFaq />
+</Layout>

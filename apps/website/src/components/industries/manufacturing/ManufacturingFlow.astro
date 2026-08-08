@@ -1,0 +1,130 @@
+---
+import {
+  manufacturingFlow,
+} from "../../../config/manufacturing-industry";
+---
+
+<section
+  class="manufacturing-flow"
+  aria-labelledby="manufacturing-flow-title"
+>
+  <div class="site-container">
+    <header class="manufacturing-flow__heading">
+      <p>Production flow</p>
+
+      <h2 id="manufacturing-flow-title">
+        Trace the operation from demand to delivery.
+      </h2>
+    </header>
+
+    <div class="manufacturing-flow__steps">
+      {
+        manufacturingFlow.map((step) => (
+          <article>
+            <span>{step.number}</span>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .manufacturing-flow {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .manufacturing-flow__heading {
+    max-width: 49rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .manufacturing-flow__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .manufacturing-flow h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.7rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .manufacturing-flow__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(6, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .manufacturing-flow article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .manufacturing-flow article:first-child {
+    padding-left: 0;
+  }
+
+  .manufacturing-flow article:last-child {
+    border-right: 0;
+  }
+
+  .manufacturing-flow article > span {
+    color: #0b2f8f;
+    font-size: 0.56rem;
+    font-weight: 800;
+  }
+
+  .manufacturing-flow h3 {
+    margin: 1rem 0 0;
+    color: #293b53;
+    font-size: 0.79rem;
+  }
+
+  .manufacturing-flow article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.66rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 64rem) {
+    .manufacturing-flow__steps {
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .manufacturing-flow__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .manufacturing-flow__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .manufacturing-flow article,
+    .manufacturing-flow article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

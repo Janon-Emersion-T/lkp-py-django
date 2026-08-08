@@ -1,0 +1,44 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import FinanceHero from "../../../components/industries/finance/FinanceHero.astro";
+import FinanceChallenges from "../../../components/industries/finance/FinanceChallenges.astro";
+import FinanceCapabilities from "../../../components/industries/finance/FinanceCapabilities.astro";
+import FinanceFlow from "../../../components/industries/finance/FinanceFlow.astro";
+import FinancePrinciples from "../../../components/industries/finance/FinancePrinciples.astro";
+import FinanceFaq from "../../../components/industries/finance/FinanceFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name:
+    "Finance Technology Solutions",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType:
+      "Finance teams, financial-service businesses and organisations with controlled financial workflows",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/industries/finance/",
+  description:
+    "Finance software, ERP, CRM, workflow automation, system integration, analytics, cybersecurity and cloud services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Finance Technology Solutions"
+  description="Finance software, ERP, CRM, workflow automation, system integration, analytics, cybersecurity and cloud services from LKProfessionals."
+  canonicalPath="/industries/finance/"
+  structuredData={schema}
+>
+  <FinanceHero />
+  <FinanceChallenges />
+  <FinanceCapabilities />
+  <FinanceFlow />
+  <FinancePrinciples />
+  <FinanceFaq />
+</Layout>

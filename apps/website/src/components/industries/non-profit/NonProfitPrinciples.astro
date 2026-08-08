@@ -1,0 +1,106 @@
+---
+import {
+  nonProfitPrinciples,
+} from "../../../config/non-profit-industry";
+---
+
+<section class="nonprofit-principles">
+  <div class="site-container nonprofit-principles__layout">
+    <div>
+      <p>Non-profit technology principles</p>
+
+      <h2>
+        Technology should protect resources as carefully as it uses them.
+      </h2>
+    </div>
+
+    <div class="nonprofit-principles__list">
+      {
+        nonProfitPrinciples.map((principle) => (
+          <article>
+            <span>{principle.number}</span>
+
+            <div>
+              <h3>{principle.title}</h3>
+              <p>{principle.description}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .nonprofit-principles {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .nonprofit-principles__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.72fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .nonprofit-principles__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: rgba(246, 243, 235, 0.56);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .nonprofit-principles h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .nonprofit-principles__list {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .nonprofit-principles article {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    padding-block: 1.2rem;
+  }
+
+  .nonprofit-principles article > span {
+    color: rgba(246, 243, 235, 0.4);
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .nonprofit-principles h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 0.82rem;
+  }
+
+  .nonprofit-principles article p {
+    max-width: 42rem;
+    margin: 0.45rem 0 0;
+    color: rgba(246, 243, 235, 0.65);
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 52rem) {
+    .nonprofit-principles__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can LKProfessionals develop public-sector portals and administrative systems?",
+    answer:
+      "Yes. Solutions can be developed around defined public-service, administrative, case, request, document and internal workflow requirements.",
+  },
+  {
+    question:
+      "Can existing government or departmental systems be integrated?",
+    answer:
+      "Potentially. Integration depends on the existing system, approved access, available interfaces, data requirements and technical constraints. These should be assessed before implementation.",
+  },
+  {
+    question:
+      "Can internal approval workflows be digitised?",
+    answer:
+      "Yes. Defined routing, review, approval, notification and status workflows can be digitised where the organisation's process and responsibilities are clearly established.",
+  },
+  {
+    question:
+      "Can public-facing services work on mobile devices?",
+    answer:
+      "Yes. Responsive web applications and, where appropriate, mobile applications can be designed around the service requirements and intended users.",
+  },
+  {
+    question:
+      "Can dashboards support departmental reporting?",
+    answer:
+      "Yes. Reporting can be developed around reliable source data such as service volumes, case status, workflow activity and other approved operational information.",
+  },
+  {
+    question:
+      "Does LKProfessionals claim government security clearance or blanket regulatory compliance?",
+    answer:
+      "No blanket claim should be made. Security, procurement, accessibility, privacy, hosting and regulatory requirements vary by authority, jurisdiction and project and must be assessed against the specific engagement.",
+  },
+];
+---
+
+<section class="government-faq">
+  <div class="site-container government-faq__layout">
+    <div>
+      <p>Government FAQ</p>
+
+      <h2>
+        Questions to settle before digitising a public service.
+      </h2>
+    </div>
+
+    <div class="government-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .government-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .government-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .government-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .government-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .government-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .government-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .government-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .government-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .government-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,44 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import SmallBusinessHero from "../../../components/industries/small-business/SmallBusinessHero.astro";
+import SmallBusinessReality from "../../../components/industries/small-business/SmallBusinessReality.astro";
+import SmallBusinessCapabilities from "../../../components/industries/small-business/SmallBusinessCapabilities.astro";
+import SmallBusinessGrowthPath from "../../../components/industries/small-business/SmallBusinessGrowthPath.astro";
+import SmallBusinessPrinciples from "../../../components/industries/small-business/SmallBusinessPrinciples.astro";
+import SmallBusinessFaq from "../../../components/industries/small-business/SmallBusinessFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name:
+    "Technology Services for Small Businesses",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType:
+      "Small and growing businesses",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/industries/small-business/",
+  description:
+    "Web, software, automation, digital marketing and IT consultancy services for small and growing businesses from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Technology for Small Business"
+  description="Practical web, software, automation, digital marketing and IT consultancy services for small and growing businesses from LKProfessionals."
+  canonicalPath="/industries/small-business/"
+  structuredData={schema}
+>
+  <SmallBusinessHero />
+  <SmallBusinessReality />
+  <SmallBusinessCapabilities />
+  <SmallBusinessGrowthPath />
+  <SmallBusinessPrinciples />
+  <SmallBusinessFaq />
+</Layout>

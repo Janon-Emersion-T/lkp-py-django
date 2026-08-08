@@ -1,0 +1,43 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import LogisticsHero from "../../../components/industries/logistics/LogisticsHero.astro";
+import LogisticsChallenges from "../../../components/industries/logistics/LogisticsChallenges.astro";
+import LogisticsCapabilities from "../../../components/industries/logistics/LogisticsCapabilities.astro";
+import LogisticsFlow from "../../../components/industries/logistics/LogisticsFlow.astro";
+import LogisticsPrinciples from "../../../components/industries/logistics/LogisticsPrinciples.astro";
+import LogisticsFaq from "../../../components/industries/logistics/LogisticsFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Logistics Technology Solutions",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType:
+      "Logistics, warehousing, transport and delivery businesses",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/industries/logistics/",
+  description:
+    "Logistics management software, warehouse systems, mobile delivery workflows, automation, integrations and analytics services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Logistics Technology Solutions"
+  description="Logistics management software, warehouse systems, mobile delivery workflows, automation, integrations and analytics services from LKProfessionals."
+  canonicalPath="/industries/logistics/"
+  structuredData={schema}
+>
+  <LogisticsHero />
+  <LogisticsChallenges />
+  <LogisticsCapabilities />
+  <LogisticsFlow />
+  <LogisticsPrinciples />
+  <LogisticsFaq />
+</Layout>

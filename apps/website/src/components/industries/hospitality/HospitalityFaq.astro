@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can LKProfessionals build a hotel or accommodation booking website?",
+    answer:
+      "Yes. Booking websites can be designed around the property's room, availability, enquiry, reservation and payment workflow.",
+  },
+  {
+    question:
+      "Can a hospitality website support direct bookings?",
+    answer:
+      "Yes. The website can provide a direct reservation or enquiry path depending on the booking model and systems used by the property.",
+  },
+  {
+    question:
+      "Can booking or payment systems be integrated?",
+    answer:
+      "Where suitable APIs or supported integration mechanisms exist, booking engines, payment providers, messaging platforms and other operational systems can be connected.",
+  },
+  {
+    question:
+      "Can guest reminders and confirmations be automated?",
+    answer:
+      "Yes. Predictable communications such as confirmations, arrival instructions and selected reminders can often be automated once the workflow and communication rules are defined.",
+  },
+  {
+    question:
+      "Can LKProfessionals help reduce dependence on third-party booking platforms?",
+    answer:
+      "We can improve the property's own website, direct booking journey, search visibility and digital marketing. Third-party channels may still remain useful, so the goal is usually better channel balance rather than assuming they should be removed entirely.",
+  },
+  {
+    question:
+      "Can the website support multiple properties or room types?",
+    answer:
+      "Yes. Multi-property, room-type and related structures can be designed into the website or custom application where required by the operating model.",
+  },
+];
+---
+
+<section class="hospitality-faq">
+  <div class="site-container hospitality-faq__layout">
+    <div>
+      <p>Hospitality FAQ</p>
+
+      <h2>
+        Questions before sending another guest to a third-party platform.
+      </h2>
+    </div>
+
+    <div class="hospitality-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .hospitality-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .hospitality-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .hospitality-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .hospitality-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .hospitality-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .hospitality-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .hospitality-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .hospitality-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .hospitality-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

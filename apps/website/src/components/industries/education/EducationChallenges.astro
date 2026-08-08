@@ -1,0 +1,109 @@
+---
+import {
+  educationChallenges,
+} from "../../../config/education-industry";
+---
+
+<section
+  class="education-challenges"
+  aria-labelledby="education-challenges-title"
+>
+  <div class="site-container education-challenges__layout">
+    <div>
+      <p>Education operations</p>
+
+      <h2 id="education-challenges-title">
+        Administration becomes harder long before learning does.
+      </h2>
+    </div>
+
+    <div class="education-challenges__list">
+      {
+        educationChallenges.map((challenge) => (
+          <article>
+            <span>{challenge.number}</span>
+
+            <div>
+              <h3>{challenge.title}</h3>
+              <p>{challenge.description}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .education-challenges {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .education-challenges__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.72fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .education-challenges__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .education-challenges h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .education-challenges__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .education-challenges article {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.25rem;
+  }
+
+  .education-challenges article > span {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .education-challenges h3 {
+    margin: 0;
+    color: #293b53;
+    font-size: 0.82rem;
+  }
+
+  .education-challenges article p {
+    max-width: 43rem;
+    margin: 0.45rem 0 0;
+    color: #788497;
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 52rem) {
+    .education-challenges__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
