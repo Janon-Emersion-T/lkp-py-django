@@ -1,0 +1,30 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProcessHero from "../../components/process/ProcessHero.astro";
+import ProcessPrinciples from "../../components/process/ProcessPrinciples.astro";
+import ProcessStages from "../../components/process/ProcessStages.astro";
+import ProcessCommunication from "../../components/process/ProcessCommunication.astro";
+import ProcessQuality from "../../components/process/ProcessQuality.astro";
+
+const processSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "Our Process — LKProfessionals",
+  url: "https://lkprofessionals.com/about/our-process/",
+  description:
+    "Learn how LKProfessionals approaches discovery, planning, solution design, implementation, quality assurance, delivery and ongoing improvement.",
+};
+---
+
+<Layout
+  title="Our Process"
+  description="Learn how LKProfessionals approaches discovery, planning, solution design, implementation, quality assurance, delivery and ongoing improvement."
+  canonicalPath="/about/our-process/"
+  structuredData={processSchema}
+>
+  <ProcessHero />
+  <ProcessPrinciples />
+  <ProcessStages />
+  <ProcessCommunication />
+  <ProcessQuality />
+</Layout>

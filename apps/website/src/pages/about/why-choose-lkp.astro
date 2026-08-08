@@ -1,0 +1,32 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import WhyChooseHero from "../../components/why-choose-lkp/WhyChooseHero.astro";
+import WhyChooseProof from "../../components/why-choose-lkp/WhyChooseProof.astro";
+import WhyChooseReasons from "../../components/why-choose-lkp/WhyChooseReasons.astro";
+import WhyChooseAccountability from "../../components/why-choose-lkp/WhyChooseAccountability.astro";
+import WhyChooseDelivery from "../../components/why-choose-lkp/WhyChooseDelivery.astro";
+import WhyChoosePerspective from "../../components/why-choose-lkp/WhyChoosePerspective.astro";
+
+const whyChooseSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "Why Choose LKProfessionals",
+  url: "https://lkprofessionals.com/about/why-choose-lkp/",
+  description:
+    "Learn why businesses choose LKProfessionals for accountable, maintainable and practical technology delivery.",
+};
+---
+
+<Layout
+  title="Why Choose LKProfessionals"
+  description="Learn why businesses choose LKProfessionals for accountable, maintainable and practical technology delivery."
+  canonicalPath="/about/why-choose-lkp/"
+  structuredData={whyChooseSchema}
+>
+  <WhyChooseHero />
+  <WhyChooseProof />
+  <WhyChooseReasons />
+  <WhyChooseAccountability />
+  <WhyChooseDelivery />
+  <WhyChoosePerspective />
+</Layout>

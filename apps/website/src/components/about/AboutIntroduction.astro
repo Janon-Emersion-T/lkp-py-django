@@ -1,0 +1,86 @@
+<section class="about-intro" aria-labelledby="about-intro-title">
+  <div class="site-container about-intro__layout">
+    <div>
+      <p>Who we are</p>
+
+      <h2 id="about-intro-title">
+        A technology company shaped by practical work.
+      </h2>
+    </div>
+
+    <div class="about-intro__copy">
+      <p>
+        LKProfessionals has grown from practical IT work into a
+        broader technology company serving businesses across web,
+        software, digital marketing, automation, infrastructure
+        and technology consulting.
+      </p>
+
+      <p>
+        Our approach is grounded in a simple idea: technology
+        should solve useful problems, remain maintainable and
+        support the organisation using it.
+      </p>
+
+      <p>
+        We combine technical execution with business understanding
+        because successful delivery depends on both.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-intro {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .about-intro__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .about-intro__layout > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .about-intro h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .about-intro__copy {
+    display: grid;
+    gap: 1.15rem;
+    align-content: start;
+  }
+
+  .about-intro__copy p {
+    max-width: 44rem;
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .about-intro__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

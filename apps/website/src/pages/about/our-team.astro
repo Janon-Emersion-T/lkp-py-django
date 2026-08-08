@@ -1,0 +1,28 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import TeamHero from "../../components/team/TeamHero.astro";
+import TeamDirectory from "../../components/team/TeamDirectory.astro";
+import TeamWorkingPrinciples from "../../components/team/TeamWorkingPrinciples.astro";
+import TeamCareersCta from "../../components/team/TeamCareersCta.astro";
+
+const teamSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "Our Team — LKProfessionals",
+  url: "https://lkprofessionals.com/about/our-team/",
+  description:
+    "Meet the people and teams behind LKProfessionals.",
+};
+---
+
+<Layout
+  title="Our Team"
+  description="Meet the people and teams behind LKProfessionals."
+  canonicalPath="/about/our-team/"
+  structuredData={teamSchema}
+>
+  <TeamHero />
+  <TeamDirectory />
+  <TeamWorkingPrinciples />
+  <TeamCareersCta />
+</Layout>

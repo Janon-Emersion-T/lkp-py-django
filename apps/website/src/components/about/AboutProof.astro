@@ -1,0 +1,134 @@
+<section class="about-proof">
+  <div class="site-container about-proof__layout">
+    <div class="about-proof__statement">
+      <p>Our foundation</p>
+
+      <h2>
+        More than a decade of learning through delivery.
+      </h2>
+    </div>
+
+    <div class="about-proof__list">
+      <div>
+        <span>2013</span>
+        <strong>The journey begins</strong>
+        <p>
+          Practical technology work becomes the foundation
+          for LKProfessionals.
+        </p>
+      </div>
+
+      <div>
+        <span>2024</span>
+        <strong>Formal incorporation</strong>
+        <p>
+          LKProfessionals becomes LKProfessionals (Pvt) Ltd.
+        </p>
+      </div>
+
+      <div>
+        <span>Jaffna</span>
+        <strong>Our base</strong>
+        <p>
+          Built in Sri Lanka with ambitions extending beyond
+          local markets.
+        </p>
+      </div>
+
+      <div>
+        <span>Today</span>
+        <strong>A broader technology platform</strong>
+        <p>
+          Engineering, growth, infrastructure, automation
+          and consulting continue to develop together.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-proof {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .about-proof__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.75fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .about-proof__statement > p {
+    margin: 0 0 1rem;
+    color: rgba(246, 243, 235, 0.56);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .about-proof h2 {
+    max-width: 11ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .about-proof__list {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .about-proof__list div {
+    display: grid;
+    grid-template-columns:
+      minmax(5rem, 0.25fr)
+      minmax(10rem, 0.4fr)
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    padding-block: 1.15rem;
+  }
+
+  .about-proof__list span {
+    color: rgba(246, 243, 235, 0.5);
+    font-size: 0.62rem;
+    font-weight: 780;
+  }
+
+  .about-proof__list strong {
+    color: #ffffff;
+    font-size: 0.75rem;
+  }
+
+  .about-proof__list p {
+    margin: 0;
+    color: rgba(246, 243, 235, 0.64);
+    font-size: 0.68rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 52rem) {
+    .about-proof__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .about-proof__list div {
+      grid-template-columns:
+        4rem
+        1fr;
+    }
+
+    .about-proof__list p {
+      grid-column: 2;
+    }
+  }
+</style>

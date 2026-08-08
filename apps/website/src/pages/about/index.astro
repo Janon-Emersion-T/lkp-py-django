@@ -1,0 +1,32 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import AboutHero from "../../components/about/AboutHero.astro";
+import AboutIntroduction from "../../components/about/AboutIntroduction.astro";
+import AboutProof from "../../components/about/AboutProof.astro";
+import AboutExplore from "../../components/about/AboutExplore.astro";
+import AboutOperatingPrinciples from "../../components/about/AboutOperatingPrinciples.astro";
+import AboutToday from "../../components/about/AboutToday.astro";
+
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "About LKProfessionals",
+  url: "https://lkprofessionals.com/about/",
+  description:
+    "Learn about LKProfessionals, a Sri Lankan technology company providing engineering, digital growth, infrastructure and business technology services.",
+};
+---
+
+<Layout
+  title="About Us"
+  description="Learn about LKProfessionals, a Sri Lankan technology company providing engineering, digital growth, infrastructure and business technology services."
+  canonicalPath="/about/"
+  structuredData={aboutSchema}
+>
+  <AboutHero />
+  <AboutIntroduction />
+  <AboutProof />
+  <AboutExplore />
+  <AboutOperatingPrinciples />
+  <AboutToday />
+</Layout>

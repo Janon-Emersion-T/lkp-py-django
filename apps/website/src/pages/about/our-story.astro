@@ -1,0 +1,32 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import OurStoryHero from "../../components/our-story/OurStoryHero.astro";
+import OurStoryOrigin from "../../components/our-story/OurStoryOrigin.astro";
+import OurStoryTimeline from "../../components/our-story/OurStoryTimeline.astro";
+import OurStoryEvolution from "../../components/our-story/OurStoryEvolution.astro";
+import OurStoryPrinciples from "../../components/our-story/OurStoryPrinciples.astro";
+import OurStoryToday from "../../components/our-story/OurStoryToday.astro";
+
+const storySchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "Our Story — LKProfessionals",
+  url: "https://lkprofessionals.com/about/our-story/",
+  description:
+    "Discover the story of LKProfessionals, from its beginnings in 2013 to its development as a Sri Lankan technology company with international ambitions.",
+};
+---
+
+<Layout
+  title="Our Story"
+  description="Discover the story of LKProfessionals, from its beginnings in 2013 to its development as a Sri Lankan technology company with international ambitions."
+  canonicalPath="/about/our-story/"
+  structuredData={storySchema}
+>
+  <OurStoryHero />
+  <OurStoryOrigin />
+  <OurStoryTimeline />
+  <OurStoryEvolution />
+  <OurStoryPrinciples />
+  <OurStoryToday />
+</Layout>

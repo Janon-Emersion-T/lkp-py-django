@@ -1,0 +1,231 @@
+<section class="about-hero" aria-labelledby="about-hero-title">
+  <div class="site-container about-hero__inner">
+    <div class="about-hero__content">
+      <p class="about-hero__eyebrow">
+        About LKProfessionals
+      </p>
+
+      <h1 id="about-hero-title">
+        Technology built around
+        <span>business reality.</span>
+      </h1>
+
+      <p class="about-hero__lead">
+        LKProfessionals is a Sri Lankan technology company
+        combining engineering, digital growth, infrastructure
+        and business technology expertise to help organisations
+        build, improve and operate with greater confidence.
+      </p>
+    </div>
+
+    <aside class="about-hero__aside">
+      <span>LKProfessionals</span>
+
+      <p>
+        Founded in 2013.<br />
+        Incorporated in 2024.<br />
+        Based in Jaffna.
+      </p>
+    </aside>
+  </div>
+
+  <div class="site-container about-hero__facts">
+    <div>
+      <span>01</span>
+      <strong>Technology</strong>
+      <small>Engineering & systems</small>
+    </div>
+
+    <div>
+      <span>02</span>
+      <strong>Growth</strong>
+      <small>SEO & digital marketing</small>
+    </div>
+
+    <div>
+      <span>03</span>
+      <strong>Operations</strong>
+      <small>Automation & support</small>
+    </div>
+
+    <div>
+      <span>04</span>
+      <strong>Strategy</strong>
+      <small>Consulting & transformation</small>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dde4ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(4.5rem, 9vw, 8rem)
+      clamp(2.8rem, 5vw, 4rem);
+  }
+
+  .about-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .about-hero__inner,
+  .about-hero__facts {
+    position: relative;
+    z-index: 1;
+  }
+
+  .about-hero__inner {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(14rem, 0.3fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .about-hero__eyebrow {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .about-hero h1 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3.7rem, 8vw, 7.3rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  .about-hero h1 span {
+    display: block;
+    color: #0b2f8f;
+  }
+
+  .about-hero__lead {
+    max-width: 44rem;
+    margin: 1.6rem 0 0;
+    color: #687589;
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    line-height: 1.8;
+  }
+
+  .about-hero__aside {
+    border-left: 1px solid #cad4e1;
+    padding-left: 1.25rem;
+  }
+
+  .about-hero__aside span {
+    color: #8792a2;
+    font-size: 0.59rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .about-hero__aside p {
+    margin: 0.55rem 0 0;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 700;
+    line-height: 1.75;
+  }
+
+  .about-hero__facts {
+    display: grid;
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+    border-top: 1px solid #d9e0e9;
+    margin-top: clamp(3.5rem, 7vw, 6rem);
+  }
+
+  .about-hero__facts div {
+    border-right: 1px solid #d9e0e9;
+    padding: 1rem;
+  }
+
+  .about-hero__facts div:first-child {
+    padding-left: 0;
+  }
+
+  .about-hero__facts div:last-child {
+    border-right: 0;
+  }
+
+  .about-hero__facts span {
+    display: block;
+    color: #8995a6;
+    font-size: 0.55rem;
+    font-weight: 800;
+  }
+
+  .about-hero__facts strong {
+    display: block;
+    margin-top: 0.5rem;
+    color: #283a52;
+    font-size: 0.72rem;
+  }
+
+  .about-hero__facts small {
+    display: block;
+    margin-top: 0.18rem;
+    color: #8994a4;
+    font-size: 0.58rem;
+  }
+
+  @media (max-width: 52rem) {
+    .about-hero__inner {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .about-hero__facts {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .about-hero h1 {
+      font-size: clamp(3.1rem, 16vw, 5rem);
+    }
+
+    .about-hero__facts {
+      grid-template-columns: 1fr;
+    }
+
+    .about-hero__facts div,
+    .about-hero__facts div:first-child {
+      border-right: 0;
+      border-bottom: 1px solid #d9e0e9;
+      padding-inline: 0;
+    }
+
+    .about-hero__facts div:last-child {
+      border-bottom: 0;
+    }
+  }
+</style>

@@ -1,0 +1,40 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import CareersHero from "../../components/careers/CareersHero.astro";
+import CareersIntroduction from "../../components/careers/CareersIntroduction.astro";
+import CareersPrinciples from "../../components/careers/CareersPrinciples.astro";
+import CareersBenefits from "../../components/careers/CareersBenefits.astro";
+import CareersOpportunities from "../../components/careers/CareersOpportunities.astro";
+import CareersHiringProcess from "../../components/careers/CareersHiringProcess.astro";
+import CareersEarlyCareers from "../../components/careers/CareersEarlyCareers.astro";
+import CareersOpenApplication from "../../components/careers/CareersOpenApplication.astro";
+import CareersFaq from "../../components/careers/CareersFaq.astro";
+import CareersClosingCta from "../../components/careers/CareersClosingCta.astro";
+
+const careersSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Careers at LKProfessionals",
+  url: "https://lkprofessionals.com/about/careers/",
+  description:
+    "Explore careers, internships and employment opportunities at LKProfessionals.",
+};
+---
+
+<Layout
+  title="Careers"
+  description="Explore careers, internships and employment opportunities at LKProfessionals."
+  canonicalPath="/about/careers/"
+  structuredData={careersSchema}
+>
+  <CareersHero />
+  <CareersIntroduction />
+  <CareersPrinciples />
+  <CareersBenefits />
+  <CareersOpportunities />
+  <CareersHiringProcess />
+  <CareersEarlyCareers />
+  <CareersOpenApplication />
+  <CareersFaq />
+  <CareersClosingCta />
+</Layout>

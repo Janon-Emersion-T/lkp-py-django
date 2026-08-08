@@ -1,0 +1,200 @@
+---
+const sections = [
+  {
+    number: "01",
+    title: "Our Story",
+    description:
+      "How LKProfessionals developed from practical IT work into a structured technology company.",
+    href: "/about/our-story/",
+  },
+  {
+    number: "02",
+    title: "Mission & Vision",
+    description:
+      "The purpose, direction and principles guiding the company.",
+    href: "/about/mission-vision/",
+  },
+  {
+    number: "03",
+    title: "Why Choose LKP",
+    description:
+      "How we think about accountability, maintainability and technology partnerships.",
+    href: "/about/why-choose-lkp/",
+  },
+  {
+    number: "04",
+    title: "Our Process",
+    description:
+      "The delivery discipline behind discovery, planning, implementation and support.",
+    href: "/about/our-process/",
+  },
+  {
+    number: "05",
+    title: "Our Team",
+    description:
+      "Meet the people and disciplines behind LKProfessionals.",
+    href: "/about/our-team/",
+  },
+  {
+    number: "06",
+    title: "Careers",
+    description:
+      "Explore opportunities to build your career with LKProfessionals.",
+    href: "/about/careers/",
+  },
+];
+---
+
+<section class="about-explore" aria-labelledby="about-explore-title">
+  <div class="site-container">
+    <header class="about-explore__heading">
+      <div>
+        <p>Explore LKProfessionals</p>
+
+        <h2 id="about-explore-title">
+          Go deeper into the company.
+        </h2>
+      </div>
+
+      <p>
+        Each section covers a different part of who we are,
+        how we work and where we are going.
+      </p>
+    </header>
+
+    <div class="about-explore__list">
+      {
+        sections.map((section) => (
+          <a href={section.href}>
+            <span>{section.number}</span>
+
+            <div>
+              <h3>{section.title}</h3>
+              <p>{section.description}</p>
+            </div>
+
+            <svg
+              aria-hidden="true"
+              width="17"
+              height="17"
+              viewBox="0 0 17 17"
+            >
+              <path
+                d="M3 8.5h11M10 4.5l4 4-4 4"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+              />
+            </svg>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-explore {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .about-explore__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, 0.42fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .about-explore__heading > div > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .about-explore h2 {
+    max-width: 13ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .about-explore__heading > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.75rem;
+    line-height: 1.7;
+  }
+
+  .about-explore__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .about-explore__list > a {
+    display: grid;
+    grid-template-columns:
+      3.5rem
+      minmax(0, 1fr)
+      auto;
+    gap: 1.4rem;
+    align-items: center;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.25rem;
+    transition:
+      padding-inline 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .about-explore__list > a:hover {
+    padding-inline: 0.8rem;
+    background: #ffffff;
+  }
+
+  .about-explore__list > a > span {
+    color: #0b2f8f;
+    font-size: 0.6rem;
+    font-weight: 800;
+  }
+
+  .about-explore h3 {
+    margin: 0;
+    color: #273951;
+    font-size: 0.84rem;
+  }
+
+  .about-explore__list p {
+    max-width: 42rem;
+    margin: 0.35rem 0 0;
+    color: #758196;
+    font-size: 0.69rem;
+    line-height: 1.6;
+  }
+
+  .about-explore__list svg {
+    color: #0b2f8f;
+    transition: transform 180ms ease;
+  }
+
+  .about-explore__list > a:hover svg {
+    transform: translateX(0.3rem);
+  }
+
+  @media (max-width: 48rem) {
+    .about-explore__heading {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+</style>

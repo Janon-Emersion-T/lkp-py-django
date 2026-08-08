@@ -1,0 +1,86 @@
+<section class="about-today">
+  <div class="site-container about-today__layout">
+    <div>
+      <p>LKProfessionals today</p>
+
+      <h2>
+        Local roots. Broader ambition.
+      </h2>
+    </div>
+
+    <div class="about-today__copy">
+      <p>
+        LKProfessionals operates from Jaffna as a Sri Lankan
+        technology company with an increasingly international
+        outlook.
+      </p>
+
+      <p>
+        We are continuing to strengthen our engineering capability,
+        digital services, internal systems, team and delivery
+        processes while building relationships with businesses
+        across multiple markets.
+      </p>
+
+      <p>
+        The objective is not simply to become larger. It is to
+        become more capable, more dependable and more useful to
+        the organisations that choose to work with us.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-today {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #f6f8fb;
+  }
+
+  .about-today__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .about-today__layout > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .about-today h2 {
+    max-width: 10ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .about-today__copy {
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  .about-today__copy p {
+    max-width: 44rem;
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .about-today__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

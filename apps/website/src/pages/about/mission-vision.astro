@@ -1,0 +1,30 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import MissionVisionHero from "../../components/mission-vision/MissionVisionHero.astro";
+import MissionStatement from "../../components/mission-vision/MissionStatement.astro";
+import VisionStatement from "../../components/mission-vision/VisionStatement.astro";
+import MissionPrinciples from "../../components/mission-vision/MissionPrinciples.astro";
+import MissionDirection from "../../components/mission-vision/MissionDirection.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "Mission & Vision — LKProfessionals",
+  url: "https://lkprofessionals.com/about/mission-vision/",
+  description:
+    "Learn about the mission, vision and principles guiding LKProfessionals.",
+};
+---
+
+<Layout
+  title="Our Mission & Vision"
+  description="Learn about the mission, vision and principles guiding LKProfessionals."
+  canonicalPath="/about/mission-vision/"
+  structuredData={schema}
+>
+  <MissionVisionHero />
+  <MissionStatement />
+  <VisionStatement />
+  <MissionPrinciples />
+  <MissionDirection />
+</Layout>

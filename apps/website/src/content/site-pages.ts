@@ -10,84 +10,6 @@ export interface SitePage {
 
 export const sitePages: SitePage[] = [
   {
-    title: "About Us",
-    path: "about",
-    eyebrow: "Company",
-    summary:
-      "Learn about LKProfessionals, our history, principles, team and approach to reliable technology delivery.",
-    parentPath: null,
-    childPaths: [
-      "about/our-story",
-      "about/mission-vision",
-      "about/why-choose-lkp",
-      "about/our-process",
-      "about/our-team",
-      "about/careers",
-      "about/contact",
-    ],
-    noindex: false,
-  },
-  {
-    title: "Our Story",
-    path: "about/our-story",
-    eyebrow: "About Us",
-    summary:
-      "Learn more about our story within the LKProfessionals about us section.",
-    parentPath: "about",
-    childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Our Mission & Vision",
-    path: "about/mission-vision",
-    eyebrow: "About Us",
-    summary:
-      "Learn more about our mission & vision within the LKProfessionals about us section.",
-    parentPath: "about",
-    childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Why Choose LKP",
-    path: "about/why-choose-lkp",
-    eyebrow: "About Us",
-    summary:
-      "Learn more about why choose lkp within the LKProfessionals about us section.",
-    parentPath: "about",
-    childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Our Process",
-    path: "about/our-process",
-    eyebrow: "About Us",
-    summary:
-      "Learn more about our process within the LKProfessionals about us section.",
-    parentPath: "about",
-    childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Our Team",
-    path: "about/our-team",
-    eyebrow: "About Us",
-    summary:
-      "Learn more about our team within the LKProfessionals about us section.",
-    parentPath: "about",
-    childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Careers",
-    path: "about/careers",
-    eyebrow: "About Us",
-    summary:
-      "Learn more about careers within the LKProfessionals about us section.",
-    parentPath: "about",
-    childPaths: [],
-    noindex: false,
-  },
-  {
     title: "Contact Us",
     path: "about/contact",
     eyebrow: "About Us",
@@ -1456,16 +1378,6 @@ export const sitePages: SitePage[] = [
       "Arrange a focused discussion about your requirements and practical next steps.",
     parentPath: null,
     childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Contact Us",
-    path: "contact",
-    eyebrow: "Contact",
-    summary:
-      "Contact LKProfessionals for sales, support and general enquiries.",
-    parentPath: null,
-    childPaths: ["contact/general-enquiry", "contact/support", "contact/sales"],
     noindex: false,
   },
   {
