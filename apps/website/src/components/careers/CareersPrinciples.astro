@@ -1,0 +1,92 @@
+---
+const principles = [
+  ["01", "Professionalism", "Take the work, the client and your commitments seriously."],
+  ["02", "Continuous learning", "Technology changes. We expect people to keep developing with it."],
+  ["03", "Problem solving", "Investigate, understand and solve before escalating."],
+  ["04", "Communication", "Strong work needs clear communication to create results."],
+  ["05", "Integrity", "Handle information, commitments and responsibilities properly."],
+  ["06", "Ownership", "Take responsibility for the quality and outcome of your work."],
+];
+---
+
+<section class="careers-principles">
+  <div class="site-container">
+    <div class="careers-principles__heading">
+      <p class="careers-section-label">What we value</p>
+
+      <h2>
+        The way you work matters as much as what you know.
+      </h2>
+    </div>
+
+    <div class="careers-principles__list">
+      {
+        principles.map(([number, title, copy]) => (
+          <article>
+            <span>{number}</span>
+
+            <div>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .careers-principles {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .careers-principles__heading {
+    max-width: 48rem;
+    margin-bottom: 3rem;
+  }
+
+  .careers-principles h2 {
+    max-width: 14ch;
+    margin: 1rem 0 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .careers-principles__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .careers-principles article {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.3rem;
+  }
+
+  .careers-principles article > span {
+    color: #8792a2;
+    font-size: 0.62rem;
+    font-weight: 800;
+  }
+
+  .careers-principles article h3 {
+    margin: 0;
+    color: #1b2d47;
+    font-size: 0.9rem;
+  }
+
+  .careers-principles article p {
+    max-width: 44rem;
+    margin: 0.35rem 0 0;
+    color: #748095;
+    font-size: 0.76rem;
+    line-height: 1.65;
+  }
+</style>

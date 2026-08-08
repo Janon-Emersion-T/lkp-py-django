@@ -1,0 +1,116 @@
+<section class="mission-direction">
+  <div class="site-container mission-direction__layout">
+    <div>
+      <p>Where this leads</p>
+
+      <h2>
+        Growth without losing the standard.
+      </h2>
+    </div>
+
+    <div class="mission-direction__content">
+      <p>
+        LKProfessionals intends to grow its capabilities, client base
+        and international reach while preserving the characteristics
+        that make technology partnerships work: accessibility,
+        accountability, technical competence and dependable support.
+      </p>
+
+      <div class="mission-direction__areas">
+        <div>
+          <span>01</span>
+          <strong>Deeper technical capability</strong>
+        </div>
+
+        <div>
+          <span>02</span>
+          <strong>Broader international reach</strong>
+        </div>
+
+        <div>
+          <span>03</span>
+          <strong>Stronger long-term partnerships</strong>
+        </div>
+
+        <div>
+          <span>04</span>
+          <strong>Continuous operational improvement</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mission-direction {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .mission-direction__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .mission-direction__layout > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .mission-direction h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .mission-direction__content > p {
+    max-width: 43rem;
+    margin: 0 0 2rem;
+    color: #6f7c90;
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  .mission-direction__areas {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .mission-direction__areas div {
+    display: grid;
+    grid-template-columns:
+      3rem
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .mission-direction__areas span {
+    color: #8792a2;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .mission-direction__areas strong {
+    color: #293b53;
+    font-size: 0.76rem;
+  }
+
+  @media (max-width: 52rem) {
+    .mission-direction__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

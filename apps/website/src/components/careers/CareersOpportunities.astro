@@ -1,0 +1,119 @@
+<section
+  class="careers-opportunities"
+  id="open-positions"
+  aria-labelledby="careers-opportunities-title"
+>
+  <div class="site-container">
+    <div class="careers-opportunities__heading">
+      <div>
+        <p class="careers-section-label">Current opportunities</p>
+
+        <h2 id="careers-opportunities-title">
+          Open positions at LKProfessionals.
+        </h2>
+      </div>
+
+      <p>
+        Vacancies published through the LKP recruitment system
+        will appear here automatically.
+      </p>
+    </div>
+
+    <div class="careers-opportunities__empty">
+      <span>Current status</span>
+
+      <h3>No published vacancies at the moment.</h3>
+
+      <p>
+        We still welcome open applications from people who believe
+        their skills could contribute to LKProfessionals.
+      </p>
+
+      <a href="#open-application">
+        Send an open application
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .careers-opportunities {
+    scroll-margin-top: 7rem;
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #0b2f8f;
+    color: #f5f2ea;
+  }
+
+  .careers-opportunities .careers-section-label {
+    color: rgba(245, 242, 234, 0.58);
+  }
+
+  .careers-opportunities__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, 0.5fr);
+    gap: 3rem;
+    align-items: end;
+  }
+
+  .careers-opportunities h2 {
+    max-width: 13ch;
+    margin: 1rem 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .careers-opportunities__heading > p {
+    margin: 0;
+    color: rgba(245, 242, 234, 0.65);
+    font-size: 0.78rem;
+    line-height: 1.7;
+  }
+
+  .careers-opportunities__empty {
+    margin-top: 3rem;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    border-bottom: 1px solid rgba(255,255,255,0.18);
+    padding-block: 2rem;
+  }
+
+  .careers-opportunities__empty > span {
+    color: rgba(245,242,234,0.48);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .careers-opportunities__empty h3 {
+    margin: 0.8rem 0 0;
+    font-size: 1.2rem;
+  }
+
+  .careers-opportunities__empty p {
+    max-width: 38rem;
+    margin: 0.8rem 0 0;
+    color: rgba(245,242,234,0.64);
+    font-size: 0.76rem;
+    line-height: 1.65;
+  }
+
+  .careers-opportunities__empty a {
+    display: inline-flex;
+    margin-top: 1.3rem;
+    border-bottom: 1px solid currentColor;
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 750;
+  }
+
+  @media (max-width: 48rem) {
+    .careers-opportunities__heading {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

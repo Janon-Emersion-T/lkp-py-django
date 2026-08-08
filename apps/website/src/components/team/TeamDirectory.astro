@@ -1,0 +1,915 @@
+---
+const apiBaseUrl =
+  import.meta.env.PUBLIC_API_BASE_URL
+  ?? "http://127.0.0.1:8082/api/v1";
+
+const backendOrigin = new URL(
+  apiBaseUrl
+).origin;
+---
+
+<section
+  class="team-directory"
+  data-team-directory
+  data-endpoint={`${apiBaseUrl}/team-management/public/teams`}
+  data-backend-origin={backendOrigin}
+  aria-labelledby="team-directory-title"
+>
+  <div class="site-container">
+    <header class="team-directory__heading">
+      <div>
+        <p class="team-directory__eyebrow">
+          Meet LKP
+        </p>
+
+        <h2 id="team-directory-title">
+          Expertise across disciplines.
+        </h2>
+      </div>
+
+      <p>
+        This directory is managed directly through the
+        LKProfessionals team workspace.
+      </p>
+    </header>
+
+    <div
+      class="team-directory__status"
+      data-team-status
+      aria-live="polite"
+    >
+      Loading our team…
+    </div>
+
+    <div
+      class="team-directory__leadership"
+      data-team-leadership
+      hidden
+    >
+      <div class="team-directory__section-heading">
+        <span>Leadership</span>
+      </div>
+
+      <div
+        class="team-directory__people
+               team-directory__people--leadership"
+        data-leadership-grid
+      ></div>
+    </div>
+
+    <div
+      class="team-directory__teams"
+      data-team-groups
+    ></div>
+  </div>
+</section>
+
+<template data-member-template>
+  <article class="team-member">
+    <div class="team-member__portrait">
+      <img
+        data-member-image
+        alt=""
+        loading="lazy"
+        decoding="async"
+        hidden
+      />
+
+      <div
+        class="team-member__placeholder"
+        data-member-placeholder
+        aria-hidden="true"
+      >
+        <span data-member-initials></span>
+      </div>
+
+      <span
+        class="team-member__featured"
+        data-member-featured
+        hidden
+      >
+        Featured
+      </span>
+    </div>
+
+    <div class="team-member__body">
+      <div>
+        <h3 data-member-name></h3>
+
+        <p data-member-title></p>
+      </div>
+
+      <p
+        class="team-member__bio"
+        data-member-bio
+      ></p>
+
+      <div
+        class="team-member__services"
+        data-member-services
+      ></div>
+
+      <div
+        class="team-member__links"
+        data-member-links
+      ></div>
+    </div>
+  </article>
+</template>
+
+<script>
+  type PublicService = {
+    service_title: string;
+    is_public: boolean;
+  };
+
+  type PublicMember = {
+    id: string;
+    display_name: string;
+    job_title: string;
+    professional_title: string;
+    profile_image_url: string;
+    short_bio: string;
+    country: string;
+    linkedin_url: string;
+    github_url: string;
+    portfolio_url: string;
+    website_url: string;
+    is_leadership: boolean;
+    is_featured: boolean;
+    services: PublicService[];
+  };
+
+  type PublicTeam = {
+    id: string;
+    name: string;
+    slug: string;
+    team_type: string;
+    description: string;
+    members: PublicMember[];
+  };
+
+  const initialiseTeamDirectory = () => {
+    const root =
+      document.querySelector<HTMLElement>(
+        "[data-team-directory]",
+      );
+
+    if (
+      !root
+      || root.dataset.initialised === "true"
+    ) {
+      return;
+    }
+
+    root.dataset.initialised = "true";
+
+    const endpoint =
+      root.dataset.endpoint ?? "";
+
+    const backendOrigin =
+      root.dataset.backendOrigin ?? "";
+
+    const status =
+      root.querySelector<HTMLElement>(
+        "[data-team-status]",
+      );
+
+    const leadershipSection =
+      root.querySelector<HTMLElement>(
+        "[data-team-leadership]",
+      );
+
+    const leadershipGrid =
+      root.querySelector<HTMLElement>(
+        "[data-leadership-grid]",
+      );
+
+    const groups =
+      root.querySelector<HTMLElement>(
+        "[data-team-groups]",
+      );
+
+    const template =
+      document.querySelector<HTMLTemplateElement>(
+        "[data-member-template]",
+      );
+
+    const resolveImage = (
+      value: string,
+    ) => {
+      if (!value) {
+        return "";
+      }
+
+      try {
+        return new URL(
+          value,
+          backendOrigin,
+        ).toString();
+      } catch {
+        return "";
+      }
+    };
+
+    const initials = (
+      name: string,
+    ) =>
+      name
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) =>
+          part.charAt(0).toUpperCase()
+        )
+        .join("");
+
+    const renderMember = (
+      member: PublicMember,
+    ) => {
+      if (!template) {
+        return null;
+      }
+
+      const fragment =
+        template.content.cloneNode(
+          true,
+        ) as DocumentFragment;
+
+      const article =
+        fragment.querySelector<HTMLElement>(
+          ".team-member",
+        );
+
+      if (!article) {
+        return null;
+      }
+
+      const name =
+        article.querySelector<HTMLElement>(
+          "[data-member-name]",
+        );
+
+      const title =
+        article.querySelector<HTMLElement>(
+          "[data-member-title]",
+        );
+
+      const bio =
+        article.querySelector<HTMLElement>(
+          "[data-member-bio]",
+        );
+
+      const image =
+        article.querySelector<HTMLImageElement>(
+          "[data-member-image]",
+        );
+
+      const placeholder =
+        article.querySelector<HTMLElement>(
+          "[data-member-placeholder]",
+        );
+
+      const initial =
+        article.querySelector<HTMLElement>(
+          "[data-member-initials]",
+        );
+
+      const featured =
+        article.querySelector<HTMLElement>(
+          "[data-member-featured]",
+        );
+
+      const services =
+        article.querySelector<HTMLElement>(
+          "[data-member-services]",
+        );
+
+      const links =
+        article.querySelector<HTMLElement>(
+          "[data-member-links]",
+        );
+
+      if (name) {
+        name.textContent =
+          member.display_name;
+      }
+
+      if (title) {
+        title.textContent =
+          member.professional_title
+          || member.job_title;
+      }
+
+      if (bio) {
+        bio.textContent =
+          member.short_bio;
+
+        bio.hidden =
+          !member.short_bio;
+      }
+
+      if (initial) {
+        initial.textContent =
+          initials(
+            member.display_name,
+          );
+      }
+
+      const imageUrl =
+        resolveImage(
+          member.profile_image_url,
+        );
+
+      if (image && imageUrl) {
+        image.src = imageUrl;
+        image.alt =
+          `${member.display_name} — ${member.job_title}`;
+        image.hidden = false;
+
+        if (placeholder) {
+          placeholder.hidden = true;
+        }
+      }
+
+      if (
+        featured
+        && member.is_featured
+      ) {
+        featured.hidden = false;
+      }
+
+      if (services) {
+        member.services
+          .filter(
+            (service) =>
+              service.is_public,
+          )
+          .slice(0, 4)
+          .forEach((service) => {
+            const span =
+              document.createElement(
+                "span",
+              );
+
+            span.textContent =
+              service.service_title;
+
+            services.appendChild(span);
+          });
+
+        services.hidden =
+          services.children.length === 0;
+      }
+
+      if (links) {
+        const socialLinks = [
+          [
+            "LinkedIn",
+            member.linkedin_url,
+          ],
+          [
+            "GitHub",
+            member.github_url,
+          ],
+          [
+            "Portfolio",
+            member.portfolio_url,
+          ],
+          [
+            "Website",
+            member.website_url,
+          ],
+        ];
+
+        socialLinks.forEach(
+          ([label, href]) => {
+            if (!href) {
+              return;
+            }
+
+            const anchor =
+              document.createElement(
+                "a",
+              );
+
+            anchor.href = href;
+            anchor.target = "_blank";
+            anchor.rel =
+              "noopener noreferrer";
+            anchor.textContent = label;
+
+            links.appendChild(
+              anchor,
+            );
+          },
+        );
+
+        links.hidden =
+          links.children.length === 0;
+      }
+
+      return article;
+    };
+
+    const load = async () => {
+      try {
+        const response =
+          await fetch(
+            endpoint,
+            {
+              headers: {
+                Accept:
+                  "application/json",
+              },
+            },
+          );
+
+        if (!response.ok) {
+          throw new Error(
+            "Unable to load team.",
+          );
+        }
+
+        const payload: unknown =
+          await response.json();
+
+        const teams: PublicTeam[] =
+          Array.isArray(payload)
+            ? payload as PublicTeam[]
+            : [];
+
+        const visibleTeams =
+          teams.filter(
+            (team: PublicTeam) =>
+              team.members.length > 0,
+          );
+
+        const leadership = new Map<
+          string,
+          PublicMember
+        >();
+
+        visibleTeams.forEach(
+          (team: PublicTeam) => {
+            team.members.forEach(
+              (member: PublicMember) => {
+                if (
+                  member.is_leadership
+                ) {
+                  leadership.set(
+                    member.id,
+                    member,
+                  );
+                }
+              },
+            );
+          },
+        );
+
+        if (
+          leadership.size > 0
+          && leadershipGrid
+          && leadershipSection
+        ) {
+          leadership.forEach(
+            (member: PublicMember) => {
+              const card =
+                renderMember(
+                  member,
+                );
+
+              if (card) {
+                leadershipGrid.appendChild(
+                  card,
+                );
+              }
+            },
+          );
+
+          leadershipSection.hidden =
+            false;
+        }
+
+        if (groups) {
+          visibleTeams.forEach(
+            (team: PublicTeam) => {
+              const nonLeadership =
+                team.members.filter(
+                  (member: PublicMember) =>
+                    !member.is_leadership,
+                );
+
+              if (
+                nonLeadership.length === 0
+              ) {
+                return;
+              }
+
+              const section =
+                document.createElement(
+                  "section",
+                );
+
+              section.className =
+                "team-directory__group";
+
+              const heading =
+                document.createElement(
+                  "div",
+                );
+
+              heading.className =
+                "team-directory__section-heading";
+
+              const title =
+                document.createElement(
+                  "span",
+                );
+
+              title.textContent =
+                team.name;
+
+              heading.appendChild(
+                title,
+              );
+
+              if (
+                team.description
+              ) {
+                const description =
+                  document.createElement(
+                    "p",
+                  );
+
+                description.textContent =
+                  team.description;
+
+                heading.appendChild(
+                  description,
+                );
+              }
+
+              const grid =
+                document.createElement(
+                  "div",
+                );
+
+              grid.className =
+                "team-directory__people";
+
+              nonLeadership.forEach(
+                (member: PublicMember) => {
+                  const card =
+                    renderMember(
+                      member,
+                    );
+
+                  if (card) {
+                    grid.appendChild(
+                      card,
+                    );
+                  }
+                },
+              );
+
+              section.append(
+                heading,
+                grid,
+              );
+
+              groups.appendChild(
+                section,
+              );
+            },
+          );
+        }
+
+        if (status) {
+          if (
+            visibleTeams.length === 0
+          ) {
+            status.textContent =
+              "Our public team directory is being updated.";
+            status.classList.add(
+              "team-directory__status--empty",
+            );
+          } else {
+            status.remove();
+          }
+        }
+      } catch {
+        if (status) {
+          status.textContent =
+            "The team directory is temporarily unavailable. Please try again shortly.";
+
+          status.classList.add(
+            "team-directory__status--error",
+          );
+        }
+      }
+    };
+
+    void load();
+  };
+
+  if (
+    document.readyState === "loading"
+  ) {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initialiseTeamDirectory,
+      {
+        once: true,
+      },
+    );
+  } else {
+    initialiseTeamDirectory();
+  }
+
+  document.addEventListener(
+    "astro:page-load",
+    initialiseTeamDirectory,
+  );
+</script>
+
+<style is:global>
+  .team-directory {
+    padding-block:
+      clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .team-directory__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, .45fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .team-directory__eyebrow {
+    margin: 0 0 .9rem;
+    color: #0b2f8f;
+    font-size: .65rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+
+  .team-directory__heading h2 {
+    max-width: 13ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size:
+      clamp(2.6rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -.05em;
+    line-height: 1;
+  }
+
+  .team-directory__heading > p {
+    margin: 0;
+    color: #788497;
+    font-size: .75rem;
+    line-height: 1.7;
+  }
+
+  .team-directory__status {
+    border-block:
+      1px solid #dce3ec;
+    color: #7a8798;
+    padding-block: 2rem;
+    font-size: .78rem;
+  }
+
+  .team-directory__status--error {
+    color: #0b2f8f;
+  }
+
+  .team-directory__leadership {
+    margin-bottom:
+      clamp(4rem, 8vw, 7rem);
+  }
+
+  .team-directory__section-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    border-bottom:
+      1px solid #dce3ec;
+    margin-bottom: 1.4rem;
+    padding-bottom: .75rem;
+  }
+
+  .team-directory__section-heading > span {
+    color: #263850;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .team-directory__section-heading p {
+    max-width: 30rem;
+    margin: 0;
+    color: #7d8899;
+    font-size: .67rem;
+    line-height: 1.55;
+    text-align: right;
+  }
+
+  .team-directory__group {
+    margin-top:
+      clamp(3.5rem, 7vw, 6rem);
+  }
+
+  .team-directory__people {
+    display: grid;
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+    gap:
+      clamp(1.2rem, 3vw, 2rem);
+  }
+
+  .team-directory__people--leadership {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+  .team-member {
+    min-width: 0;
+  }
+
+  .team-member__portrait {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    border-radius: .65rem;
+    background: #eef2f7;
+  }
+
+  .team-member__portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position:
+      center top;
+    transition:
+      transform 500ms
+      cubic-bezier(.2,.7,.2,1);
+  }
+
+  .team-member:hover
+    .team-member__portrait img {
+    transform: scale(1.025);
+  }
+
+  .team-member__placeholder {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background:
+      linear-gradient(
+        145deg,
+        #eef2f8,
+        #dfe6f0
+      );
+    color: #0b2f8f;
+  }
+
+  .team-member__placeholder span {
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 7vw, 5rem);
+    letter-spacing: -.05em;
+  }
+
+  .team-member__featured {
+    position: absolute;
+    top: .8rem;
+    right: .8rem;
+    border-radius: 999px;
+    background:
+      rgba(11,47,143,.92);
+    color: #ffffff;
+    padding: .35rem .55rem;
+    font-size: .54rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .team-member__body {
+    padding-top: 1rem;
+  }
+
+  .team-member h3 {
+    margin: 0;
+    color: #172a44;
+    font-size: .94rem;
+    font-weight: 750;
+  }
+
+  .team-member__body
+    > div:first-child > p {
+    margin: .25rem 0 0;
+    color: #0b2f8f;
+    font-size: .68rem;
+    font-weight: 680;
+  }
+
+  .team-member__bio {
+    margin: .8rem 0 0;
+    color: #748095;
+    font-size: .7rem;
+    line-height: 1.65;
+  }
+
+  .team-member__services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin-top: .85rem;
+  }
+
+  .team-member__services span {
+    border: 1px solid #dce3ec;
+    border-radius: 999px;
+    color: #687589;
+    padding: .32rem .5rem;
+    font-size: .55rem;
+  }
+
+  .team-member__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .8rem;
+    border-top:
+      1px solid #e1e6ed;
+    margin-top: 1rem;
+    padding-top: .75rem;
+  }
+
+  .team-member__links a {
+    color: #53647a;
+    font-size: .6rem;
+    font-weight: 720;
+    transition:
+      color 150ms ease;
+  }
+
+  .team-member__links a:hover {
+    color: #0b2f8f;
+  }
+
+  @media (max-width: 58rem) {
+    .team-directory__people {
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0, 1fr)
+        );
+    }
+  }
+
+  @media (max-width: 44rem) {
+    .team-directory__heading {
+      grid-template-columns: 1fr;
+      align-items: start;
+      gap: 1.2rem;
+    }
+
+    .team-directory__section-heading {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: .5rem;
+    }
+
+    .team-directory__section-heading p {
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .team-directory__people,
+    .team-directory__people--leadership {
+      grid-template-columns: 1fr;
+    }
+
+    .team-member__portrait {
+      aspect-ratio: 5 / 5.7;
+    }
+  }
+</style>

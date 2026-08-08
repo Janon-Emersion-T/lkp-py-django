@@ -1,0 +1,100 @@
+<section class="why-delivery">
+  <div class="site-container why-delivery__inner">
+    <div class="why-delivery__statement">
+      <p>Delivery discipline</p>
+
+      <h2>
+        We optimise for work that can survive change.
+      </h2>
+    </div>
+
+    <div class="why-delivery__checks">
+      <div>
+        <span>Modular</span>
+        <strong>Designed to be maintained and extended.</strong>
+      </div>
+
+      <div>
+        <span>Structured</span>
+        <strong>Requirements, responsibilities and stages remain visible.</strong>
+      </div>
+
+      <div>
+        <span>Practical</span>
+        <strong>Technology choices should fit the business rather than fashion.</strong>
+      </div>
+
+      <div>
+        <span>Supportable</span>
+        <strong>Delivery considers what happens after launch.</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-delivery {
+    padding-block: clamp(4rem, 8vw, 7rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .why-delivery__inner {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.75fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .why-delivery__statement > p {
+    margin: 0 0 1rem;
+    color: rgba(246, 243, 235, 0.56);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .why-delivery h2 {
+    max-width: 11ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .why-delivery__checks {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .why-delivery__checks div {
+    display: grid;
+    grid-template-columns:
+      minmax(6rem, 0.3fr)
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    padding-block: 1.15rem;
+  }
+
+  .why-delivery__checks span {
+    color: rgba(246, 243, 235, 0.5);
+    font-size: 0.62rem;
+    font-weight: 780;
+  }
+
+  .why-delivery__checks strong {
+    color: #ffffff;
+    font-size: 0.76rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 48rem) {
+    .why-delivery__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,115 @@
+---
+import { storyPrinciples } from "../../config/our-story";
+---
+
+<section class="story-principles">
+  <div class="site-container">
+    <header class="story-principles__heading">
+      <p>What the journey taught us</p>
+
+      <h2>
+        Growth is useful only when the standard grows with it.
+      </h2>
+    </header>
+
+    <div class="story-principles__list">
+      {
+        storyPrinciples.map((principle) => (
+          <article>
+            <span>{principle.number}</span>
+
+            <h3>{principle.title}</h3>
+
+            <p>{principle.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .story-principles {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .story-principles__heading {
+    max-width: 48rem;
+    margin-bottom: 3rem;
+  }
+
+  .story-principles__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .story-principles h2 {
+    max-width: 14ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .story-principles__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .story-principles article {
+    display: grid;
+    grid-template-columns:
+      3.5rem
+      minmax(12rem, 0.42fr)
+      minmax(0, 1fr);
+    gap: 1.5rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.3rem;
+    transition:
+      background-color 180ms ease,
+      padding-inline 180ms ease;
+  }
+
+  .story-principles article:hover {
+    padding-inline: 0.8rem;
+    background: #ffffff;
+  }
+
+  .story-principles article > span {
+    color: #0b2f8f;
+    font-size: 0.6rem;
+    font-weight: 800;
+  }
+
+  .story-principles h3 {
+    margin: 0;
+    color: #283a52;
+    font-size: 0.82rem;
+    font-weight: 750;
+  }
+
+  .story-principles article p {
+    max-width: 42rem;
+    margin: 0;
+    color: #748095;
+    font-size: 0.72rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 42rem) {
+    .story-principles article {
+      grid-template-columns: 2.5rem 1fr;
+    }
+
+    .story-principles article p {
+      grid-column: 2;
+    }
+  }
+</style>

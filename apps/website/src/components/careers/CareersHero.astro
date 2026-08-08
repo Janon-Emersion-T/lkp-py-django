@@ -1,0 +1,273 @@
+<section class="careers-hero" aria-labelledby="careers-hero-title">
+  <div class="site-container careers-hero__inner">
+    <div class="careers-hero__content">
+      <p class="careers-hero__eyebrow">
+        Careers at LKProfessionals
+      </p>
+
+      <h1 id="careers-hero-title">
+        Build technology.
+        <span>Build expertise.</span>
+        Build your career.
+      </h1>
+
+      <p class="careers-hero__lead">
+        Join a growing technology company with roots in Jaffna,
+        a history dating back to 2013, and ambitions that extend
+        well beyond Sri Lanka.
+      </p>
+
+      <div class="careers-hero__actions">
+        <a
+          class="careers-hero__primary"
+          href="#open-positions"
+        >
+          View open positions
+        </a>
+
+        <a
+          class="careers-hero__secondary"
+          href="#open-application"
+        >
+          Send an open application
+        </a>
+      </div>
+
+      <div class="careers-hero__facts">
+        <span>Hybrid working</span>
+        <span>Jaffna, Sri Lanka</span>
+        <span>International applicants considered</span>
+      </div>
+    </div>
+
+    <aside class="careers-hero__panel">
+      <div class="careers-hero__panel-top">
+        <span>What matters here</span>
+      </div>
+
+      <div class="careers-hero__principles">
+        <div>
+          <span>01</span>
+          <strong>Professionalism</strong>
+        </div>
+
+        <div>
+          <span>02</span>
+          <strong>Problem solving</strong>
+        </div>
+
+        <div>
+          <span>03</span>
+          <strong>Communication</strong>
+        </div>
+
+        <div>
+          <span>04</span>
+          <strong>Integrity</strong>
+        </div>
+
+        <div>
+          <span>05</span>
+          <strong>Willingness to learn</strong>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .careers-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dfe5ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(4rem, 8vw, 7rem)
+      clamp(4.5rem, 9vw, 8rem);
+  }
+
+  .careers-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .careers-hero__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1.2fr)
+      minmax(19rem, 0.65fr);
+    align-items: end;
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .careers-hero__eyebrow {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .careers-hero h1 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3.4rem, 7vw, 6.8rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.94;
+  }
+
+  .careers-hero h1 span {
+    color: #0b2f8f;
+  }
+
+  .careers-hero__lead {
+    max-width: 42rem;
+    margin: 1.6rem 0 0;
+    color: #677487;
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .careers-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .careers-hero__primary,
+  .careers-hero__secondary {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.55rem;
+    padding-inline: 1.15rem;
+    font-size: 0.74rem;
+    font-weight: 760;
+  }
+
+  .careers-hero__primary {
+    background: #0b2f8f;
+    color: #ffffff;
+  }
+
+  .careers-hero__secondary {
+    border: 1px solid #ccd5e2;
+    background: #ffffff;
+    color: #24364e;
+  }
+
+  .careers-hero__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 1.2rem;
+    margin-top: 2rem;
+    color: #7a8798;
+    font-size: 0.68rem;
+  }
+
+  .careers-hero__facts span {
+    position: relative;
+    padding-left: 0.9rem;
+  }
+
+  .careers-hero__facts span::before {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 50%;
+    background: #0b2f8f;
+    content: "";
+    transform: translateY(-50%);
+  }
+
+  .careers-hero__panel {
+    overflow: hidden;
+    border-radius: 0.9rem;
+    background: #0b2f8f;
+    color: #f6f3eb;
+    box-shadow: 0 28px 65px rgba(7, 31, 101, 0.18);
+  }
+
+  .careers-hero__panel-top {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 1rem 1.2rem;
+  }
+
+  .careers-hero__panel-top span {
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .careers-hero__principles {
+    display: grid;
+  }
+
+  .careers-hero__principles div {
+    display: grid;
+    grid-template-columns: 2.1rem 1fr;
+    gap: 0.8rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem 1.2rem;
+  }
+
+  .careers-hero__principles span {
+    color: rgba(246, 243, 235, 0.45);
+    font-size: 0.62rem;
+  }
+
+  .careers-hero__principles strong {
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 58rem) {
+    .careers-hero__inner {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .careers-hero__panel {
+      width: min(100%, 34rem);
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .careers-hero h1 {
+      font-size: clamp(3rem, 14vw, 4.5rem);
+    }
+
+    .careers-hero__actions {
+      display: grid;
+    }
+
+    .careers-hero__primary,
+    .careers-hero__secondary {
+      width: 100%;
+    }
+  }
+</style>

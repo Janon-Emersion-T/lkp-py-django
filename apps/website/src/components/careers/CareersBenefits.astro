@@ -1,0 +1,135 @@
+---
+const benefits = [
+  "Hybrid and remote opportunities",
+  "Flexible working arrangements",
+  "Paid leave",
+  "Performance incentives",
+  "Training and mentoring",
+  "Certification support",
+  "Career progression",
+  "International client exposure",
+  "Modern technology stack",
+  "Flexible working hours",
+  "Internship-to-employment opportunities",
+  "Employee equipment",
+  "Team events",
+];
+---
+
+<section class="careers-benefits">
+  <div class="site-container careers-benefits__layout">
+    <div>
+      <p class="careers-section-label">What LKP offers</p>
+
+      <h2>
+        Support for the work and the person doing it.
+      </h2>
+
+      <p>
+        Benefits and working arrangements vary according to
+        role, employment type and individual agreement.
+      </p>
+    </div>
+
+    <div class="careers-benefits__list">
+      {
+        benefits.map((benefit) => (
+          <div>
+            <span></span>
+            <strong>{benefit}</strong>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .careers-benefits {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .careers-benefits__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.72fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .careers-benefits h2 {
+    max-width: 11ch;
+    margin: 1rem 0 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .careers-benefits__layout > div:first-child > p:last-child {
+    max-width: 27rem;
+    margin: 1.4rem 0 0;
+    color: #748095;
+    font-size: 0.78rem;
+    line-height: 1.7;
+  }
+
+  .careers-benefits__list {
+    display: grid;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+    border-top: 1px solid #dde3eb;
+  }
+
+  .careers-benefits__list div {
+    display: grid;
+    grid-template-columns: 1rem 1fr;
+    gap: 0.7rem;
+    align-items: center;
+    border-bottom: 1px solid #dde3eb;
+    padding: 1rem 0;
+  }
+
+  .careers-benefits__list div:nth-child(odd) {
+    padding-right: 1rem;
+  }
+
+  .careers-benefits__list div:nth-child(even) {
+    border-left: 1px solid #dde3eb;
+    padding-left: 1rem;
+  }
+
+  .careers-benefits__list span {
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    background: #0b2f8f;
+  }
+
+  .careers-benefits__list strong {
+    color: #283a52;
+    font-size: 0.76rem;
+    font-weight: 680;
+  }
+
+  @media (max-width: 52rem) {
+    .careers-benefits__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .careers-benefits__list {
+      grid-template-columns: 1fr;
+    }
+
+    .careers-benefits__list div:nth-child(odd),
+    .careers-benefits__list div:nth-child(even) {
+      border-left: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

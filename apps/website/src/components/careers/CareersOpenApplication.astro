@@ -1,0 +1,123 @@
+<section
+  class="careers-open"
+  id="open-application"
+  aria-labelledby="careers-open-title"
+>
+  <div class="site-container careers-open__layout">
+    <div>
+      <p class="careers-section-label">Open application</p>
+
+      <h2 id="careers-open-title">
+        The right opportunity may not be listed yet.
+      </h2>
+    </div>
+
+    <div class="careers-open__panel">
+      <p>
+        If you believe your skills could contribute to
+        LKProfessionals, we welcome applications for future
+        consideration.
+      </p>
+
+      <div class="careers-open__requirements">
+        <span>CV required</span>
+        <span>Cover letter welcome</span>
+        <span>Portfolio welcome</span>
+        <span>GitHub welcome</span>
+        <span>LinkedIn welcome</span>
+      </div>
+
+      <a href="mailto:hr@lkprofessionals.com">
+        Send your CV to hr@lkprofessionals.com
+      </a>
+
+      <small>
+        A full website open-application form will be connected
+        to the recruitment system in the next implementation phase.
+      </small>
+    </div>
+  </div>
+</section>
+
+<style>
+  .careers-open {
+    scroll-margin-top: 7rem;
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .careers-open__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(15rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .careers-open h2 {
+    max-width: 12ch;
+    margin: 1rem 0 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .careers-open__panel {
+    border-top: 1px solid #dce3ec;
+    padding-top: 1.5rem;
+  }
+
+  .careers-open__panel > p {
+    max-width: 37rem;
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.85rem;
+    line-height: 1.75;
+  }
+
+  .careers-open__requirements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 1.4rem;
+  }
+
+  .careers-open__requirements span {
+    border: 1px solid #d4dce7;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #4b5b72;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.62rem;
+    font-weight: 680;
+  }
+
+  .careers-open__panel > a {
+    display: inline-flex;
+    margin-top: 1.4rem;
+    border-radius: 0.5rem;
+    background: #0b2f8f;
+    color: #ffffff;
+    padding: 0.9rem 1rem;
+    font-size: 0.72rem;
+    font-weight: 750;
+  }
+
+  .careers-open__panel small {
+    display: block;
+    max-width: 36rem;
+    margin-top: 0.9rem;
+    color: #8a95a5;
+    font-size: 0.62rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 52rem) {
+    .careers-open__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,116 @@
+---
+const steps = [
+  ["01", "Application review", "Applications are reviewed with an initial response normally within 24–72 hours."],
+  ["02", "Initial conversation", "A call or chat helps us understand your knowledge, experience and suitability."],
+  ["03", "Skills assessment", "Role-specific interviews and practical assessment are used where appropriate."],
+  ["04", "Final review", "Documentation, experience and suitability are verified before selection."],
+  ["05", "Onboarding interview", "We align responsibilities, working arrangements, policies and expectations before you begin."],
+];
+---
+
+<section class="careers-process">
+  <div class="site-container">
+    <div class="careers-process__heading">
+      <p class="careers-section-label">Recruitment process</p>
+
+      <h2>
+        A structured process, without unnecessary mystery.
+      </h2>
+    </div>
+
+    <div class="careers-process__steps">
+      {
+        steps.map(([number, title, copy]) => (
+          <article>
+            <span>{number}</span>
+            <h3>{title}</h3>
+            <p>{copy}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .careers-process {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .careers-process__heading {
+    max-width: 45rem;
+    margin-bottom: 3rem;
+  }
+
+  .careers-process h2 {
+    max-width: 15ch;
+    margin: 1rem 0 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .careers-process__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .careers-process article {
+    min-width: 0;
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .careers-process article:first-child {
+    padding-left: 0;
+  }
+
+  .careers-process article:last-child {
+    border-right: 0;
+  }
+
+  .careers-process article > span {
+    color: #0b2f8f;
+    font-size: 0.62rem;
+    font-weight: 800;
+  }
+
+  .careers-process h3 {
+    margin: 1rem 0 0;
+    color: #24364e;
+    font-size: 0.82rem;
+  }
+
+  .careers-process article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.7rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 62rem) {
+    .careers-process__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .careers-process__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .careers-process article,
+    .careers-process article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

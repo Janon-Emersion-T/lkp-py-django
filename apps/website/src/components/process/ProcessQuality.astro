@@ -1,0 +1,99 @@
+<section class="process-quality">
+  <div class="site-container process-quality__inner">
+    <div class="process-quality__statement">
+      <p>Quality control</p>
+
+      <h2>
+        Finished is not the same as ready.
+      </h2>
+    </div>
+
+    <div class="process-quality__checks">
+      <div>
+        <span>Function</span>
+        <strong>Does it work as agreed?</strong>
+      </div>
+
+      <div>
+        <span>Quality</span>
+        <strong>Is the implementation dependable?</strong>
+      </div>
+
+      <div>
+        <span>Usability</span>
+        <strong>Can the intended user operate it effectively?</strong>
+      </div>
+
+      <div>
+        <span>Readiness</span>
+        <strong>Is the organisation prepared to use it?</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process-quality {
+    padding-block: clamp(4rem, 8vw, 7rem);
+    background: #f5f7fa;
+  }
+
+  .process-quality__inner {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.75fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .process-quality__statement > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .process-quality h2 {
+    max-width: 10ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .process-quality__checks {
+    border-top: 1px solid #d8e0e9;
+  }
+
+  .process-quality__checks div {
+    display: grid;
+    grid-template-columns:
+      minmax(6rem, 0.3fr)
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #d8e0e9;
+    padding-block: 1.15rem;
+  }
+
+  .process-quality__checks span {
+    color: #0b2f8f;
+    font-size: 0.62rem;
+    font-weight: 780;
+  }
+
+  .process-quality__checks strong {
+    color: #283a52;
+    font-size: 0.76rem;
+  }
+
+  @media (max-width: 48rem) {
+    .process-quality__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

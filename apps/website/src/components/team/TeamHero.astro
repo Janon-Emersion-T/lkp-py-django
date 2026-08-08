@@ -1,0 +1,140 @@
+<section class="team-hero">
+  <div class="site-container team-hero__inner">
+    <div class="team-hero__copy">
+      <p class="team-hero__eyebrow">
+        Our Team
+      </p>
+
+      <h1>
+        People behind the
+        <span>work.</span>
+      </h1>
+
+      <p>
+        LKProfessionals brings together people across technology,
+        design, marketing, operations and business disciplines
+        with a shared commitment to dependable work.
+      </p>
+    </div>
+
+    <div class="team-hero__note">
+      <span>LKProfessionals</span>
+
+      <p>
+        Built in Jaffna.<br />
+        Working beyond borders.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .team-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dde4ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(4.5rem, 9vw, 8rem)
+      clamp(4rem, 8vw, 7rem);
+  }
+
+  .team-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11,47,143,.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11,47,143,.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .team-hero__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      auto;
+    align-items: end;
+    gap: 4rem;
+  }
+
+  .team-hero__eyebrow {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: .67rem;
+    font-weight: 800;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+  }
+
+  .team-hero h1 {
+    max-width: 10ch;
+    margin: 0;
+    color: #0c1e39;
+    font-family: var(--font-serif);
+    font-size: clamp(3.8rem, 8vw, 7.5rem);
+    font-weight: 400;
+    letter-spacing: -.06em;
+    line-height: .91;
+  }
+
+  .team-hero h1 span {
+    color: #0b2f8f;
+  }
+
+  .team-hero__copy > p:last-child {
+    max-width: 42rem;
+    margin: 1.7rem 0 0;
+    color: #687589;
+    font-size: .94rem;
+    line-height: 1.8;
+  }
+
+  .team-hero__note {
+    min-width: 12rem;
+    border-left: 1px solid #ccd5e1;
+    padding-left: 1.3rem;
+  }
+
+  .team-hero__note span {
+    color: #8792a2;
+    font-size: .59rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .team-hero__note p {
+    margin: .55rem 0 0;
+    color: #293b53;
+    font-size: .77rem;
+    font-weight: 700;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 46rem) {
+    .team-hero__inner {
+      grid-template-columns: 1fr;
+      align-items: start;
+      gap: 2.5rem;
+    }
+
+    .team-hero__note {
+      min-width: 0;
+    }
+
+    .team-hero h1 {
+      font-size: clamp(3.3rem, 17vw, 5.4rem);
+    }
+  }
+</style>

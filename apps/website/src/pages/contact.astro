@@ -1,0 +1,51 @@
+---
+import ContactHero from "../components/contact/ContactHero.astro";
+import ContactChannels from "../components/contact/ContactChannels.astro";
+import ContactForm from "../components/contact/ContactForm.astro";
+import ContactSocial from "../components/contact/ContactSocial.astro";
+import ContactMap from "../components/contact/ContactMap.astro";
+import Layout from "../layouts/Layout.astro";
+
+const contactSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Contact LKProfessionals",
+  url: "https://lkprofessionals.com/contact/",
+  description:
+    "Contact LKProfessionals for web development, software, digital marketing, technical support and business technology enquiries.",
+};
+---
+
+<Layout
+  title="Contact Us"
+  description="Contact LKProfessionals for web development, software, digital marketing, technical support and business technology enquiries."
+  canonicalPath="/contact/"
+  structuredData={contactSchema}
+>
+  <ContactHero />
+  <ContactChannels />
+  <ContactForm />
+  <ContactSocial />
+  <ContactMap />
+</Layout>
+
+<!-- CONTACT_EYEBROW_BLUE_START -->
+<style is:global>
+  /*
+   * Contact page only.
+   *
+   * Preserve the site's original eyebrow typography,
+   * spacing and animation while overriding only the
+   * accent colour.
+   */
+  .contact-page .eyebrow {
+    color: #0b2f8f !important;
+  }
+
+  .contact-page .eyebrow::before,
+  .contact-page .eyebrow::after {
+    background-color: #0b2f8f !important;
+    border-color: #0b2f8f !important;
+  }
+</style>
+<!-- CONTACT_EYEBROW_BLUE_END -->

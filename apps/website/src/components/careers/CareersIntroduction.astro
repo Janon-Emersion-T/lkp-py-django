@@ -1,0 +1,88 @@
+<section class="careers-intro">
+  <div class="site-container careers-intro__layout">
+    <div>
+      <p class="careers-section-label">
+        Working at LKP
+      </p>
+
+      <h2>
+        Responsibility comes with the opportunity.
+      </h2>
+    </div>
+
+    <div class="careers-intro__copy">
+      <p>
+        LKProfessionals works across web development, software,
+        mobile products, digital marketing, automation and
+        technology consulting. Our people work on real projects
+        with real business consequences.
+      </p>
+
+      <p>
+        We expect professionalism, clear communication, integrity,
+        curiosity and the ability to solve problems rather than
+        simply pass them along.
+      </p>
+
+      <p>
+        Role requirements differ, but the standard does not:
+        learn continuously, take ownership and deliver work you
+        are prepared to stand behind.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .careers-intro {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .careers-intro__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(15rem, 0.75fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .careers-section-label {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .careers-intro h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 0.98;
+  }
+
+  .careers-intro__copy {
+    display: grid;
+    gap: 1.2rem;
+    align-content: start;
+  }
+
+  .careers-intro__copy p {
+    margin: 0;
+    color: #687589;
+    font-size: 0.92rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .careers-intro__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

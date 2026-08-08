@@ -1,0 +1,82 @@
+---
+const faqs = [
+  ["How quickly will I hear from LKP?", "We normally aim to provide an initial response within 24–72 hours."],
+  ["Does LKProfessionals offer hybrid or remote work?", "Yes. LKP operates a hybrid model, and remote arrangements may be available depending on the role."],
+  ["Can candidates outside Sri Lanka apply?", "Yes. Recruitment is primarily focused on Sri Lanka, but suitable international remote candidates may be considered."],
+  ["Do I need a university degree?", "Not necessarily. Practical ability, experience, portfolios, GitHub projects and demonstrated capability can also be important."],
+  ["Does LKP accept interns and industrial-training students?", "Yes. We accept internships, trainees and university industrial-training candidates depending on availability and suitability."],
+  ["Are internships paid?", "This depends on the role, arrangement and candidate capability."],
+  ["Can I apply without a suitable vacancy?", "Yes. Open applications are welcomed for future consideration."],
+  ["Will there be a technical assessment?", "Technical and role-specific positions may include practical or technical assessment as part of the interview process."],
+];
+---
+
+<section class="careers-faq">
+  <div class="site-container">
+    <div class="careers-faq__heading">
+      <p class="careers-section-label">Careers FAQ</p>
+
+      <h2>
+        Practical answers before you apply.
+      </h2>
+    </div>
+
+    <div class="careers-faq__list">
+      {
+        faqs.map(([question, answer]) => (
+          <details>
+            <summary>{question}</summary>
+            <p>{answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .careers-faq {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .careers-faq__heading {
+    max-width: 42rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .careers-faq h2 {
+    max-width: 13ch;
+    margin: 1rem 0 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .careers-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .careers-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .careers-faq summary {
+    cursor: pointer;
+    color: #273951;
+    font-size: 0.8rem;
+    font-weight: 720;
+  }
+
+  .careers-faq details p {
+    max-width: 45rem;
+    margin: 0.75rem 0 0;
+    color: #778397;
+    font-size: 0.74rem;
+    line-height: 1.7;
+  }
+</style>

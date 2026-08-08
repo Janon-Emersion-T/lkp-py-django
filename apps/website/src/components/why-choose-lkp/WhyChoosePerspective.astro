@@ -1,0 +1,87 @@
+<section class="why-perspective">
+  <div class="site-container why-perspective__layout">
+    <div>
+      <p>Our perspective</p>
+
+      <h2>
+        The best solution is not always the most complicated one.
+      </h2>
+    </div>
+
+    <div class="why-perspective__copy">
+      <p>
+        Technology businesses are frequently rewarded for selling more
+        technology. That does not mean more technology is always the
+        right answer.
+      </p>
+
+      <p>
+        We prefer solutions that are proportionate to the problem,
+        realistic to operate and capable of evolving with the business.
+        Sometimes that means building something substantial. Sometimes
+        it means simplifying what already exists.
+      </p>
+
+      <p>
+        The objective is not complexity. The objective is a dependable
+        result.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-perspective {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .why-perspective__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.72fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .why-perspective__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .why-perspective h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .why-perspective__copy {
+    display: grid;
+    gap: 1.15rem;
+    align-content: start;
+  }
+
+  .why-perspective__copy p {
+    max-width: 44rem;
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.86rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .why-perspective__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

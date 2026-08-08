@@ -1,0 +1,202 @@
+<section class="process-hero" aria-labelledby="process-hero-title">
+  <div class="site-container process-hero__inner">
+    <div class="process-hero__main">
+      <p class="process-hero__eyebrow">
+        Our Process
+      </p>
+
+      <h1 id="process-hero-title">
+        Good work starts
+        <span>before the build.</span>
+      </h1>
+
+      <p class="process-hero__lead">
+        Our delivery process is designed to reduce ambiguity,
+        expose decisions early and keep business objectives,
+        technical execution and accountability aligned.
+      </p>
+    </div>
+
+    <aside class="process-hero__aside">
+      <span>Our approach</span>
+
+      <p>
+        Understand the problem.<br />
+        Define the work.<br />
+        Deliver deliberately.
+      </p>
+    </aside>
+  </div>
+
+  <div class="site-container process-hero__flow" aria-hidden="true">
+    <span>Understand</span>
+    <i></i>
+
+    <span>Define</span>
+    <i></i>
+
+    <span>Architect</span>
+    <i></i>
+
+    <span>Build</span>
+    <i></i>
+
+    <span>Validate</span>
+    <i></i>
+
+    <span>Deliver</span>
+    <i></i>
+
+    <span>Improve</span>
+  </div>
+</section>
+
+<style>
+  .process-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dde4ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(4rem, 8vw, 7rem)
+      clamp(2.7rem, 5vw, 4rem);
+  }
+
+  .process-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .process-hero__inner,
+  .process-hero__flow {
+    position: relative;
+    z-index: 1;
+  }
+
+  .process-hero__inner {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(13rem, 0.3fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .process-hero__eyebrow {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .process-hero h1 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3.7rem, 8vw, 7.4rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+    text-wrap: balance;
+  }
+
+  .process-hero h1 span {
+    display: block;
+    color: #0b2f8f;
+  }
+
+  .process-hero__lead {
+    max-width: 44rem;
+    margin: 1.6rem 0 0;
+    color: #687589;
+    font-size: clamp(0.9rem, 1.25vw, 1rem);
+    line-height: 1.8;
+  }
+
+  .process-hero__aside {
+    border-left: 1px solid #cad4e1;
+    padding-left: 1.25rem;
+  }
+
+  .process-hero__aside span {
+    color: #8792a2;
+    font-size: 0.59rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .process-hero__aside p {
+    margin: 0.55rem 0 0;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 700;
+    line-height: 1.75;
+  }
+
+  .process-hero__flow {
+    display: grid;
+    grid-template-columns:
+      auto 1fr
+      auto 1fr
+      auto 1fr
+      auto 1fr
+      auto 1fr
+      auto 1fr
+      auto;
+    align-items: center;
+    gap: 0.7rem;
+    border-top: 1px solid #d9e0e9;
+    margin-top: clamp(3.5rem, 7vw, 6rem);
+    padding-top: 1.25rem;
+  }
+
+  .process-hero__flow span {
+    color: #53647a;
+    font-size: 0.58rem;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+  }
+
+  .process-hero__flow i {
+    height: 1px;
+    background: #cfd8e4;
+  }
+
+  @media (max-width: 54rem) {
+    .process-hero__inner {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .process-hero__aside {
+      max-width: 20rem;
+    }
+
+    .process-hero__flow {
+      display: none;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .process-hero h1 {
+      font-size: clamp(3.1rem, 16vw, 5rem);
+    }
+  }
+</style>

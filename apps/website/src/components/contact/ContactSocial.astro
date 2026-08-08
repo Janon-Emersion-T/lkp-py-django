@@ -1,0 +1,169 @@
+---
+const socialLinks = [
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/company/lkprofessionals",
+    className: "linkedin",
+    icon: "in",
+  },
+  {
+    name: "Facebook",
+    href: "https://web.facebook.com/lkprofessionals",
+    className: "facebook",
+    icon: "f",
+  },
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/lkprofessionalspvtltd/",
+    className: "instagram",
+    icon: "◎",
+  },
+  {
+    name: "X",
+    href: "https://x.com/lkprofess",
+    className: "x",
+    icon: "X",
+  },
+  {
+    name: "YouTube",
+    href: "https://www.youtube.com/@lkprofessionals",
+    className: "youtube",
+    icon: "▶",
+  },
+  {
+    name: "TikTok",
+    href: "https://www.tiktok.com/@lkprofessionals",
+    className: "tiktok",
+    icon: "♪",
+  },
+];
+---
+
+<section class="contact-social" aria-labelledby="contact-social-title">
+  <div class="site-container contact-social__inner">
+    <p class="eyebrow">Follow our work</p>
+
+    <h2 id="contact-social-title">
+      Connect with LKProfessionals.
+    </h2>
+
+    <p>
+      Follow our latest work, insights and company updates.
+    </p>
+
+    <div class="contact-social__links">
+      {
+        socialLinks.map((social) => (
+          <a
+            href={social.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class:list={[
+              "contact-social__link",
+              `contact-social__link--${social.className}`,
+            ]}
+            aria-label={social.name}
+            title={social.name}
+          >
+            <span aria-hidden="true">
+              {social.icon}
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-social {
+    border-block: 1px solid #e0e5ec;
+    background: #ffffff;
+    padding-block: clamp(4rem, 8vw, 6.5rem);
+  }
+
+  .contact-social__inner {
+    text-align: center;
+  }
+
+  .contact-social h2 {
+    margin: 0.85rem 0 0;
+    color: #0d203d;
+    font-family: var(--font-serif);
+    font-size: clamp(2.4rem, 5vw, 4.4rem);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+  }
+
+  .contact-social__inner > p:nth-of-type(2) {
+    margin: 1rem auto 0;
+    color: #758196;
+    font-size: 0.82rem;
+  }
+
+  .contact-social__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .contact-social__link {
+    display: inline-flex;
+    width: 3.1rem;
+    height: 3.1rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.65rem;
+    color: #ffffff;
+    box-shadow:
+      0 8px 20px rgba(10, 30, 65, 0.1);
+    font-size: 0.88rem;
+    font-weight: 800;
+    transition:
+      transform 170ms ease,
+      box-shadow 170ms ease;
+  }
+
+  .contact-social__link:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 14px 28px rgba(10, 30, 65, 0.16);
+  }
+
+  .contact-social__link--linkedin {
+    background: #0a66c2;
+  }
+
+  .contact-social__link--facebook {
+    background: #1877f2;
+  }
+
+  .contact-social__link--instagram {
+    background:
+      radial-gradient(
+        circle at 30% 110%,
+        #fdf497 0%,
+        #fdf497 5%,
+        #fd5949 45%,
+        #d6249f 60%,
+        #285aeb 90%
+      );
+  }
+
+  .contact-social__link--x {
+    background: #000000;
+  }
+
+  .contact-social__link--youtube {
+    background: #ff0000;
+  }
+
+  .contact-social__link--tiktok {
+    background: #111111;
+    box-shadow:
+      -2px -1px 0 rgba(37, 244, 238, 0.55),
+      2px 1px 0 rgba(254, 44, 85, 0.55);
+  }
+</style>

@@ -1,0 +1,103 @@
+<section class="mission-section" aria-labelledby="mission-title">
+  <div class="site-container mission-section__layout">
+    <div class="mission-section__label">
+      <span>01</span>
+      <p>Our Mission</p>
+    </div>
+
+    <div class="mission-section__content">
+      <h2 id="mission-title">
+        Help businesses move forward through dependable technology.
+      </h2>
+
+      <div class="mission-section__copy">
+        <p>
+          Our mission is to design, build and support technology that
+          solves meaningful business problems, improves operations and
+          enables organisations to grow with greater confidence.
+        </p>
+
+        <p>
+          We aim to combine technical capability with business
+          understanding, clear communication and responsible delivery
+          so clients receive solutions that are useful beyond the day
+          they are launched.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mission-section {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .mission-section__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(8rem, 0.28fr)
+      minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 5rem);
+  }
+
+  .mission-section__label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  .mission-section__label span {
+    color: #8995a6;
+    font-size: 0.6rem;
+    font-weight: 800;
+  }
+
+  .mission-section__label p {
+    margin: 0;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .mission-section h2 {
+    max-width: 13ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.8rem, 5.6vw, 5.3rem);
+    font-weight: 400;
+    letter-spacing: -0.055em;
+    line-height: 0.98;
+  }
+
+  .mission-section__copy {
+    display: grid;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+    margin-top: 2.2rem;
+    border-top: 1px solid #dce3ec;
+    padding-top: 1.5rem;
+  }
+
+  .mission-section__copy p {
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.82rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 48rem) {
+    .mission-section__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .mission-section__copy {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -27,6 +27,8 @@ from .repositories import (
 )
 from .schemas import (
     ContactEnquiryCreateSchema,
+    PublicContactRequestSchema,
+    PublicContactResponseSchema,
     ContactEnquirySchema,
     EnquiryAssignmentSchema,
     EnquiryNoteCreateSchema,
@@ -531,6 +533,150 @@ def create_public_quote_enquiry(
         "reference_code": enquiry.reference_code,
         "message": (
             "Your quote request has been received."
+        ),
+    }
+
+
+def generate_public_contact_reference():
+    for _ in range(5):
+        reference_code = (
+            "WEB-"
+            + uuid4().hex[:12].upper()
+        )
+
+        if not ContactEnquiry.all_objects.filter(
+            reference_code=reference_code,
+        ).exists():
+            return reference_code
+
+    raise ApiHttpError(
+        503,
+        "Unable to generate an enquiry reference.",
+        code="contact_reference_unavailable",
+    )
+
+
+@router.post(
+    "/contacts/public",
+    auth=None,
+    response={
+        201: PublicContactResponseSchema,
+        400: ErrorSchema,
+        429: ErrorSchema,
+        503: ErrorSchema,
+    },
+)
+def create_public_contact_enquiry(
+    request,
+    payload: PublicContactRequestSchema,
+):
+    enforce_rate_limit(
+        request,
+        scope="public-contact-enquiry",
+        limit=10,
+        window_seconds=600,
+    )
+
+    full_name = payload.full_name.strip()
+    company_name = payload.company_name.strip()
+    email = payload.email.strip().lower()
+    phone = payload.phone.strip()
+    subject = payload.subject.strip()
+    message = payload.message.strip()
+
+    errors = {}
+
+    if not full_name:
+        errors["full_name"] = [
+            "Enter your full name.",
+        ]
+
+    if not email:
+        errors["email"] = [
+            "Enter your email address.",
+        ]
+    else:
+        try:
+            validate_email(email)
+        except ValidationError:
+            errors["email"] = [
+                "Enter a valid email address.",
+            ]
+
+    if not subject:
+        errors["subject"] = [
+            "Enter a subject.",
+        ]
+
+    if not message:
+        errors["message"] = [
+            "Enter your message.",
+        ]
+
+    if len(message) > 5000:
+        errors["message"] = [
+            "Message must be 5000 characters or fewer.",
+        ]
+
+    if errors:
+        raise ApiHttpError(
+            400,
+            "Please correct the highlighted fields.",
+            code="invalid_public_contact_enquiry",
+            details={
+                "errors": errors,
+            },
+        )
+
+    values = {
+        "reference_code":
+            generate_public_contact_reference(),
+        "name": full_name,
+        "email": email,
+        "phone": phone,
+        "company_name": company_name,
+        "subject": subject,
+        "message": message,
+        "source": EnquirySource.WEBSITE,
+        "source_url":
+            normalize_public_quote_source_url(
+                payload.source_url
+            ),
+        "metadata": {
+            "website_form": "contact",
+        },
+    }
+
+    enquiry = ContactEnquiry(**values)
+
+    try:
+        enquiry.full_clean()
+    except ValidationError as exc:
+        raise ApiHttpError(
+            400,
+            "Contact enquiry validation failed.",
+            code="invalid_public_contact_enquiry",
+            details={
+                "errors": getattr(
+                    exc,
+                    "message_dict",
+                    {
+                        "__all__": exc.messages,
+                    },
+                ),
+            },
+        ) from exc
+
+    enquiry = EnquiryService.create_contact_enquiry(
+        request=request,
+        values=values,
+    )
+
+    return 201, {
+        "status": "ok",
+        "reference_code": enquiry.reference_code,
+        "message": (
+            "Your enquiry has been received."
         ),
     }
 

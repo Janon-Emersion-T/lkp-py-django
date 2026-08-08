@@ -1,0 +1,146 @@
+---
+import { storyMilestones } from "../../config/our-story";
+---
+
+<section class="story-timeline" aria-labelledby="story-timeline-title">
+  <div class="site-container">
+    <header class="story-timeline__heading">
+      <div>
+        <p>The journey</p>
+
+        <h2 id="story-timeline-title">
+          Progress measured in capability.
+        </h2>
+      </div>
+
+      <p>
+        The important milestones are not only dates.
+        They represent changes in capability, structure
+        and the scale of what LKProfessionals is building.
+      </p>
+    </header>
+
+    <div class="story-timeline__list">
+      {
+        storyMilestones.map((milestone) => (
+          <article>
+            <div class="story-timeline__year">
+              <strong>{milestone.year}</strong>
+              <span>{milestone.label}</span>
+            </div>
+
+            <div class="story-timeline__content">
+              <h3>{milestone.title}</h3>
+              <p>{milestone.description}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .story-timeline {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .story-timeline__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, 0.42fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .story-timeline__heading > div > p {
+    margin: 0 0 1rem;
+    color: rgba(246, 243, 235, 0.56);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .story-timeline h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .story-timeline__heading > p {
+    margin: 0;
+    color: rgba(246, 243, 235, 0.65);
+    font-size: 0.75rem;
+    line-height: 1.7;
+  }
+
+  .story-timeline__list {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .story-timeline article {
+    display: grid;
+    grid-template-columns:
+      minmax(10rem, 0.32fr)
+      minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    padding-block: 1.7rem;
+  }
+
+  .story-timeline__year {
+    display: grid;
+    gap: 0.4rem;
+    align-content: start;
+  }
+
+  .story-timeline__year strong {
+    color: #ffffff;
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 400;
+  }
+
+  .story-timeline__year span {
+    color: rgba(246, 243, 235, 0.46);
+    font-size: 0.58rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .story-timeline__content h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 0.88rem;
+    font-weight: 730;
+  }
+
+  .story-timeline__content p {
+    max-width: 46rem;
+    margin: 0.65rem 0 0;
+    color: rgba(246, 243, 235, 0.66);
+    font-size: 0.73rem;
+    line-height: 1.75;
+  }
+
+  @media (max-width: 48rem) {
+    .story-timeline__heading,
+    .story-timeline article {
+      grid-template-columns: 1fr;
+    }
+
+    .story-timeline article {
+      gap: 1rem;
+    }
+  }
+</style>

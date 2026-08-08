@@ -81,6 +81,23 @@ class PublicQuoteResponseSchema(Schema):
     message: str
 
 
+
+class PublicContactRequestSchema(Schema):
+    full_name: str
+    company_name: str = ""
+    email: str
+    phone: str = ""
+    subject: str
+    message: str
+    source_url: str = ""
+
+
+class PublicContactResponseSchema(Schema):
+    status: str
+    reference_code: str
+    message: str
+
+
 class ContactEnquiryCreateSchema(Schema):
     reference_code: str
     name: str

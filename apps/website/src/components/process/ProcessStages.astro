@@ -1,0 +1,207 @@
+---
+import { processStages } from "../../config/process";
+---
+
+<section class="process-stages" aria-labelledby="process-stages-title">
+  <div class="site-container">
+    <header class="process-stages__heading">
+      <div>
+        <p>Delivery framework</p>
+
+        <h2 id="process-stages-title">
+          From ambiguity to an operational result.
+        </h2>
+      </div>
+
+      <p>
+        The exact activities vary by service and project,
+        but the underlying discipline remains consistent.
+      </p>
+    </header>
+
+    <div class="process-stages__list">
+      {
+        processStages.map((stage) => (
+          <article class="process-stage">
+            <div class="process-stage__index">
+              <span>{stage.number}</span>
+
+              <small>{stage.shortTitle}</small>
+            </div>
+
+            <div class="process-stage__content">
+              <h3>{stage.title}</h3>
+
+              <p>{stage.description}</p>
+            </div>
+
+            <div class="process-stage__outputs">
+              <span>Typical outputs</span>
+
+              <div>
+                {
+                  stage.outputs.map((output) => (
+                    <small>{output}</small>
+                  ))
+                }
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .process-stages {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .process-stages__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, 0.42fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .process-stages__heading > div > p {
+    margin: 0 0 1rem;
+    color: rgba(246, 243, 235, 0.58);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .process-stages h2 {
+    max-width: 14ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .process-stages__heading > p {
+    margin: 0;
+    color: rgba(246, 243, 235, 0.66);
+    font-size: 0.75rem;
+    line-height: 1.7;
+  }
+
+  .process-stages__list {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .process-stage {
+    display: grid;
+    grid-template-columns:
+      minmax(7rem, 0.22fr)
+      minmax(15rem, 0.7fr)
+      minmax(16rem, 0.55fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: start;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    padding-block: 1.7rem;
+    transition: background-color 180ms ease;
+  }
+
+  .process-stage:hover {
+    background: rgba(255, 255, 255, 0.035);
+  }
+
+  .process-stage__index {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+  }
+
+  .process-stage__index span {
+    color: rgba(246, 243, 235, 0.45);
+    font-size: 0.62rem;
+    font-weight: 800;
+  }
+
+  .process-stage__index small {
+    color: #ffffff;
+    font-size: 0.67rem;
+    font-weight: 750;
+  }
+
+  .process-stage h3 {
+    margin: 0;
+    color: #ffffff;
+    font-family: var(--font-serif);
+    font-size: clamp(1.7rem, 3vw, 2.6rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+  }
+
+  .process-stage__content p {
+    max-width: 40rem;
+    margin: 0.65rem 0 0;
+    color: rgba(246, 243, 235, 0.66);
+    font-size: 0.72rem;
+    line-height: 1.7;
+  }
+
+  .process-stage__outputs > span {
+    display: block;
+    margin-bottom: 0.65rem;
+    color: rgba(246, 243, 235, 0.42);
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .process-stage__outputs > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .process-stage__outputs small {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    padding: 0.33rem 0.55rem;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.55rem;
+  }
+
+  @media (max-width: 54rem) {
+    .process-stages__heading {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .process-stage {
+      grid-template-columns:
+        6rem
+        1fr;
+    }
+
+    .process-stage__outputs {
+      grid-column: 2;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .process-stage {
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+    }
+
+    .process-stage__outputs {
+      grid-column: auto;
+      margin-top: 0.4rem;
+    }
+  }
+</style>

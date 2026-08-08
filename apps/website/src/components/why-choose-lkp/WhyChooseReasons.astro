@@ -1,0 +1,141 @@
+---
+import { whyChooseReasons } from "../../config/why-choose-lkp";
+---
+
+<section class="why-reasons" aria-labelledby="why-reasons-title">
+  <div class="site-container">
+    <header class="why-reasons__heading">
+      <div>
+        <p>Why businesses work with us</p>
+
+        <h2 id="why-reasons-title">
+          Capability is only one part of the decision.
+        </h2>
+      </div>
+
+      <p>
+        The difference is often found in how the work is understood,
+        structured, communicated and supported.
+      </p>
+    </header>
+
+    <div class="why-reasons__list">
+      {
+        whyChooseReasons.map((reason) => (
+          <article>
+            <span>{reason.number}</span>
+
+            <h3>{reason.title}</h3>
+
+            <p>{reason.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-reasons {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .why-reasons__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, 0.42fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .why-reasons__heading > div > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .why-reasons h2 {
+    max-width: 14ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .why-reasons__heading > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.75rem;
+    line-height: 1.7;
+  }
+
+  .why-reasons__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .why-reasons article {
+    display: grid;
+    grid-template-columns:
+      3.5rem
+      minmax(12rem, 0.45fr)
+      minmax(0, 1fr);
+    gap: 1.5rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.35rem;
+    transition:
+      padding-inline 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .why-reasons article:hover {
+    padding-inline: 0.8rem;
+    background: #ffffff;
+  }
+
+  .why-reasons article > span {
+    color: #0b2f8f;
+    font-size: 0.61rem;
+    font-weight: 800;
+  }
+
+  .why-reasons h3 {
+    margin: 0;
+    color: #263850;
+    font-size: 0.84rem;
+    font-weight: 760;
+  }
+
+  .why-reasons article p {
+    max-width: 43rem;
+    margin: 0;
+    color: #748095;
+    font-size: 0.73rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 48rem) {
+    .why-reasons__heading {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .why-reasons article {
+      grid-template-columns:
+        2.5rem
+        1fr;
+    }
+
+    .why-reasons article p {
+      grid-column: 2;
+    }
+  }
+</style>

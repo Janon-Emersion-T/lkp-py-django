@@ -1,0 +1,106 @@
+<section class="contact-map" aria-labelledby="contact-map-title">
+  <div class="site-container">
+    <div class="contact-map__heading">
+      <div>
+        <p class="eyebrow">Our office</p>
+
+        <h2 id="contact-map-title">
+          Based in Jaffna. Working beyond borders.
+        </h2>
+      </div>
+
+      <div class="contact-map__address">
+        <span>LKProfessionals (Pvt) Ltd</span>
+
+        <address>
+          6/7, Vidhan's Lane,<br />
+          Eachchamoddai,<br />
+          Jaffna 40000, Sri Lanka
+        </address>
+      </div>
+    </div>
+
+    <div class="contact-map__frame">
+      <iframe
+        title="LKProfessionals office location"
+        src="https://www.google.com/maps?q=6%2F7%20Vidhan%27s%20Lane%20Eachchamoddai%20Jaffna%2040000%20Sri%20Lanka&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-map {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f7f9fc;
+  }
+
+  .contact-map__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      auto;
+    gap: 3rem;
+    align-items: end;
+    margin-bottom: 2rem;
+  }
+
+  .contact-map h2 {
+    max-width: 15ch;
+    margin: 0.85rem 0 0;
+    color: #0d203d;
+    font-family: var(--font-serif);
+    font-size: clamp(2.3rem, 5vw, 4.4rem);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .contact-map__address {
+    max-width: 18rem;
+  }
+
+  .contact-map__address > span {
+    display: block;
+    margin-bottom: 0.45rem;
+    color: #24364e;
+    font-size: 0.72rem;
+    font-weight: 750;
+  }
+
+  .contact-map__address address {
+    color: #778397;
+    font-size: 0.72rem;
+    font-style: normal;
+    line-height: 1.65;
+  }
+
+  .contact-map__frame {
+    overflow: hidden;
+    height: clamp(24rem, 48vw, 36rem);
+    border: 1px solid #dce3ec;
+    border-radius: 0.9rem;
+    background: #e9edf3;
+  }
+
+  .contact-map__frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    filter: saturate(0.88) contrast(0.98);
+  }
+
+  @media (max-width: 42rem) {
+    .contact-map__heading {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .contact-map__frame {
+      height: 26rem;
+    }
+  }
+</style>

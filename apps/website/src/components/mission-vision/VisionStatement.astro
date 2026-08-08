@@ -1,0 +1,139 @@
+<section class="vision-section" aria-labelledby="vision-title">
+  <div class="site-container vision-section__layout">
+    <div class="vision-section__statement">
+      <div class="vision-section__label">
+        <span>02</span>
+        <p>Our Vision</p>
+      </div>
+
+      <h2 id="vision-title">
+        Become a trusted technology partner for businesses
+        operating across borders.
+      </h2>
+    </div>
+
+    <div class="vision-section__detail">
+      <p>
+        Our vision is to grow LKProfessionals into a respected
+        technology company known for reliable execution, practical
+        innovation and long-term client relationships.
+      </p>
+
+      <p>
+        From our base in Jaffna, we aim to serve organisations in
+        Sri Lanka and international markets while maintaining the
+        standards of accountability, professionalism and technical
+        discipline expected from a serious technology partner.
+      </p>
+
+      <div class="vision-section__direction">
+        <span>From Jaffna</span>
+        <i></i>
+        <span>Sri Lanka</span>
+        <i></i>
+        <span>International markets</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .vision-section {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .vision-section__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(18rem, 0.55fr);
+    gap: clamp(3rem, 9vw, 8rem);
+    align-items: start;
+  }
+
+  .vision-section__label {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .vision-section__label span {
+    color: rgba(246, 243, 235, 0.42);
+    font-size: 0.6rem;
+    font-weight: 800;
+  }
+
+  .vision-section__label p {
+    margin: 0;
+    color: rgba(246, 243, 235, 0.68);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .vision-section h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.8rem, 5.5vw, 5.2rem);
+    font-weight: 400;
+    letter-spacing: -0.055em;
+    line-height: 0.98;
+  }
+
+  .vision-section__detail {
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .vision-section__detail > p {
+    margin: 0;
+    color: rgba(246, 243, 235, 0.68);
+    font-size: 0.8rem;
+    line-height: 1.8;
+  }
+
+  .vision-section__direction {
+    display: grid;
+    grid-template-columns:
+      auto 1fr auto 1fr auto;
+    align-items: center;
+    gap: 0.6rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    margin-top: 1rem;
+    padding-top: 1.25rem;
+  }
+
+  .vision-section__direction span {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.57rem;
+    font-weight: 700;
+  }
+
+  .vision-section__direction i {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  @media (max-width: 52rem) {
+    .vision-section__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .vision-section__direction {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+
+    .vision-section__direction i {
+      width: 1.5rem;
+    }
+  }
+</style>

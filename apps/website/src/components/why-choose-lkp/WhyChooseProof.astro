@@ -1,0 +1,129 @@
+---
+import { proofPoints } from "../../config/why-choose-lkp";
+---
+
+<section class="why-proof">
+  <div class="site-container">
+    <div class="why-proof__heading">
+      <p>Established foundations</p>
+
+      <h2>
+        Built over time, not assembled overnight.
+      </h2>
+    </div>
+
+    <div class="why-proof__grid">
+      {
+        proofPoints.map((point) => (
+          <article>
+            <span>{point.label}</span>
+            <strong>{point.value}</strong>
+            <p>{point.note}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-proof {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .why-proof__heading {
+    max-width: 45rem;
+    margin-bottom: 3rem;
+  }
+
+  .why-proof__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .why-proof h2 {
+    max-width: 13ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .why-proof__grid {
+    display: grid;
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .why-proof article {
+    min-width: 0;
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.4rem 1.2rem;
+  }
+
+  .why-proof article:first-child {
+    padding-left: 0;
+  }
+
+  .why-proof article:last-child {
+    border-right: 0;
+  }
+
+  .why-proof article > span {
+    display: block;
+    color: #8792a2;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .why-proof article strong {
+    display: block;
+    margin-top: 0.8rem;
+    color: #0b2f8f;
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 400;
+  }
+
+  .why-proof article p {
+    margin: 0.7rem 0 0;
+    color: #788497;
+    font-size: 0.68rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 56rem) {
+    .why-proof__grid {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+
+    .why-proof article:nth-child(2) {
+      border-right: 0;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .why-proof__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .why-proof article,
+    .why-proof article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

@@ -1,0 +1,148 @@
+---
+const principles = [
+  {
+    number: "01",
+    title: "Useful over fashionable",
+    description:
+      "Technology should solve a real problem before it tries to impress anyone.",
+  },
+  {
+    number: "02",
+    title: "Reliability over shortcuts",
+    description:
+      "Quality, maintainability and operational stability matter after launch.",
+  },
+  {
+    number: "03",
+    title: "Partnership over transactions",
+    description:
+      "Good technology work benefits from understanding the client's wider business context.",
+  },
+  {
+    number: "04",
+    title: "Progress through learning",
+    description:
+      "Our tools, knowledge and methods must continue to evolve as technology changes.",
+  },
+  {
+    number: "05",
+    title: "Accountability in delivery",
+    description:
+      "Professional responsibility should remain visible from planning through support.",
+  },
+];
+---
+
+<section class="mission-principles">
+  <div class="site-container">
+    <header class="mission-principles__heading">
+      <p>Principles behind the direction</p>
+
+      <h2>
+        What turns statements into behaviour.
+      </h2>
+    </header>
+
+    <div class="mission-principles__list">
+      {
+        principles.map((principle) => (
+          <article>
+            <span>{principle.number}</span>
+
+            <h3>{principle.title}</h3>
+
+            <p>{principle.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .mission-principles {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .mission-principles__heading {
+    max-width: 46rem;
+    margin-bottom: 3rem;
+  }
+
+  .mission-principles__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .mission-principles h2 {
+    max-width: 13ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .mission-principles__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .mission-principles article {
+    display: grid;
+    grid-template-columns:
+      3.5rem
+      minmax(12rem, 0.45fr)
+      minmax(0, 1fr);
+    gap: 1.5rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.3rem;
+    transition:
+      background-color 180ms ease,
+      padding-inline 180ms ease;
+  }
+
+  .mission-principles article:hover {
+    padding-inline: 0.8rem;
+    background: #ffffff;
+  }
+
+  .mission-principles article > span {
+    color: #0b2f8f;
+    font-size: 0.6rem;
+    font-weight: 800;
+  }
+
+  .mission-principles h3 {
+    margin: 0;
+    color: #283a52;
+    font-size: 0.82rem;
+    font-weight: 750;
+  }
+
+  .mission-principles article p {
+    max-width: 42rem;
+    margin: 0;
+    color: #748095;
+    font-size: 0.72rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 42rem) {
+    .mission-principles article {
+      grid-template-columns:
+        2.5rem
+        1fr;
+    }
+
+    .mission-principles article p {
+      grid-column: 2;
+    }
+  }
+</style>

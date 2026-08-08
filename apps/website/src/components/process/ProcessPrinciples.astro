@@ -1,0 +1,118 @@
+---
+import { processPrinciples } from "../../config/process";
+---
+
+<section class="process-principles" aria-labelledby="process-principles-title">
+  <div class="site-container">
+    <header class="process-principles__heading">
+      <p>Before the methodology</p>
+
+      <h2 id="process-principles-title">
+        A few rules shape every engagement.
+      </h2>
+    </header>
+
+    <div class="process-principles__list">
+      {
+        processPrinciples.map((principle) => (
+          <article>
+            <span>{principle.number}</span>
+
+            <h3>{principle.title}</h3>
+
+            <p>{principle.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .process-principles {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .process-principles__heading {
+    max-width: 48rem;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .process-principles__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .process-principles h2 {
+    max-width: 14ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .process-principles__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .process-principles article {
+    display: grid;
+    grid-template-columns:
+      3.5rem
+      minmax(10rem, 0.45fr)
+      minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.35rem;
+    transition:
+      padding-inline 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .process-principles article:hover {
+    padding-inline: 0.8rem;
+    background: #f8fafd;
+  }
+
+  .process-principles article > span {
+    color: #0b2f8f;
+    font-size: 0.62rem;
+    font-weight: 800;
+  }
+
+  .process-principles h3 {
+    margin: 0;
+    color: #233650;
+    font-size: 0.84rem;
+    font-weight: 760;
+  }
+
+  .process-principles article p {
+    max-width: 42rem;
+    margin: 0;
+    color: #748095;
+    font-size: 0.74rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 42rem) {
+    .process-principles article {
+      grid-template-columns:
+        2.5rem
+        1fr;
+    }
+
+    .process-principles article p {
+      grid-column: 2;
+    }
+  }
+</style>

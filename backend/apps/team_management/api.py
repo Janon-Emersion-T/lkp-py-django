@@ -384,6 +384,14 @@ def serialize_public_member(member):
         "profile_image_id": (
             member.profile_image_id
         ),
+        "profile_image_url": (
+            member.profile_image.file.url
+            if (
+                member.profile_image
+                and member.profile_image.file
+            )
+            else ""
+        ),
         "short_bio": member.short_bio,
         "bio": member.bio,
         "qualifications": member.qualifications,

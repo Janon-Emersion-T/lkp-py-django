@@ -232,6 +232,7 @@ class PublicTeamMemberSchema(Schema):
     public_email: str
     public_phone: str
     profile_image_id: UUID | None
+    profile_image_url: str
     short_bio: str
     bio: str
     qualifications: str

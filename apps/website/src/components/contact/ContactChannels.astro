@@ -1,0 +1,289 @@
+<section class="contact-channels" aria-labelledby="contact-channels-title">
+  <div class="site-container">
+    <div class="contact-channels__heading">
+      <p class="eyebrow">Speak with us</p>
+
+      <h2 id="contact-channels-title">
+        Choose the most convenient way to reach LKP.
+      </h2>
+
+      <p>
+        Sales, project enquiries and technical conversations are
+        handled directly by our team.
+      </p>
+    </div>
+
+    <div class="contact-channels__grid">
+      <a
+        class="contact-channel"
+        href="https://wa.me/94761234321"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="contact-channel__number">01</span>
+
+        <span class="contact-channel__icon">
+          <svg
+            aria-hidden="true"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M20.52 3.48A11.82 11.82 0 0 0 12.07 0C5.47 0 .1 5.37.1 11.97c0 2.11.55 4.17 1.6 5.98L0 24l6.2-1.63a11.95 11.95 0 0 0 5.87 1.5h.01c6.6 0 11.97-5.37 11.97-11.97 0-3.2-1.25-6.2-3.53-8.42Z"
+            />
+          </svg>
+        </span>
+
+        <span class="contact-channel__body">
+          <small>WhatsApp</small>
+          <strong>+94 76 123 4321</strong>
+          <span>
+            Best for quick project and sales conversations.
+          </span>
+        </span>
+
+        <svg
+          class="contact-channel__arrow"
+          aria-hidden="true"
+          width="17"
+          height="17"
+          viewBox="0 0 17 17"
+        >
+          <path
+            d="M3 8.5h11M10 4.5l4 4-4 4"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          />
+        </svg>
+      </a>
+
+      <a
+        class="contact-channel"
+        href="mailto:info@lkprofessionals.com"
+      >
+        <span class="contact-channel__number">02</span>
+
+        <span class="contact-channel__icon">
+          <svg
+            aria-hidden="true"
+            width="22"
+            height="22"
+            viewBox="0 0 22 22"
+          >
+            <rect
+              x="2.5"
+              y="4.5"
+              width="17"
+              height="13"
+              rx="1.8"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+            />
+
+            <path
+              d="m3.5 5.5 7.5 5.7 7.5-5.7"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.4"
+            />
+          </svg>
+        </span>
+
+        <span class="contact-channel__body">
+          <small>Email</small>
+          <strong>info@lkprofessionals.com</strong>
+          <span>
+            Ideal for specifications, documents and detailed enquiries.
+          </span>
+        </span>
+
+        <svg
+          class="contact-channel__arrow"
+          aria-hidden="true"
+          width="17"
+          height="17"
+          viewBox="0 0 17 17"
+        >
+          <path
+            d="M3 8.5h11M10 4.5l4 4-4 4"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          />
+        </svg>
+      </a>
+
+      <div class="contact-channel contact-channel--static">
+        <span class="contact-channel__number">03</span>
+
+        <span class="contact-channel__icon">
+          <svg
+            aria-hidden="true"
+            width="22"
+            height="22"
+            viewBox="0 0 22 22"
+          >
+            <path
+              d="M11 19s6-5.65 6-11A6 6 0 1 0 5 8c0 5.35 6 11 6 11Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+            />
+
+            <circle
+              cx="11"
+              cy="8"
+              r="2"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+            />
+          </svg>
+        </span>
+
+        <span class="contact-channel__body">
+          <small>Office</small>
+          <strong>Jaffna, Sri Lanka</strong>
+          <span>
+            6/7, Vidhan's Lane, Eachchamoddai, Jaffna 40000.
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-channels {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .contact-channels__heading {
+    display: grid;
+    max-width: 48rem;
+    gap: 1rem;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .contact-channels__heading h2 {
+    max-width: 15ch;
+    margin: 0;
+    color: #0c1e39;
+    font-family: var(--font-serif);
+    font-size: clamp(2.3rem, 5vw, 4.4rem);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .contact-channels__heading > p:last-child {
+    max-width: 38rem;
+    margin: 0;
+    color: #6a7688;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .contact-channels__grid {
+    border-top: 1px solid #dde3eb;
+  }
+
+  .contact-channel {
+    display: grid;
+    grid-template-columns:
+      3rem
+      3.2rem
+      minmax(0, 1fr)
+      auto;
+    align-items: center;
+    gap: 1.1rem;
+    border-bottom: 1px solid #dde3eb;
+    padding-block: 1.4rem;
+    transition:
+      padding-inline 180ms ease,
+      background-color 180ms ease;
+  }
+
+  a.contact-channel:hover {
+    padding-inline: 1rem;
+    background: #f6f8fb;
+  }
+
+  .contact-channel__number {
+    color: #8792a2;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+
+  .contact-channel__icon {
+    display: inline-flex;
+    width: 3.2rem;
+    height: 3.2rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d8e0eb;
+    border-radius: 0.65rem;
+    background: #f8fafe;
+    color: #0b2f8f;
+  }
+
+  .contact-channel__body {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .contact-channel__body small {
+    color: #8792a2;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .contact-channel__body strong {
+    color: #192b45;
+    font-size: 0.93rem;
+    font-weight: 750;
+  }
+
+  .contact-channel__body > span:last-child {
+    color: #778396;
+    font-size: 0.73rem;
+    line-height: 1.5;
+  }
+
+  .contact-channel__arrow {
+    color: #0b2f8f;
+    transition: transform 180ms ease;
+  }
+
+  a.contact-channel:hover
+    .contact-channel__arrow {
+    transform: translateX(0.3rem);
+  }
+
+  @media (max-width: 42rem) {
+    .contact-channel {
+      grid-template-columns:
+        2.6rem
+        minmax(0, 1fr)
+        auto;
+    }
+
+    .contact-channel__number {
+      display: none;
+    }
+  }
+</style>

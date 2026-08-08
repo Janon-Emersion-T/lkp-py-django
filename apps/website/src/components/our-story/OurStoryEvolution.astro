@@ -1,0 +1,155 @@
+<section class="story-evolution">
+  <div class="site-container story-evolution__layout">
+    <div>
+      <p>How LKP evolved</p>
+
+      <h2>
+        From individual services to connected capability.
+      </h2>
+    </div>
+
+    <div class="story-evolution__content">
+      <p>
+        As client requirements became broader, LKProfessionals
+        expanded beyond individual IT tasks. Websites led to
+        software. Software created integration requirements.
+        Digital presence created demand for SEO, marketing,
+        hosting, automation and ongoing technical support.
+      </p>
+
+      <p>
+        The result is a company being built around connected
+        technology capability rather than a single narrow service.
+      </p>
+
+      <div class="story-evolution__areas">
+        <div>
+          <span>01</span>
+          <strong>Web & digital products</strong>
+        </div>
+
+        <div>
+          <span>02</span>
+          <strong>Software & business systems</strong>
+        </div>
+
+        <div>
+          <span>03</span>
+          <strong>SEO & digital growth</strong>
+        </div>
+
+        <div>
+          <span>04</span>
+          <strong>Infrastructure & support</strong>
+        </div>
+
+        <div>
+          <span>05</span>
+          <strong>Automation & AI</strong>
+        </div>
+
+        <div>
+          <span>06</span>
+          <strong>Technology consulting</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .story-evolution {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .story-evolution__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .story-evolution__layout > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .story-evolution h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .story-evolution__content > p {
+    max-width: 43rem;
+    margin: 0 0 1.1rem;
+    color: #6f7c90;
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  .story-evolution__areas {
+    display: grid;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+    margin-top: 2rem;
+  }
+
+  .story-evolution__areas div {
+    display: grid;
+    grid-template-columns: 2.8rem 1fr;
+    gap: 0.8rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .story-evolution__areas div:nth-child(even) {
+    border-left: 1px solid #dce3ec;
+    padding-left: 1rem;
+  }
+
+  .story-evolution__areas div:nth-child(odd) {
+    padding-right: 1rem;
+  }
+
+  .story-evolution__areas span {
+    color: #8792a2;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .story-evolution__areas strong {
+    color: #293b53;
+    font-size: 0.73rem;
+  }
+
+  @media (max-width: 52rem) {
+    .story-evolution__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .story-evolution__areas {
+      grid-template-columns: 1fr;
+    }
+
+    .story-evolution__areas div:nth-child(even),
+    .story-evolution__areas div:nth-child(odd) {
+      border-left: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

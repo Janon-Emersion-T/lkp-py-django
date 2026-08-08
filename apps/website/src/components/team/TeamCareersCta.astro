@@ -1,0 +1,74 @@
+<section class="team-careers">
+  <div class="site-container team-careers__inner">
+    <div>
+      <p>Careers at LKP</p>
+
+      <h2>
+        The next person here could be you.
+      </h2>
+    </div>
+
+    <a href="/about/careers/">
+      Explore careers
+    </a>
+  </div>
+</section>
+
+<style>
+  .team-careers {
+    padding-block:
+      clamp(4rem, 8vw, 6rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .team-careers__inner {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 3rem;
+  }
+
+  .team-careers p {
+    margin: 0 0 .7rem;
+    color:
+      rgba(246,243,235,.55);
+    font-size: .61rem;
+    font-weight: 800;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+  }
+
+  .team-careers h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size:
+      clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 400;
+    letter-spacing: -.05em;
+    line-height: 1;
+  }
+
+  .team-careers a {
+    display: inline-flex;
+    min-height: 3rem;
+    flex: 0 0 auto;
+    align-items: center;
+    border:
+      1px solid
+      rgba(255,255,255,.3);
+    border-radius: .5rem;
+    color: #ffffff;
+    padding-inline: 1rem;
+    font-size: .7rem;
+    font-weight: 750;
+  }
+
+  @media (max-width: 44rem) {
+    .team-careers__inner {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>

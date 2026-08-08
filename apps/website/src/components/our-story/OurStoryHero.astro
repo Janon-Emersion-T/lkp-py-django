@@ -1,0 +1,179 @@
+<section class="story-hero" aria-labelledby="story-hero-title">
+  <div class="site-container story-hero__inner">
+    <div class="story-hero__content">
+      <p class="story-hero__eyebrow">
+        Our Story
+      </p>
+
+      <h1 id="story-hero-title">
+        Built through work.
+        <span>Growing with purpose.</span>
+      </h1>
+
+      <p class="story-hero__lead">
+        LKProfessionals did not begin as a polished corporate
+        structure. It began with practical technology work,
+        accumulated experience and a belief that dependable IT
+        services could create real value for businesses.
+      </p>
+    </div>
+
+    <aside class="story-hero__aside">
+      <span>Our journey</span>
+
+      <p>
+        Started in 2013.<br />
+        Incorporated in 2024.<br />
+        Built in Jaffna.
+      </p>
+    </aside>
+  </div>
+
+  <div class="site-container story-hero__foot">
+    <span>2013</span>
+    <i></i>
+    <span>Experience</span>
+    <i></i>
+    <span>2024</span>
+    <i></i>
+    <span>Today</span>
+  </div>
+</section>
+
+<style>
+  .story-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dde4ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(4.5rem, 9vw, 8rem)
+      clamp(2.8rem, 5vw, 4rem);
+  }
+
+  .story-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .story-hero__inner,
+  .story-hero__foot {
+    position: relative;
+    z-index: 1;
+  }
+
+  .story-hero__inner {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(14rem, 0.3fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .story-hero__eyebrow {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .story-hero h1 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3.7rem, 8vw, 7.3rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  .story-hero h1 span {
+    display: block;
+    color: #0b2f8f;
+  }
+
+  .story-hero__lead {
+    max-width: 44rem;
+    margin: 1.6rem 0 0;
+    color: #687589;
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    line-height: 1.8;
+  }
+
+  .story-hero__aside {
+    border-left: 1px solid #cad4e1;
+    padding-left: 1.25rem;
+  }
+
+  .story-hero__aside span {
+    color: #8792a2;
+    font-size: 0.59rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .story-hero__aside p {
+    margin: 0.55rem 0 0;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 700;
+    line-height: 1.75;
+  }
+
+  .story-hero__foot {
+    display: grid;
+    grid-template-columns:
+      auto 1fr auto 1fr auto 1fr auto;
+    align-items: center;
+    gap: 0.7rem;
+    border-top: 1px solid #d9e0e9;
+    margin-top: clamp(3.5rem, 7vw, 6rem);
+    padding-top: 1.25rem;
+  }
+
+  .story-hero__foot span {
+    color: #53647a;
+    font-size: 0.58rem;
+    font-weight: 750;
+  }
+
+  .story-hero__foot i {
+    height: 1px;
+    background: #cfd8e4;
+  }
+
+  @media (max-width: 50rem) {
+    .story-hero__inner {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .story-hero h1 {
+      font-size: clamp(3.1rem, 16vw, 5rem);
+    }
+
+    .story-hero__foot {
+      display: none;
+    }
+  }
+</style>
