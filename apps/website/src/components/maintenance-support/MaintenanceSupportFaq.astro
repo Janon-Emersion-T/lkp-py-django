@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can LKProfessionals maintain a system developed by another company?",
+    answer:
+      "Yes, subject to an initial technical review. We first need to understand the codebase, platform, infrastructure, access and current condition before accepting ongoing responsibility.",
+  },
+  {
+    question:
+      "Do you provide one-time maintenance or only monthly support?",
+    answer:
+      "Both are possible. Support can be recurring, scheduled, ad-hoc or delivered as a focused improvement project depending on the requirement.",
+  },
+  {
+    question:
+      "Can maintenance include new features?",
+    answer:
+      "Minor improvements may fit within a maintenance arrangement. Larger features or significant scope changes are normally treated as separate development work so requirements and delivery remain clear.",
+  },
+  {
+    question:
+      "Do you support websites as well as custom software?",
+    answer:
+      "Yes. Maintenance & Support covers websites, web applications, business software and related technical systems depending on the technology and access available.",
+  },
+  {
+    question:
+      "What happens before you take over an existing system?",
+    answer:
+      "We normally review the existing environment, access, dependencies, hosting, known issues, backups and technical condition before establishing the support arrangement.",
+  },
+  {
+    question:
+      "Can you improve performance without rebuilding the entire system?",
+    answer:
+      "Often, yes. Performance work begins with diagnosis. Depending on the cause, meaningful improvements may be possible through targeted frontend, backend, database or infrastructure optimisation.",
+  },
+];
+---
+
+<section class="maintenance-faq">
+  <div class="site-container maintenance-faq__layout">
+    <div>
+      <p>Maintenance FAQ</p>
+
+      <h2>
+        Questions before handing over responsibility.
+      </h2>
+    </div>
+
+    <div class="maintenance-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .maintenance-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .maintenance-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .maintenance-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .maintenance-faq h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .maintenance-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .maintenance-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .maintenance-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .maintenance-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .maintenance-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

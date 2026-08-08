@@ -1,0 +1,40 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import DataAnalyticsHero from "../../../components/data-analytics/DataAnalyticsHero.astro";
+import DataAnalyticsOverview from "../../../components/data-analytics/DataAnalyticsOverview.astro";
+import DataAnalyticsServices from "../../../components/data-analytics/DataAnalyticsServices.astro";
+import DataAnalyticsPrinciples from "../../../components/data-analytics/DataAnalyticsPrinciples.astro";
+import DataAnalyticsFlow from "../../../components/data-analytics/DataAnalyticsFlow.astro";
+import DataAnalyticsUseCases from "../../../components/data-analytics/DataAnalyticsUseCases.astro";
+import DataAnalyticsFaq from "../../../components/data-analytics/DataAnalyticsFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Data & Analytics",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/services/data-analytics/",
+  description:
+    "Business intelligence, dashboards, reports and KPI tracking solutions from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Data & Analytics"
+  description="Business intelligence, dashboards, reports and KPI tracking solutions from LKProfessionals."
+  canonicalPath="/services/data-analytics/"
+  structuredData={schema}
+>
+  <DataAnalyticsHero />
+  <DataAnalyticsOverview />
+  <DataAnalyticsServices />
+  <DataAnalyticsPrinciples />
+  <DataAnalyticsFlow />
+  <DataAnalyticsUseCases />
+  <DataAnalyticsFaq />
+</Layout>

@@ -1,0 +1,125 @@
+<section
+  class="services-connected"
+  aria-labelledby="services-connected-title"
+>
+  <div class="site-container services-connected__layout">
+    <div>
+      <p>Connected capability</p>
+
+      <h2 id="services-connected-title">
+        Most serious projects cross more than one service boundary.
+      </h2>
+    </div>
+
+    <div class="services-connected__examples">
+      <article>
+        <span>Example 01</span>
+        <h3>
+          Website + SEO + Google Ads
+        </h3>
+        <p>
+          Acquisition works better when advertising, search
+          visibility and the landing experience are designed
+          around the same conversion objective.
+        </p>
+      </article>
+
+      <article>
+        <span>Example 02</span>
+        <h3>
+          Software + Mobile + API
+        </h3>
+        <p>
+          A business application may need a central backend,
+          mobile access for users and integrations with existing
+          operational services.
+        </p>
+      </article>
+
+      <article>
+        <span>Example 03</span>
+        <h3>
+          Automation + AI + Analytics
+        </h3>
+        <p>
+          Operational workflows may combine deterministic
+          automation, AI-assisted interpretation and reporting
+          without turning the entire system into an AI product.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-connected {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #f6f8fb;
+  }
+
+  .services-connected__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .services-connected__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .services-connected h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .services-connected__examples {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .services-connected article {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.3rem;
+  }
+
+  .services-connected article > span {
+    color: #0b2f8f;
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .services-connected h3 {
+    margin: 0.55rem 0 0;
+    color: #293b53;
+    font-size: 0.87rem;
+  }
+
+  .services-connected article p {
+    max-width: 43rem;
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 52rem) {
+    .services-connected__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,108 @@
+---
+import {
+  maintenanceCoverage,
+} from "../../config/maintenance-support";
+---
+
+<section class="maintenance-coverage">
+  <div class="site-container maintenance-coverage__layout">
+    <div>
+      <p>More than break-fix support</p>
+
+      <h2>
+        Maintenance should reduce future problems.
+      </h2>
+    </div>
+
+    <div class="maintenance-coverage__list">
+      {
+        maintenanceCoverage.map((item) => (
+          <article>
+            <span>{item.number}</span>
+
+            <div>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .maintenance-coverage {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .maintenance-coverage__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.72fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .maintenance-coverage__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: rgba(246, 243, 235, 0.56);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .maintenance-coverage h2 {
+    max-width: 11ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .maintenance-coverage__list {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .maintenance-coverage article {
+    display: grid;
+    grid-template-columns:
+      3rem
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    padding-block: 1.2rem;
+  }
+
+  .maintenance-coverage article > span {
+    color: rgba(246, 243, 235, 0.4);
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .maintenance-coverage h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 0.82rem;
+  }
+
+  .maintenance-coverage article p {
+    max-width: 42rem;
+    margin: 0.45rem 0 0;
+    color: rgba(246, 243, 235, 0.65);
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 52rem) {
+    .maintenance-coverage__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

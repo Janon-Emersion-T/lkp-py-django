@@ -1,0 +1,152 @@
+<section
+  class="integration-flow"
+  aria-labelledby="integration-flow-title"
+>
+  <div class="site-container">
+    <header class="integration-flow__heading">
+      <p>How integration work begins</p>
+
+      <h2 id="integration-flow-title">
+        Define the data flow before writing the connector.
+      </h2>
+    </header>
+
+    <div class="integration-flow__steps">
+      <article>
+        <span>01</span>
+        <h3>Systems</h3>
+        <p>
+          Identify the platforms involved, available APIs,
+          authentication methods and technical constraints.
+        </p>
+      </article>
+
+      <article>
+        <span>02</span>
+        <h3>Ownership</h3>
+        <p>
+          Establish which system owns each record, status and
+          business event.
+        </p>
+      </article>
+
+      <article>
+        <span>03</span>
+        <h3>Mapping</h3>
+        <p>
+          Define how fields, identifiers and business rules
+          correspond between systems.
+        </p>
+      </article>
+
+      <article>
+        <span>04</span>
+        <h3>Reliability</h3>
+        <p>
+          Design retries, validation, error handling and
+          operational visibility.
+        </p>
+      </article>
+
+      <article>
+        <span>05</span>
+        <h3>Operation</h3>
+        <p>
+          Deploy, monitor and maintain the integration as
+          external services and business requirements evolve.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .integration-flow {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .integration-flow__heading {
+    max-width: 48rem;
+    margin-bottom: 3rem;
+  }
+
+  .integration-flow__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .integration-flow h2 {
+    max-width: 13ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .integration-flow__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .integration-flow article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .integration-flow article:first-child {
+    padding-left: 0;
+  }
+
+  .integration-flow article:last-child {
+    border-right: 0;
+  }
+
+  .integration-flow article > span {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .integration-flow h3 {
+    margin: 1rem 0 0;
+    color: #283a52;
+    font-size: 0.8rem;
+  }
+
+  .integration-flow article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.67rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 58rem) {
+    .integration-flow__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .integration-flow__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .integration-flow article,
+    .integration-flow article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

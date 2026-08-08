@@ -1,0 +1,219 @@
+---
+import {
+  consultancyServices,
+} from "../../config/it-consultancy";
+---
+
+<section
+  class="consultancy-services"
+  aria-labelledby="consultancy-services-title"
+>
+  <div class="site-container">
+    <header class="consultancy-services__heading">
+      <div>
+        <p>Consultancy services</p>
+
+        <h2 id="consultancy-services-title">
+          Advice for different stages of the technology decision.
+        </h2>
+      </div>
+
+      <p>
+        The right form of consulting depends on whether the business
+        is defining direction, choosing technology, connecting
+        systems or delivering an active project.
+      </p>
+    </header>
+
+    <div class="consultancy-services__list">
+      {
+        consultancyServices.map((service) => (
+          <a href={service.href}>
+            <span class="consultancy-services__number">
+              {service.number}
+            </span>
+
+            <div class="consultancy-services__content">
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+            </div>
+
+            <div class="consultancy-services__capabilities">
+              {
+                service.capabilities.map((capability) => (
+                  <span>{capability}</span>
+                ))
+              }
+            </div>
+
+            <svg
+              aria-hidden="true"
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+            >
+              <path
+                d="M3 9h12M11 5l4 4-4 4"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+              />
+            </svg>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .consultancy-services {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .consultancy-services__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, 0.42fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .consultancy-services__heading
+    > div > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .consultancy-services h2 {
+    max-width: 14ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .consultancy-services__heading > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.75rem;
+    line-height: 1.7;
+  }
+
+  .consultancy-services__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .consultancy-services__list > a {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(13rem, 0.55fr)
+      minmax(15rem, 0.65fr)
+      auto;
+    gap: clamp(1rem, 3vw, 2rem);
+    align-items: start;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.5rem;
+    transition:
+      background-color 180ms ease,
+      padding-inline 180ms ease;
+  }
+
+  .consultancy-services__list > a:hover {
+    padding-inline: 0.8rem;
+    background: #ffffff;
+  }
+
+  .consultancy-services__number {
+    color: #0b2f8f;
+    font-size: 0.6rem;
+    font-weight: 800;
+  }
+
+  .consultancy-services h3 {
+    margin: 0;
+    color: #263850;
+    font-size: 0.9rem;
+  }
+
+  .consultancy-services__content p {
+    max-width: 35rem;
+    margin: 0.45rem 0 0;
+    color: #748095;
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  .consultancy-services__capabilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .consultancy-services__capabilities span {
+    border: 1px solid #d3dce7;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #657389;
+    padding: 0.34rem 0.52rem;
+    font-size: 0.54rem;
+  }
+
+  .consultancy-services__list svg {
+    color: #0b2f8f;
+    transition: transform 180ms ease;
+  }
+
+  .consultancy-services__list > a:hover svg {
+    transform: translateX(0.3rem);
+  }
+
+  @media (max-width: 56rem) {
+    .consultancy-services__list > a {
+      grid-template-columns:
+        2.5rem
+        1fr
+        auto;
+    }
+
+    .consultancy-services__capabilities {
+      grid-column: 2;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .consultancy-services__heading {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .consultancy-services__list > a {
+      grid-template-columns:
+        2rem
+        1fr;
+    }
+
+    .consultancy-services__list svg {
+      display: none;
+    }
+
+    .consultancy-services__capabilities {
+      grid-column: 2;
+    }
+  }
+</style>

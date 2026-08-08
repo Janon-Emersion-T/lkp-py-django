@@ -20,49 +20,6 @@ export const sitePages: SitePage[] = [
     noindex: false,
   },
   {
-    title: "Services",
-    path: "services",
-    eyebrow: "Capabilities",
-    summary:
-      "Explore technology, software, digital growth, infrastructure and business support services from LKProfessionals.",
-    parentPath: null,
-    childPaths: [
-      "services/web-development",
-      "services/software-development",
-      "services/mobile-app-development",
-      "services/ai-solutions",
-      "services/digital-marketing",
-      "services/branding-design",
-      "services/cloud-hosting",
-      "services/it-consultancy",
-      "services/cybersecurity",
-      "services/api-integration",
-      "services/business-automation",
-      "services/data-analytics",
-      "services/maintenance-support",
-    ],
-    noindex: false,
-  },
-  {
-    title: "Web Development",
-    path: "services/web-development",
-    eyebrow: "Services",
-    summary:
-      "Explore LKProfessionals web development services, capabilities and delivery approach.",
-    parentPath: "services",
-    childPaths: [
-      "services/web-development/business-websites",
-      "services/web-development/corporate-websites",
-      "services/web-development/ecommerce-websites",
-      "services/web-development/landing-pages",
-      "services/web-development/booking-websites",
-      "services/web-development/custom-web-applications",
-      "services/web-development/website-redesign",
-      "services/web-development/website-maintenance",
-    ],
-    noindex: false,
-  },
-  {
     title: "Business Websites",
     path: "services/web-development/business-websites",
     eyebrow: "Web Development",
@@ -140,25 +97,6 @@ export const sitePages: SitePage[] = [
       "Learn more about website maintenance within the LKProfessionals web development section.",
     parentPath: "services/web-development",
     childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Software Development",
-    path: "services/software-development",
-    eyebrow: "Services",
-    summary:
-      "Explore LKProfessionals software development services, capabilities and delivery approach.",
-    parentPath: "services",
-    childPaths: [
-      "services/software-development/custom-software",
-      "services/software-development/erp-development",
-      "services/software-development/crm-development",
-      "services/software-development/pos-systems",
-      "services/software-development/inventory-systems",
-      "services/software-development/hrm-systems",
-      "services/software-development/accounting-systems",
-      "services/software-development/saas-development",
-    ],
     noindex: false,
   },
   {
@@ -242,21 +180,6 @@ export const sitePages: SitePage[] = [
     noindex: false,
   },
   {
-    title: "Mobile App Development",
-    path: "services/mobile-app-development",
-    eyebrow: "Services",
-    summary:
-      "Explore LKProfessionals mobile app development services, capabilities and delivery approach.",
-    parentPath: "services",
-    childPaths: [
-      "services/mobile-app-development/android-apps",
-      "services/mobile-app-development/ios-apps",
-      "services/mobile-app-development/cross-platform-apps",
-      "services/mobile-app-development/business-apps",
-    ],
-    noindex: false,
-  },
-  {
     title: "Android Apps",
     path: "services/mobile-app-development/android-apps",
     eyebrow: "Mobile App Development",
@@ -294,22 +217,6 @@ export const sitePages: SitePage[] = [
       "Learn more about business apps within the LKProfessionals mobile app development section.",
     parentPath: "services/mobile-app-development",
     childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "AI Solutions",
-    path: "services/ai-solutions",
-    eyebrow: "Services",
-    summary:
-      "Explore LKProfessionals ai solutions services, capabilities and delivery approach.",
-    parentPath: "services",
-    childPaths: [
-      "services/ai-solutions/ai-chatbots",
-      "services/ai-solutions/ai-automation",
-      "services/ai-solutions/ai-assistants",
-      "services/ai-solutions/ai-integration",
-      "services/ai-solutions/custom-ai-solutions",
-    ],
     noindex: false,
   },
   {
@@ -360,24 +267,6 @@ export const sitePages: SitePage[] = [
       "Learn more about custom ai solutions within the LKProfessionals ai solutions section.",
     parentPath: "services/ai-solutions",
     childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Digital Marketing",
-    path: "services/digital-marketing",
-    eyebrow: "Services",
-    summary:
-      "Explore LKProfessionals digital marketing services, capabilities and delivery approach.",
-    parentPath: "services",
-    childPaths: [
-      "services/digital-marketing/seo",
-      "services/digital-marketing/local-seo",
-      "services/digital-marketing/google-ads",
-      "services/digital-marketing/social-media-marketing",
-      "services/digital-marketing/email-marketing",
-      "services/digital-marketing/content-marketing",
-      "services/digital-marketing/marketing-automation",
-    ],
     noindex: false,
   },
   {
@@ -451,21 +340,6 @@ export const sitePages: SitePage[] = [
     noindex: false,
   },
   {
-    title: "Branding & Design",
-    path: "services/branding-design",
-    eyebrow: "Services",
-    summary:
-      "Explore LKProfessionals branding & design services, capabilities and delivery approach.",
-    parentPath: "services",
-    childPaths: [
-      "services/branding-design/logo-design",
-      "services/branding-design/brand-identity",
-      "services/branding-design/ui-ux-design",
-      "services/branding-design/graphic-design",
-    ],
-    noindex: false,
-  },
-  {
     title: "Logo Design",
     path: "services/branding-design/logo-design",
     eyebrow: "Branding & Design",
@@ -503,22 +377,6 @@ export const sitePages: SitePage[] = [
       "Learn more about graphic design within the LKProfessionals branding & design section.",
     parentPath: "services/branding-design",
     childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Cloud & Hosting",
-    path: "services/cloud-hosting",
-    eyebrow: "Services",
-    summary:
-      "Explore LKProfessionals cloud & hosting services, capabilities and delivery approach.",
-    parentPath: "services",
-    childPaths: [
-      "services/cloud-hosting/web-hosting",
-      "services/cloud-hosting/vps-hosting",
-      "services/cloud-hosting/domain-registration",
-      "services/cloud-hosting/business-email",
-      "services/cloud-hosting/ssl-certificates",
-    ],
     noindex: false,
   },
   {
@@ -572,21 +430,6 @@ export const sitePages: SitePage[] = [
     noindex: false,
   },
   {
-    title: "IT Consultancy",
-    path: "services/it-consultancy",
-    eyebrow: "Services",
-    summary:
-      "Explore LKProfessionals it consultancy services, capabilities and delivery approach.",
-    parentPath: "services",
-    childPaths: [
-      "services/it-consultancy/digital-transformation",
-      "services/it-consultancy/technology-consulting",
-      "services/it-consultancy/system-integration",
-      "services/it-consultancy/project-consulting",
-    ],
-    noindex: false,
-  },
-  {
     title: "Digital Transformation",
     path: "services/it-consultancy/digital-transformation",
     eyebrow: "IT Consultancy",
@@ -627,21 +470,6 @@ export const sitePages: SitePage[] = [
     noindex: false,
   },
   {
-    title: "Cybersecurity",
-    path: "services/cybersecurity",
-    eyebrow: "Services",
-    summary:
-      "Explore LKProfessionals cybersecurity services, capabilities and delivery approach.",
-    parentPath: "services",
-    childPaths: [
-      "services/cybersecurity/security-audit",
-      "services/cybersecurity/website-security",
-      "services/cybersecurity/backup-recovery",
-      "services/cybersecurity/security-hardening",
-    ],
-    noindex: false,
-  },
-  {
     title: "Security Audit",
     path: "services/cybersecurity/security-audit",
     eyebrow: "Cybersecurity",
@@ -679,22 +507,6 @@ export const sitePages: SitePage[] = [
       "Learn more about security hardening within the LKProfessionals cybersecurity section.",
     parentPath: "services/cybersecurity",
     childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "API & Integration",
-    path: "services/api-integration",
-    eyebrow: "Services",
-    summary:
-      "Explore LKProfessionals api & integration services, capabilities and delivery approach.",
-    parentPath: "services",
-    childPaths: [
-      "services/api-integration/payment-gateway",
-      "services/api-integration/whatsapp-api",
-      "services/api-integration/sms-gateway",
-      "services/api-integration/crm-integration",
-      "services/api-integration/erp-integration",
-    ],
     noindex: false,
   },
   {
@@ -748,21 +560,6 @@ export const sitePages: SitePage[] = [
     noindex: false,
   },
   {
-    title: "Business Automation",
-    path: "services/business-automation",
-    eyebrow: "Services",
-    summary:
-      "Explore LKProfessionals business automation services, capabilities and delivery approach.",
-    parentPath: "services",
-    childPaths: [
-      "services/business-automation/workflow-automation",
-      "services/business-automation/crm-automation",
-      "services/business-automation/hr-automation",
-      "services/business-automation/document-automation",
-    ],
-    noindex: false,
-  },
-  {
     title: "Workflow Automation",
     path: "services/business-automation/workflow-automation",
     eyebrow: "Business Automation",
@@ -803,21 +600,6 @@ export const sitePages: SitePage[] = [
     noindex: false,
   },
   {
-    title: "Data & Analytics",
-    path: "services/data-analytics",
-    eyebrow: "Services",
-    summary:
-      "Explore LKProfessionals data & analytics services, capabilities and delivery approach.",
-    parentPath: "services",
-    childPaths: [
-      "services/data-analytics/business-intelligence",
-      "services/data-analytics/dashboards",
-      "services/data-analytics/reports",
-      "services/data-analytics/kpi-tracking",
-    ],
-    noindex: false,
-  },
-  {
     title: "Business Intelligence",
     path: "services/data-analytics/business-intelligence",
     eyebrow: "Data & Analytics",
@@ -855,21 +637,6 @@ export const sitePages: SitePage[] = [
       "Learn more about kpi tracking within the LKProfessionals data & analytics section.",
     parentPath: "services/data-analytics",
     childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Maintenance & Support",
-    path: "services/maintenance-support",
-    eyebrow: "Services",
-    summary:
-      "Explore LKProfessionals maintenance & support services, capabilities and delivery approach.",
-    parentPath: "services",
-    childPaths: [
-      "services/maintenance-support/website-maintenance",
-      "services/maintenance-support/software-maintenance",
-      "services/maintenance-support/performance-optimization",
-      "services/maintenance-support/technical-support",
-    ],
     noindex: false,
   },
   {

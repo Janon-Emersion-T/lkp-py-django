@@ -1,0 +1,168 @@
+<section
+  class="ai-flow"
+  aria-labelledby="ai-flow-title"
+>
+  <div class="site-container">
+    <header class="ai-flow__heading">
+      <p>How AI projects begin</p>
+
+      <h2 id="ai-flow-title">
+        Start with the workflow, not the model.
+      </h2>
+    </header>
+
+    <div class="ai-flow__steps">
+      <article>
+        <span>01</span>
+        <h3>Problem</h3>
+        <p>
+          Define the operational problem and what a useful outcome
+          would actually look like.
+        </p>
+      </article>
+
+      <article>
+        <span>02</span>
+        <h3>Information</h3>
+        <p>
+          Identify the data, documents, systems and context required
+          for the AI capability to work.
+        </p>
+      </article>
+
+      <article>
+        <span>03</span>
+        <h3>Boundaries</h3>
+        <p>
+          Decide what the model may do automatically and what still
+          requires deterministic rules or human approval.
+        </p>
+      </article>
+
+      <article>
+        <span>04</span>
+        <h3>Prototype</h3>
+        <p>
+          Test the proposed workflow against realistic inputs before
+          committing to full implementation.
+        </p>
+      </article>
+
+      <article>
+        <span>05</span>
+        <h3>Integrate</h3>
+        <p>
+          Connect the model to the systems, interfaces and processes
+          required for real operation.
+        </p>
+      </article>
+
+      <article>
+        <span>06</span>
+        <h3>Evaluate</h3>
+        <p>
+          Review output quality, failure cases, cost and whether the
+          system is producing meaningful business value.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ai-flow {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .ai-flow__heading {
+    max-width: 48rem;
+    margin-bottom: 3rem;
+  }
+
+  .ai-flow__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .ai-flow h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .ai-flow__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(6, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .ai-flow article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .ai-flow article:first-child {
+    padding-left: 0;
+  }
+
+  .ai-flow article:last-child {
+    border-right: 0;
+  }
+
+  .ai-flow article > span {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .ai-flow h3 {
+    margin: 1rem 0 0;
+    color: #283a52;
+    font-size: 0.8rem;
+  }
+
+  .ai-flow article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.67rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 64rem) {
+    .ai-flow__steps {
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .ai-flow__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .ai-flow__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-flow article,
+    .ai-flow article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

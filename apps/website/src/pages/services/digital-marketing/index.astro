@@ -1,0 +1,40 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import DigitalMarketingHero from "../../../components/digital-marketing/DigitalMarketingHero.astro";
+import DigitalMarketingOverview from "../../../components/digital-marketing/DigitalMarketingOverview.astro";
+import DigitalMarketingServices from "../../../components/digital-marketing/DigitalMarketingServices.astro";
+import DigitalMarketingPrinciples from "../../../components/digital-marketing/DigitalMarketingPrinciples.astro";
+import DigitalMarketingJourney from "../../../components/digital-marketing/DigitalMarketingJourney.astro";
+import DigitalMarketingMeasurement from "../../../components/digital-marketing/DigitalMarketingMeasurement.astro";
+import DigitalMarketingFaq from "../../../components/digital-marketing/DigitalMarketingFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Digital Marketing",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/services/digital-marketing/",
+  description:
+    "SEO, local SEO, Google Ads, social media, email marketing, content marketing and marketing automation services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Digital Marketing"
+  description="SEO, local SEO, Google Ads, social media, email marketing, content marketing and marketing automation services from LKProfessionals."
+  canonicalPath="/services/digital-marketing/"
+  structuredData={schema}
+>
+  <DigitalMarketingHero />
+  <DigitalMarketingOverview />
+  <DigitalMarketingServices />
+  <DigitalMarketingPrinciples />
+  <DigitalMarketingJourney />
+  <DigitalMarketingMeasurement />
+  <DigitalMarketingFaq />
+</Layout>

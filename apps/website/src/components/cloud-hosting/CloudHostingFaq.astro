@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can LKProfessionals host a website developed by another provider?",
+    answer:
+      "Potentially, yes. We first need to review the application's technology, hosting requirements, dependencies and current configuration.",
+  },
+  {
+    question:
+      "What is the difference between web hosting and VPS hosting?",
+    answer:
+      "Web hosting is generally suited to websites and applications that can operate within a managed hosting environment. VPS hosting provides greater server-level control and is more appropriate where custom software, services or configuration are required.",
+  },
+  {
+    question:
+      "Who owns the domain if LKP registers it?",
+    answer:
+      "The business should retain clear ownership of its domain. Registration and administration can be managed by LKP while ownership and account responsibility remain documented.",
+  },
+  {
+    question:
+      "Can you migrate an existing website or email service?",
+    answer:
+      "Yes, depending on access and the source and destination platforms. Migration work is normally planned to reduce disruption and preserve required data.",
+  },
+  {
+    question:
+      "Do SSL certificates need renewal?",
+    answer:
+      "Yes. Certificates have expiry periods. Depending on the environment, renewal can often be automated, but it still needs to be configured and monitored correctly.",
+  },
+  {
+    question:
+      "Does hosting include backups?",
+    answer:
+      "Backup requirements depend on the hosting arrangement. We prefer to define backup and recovery expectations explicitly rather than assume that provider-level backups are sufficient for every business system.",
+  },
+];
+---
+
+<section class="cloud-faq">
+  <div class="site-container cloud-faq__layout">
+    <div>
+      <p>Cloud & hosting FAQ</p>
+
+      <h2>
+        Questions before placing the system online.
+      </h2>
+    </div>
+
+    <div class="cloud-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .cloud-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .cloud-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .cloud-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .cloud-faq h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .cloud-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .cloud-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .cloud-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .cloud-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .cloud-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

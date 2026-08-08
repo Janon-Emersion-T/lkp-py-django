@@ -1,0 +1,91 @@
+<section
+  class="maintenance-overview"
+  aria-labelledby="maintenance-overview-title"
+>
+  <div class="site-container maintenance-overview__layout">
+    <div>
+      <p>Why maintenance matters</p>
+
+      <h2 id="maintenance-overview-title">
+        A working system is not a finished responsibility.
+      </h2>
+    </div>
+
+    <div class="maintenance-overview__copy">
+      <p>
+        Websites, software and infrastructure exist in environments
+        that continue to change. Dependencies are updated, browsers
+        evolve, security risks emerge, integrations change and
+        business requirements move forward.
+      </p>
+
+      <p>
+        Without ongoing attention, small technical issues can become
+        performance problems, security exposure, operational
+        interruptions or expensive emergency work.
+      </p>
+
+      <p>
+        Our maintenance approach is designed to preserve reliability
+        while giving organisations access to technical capability
+        when changes or problems arise.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .maintenance-overview {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .maintenance-overview__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .maintenance-overview__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .maintenance-overview h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .maintenance-overview__copy {
+    display: grid;
+    gap: 1.15rem;
+    align-content: start;
+  }
+
+  .maintenance-overview__copy p {
+    max-width: 44rem;
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .maintenance-overview__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

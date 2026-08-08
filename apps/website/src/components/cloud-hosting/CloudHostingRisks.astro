@@ -1,0 +1,143 @@
+---
+const risks = [
+  [
+    "Expired domains",
+    "Missed renewals can interrupt websites, email and business identity.",
+  ],
+  [
+    "Unclear ownership",
+    "Infrastructure controlled through former vendors or staff can create operational risk.",
+  ],
+  [
+    "Single-server dependence",
+    "Critical systems without suitable backup or recovery planning can have avoidable downtime.",
+  ],
+  [
+    "Poor capacity planning",
+    "Under-sized environments affect performance while over-sized environments waste cost.",
+  ],
+  [
+    "Certificate expiry",
+    "Broken TLS certificates can trigger browser warnings and service disruption.",
+  ],
+  [
+    "Undocumented access",
+    "Lost credentials and unmanaged administrator accounts complicate support and incident response.",
+  ],
+];
+---
+
+<section class="cloud-risks">
+  <div class="site-container cloud-risks__layout">
+    <div>
+      <p>Operational risks</p>
+
+      <h2>
+        Infrastructure problems often look small until they stop the business.
+      </h2>
+    </div>
+
+    <div class="cloud-risks__list">
+      {
+        risks.map(([title, description], index) => (
+          <article>
+            <span>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            <strong>{title}</strong>
+
+            <p>{description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .cloud-risks {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .cloud-risks__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .cloud-risks__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .cloud-risks h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .cloud-risks__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .cloud-risks article {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(9rem, 0.3fr)
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .cloud-risks article > span {
+    color: #8792a2;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .cloud-risks article > strong {
+    color: #293b53;
+    font-size: 0.75rem;
+  }
+
+  .cloud-risks article > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.68rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 52rem) {
+    .cloud-risks__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .cloud-risks article {
+      grid-template-columns:
+        2rem
+        1fr;
+    }
+
+    .cloud-risks article > p {
+      grid-column: 2;
+    }
+  }
+</style>

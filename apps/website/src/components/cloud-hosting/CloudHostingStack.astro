@@ -1,0 +1,152 @@
+<section
+  class="cloud-stack"
+  aria-labelledby="cloud-stack-title"
+>
+  <div class="site-container">
+    <header class="cloud-stack__heading">
+      <p>The infrastructure chain</p>
+
+      <h2 id="cloud-stack-title">
+        Availability depends on more than the server.
+      </h2>
+    </header>
+
+    <div class="cloud-stack__steps">
+      <article>
+        <span>01</span>
+        <h3>Domain</h3>
+        <p>
+          The organisation must retain ownership and control
+          of its public identity.
+        </p>
+      </article>
+
+      <article>
+        <span>02</span>
+        <h3>DNS</h3>
+        <p>
+          DNS directs traffic to websites, email and other
+          services and needs controlled configuration.
+        </p>
+      </article>
+
+      <article>
+        <span>03</span>
+        <h3>Server</h3>
+        <p>
+          The environment must provide suitable resources,
+          security and operating conditions.
+        </p>
+      </article>
+
+      <article>
+        <span>04</span>
+        <h3>Application</h3>
+        <p>
+          The website or software itself still requires
+          deployment, updates and maintenance.
+        </p>
+      </article>
+
+      <article>
+        <span>05</span>
+        <h3>Monitoring</h3>
+        <p>
+          Visibility helps identify availability, capacity
+          and operational problems before they become larger.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cloud-stack {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .cloud-stack__heading {
+    max-width: 48rem;
+    margin-bottom: 3rem;
+  }
+
+  .cloud-stack__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .cloud-stack h2 {
+    max-width: 13ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .cloud-stack__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .cloud-stack article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .cloud-stack article:first-child {
+    padding-left: 0;
+  }
+
+  .cloud-stack article:last-child {
+    border-right: 0;
+  }
+
+  .cloud-stack article > span {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .cloud-stack h3 {
+    margin: 1rem 0 0;
+    color: #283a52;
+    font-size: 0.8rem;
+  }
+
+  .cloud-stack article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.67rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 58rem) {
+    .cloud-stack__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .cloud-stack__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .cloud-stack article,
+    .cloud-stack article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

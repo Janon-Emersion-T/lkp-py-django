@@ -1,0 +1,90 @@
+<section
+  class="software-overview"
+  aria-labelledby="software-overview-title"
+>
+  <div class="site-container software-overview__layout">
+    <div>
+      <p>Why custom software</p>
+
+      <h2 id="software-overview-title">
+        Software should remove operational friction, not introduce more of it.
+      </h2>
+    </div>
+
+    <div class="software-overview__copy">
+      <p>
+        Businesses often accumulate spreadsheets, disconnected
+        applications, duplicated records and manual workarounds
+        because no single system reflects the way the organisation
+        really operates.
+      </p>
+
+      <p>
+        Custom software becomes valuable when those constraints are
+        limiting efficiency, visibility or the ability to scale a
+        process reliably.
+      </p>
+
+      <p>
+        The objective is not to build more software. It is to create
+        the right system boundary around the work that genuinely
+        benefits from being structured and automated.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .software-overview {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .software-overview__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .software-overview__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .software-overview h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .software-overview__copy {
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  .software-overview__copy p {
+    max-width: 44rem;
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .software-overview__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

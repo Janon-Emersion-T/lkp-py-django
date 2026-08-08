@@ -1,0 +1,40 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import ItConsultancyHero from "../../../components/it-consultancy/ItConsultancyHero.astro";
+import ItConsultancyOverview from "../../../components/it-consultancy/ItConsultancyOverview.astro";
+import ItConsultancyServices from "../../../components/it-consultancy/ItConsultancyServices.astro";
+import ItConsultancyPrinciples from "../../../components/it-consultancy/ItConsultancyPrinciples.astro";
+import ItConsultancyFramework from "../../../components/it-consultancy/ItConsultancyFramework.astro";
+import ItConsultancyQuestions from "../../../components/it-consultancy/ItConsultancyQuestions.astro";
+import ItConsultancyFaq from "../../../components/it-consultancy/ItConsultancyFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "IT Consultancy",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/services/it-consultancy/",
+  description:
+    "Digital transformation, technology consulting, system integration and project consulting services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="IT Consultancy"
+  description="Digital transformation, technology consulting, system integration and project consulting services from LKProfessionals."
+  canonicalPath="/services/it-consultancy/"
+  structuredData={schema}
+>
+  <ItConsultancyHero />
+  <ItConsultancyOverview />
+  <ItConsultancyServices />
+  <ItConsultancyPrinciples />
+  <ItConsultancyFramework />
+  <ItConsultancyQuestions />
+  <ItConsultancyFaq />
+</Layout>

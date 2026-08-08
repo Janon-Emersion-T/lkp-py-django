@@ -1,0 +1,152 @@
+<section
+  class="automation-process"
+  aria-labelledby="automation-process-title"
+>
+  <div class="site-container">
+    <header class="automation-process__heading">
+      <p>How automation is designed</p>
+
+      <h2 id="automation-process-title">
+        Map the work before automating it.
+      </h2>
+    </header>
+
+    <div class="automation-process__steps">
+      <article>
+        <span>01</span>
+        <h3>Observe</h3>
+        <p>
+          Understand how the process currently works, including
+          people, systems, inputs, decisions and exceptions.
+        </p>
+      </article>
+
+      <article>
+        <span>02</span>
+        <h3>Simplify</h3>
+        <p>
+          Remove unnecessary steps and clarify responsibility
+          before introducing automation.
+        </p>
+      </article>
+
+      <article>
+        <span>03</span>
+        <h3>Design</h3>
+        <p>
+          Define triggers, rules, integrations, approvals,
+          notifications and exception paths.
+        </p>
+      </article>
+
+      <article>
+        <span>04</span>
+        <h3>Implement</h3>
+        <p>
+          Connect the required systems and build the automation
+          in controlled stages.
+        </p>
+      </article>
+
+      <article>
+        <span>05</span>
+        <h3>Measure</h3>
+        <p>
+          Review whether the automated process is actually reducing
+          effort, delay and operational friction.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .automation-process {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .automation-process__heading {
+    max-width: 48rem;
+    margin-bottom: 3rem;
+  }
+
+  .automation-process__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .automation-process h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .automation-process__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .automation-process article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .automation-process article:first-child {
+    padding-left: 0;
+  }
+
+  .automation-process article:last-child {
+    border-right: 0;
+  }
+
+  .automation-process article > span {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .automation-process h3 {
+    margin: 1rem 0 0;
+    color: #283a52;
+    font-size: 0.8rem;
+  }
+
+  .automation-process article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.67rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 58rem) {
+    .automation-process__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .automation-process__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .automation-process article,
+    .automation-process article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

@@ -1,0 +1,143 @@
+---
+const questions = [
+  [
+    "Do we need to build this?",
+    "A new system may not be necessary if the problem can be solved by improving what already exists.",
+  ],
+  [
+    "Should we buy or build?",
+    "Commercial software and custom development each have different cost, flexibility and ownership implications.",
+  ],
+  [
+    "Can our systems integrate?",
+    "Integration feasibility depends on architecture, APIs, ownership and business rules.",
+  ],
+  [
+    "Is this architecture sustainable?",
+    "Technical decisions should account for support, skills, performance and future change.",
+  ],
+  [
+    "Are the requirements clear enough?",
+    "Weak requirements often become expensive development changes later.",
+  ],
+  [
+    "Are we solving the right problem?",
+    "Technology projects can fail even when the implementation is technically correct if the original problem was misunderstood.",
+  ],
+];
+---
+
+<section class="consultancy-questions">
+  <div class="site-container consultancy-questions__layout">
+    <div>
+      <p>Questions worth asking</p>
+
+      <h2>
+        Sometimes the most valuable deliverable is a better decision.
+      </h2>
+    </div>
+
+    <div class="consultancy-questions__list">
+      {
+        questions.map(([title, description], index) => (
+          <article>
+            <span>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            <strong>{title}</strong>
+
+            <p>{description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .consultancy-questions {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .consultancy-questions__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .consultancy-questions__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .consultancy-questions h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .consultancy-questions__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .consultancy-questions article {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(10rem, 0.34fr)
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .consultancy-questions article > span {
+    color: #8792a2;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .consultancy-questions article > strong {
+    color: #293b53;
+    font-size: 0.75rem;
+  }
+
+  .consultancy-questions article > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.68rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 52rem) {
+    .consultancy-questions__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .consultancy-questions article {
+      grid-template-columns:
+        2rem
+        1fr;
+    }
+
+    .consultancy-questions article > p {
+      grid-column: 2;
+    }
+  }
+</style>

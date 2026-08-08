@@ -1,0 +1,187 @@
+<section
+  class="software-hero"
+  aria-labelledby="software-hero-title"
+>
+  <div class="site-container software-hero__inner">
+    <div class="software-hero__content">
+      <p class="software-hero__eyebrow">
+        Software Development
+      </p>
+
+      <h1 id="software-hero-title">
+        Build software around
+        <span>how the business actually works.</span>
+      </h1>
+
+      <p class="software-hero__lead">
+        LKProfessionals designs and develops business software,
+        ERP, CRM, POS, inventory, HRM, accounting and SaaS systems
+        around real workflows instead of forcing operations into
+        generic software assumptions.
+      </p>
+    </div>
+
+    <aside class="software-hero__aside">
+      <span>Software objective</span>
+
+      <p>
+        Fit the workflow.<br />
+        Protect the data.<br />
+        Support growth.
+      </p>
+    </aside>
+  </div>
+
+  <div
+    class="site-container software-hero__flow"
+    aria-hidden="true"
+  >
+    <span>Users</span>
+    <i></i>
+    <span>Workflow</span>
+    <i></i>
+    <span>Software</span>
+    <i></i>
+    <span>Data</span>
+    <i></i>
+    <span>Operation</span>
+  </div>
+</section>
+
+<style>
+  .software-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dde4ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(4.5rem, 9vw, 8rem)
+      clamp(2.8rem, 5vw, 4rem);
+  }
+
+  .software-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .software-hero__inner,
+  .software-hero__flow {
+    position: relative;
+    z-index: 1;
+  }
+
+  .software-hero__inner {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(14rem, 0.3fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .software-hero__eyebrow {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .software-hero h1 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3.7rem, 8vw, 7.2rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  .software-hero h1 span {
+    display: block;
+    color: #0b2f8f;
+  }
+
+  .software-hero__lead {
+    max-width: 48rem;
+    margin: 1.6rem 0 0;
+    color: #687589;
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    line-height: 1.8;
+  }
+
+  .software-hero__aside {
+    border-left: 1px solid #cad4e1;
+    padding-left: 1.25rem;
+  }
+
+  .software-hero__aside span {
+    color: #8792a2;
+    font-size: 0.59rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .software-hero__aside p {
+    margin: 0.55rem 0 0;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 700;
+    line-height: 1.75;
+  }
+
+  .software-hero__flow {
+    display: grid;
+    grid-template-columns:
+      auto 1fr auto 1fr auto 1fr auto 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    border-top: 1px solid #d9e0e9;
+    margin-top: clamp(3.5rem, 7vw, 6rem);
+    padding-top: 1.25rem;
+  }
+
+  .software-hero__flow span {
+    color: #53647a;
+    font-size: 0.58rem;
+    font-weight: 750;
+  }
+
+  .software-hero__flow i {
+    height: 1px;
+    background: #cfd8e4;
+  }
+
+  @media (max-width: 52rem) {
+    .software-hero__inner {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .software-hero h1 {
+      font-size: clamp(3rem, 15vw, 5rem);
+    }
+
+    .software-hero__flow {
+      display: none;
+    }
+  }
+</style>

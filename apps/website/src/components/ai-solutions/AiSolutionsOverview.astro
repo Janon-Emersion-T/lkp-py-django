@@ -1,0 +1,89 @@
+<section
+  class="ai-overview"
+  aria-labelledby="ai-overview-title"
+>
+  <div class="site-container ai-overview__layout">
+    <div>
+      <p>AI in practical terms</p>
+
+      <h2 id="ai-overview-title">
+        Not every business problem needs artificial intelligence.
+      </h2>
+    </div>
+
+    <div class="ai-overview__copy">
+      <p>
+        Traditional software is still better for many predictable
+        tasks because deterministic rules are easier to test,
+        understand and control.
+      </p>
+
+      <p>
+        AI becomes useful when the workflow includes language,
+        interpretation, unstructured information, classification,
+        summarisation or other work where rigid rules become
+        impractical.
+      </p>
+
+      <p>
+        Our approach is to identify that boundary first, then use AI
+        only where it produces a meaningful operational advantage.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ai-overview {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .ai-overview__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .ai-overview__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .ai-overview h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .ai-overview__copy {
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  .ai-overview__copy p {
+    max-width: 44rem;
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .ai-overview__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

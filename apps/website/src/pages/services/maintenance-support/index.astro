@@ -1,0 +1,39 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import MaintenanceSupportHero from "../../../components/maintenance-support/MaintenanceSupportHero.astro";
+import MaintenanceSupportOverview from "../../../components/maintenance-support/MaintenanceSupportOverview.astro";
+import MaintenanceSupportServices from "../../../components/maintenance-support/MaintenanceSupportServices.astro";
+import MaintenanceSupportCoverage from "../../../components/maintenance-support/MaintenanceSupportCoverage.astro";
+import MaintenanceSupportApproach from "../../../components/maintenance-support/MaintenanceSupportApproach.astro";
+import MaintenanceSupportModels from "../../../components/maintenance-support/MaintenanceSupportModels.astro";
+import MaintenanceSupportFaq from "../../../components/maintenance-support/MaintenanceSupportFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Maintenance & Support",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  areaServed: "Worldwide",
+  url: "https://lkprofessionals.com/services/maintenance-support/",
+  description:
+    "Website maintenance, software maintenance, performance optimisation and technical support services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Maintenance & Support"
+  description="Website maintenance, software maintenance, performance optimisation and technical support services from LKProfessionals."
+  canonicalPath="/services/maintenance-support/"
+  structuredData={schema}
+>
+  <MaintenanceSupportHero />
+  <MaintenanceSupportOverview />
+  <MaintenanceSupportServices />
+  <MaintenanceSupportCoverage />
+  <MaintenanceSupportApproach />
+  <MaintenanceSupportModels />
+  <MaintenanceSupportFaq />
+</Layout>

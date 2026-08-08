@@ -1,0 +1,40 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import CloudHostingHero from "../../../components/cloud-hosting/CloudHostingHero.astro";
+import CloudHostingOverview from "../../../components/cloud-hosting/CloudHostingOverview.astro";
+import CloudHostingServices from "../../../components/cloud-hosting/CloudHostingServices.astro";
+import CloudHostingPrinciples from "../../../components/cloud-hosting/CloudHostingPrinciples.astro";
+import CloudHostingStack from "../../../components/cloud-hosting/CloudHostingStack.astro";
+import CloudHostingRisks from "../../../components/cloud-hosting/CloudHostingRisks.astro";
+import CloudHostingFaq from "../../../components/cloud-hosting/CloudHostingFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Cloud & Hosting",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/services/cloud-hosting/",
+  description:
+    "Web hosting, VPS hosting, domain registration, business email and SSL certificate services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Cloud & Hosting"
+  description="Web hosting, VPS hosting, domain registration, business email and SSL certificate services from LKProfessionals."
+  canonicalPath="/services/cloud-hosting/"
+  structuredData={schema}
+>
+  <CloudHostingHero />
+  <CloudHostingOverview />
+  <CloudHostingServices />
+  <CloudHostingPrinciples />
+  <CloudHostingStack />
+  <CloudHostingRisks />
+  <CloudHostingFaq />
+</Layout>

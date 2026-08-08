@@ -1,0 +1,142 @@
+---
+import {
+  supportModels,
+} from "../../config/maintenance-support";
+---
+
+<section class="support-models">
+  <div class="site-container support-models__layout">
+    <div>
+      <p>Support arrangements</p>
+
+      <h2>
+        Not every system needs the same level of support.
+      </h2>
+
+      <p class="support-models__intro">
+        The right arrangement depends on how critical the system is,
+        how frequently it changes and how much internal technical
+        capability the organisation already has.
+      </p>
+    </div>
+
+    <div class="support-models__list">
+      {
+        supportModels.map((model, index) => (
+          <article>
+            <span>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            <div>
+              <h3>{model.title}</h3>
+              <p>{model.description}</p>
+
+              <small>
+                <strong>Suitable for:</strong>
+                {" "}
+                {model.suitableFor}
+              </small>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .support-models {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .support-models__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .support-models__layout
+    > div:first-child > p:first-child {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .support-models h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .support-models__intro {
+    max-width: 28rem;
+    margin: 1.4rem 0 0;
+    color: #748095;
+    font-size: 0.74rem;
+    line-height: 1.7;
+  }
+
+  .support-models__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .support-models article {
+    display: grid;
+    grid-template-columns:
+      3rem
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.15rem;
+  }
+
+  .support-models article > span {
+    color: #8792a2;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .support-models h3 {
+    margin: 0;
+    color: #293b53;
+    font-size: 0.8rem;
+  }
+
+  .support-models article p {
+    max-width: 42rem;
+    margin: 0.45rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.65;
+  }
+
+  .support-models article small {
+    display: block;
+    margin-top: 0.55rem;
+    color: #8792a2;
+    font-size: 0.59rem;
+    line-height: 1.55;
+  }
+
+  .support-models article small strong {
+    color: #53647a;
+  }
+
+  @media (max-width: 52rem) {
+    .support-models__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

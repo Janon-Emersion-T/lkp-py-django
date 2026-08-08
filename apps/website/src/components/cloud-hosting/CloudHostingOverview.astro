@@ -1,0 +1,88 @@
+<section
+  class="cloud-overview"
+  aria-labelledby="cloud-overview-title"
+>
+  <div class="site-container cloud-overview__layout">
+    <div>
+      <p>Infrastructure matters</p>
+
+      <h2 id="cloud-overview-title">
+        The website is only as dependable as what sits underneath it.
+      </h2>
+    </div>
+
+    <div class="cloud-overview__copy">
+      <p>
+        Domains, DNS, servers, certificates and email services
+        usually remain invisible while they are working correctly.
+        When one fails, the business impact becomes very visible.
+      </p>
+
+      <p>
+        Good infrastructure management reduces dependence on
+        forgotten credentials, unmanaged renewals, unclear ownership
+        and environments nobody understands.
+      </p>
+
+      <p>
+        Our approach is to keep the technical foundation structured,
+        documented and appropriate for the systems running on it.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cloud-overview {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .cloud-overview__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .cloud-overview__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .cloud-overview h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .cloud-overview__copy {
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  .cloud-overview__copy p {
+    max-width: 44rem;
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .cloud-overview__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

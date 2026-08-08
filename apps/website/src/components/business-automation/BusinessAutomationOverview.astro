@@ -1,0 +1,89 @@
+<section
+  class="automation-overview"
+  aria-labelledby="automation-overview-title"
+>
+  <div class="site-container automation-overview__layout">
+    <div>
+      <p>Why automate</p>
+
+      <h2 id="automation-overview-title">
+        Repetition consumes more than staff time.
+      </h2>
+    </div>
+
+    <div class="automation-overview__copy">
+      <p>
+        Manual processes introduce delays, inconsistent execution,
+        duplicated data entry and dependence on people remembering
+        every next step.
+      </p>
+
+      <p>
+        Business automation can move routine work between people
+        and systems automatically while preserving approvals,
+        accountability and exception handling.
+      </p>
+
+      <p>
+        The objective is not to remove people from the business.
+        It is to remove unnecessary manual effort from the work
+        people already need to do.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .automation-overview {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .automation-overview__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .automation-overview__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .automation-overview h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .automation-overview__copy {
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  .automation-overview__copy p {
+    max-width: 44rem;
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .automation-overview__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

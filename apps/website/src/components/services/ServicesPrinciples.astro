@@ -1,0 +1,108 @@
+---
+import {
+  servicePrinciples,
+} from "../../config/services";
+---
+
+<section class="services-principles">
+  <div class="site-container services-principles__layout">
+    <div>
+      <p>How we think about delivery</p>
+
+      <h2>
+        Technology should remain useful after the project meeting ends.
+      </h2>
+    </div>
+
+    <div class="services-principles__list">
+      {
+        servicePrinciples.map((principle) => (
+          <article>
+            <span>{principle.number}</span>
+
+            <div>
+              <h3>{principle.title}</h3>
+              <p>{principle.description}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-principles {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .services-principles__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .services-principles__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .services-principles h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .services-principles__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .services-principles article {
+    display: grid;
+    grid-template-columns:
+      3rem
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.25rem;
+  }
+
+  .services-principles article > span {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .services-principles h3 {
+    margin: 0;
+    color: #293b53;
+    font-size: 0.81rem;
+  }
+
+  .services-principles article p {
+    max-width: 42rem;
+    margin: 0.45rem 0 0;
+    color: #788497;
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 52rem) {
+    .services-principles__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

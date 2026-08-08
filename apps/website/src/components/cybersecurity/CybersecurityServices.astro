@@ -1,0 +1,218 @@
+---
+import {
+  cybersecurityServices,
+} from "../../config/cybersecurity";
+---
+
+<section
+  class="security-services"
+  aria-labelledby="security-services-title"
+>
+  <div class="site-container">
+    <header class="security-services__heading">
+      <div>
+        <p>Cybersecurity services</p>
+
+        <h2 id="security-services-title">
+          Strengthen the areas that carry operational risk.
+        </h2>
+      </div>
+
+      <p>
+        Security work should address specific technical conditions
+        rather than relying on generic security labels.
+      </p>
+    </header>
+
+    <div class="security-services__list">
+      {
+        cybersecurityServices.map((service) => (
+          <a href={service.href}>
+            <span class="security-services__number">
+              {service.number}
+            </span>
+
+            <div class="security-services__content">
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+            </div>
+
+            <div class="security-services__capabilities">
+              {
+                service.capabilities.map((capability) => (
+                  <span>{capability}</span>
+                ))
+              }
+            </div>
+
+            <svg
+              aria-hidden="true"
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+            >
+              <path
+                d="M3 9h12M11 5l4 4-4 4"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+              />
+            </svg>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .security-services {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .security-services__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, 0.42fr);
+    align-items: end;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .security-services__heading
+    > div > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .security-services h2 {
+    max-width: 14ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .security-services__heading > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.75rem;
+    line-height: 1.7;
+  }
+
+  .security-services__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .security-services__list > a {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(13rem, 0.55fr)
+      minmax(15rem, 0.65fr)
+      auto;
+    gap: clamp(1rem, 3vw, 2rem);
+    align-items: start;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1.5rem;
+    transition:
+      background-color 180ms ease,
+      padding-inline 180ms ease;
+  }
+
+  .security-services__list > a:hover {
+    padding-inline: 0.8rem;
+    background: #ffffff;
+  }
+
+  .security-services__number {
+    color: #0b2f8f;
+    font-size: 0.6rem;
+    font-weight: 800;
+  }
+
+  .security-services h3 {
+    margin: 0;
+    color: #263850;
+    font-size: 0.9rem;
+  }
+
+  .security-services__content p {
+    max-width: 35rem;
+    margin: 0.45rem 0 0;
+    color: #748095;
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  .security-services__capabilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .security-services__capabilities span {
+    border: 1px solid #d3dce7;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #657389;
+    padding: 0.34rem 0.52rem;
+    font-size: 0.54rem;
+  }
+
+  .security-services__list svg {
+    color: #0b2f8f;
+    transition: transform 180ms ease;
+  }
+
+  .security-services__list > a:hover svg {
+    transform: translateX(0.3rem);
+  }
+
+  @media (max-width: 56rem) {
+    .security-services__list > a {
+      grid-template-columns:
+        2.5rem
+        1fr
+        auto;
+    }
+
+    .security-services__capabilities {
+      grid-column: 2;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .security-services__heading {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .security-services__list > a {
+      grid-template-columns:
+        2rem
+        1fr;
+    }
+
+    .security-services__list svg {
+      display: none;
+    }
+
+    .security-services__capabilities {
+      grid-column: 2;
+    }
+  }
+</style>

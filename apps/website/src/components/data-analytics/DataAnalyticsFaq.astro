@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can you connect data from multiple business systems?",
+    answer:
+      "Yes, where suitable access or integration methods are available. The first step is understanding the systems, data structures and how information should relate across them.",
+  },
+  {
+    question:
+      "Can dashboards update automatically?",
+    answer:
+      "Yes. Depending on the source systems and architecture, dashboards and reports can use scheduled refreshes or near-real-time data.",
+  },
+  {
+    question:
+      "Do we need a data warehouse?",
+    answer:
+      "Not necessarily. The appropriate architecture depends on data volume, number of sources, reporting complexity and long-term requirements.",
+  },
+  {
+    question:
+      "Can you build management and executive dashboards?",
+    answer:
+      "Yes. Dashboards can be designed for executives, managers, operational teams or specific departments with information appropriate to each audience.",
+  },
+  {
+    question:
+      "Can existing spreadsheets be included?",
+    answer:
+      "Often, yes. Spreadsheets can be part of the initial data environment, though long-term reliability may benefit from moving important processes into more structured systems.",
+  },
+  {
+    question:
+      "Can LKP help define the KPIs themselves?",
+    answer:
+      "Yes. KPI work should begin by understanding objectives and operations so the organisation tracks meaningful indicators rather than arbitrary metrics.",
+  },
+];
+---
+
+<section class="da-faq">
+  <div class="site-container da-faq__layout">
+    <div>
+      <p>Data & analytics FAQ</p>
+
+      <h2>
+        Before building the dashboard.
+      </h2>
+    </div>
+
+    <div class="da-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .da-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .da-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, .68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .da-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: .64rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+
+  .da-faq h2 {
+    max-width: 10ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -.05em;
+    line-height: 1;
+  }
+
+  .da-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .da-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .da-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: .76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .da-faq details p {
+    max-width: 44rem;
+    margin: .75rem 0 0;
+    color: #788497;
+    font-size: .69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .da-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

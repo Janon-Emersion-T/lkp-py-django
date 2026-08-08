@@ -1,0 +1,40 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import MobileAppDevelopmentHero from "../../../components/mobile-app-development/MobileAppDevelopmentHero.astro";
+import MobileAppDevelopmentOverview from "../../../components/mobile-app-development/MobileAppDevelopmentOverview.astro";
+import MobileAppDevelopmentServices from "../../../components/mobile-app-development/MobileAppDevelopmentServices.astro";
+import MobileAppDevelopmentPrinciples from "../../../components/mobile-app-development/MobileAppDevelopmentPrinciples.astro";
+import MobileAppDevelopmentProcess from "../../../components/mobile-app-development/MobileAppDevelopmentProcess.astro";
+import MobileAppDevelopmentUseCases from "../../../components/mobile-app-development/MobileAppDevelopmentUseCases.astro";
+import MobileAppDevelopmentFaq from "../../../components/mobile-app-development/MobileAppDevelopmentFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Mobile App Development",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/services/mobile-app-development/",
+  description:
+    "Android, iOS, cross-platform and business mobile application development services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Mobile App Development"
+  description="Android, iOS, cross-platform and business mobile application development services from LKProfessionals."
+  canonicalPath="/services/mobile-app-development/"
+  structuredData={schema}
+>
+  <MobileAppDevelopmentHero />
+  <MobileAppDevelopmentOverview />
+  <MobileAppDevelopmentServices />
+  <MobileAppDevelopmentPrinciples />
+  <MobileAppDevelopmentProcess />
+  <MobileAppDevelopmentUseCases />
+  <MobileAppDevelopmentFaq />
+</Layout>

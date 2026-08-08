@@ -1,0 +1,40 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import BusinessAutomationHero from "../../../components/business-automation/BusinessAutomationHero.astro";
+import BusinessAutomationOverview from "../../../components/business-automation/BusinessAutomationOverview.astro";
+import BusinessAutomationServices from "../../../components/business-automation/BusinessAutomationServices.astro";
+import BusinessAutomationPrinciples from "../../../components/business-automation/BusinessAutomationPrinciples.astro";
+import BusinessAutomationProcess from "../../../components/business-automation/BusinessAutomationProcess.astro";
+import BusinessAutomationUseCases from "../../../components/business-automation/BusinessAutomationUseCases.astro";
+import BusinessAutomationFaq from "../../../components/business-automation/BusinessAutomationFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Business Automation",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/services/business-automation/",
+  description:
+    "Workflow automation, CRM automation, HR automation and document automation solutions from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Business Automation"
+  description="Workflow automation, CRM automation, HR automation and document automation solutions from LKProfessionals."
+  canonicalPath="/services/business-automation/"
+  structuredData={schema}
+>
+  <BusinessAutomationHero />
+  <BusinessAutomationOverview />
+  <BusinessAutomationServices />
+  <BusinessAutomationPrinciples />
+  <BusinessAutomationProcess />
+  <BusinessAutomationUseCases />
+  <BusinessAutomationFaq />
+</Layout>

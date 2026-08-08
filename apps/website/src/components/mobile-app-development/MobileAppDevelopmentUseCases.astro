@@ -1,0 +1,143 @@
+---
+const useCases = [
+  [
+    "Customer services",
+    "Give customers recurring access to accounts, bookings, orders, services or support.",
+  ],
+  [
+    "Field teams",
+    "Capture and access operational information while employees work away from the office.",
+  ],
+  [
+    "Internal operations",
+    "Provide staff with focused mobile access to approvals, records and business workflows.",
+  ],
+  [
+    "Notifications",
+    "Use mobile notifications for relevant operational, service or customer events.",
+  ],
+  [
+    "Location-aware workflows",
+    "Support business processes where device location is genuinely part of the required experience.",
+  ],
+  [
+    "Device capabilities",
+    "Use cameras, local storage, biometrics and other supported mobile features where appropriate.",
+  ],
+];
+---
+
+<section class="mobile-usecases">
+  <div class="site-container mobile-usecases__layout">
+    <div>
+      <p>Where mobile creates value</p>
+
+      <h2>
+        Mobility should change what the user can do.
+      </h2>
+    </div>
+
+    <div class="mobile-usecases__list">
+      {
+        useCases.map(([title, description], index) => (
+          <article>
+            <span>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            <strong>{title}</strong>
+
+            <p>{description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .mobile-usecases {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .mobile-usecases__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .mobile-usecases__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .mobile-usecases h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .mobile-usecases__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .mobile-usecases article {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(9rem, 0.3fr)
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .mobile-usecases article > span {
+    color: #8792a2;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .mobile-usecases article > strong {
+    color: #293b53;
+    font-size: 0.75rem;
+  }
+
+  .mobile-usecases article > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.68rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 52rem) {
+    .mobile-usecases__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .mobile-usecases article {
+      grid-template-columns:
+        2rem
+        1fr;
+    }
+
+    .mobile-usecases article > p {
+      grid-column: 2;
+    }
+  }
+</style>

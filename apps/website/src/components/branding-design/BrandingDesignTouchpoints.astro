@@ -1,0 +1,143 @@
+---
+const touchpoints = [
+  [
+    "Website",
+    "The brand expressed through interface, typography, layout and digital behaviour.",
+  ],
+  [
+    "Sales material",
+    "Proposals, presentations and documents that carry the organisation into commercial conversations.",
+  ],
+  [
+    "Social media",
+    "Reusable visual rules that keep day-to-day content recognisable.",
+  ],
+  [
+    "Advertising",
+    "Campaign assets that remain connected to the core identity.",
+  ],
+  [
+    "Business collateral",
+    "Cards, letterheads, signatures and operational materials used throughout the organisation.",
+  ],
+  [
+    "Products & interfaces",
+    "Digital products where brand and user experience need to work together.",
+  ],
+];
+---
+
+<section class="brand-touchpoints">
+  <div class="site-container brand-touchpoints__layout">
+    <div>
+      <p>Brand touchpoints</p>
+
+      <h2>
+        Customers rarely experience the brand in only one place.
+      </h2>
+    </div>
+
+    <div class="brand-touchpoints__list">
+      {
+        touchpoints.map(([title, description], index) => (
+          <article>
+            <span>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            <strong>{title}</strong>
+
+            <p>{description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .brand-touchpoints {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .brand-touchpoints__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .brand-touchpoints__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .brand-touchpoints h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .brand-touchpoints__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .brand-touchpoints article {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(9rem, 0.3fr)
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .brand-touchpoints article > span {
+    color: #8792a2;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .brand-touchpoints article > strong {
+    color: #293b53;
+    font-size: 0.75rem;
+  }
+
+  .brand-touchpoints article > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.68rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 52rem) {
+    .brand-touchpoints__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .brand-touchpoints article {
+      grid-template-columns:
+        2rem
+        1fr;
+    }
+
+    .brand-touchpoints article > p {
+      grid-column: 2;
+    }
+  }
+</style>

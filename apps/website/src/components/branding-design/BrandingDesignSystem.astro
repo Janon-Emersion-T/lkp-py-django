@@ -1,0 +1,152 @@
+<section
+  class="brand-system"
+  aria-labelledby="brand-system-title"
+>
+  <div class="site-container">
+    <header class="brand-system__heading">
+      <p>From identity to application</p>
+
+      <h2 id="brand-system-title">
+        A brand becomes useful when the system can be repeated.
+      </h2>
+    </header>
+
+    <div class="brand-system__steps">
+      <article>
+        <span>01</span>
+        <h3>Position</h3>
+        <p>
+          Understand the organisation, audience and qualities
+          the visual identity needs to communicate.
+        </p>
+      </article>
+
+      <article>
+        <span>02</span>
+        <h3>Identity</h3>
+        <p>
+          Establish the core visual language including marks,
+          colour, typography and supporting elements.
+        </p>
+      </article>
+
+      <article>
+        <span>03</span>
+        <h3>System</h3>
+        <p>
+          Define repeatable rules so the identity can remain
+          coherent across different applications.
+        </p>
+      </article>
+
+      <article>
+        <span>04</span>
+        <h3>Apply</h3>
+        <p>
+          Extend the visual language across websites, documents,
+          marketing and customer communication.
+        </p>
+      </article>
+
+      <article>
+        <span>05</span>
+        <h3>Maintain</h3>
+        <p>
+          Keep new design work aligned with the established
+          system as the organisation evolves.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .brand-system {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .brand-system__heading {
+    max-width: 48rem;
+    margin-bottom: 3rem;
+  }
+
+  .brand-system__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .brand-system h2 {
+    max-width: 14ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .brand-system__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .brand-system article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .brand-system article:first-child {
+    padding-left: 0;
+  }
+
+  .brand-system article:last-child {
+    border-right: 0;
+  }
+
+  .brand-system article > span {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .brand-system h3 {
+    margin: 1rem 0 0;
+    color: #283a52;
+    font-size: 0.8rem;
+  }
+
+  .brand-system article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.67rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 58rem) {
+    .brand-system__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .brand-system__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .brand-system article,
+    .brand-system article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

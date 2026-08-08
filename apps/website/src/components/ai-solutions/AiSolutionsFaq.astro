@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Does every automation project need AI?",
+    answer:
+      "No. Many business automations are better implemented using normal software rules. AI is useful where the process genuinely requires interpretation, language understanding, classification or generation.",
+  },
+  {
+    question:
+      "Can AI be integrated into our existing software?",
+    answer:
+      "Often, yes. If the existing system has suitable APIs, extension points or backend access, AI capabilities may be introduced without rebuilding the entire application.",
+  },
+  {
+    question:
+      "Can an AI system use our own business documents?",
+    answer:
+      "Yes, depending on the use case and data requirements. Systems can be designed to retrieve relevant information from controlled business sources rather than rely only on general model knowledge.",
+  },
+  {
+    question:
+      "Can AI responses always be trusted?",
+    answer:
+      "No. Generative models can produce incorrect or misleading outputs. Important workflows should include validation, controlled context, confidence boundaries or human review where appropriate.",
+  },
+  {
+    question:
+      "Can LKP build private internal AI assistants?",
+    answer:
+      "Yes. Internal assistants can be designed around defined users, business information and responsibilities, subject to the required data and security architecture.",
+  },
+  {
+    question:
+      "Is AI expensive to run?",
+    answer:
+      "Cost depends on model choice, request volume, context size, infrastructure and the complexity of the workflow. Cost should be considered during solution design rather than after deployment.",
+  },
+];
+---
+
+<section class="ai-faq">
+  <div class="site-container ai-faq__layout">
+    <div>
+      <p>AI solutions FAQ</p>
+
+      <h2>
+        Questions before adding AI to the workflow.
+      </h2>
+    </div>
+
+    <div class="ai-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .ai-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .ai-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .ai-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .ai-faq h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .ai-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .ai-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .ai-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .ai-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .ai-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

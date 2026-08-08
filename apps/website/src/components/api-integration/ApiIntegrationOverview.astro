@@ -1,0 +1,91 @@
+<section
+  class="integration-overview"
+  aria-labelledby="integration-overview-title"
+>
+  <div class="site-container integration-overview__layout">
+    <div>
+      <p>Why integrations matter</p>
+
+      <h2 id="integration-overview-title">
+        Disconnected systems create invisible operational work.
+      </h2>
+    </div>
+
+    <div class="integration-overview__copy">
+      <p>
+        Businesses often use multiple systems for customers,
+        finance, communications, payments, operations and
+        reporting. When those systems do not communicate,
+        information has to be copied, reconciled or manually
+        checked.
+      </p>
+
+      <p>
+        Integrations allow defined events and data to move
+        between systems automatically while preserving business
+        rules, status handling and accountability.
+      </p>
+
+      <p>
+        The objective is not integration for its own sake.
+        It is reducing duplicated work and making connected
+        processes more dependable.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .integration-overview {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .integration-overview__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .integration-overview__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .integration-overview h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .integration-overview__copy {
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  .integration-overview__copy p {
+    max-width: 44rem;
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .integration-overview__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

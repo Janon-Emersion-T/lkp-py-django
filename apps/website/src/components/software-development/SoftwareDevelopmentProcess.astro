@@ -1,0 +1,130 @@
+---
+import {
+  softwareStages,
+} from "../../config/software-development";
+---
+
+<section
+  class="software-process"
+  aria-labelledby="software-process-title"
+>
+  <div class="site-container">
+    <header class="software-process__heading">
+      <p>From operation to system</p>
+
+      <h2 id="software-process-title">
+        Understand the workflow before designing the application.
+      </h2>
+    </header>
+
+    <div class="software-process__steps">
+      {
+        softwareStages.map((stage) => (
+          <article>
+            <span>{stage.number}</span>
+            <h3>{stage.title}</h3>
+            <p>{stage.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .software-process {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .software-process__heading {
+    max-width: 48rem;
+    margin-bottom: 3rem;
+  }
+
+  .software-process__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .software-process h2 {
+    max-width: 14ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .software-process__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(6, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .software-process article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .software-process article:first-child {
+    padding-left: 0;
+  }
+
+  .software-process article:last-child {
+    border-right: 0;
+  }
+
+  .software-process article > span {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .software-process h3 {
+    margin: 1rem 0 0;
+    color: #283a52;
+    font-size: 0.8rem;
+  }
+
+  .software-process article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.67rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 64rem) {
+    .software-process__steps {
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .software-process__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .software-process__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .software-process article,
+    .software-process article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

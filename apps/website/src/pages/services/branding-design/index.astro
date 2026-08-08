@@ -1,0 +1,40 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import BrandingDesignHero from "../../../components/branding-design/BrandingDesignHero.astro";
+import BrandingDesignOverview from "../../../components/branding-design/BrandingDesignOverview.astro";
+import BrandingDesignServices from "../../../components/branding-design/BrandingDesignServices.astro";
+import BrandingDesignPrinciples from "../../../components/branding-design/BrandingDesignPrinciples.astro";
+import BrandingDesignSystem from "../../../components/branding-design/BrandingDesignSystem.astro";
+import BrandingDesignTouchpoints from "../../../components/branding-design/BrandingDesignTouchpoints.astro";
+import BrandingDesignFaq from "../../../components/branding-design/BrandingDesignFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Branding & Design",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/services/branding-design/",
+  description:
+    "Logo design, brand identity, UI/UX design and graphic design services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Branding & Design"
+  description="Logo design, brand identity, UI/UX design and graphic design services from LKProfessionals."
+  canonicalPath="/services/branding-design/"
+  structuredData={schema}
+>
+  <BrandingDesignHero />
+  <BrandingDesignOverview />
+  <BrandingDesignServices />
+  <BrandingDesignPrinciples />
+  <BrandingDesignSystem />
+  <BrandingDesignTouchpoints />
+  <BrandingDesignFaq />
+</Layout>

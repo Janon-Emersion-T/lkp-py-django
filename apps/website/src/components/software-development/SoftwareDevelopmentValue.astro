@@ -1,0 +1,143 @@
+---
+const outcomes = [
+  [
+    "Single source of truth",
+    "Reduce conflicting spreadsheets and duplicated records by giving key information a defined system of record.",
+  ],
+  [
+    "Controlled workflows",
+    "Move work through defined statuses, permissions and responsibilities instead of informal hand-offs.",
+  ],
+  [
+    "Operational visibility",
+    "Give management clearer access to current activity, exceptions and performance information.",
+  ],
+  [
+    "Fewer manual steps",
+    "Automate repetitive actions where rules are stable enough to be handled safely by software.",
+  ],
+  [
+    "Connected systems",
+    "Integrate software with payments, communications, external APIs and other business platforms where required.",
+  ],
+  [
+    "Scalable process",
+    "Make recurring work less dependent on individual memory as transaction volume and teams grow.",
+  ],
+];
+---
+
+<section class="software-value">
+  <div class="site-container software-value__layout">
+    <div>
+      <p>What good software changes</p>
+
+      <h2>
+        The return is operational, not decorative.
+      </h2>
+    </div>
+
+    <div class="software-value__list">
+      {
+        outcomes.map(([title, description], index) => (
+          <article>
+            <span>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            <strong>{title}</strong>
+
+            <p>{description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .software-value {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .software-value__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .software-value__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .software-value h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .software-value__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .software-value article {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(10rem, 0.3fr)
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .software-value article > span {
+    color: #8792a2;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .software-value article > strong {
+    color: #293b53;
+    font-size: 0.75rem;
+  }
+
+  .software-value article > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.68rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 52rem) {
+    .software-value__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .software-value article {
+      grid-template-columns:
+        2rem
+        1fr;
+    }
+
+    .software-value article > p {
+      grid-column: 2;
+    }
+  }
+</style>

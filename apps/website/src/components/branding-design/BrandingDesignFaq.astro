@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "What is the difference between logo design and brand identity?",
+    answer:
+      "A logo is one identifying element. Brand identity is the broader visual system that can include logo usage, colours, typography, graphic language and rules for applying the brand consistently.",
+  },
+  {
+    question:
+      "Can LKProfessionals redesign an existing brand?",
+    answer:
+      "Yes. Existing brands can be refined, refreshed or redesigned depending on what needs to change and what existing recognition should be preserved.",
+  },
+  {
+    question:
+      "Do you provide the final logo and design files?",
+    answer:
+      "Yes. Final deliverables can include appropriate production and usage formats based on the agreed scope.",
+  },
+  {
+    question:
+      "Can branding and website design be handled together?",
+    answer:
+      "Yes. Coordinating identity and website work can help create a more consistent visual and user experience across the digital presence.",
+  },
+  {
+    question:
+      "Is UI/UX design the same as graphic design?",
+    answer:
+      "No. UI/UX design focuses on how people understand and operate digital interfaces. Graphic design primarily handles visual communication across marketing, business and brand materials.",
+  },
+  {
+    question:
+      "Can you create ongoing marketing graphics after the brand is established?",
+    answer:
+      "Yes. Once the visual system exists, additional digital or print assets can be designed to remain consistent with the established identity.",
+  },
+];
+---
+
+<section class="brand-faq">
+  <div class="site-container brand-faq__layout">
+    <div>
+      <p>Branding & design FAQ</p>
+
+      <h2>
+        Questions before defining the visual system.
+      </h2>
+    </div>
+
+    <div class="brand-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .brand-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .brand-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .brand-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .brand-faq h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .brand-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .brand-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .brand-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .brand-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .brand-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

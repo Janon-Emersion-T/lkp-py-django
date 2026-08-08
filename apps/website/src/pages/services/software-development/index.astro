@@ -1,0 +1,40 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import SoftwareDevelopmentHero from "../../../components/software-development/SoftwareDevelopmentHero.astro";
+import SoftwareDevelopmentOverview from "../../../components/software-development/SoftwareDevelopmentOverview.astro";
+import SoftwareDevelopmentServices from "../../../components/software-development/SoftwareDevelopmentServices.astro";
+import SoftwareDevelopmentPrinciples from "../../../components/software-development/SoftwareDevelopmentPrinciples.astro";
+import SoftwareDevelopmentProcess from "../../../components/software-development/SoftwareDevelopmentProcess.astro";
+import SoftwareDevelopmentValue from "../../../components/software-development/SoftwareDevelopmentValue.astro";
+import SoftwareDevelopmentFaq from "../../../components/software-development/SoftwareDevelopmentFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Software Development",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/services/software-development/",
+  description:
+    "Custom software, ERP, CRM, POS, inventory, HRM, accounting and SaaS development services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Software Development"
+  description="Custom software, ERP, CRM, POS, inventory, HRM, accounting and SaaS development services from LKProfessionals."
+  canonicalPath="/services/software-development/"
+  structuredData={schema}
+>
+  <SoftwareDevelopmentHero />
+  <SoftwareDevelopmentOverview />
+  <SoftwareDevelopmentServices />
+  <SoftwareDevelopmentPrinciples />
+  <SoftwareDevelopmentProcess />
+  <SoftwareDevelopmentValue />
+  <SoftwareDevelopmentFaq />
+</Layout>

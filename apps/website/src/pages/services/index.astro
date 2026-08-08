@@ -1,0 +1,51 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ServicesHero from "../../components/services/ServicesHero.astro";
+import ServicesDirectory from "../../components/services/ServicesDirectory.astro";
+import ServicesGroups from "../../components/services/ServicesGroups.astro";
+import ServicesPrinciples from "../../components/services/ServicesPrinciples.astro";
+import ServicesConnectedWork from "../../components/services/ServicesConnectedWork.astro";
+import ServicesFaq from "../../components/services/ServicesFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "LKProfessionals Services",
+  url: "https://lkprofessionals.com/services/",
+  description:
+    "Technology, software, web, mobile, AI, digital marketing, infrastructure, cybersecurity, automation, analytics and consultancy services from LKProfessionals.",
+  itemListElement: [
+    "Web Development",
+    "Software Development",
+    "Mobile App Development",
+    "AI Solutions",
+    "Digital Marketing",
+    "Branding & Design",
+    "Cloud & Hosting",
+    "IT Consultancy",
+    "Cybersecurity",
+    "API & Integration",
+    "Business Automation",
+    "Data & Analytics",
+    "Maintenance & Support",
+  ].map((name, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name,
+  })),
+};
+---
+
+<Layout
+  title="Our Services"
+  description="Explore web development, software, mobile apps, AI, digital marketing, branding, hosting, cybersecurity, automation, analytics and IT consultancy services from LKProfessionals."
+  canonicalPath="/services/"
+  structuredData={schema}
+>
+  <ServicesHero />
+  <ServicesDirectory />
+  <ServicesGroups />
+  <ServicesPrinciples />
+  <ServicesConnectedWork />
+  <ServicesFaq />
+</Layout>

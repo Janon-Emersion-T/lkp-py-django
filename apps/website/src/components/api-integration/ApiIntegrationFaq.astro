@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can you integrate with a third-party platform we already use?",
+    answer:
+      "Usually, if that platform provides a usable API, webhook, export mechanism or other supported integration method. We first review its technical documentation and constraints.",
+  },
+  {
+    question:
+      "Can two custom systems be integrated directly?",
+    answer:
+      "Yes. Where both systems can expose or receive data safely, we can design a direct integration or an intermediary integration layer.",
+  },
+  {
+    question:
+      "What happens when an external API is unavailable?",
+    answer:
+      "The appropriate behaviour depends on the business process. Reliable integrations can use retries, queues, status tracking, fallback behaviour or manual review paths.",
+  },
+  {
+    question:
+      "Do integrations need ongoing maintenance?",
+    answer:
+      "Often, yes. External providers may change APIs, authentication methods, data structures, limits or policies, so integrations should be monitored and maintained.",
+  },
+  {
+    question:
+      "Can LKP integrate payment gateways and messaging providers?",
+    answer:
+      "Yes, subject to the provider, account eligibility, available APIs and applicable business or regulatory requirements.",
+  },
+  {
+    question:
+      "Can an integration be added to existing software without rebuilding it?",
+    answer:
+      "Often it can. The answer depends on the existing system architecture and whether suitable extension points, APIs or database boundaries are available.",
+  },
+];
+---
+
+<section class="integration-faq">
+  <div class="site-container integration-faq__layout">
+    <div>
+      <p>API & integration FAQ</p>
+
+      <h2>
+        Questions before connecting systems.
+      </h2>
+    </div>
+
+    <div class="integration-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .integration-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .integration-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .integration-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .integration-faq h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .integration-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .integration-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .integration-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .integration-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .integration-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

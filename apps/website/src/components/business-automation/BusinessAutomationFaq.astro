@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Do we need to replace our existing software before automating processes?",
+    answer:
+      "Not necessarily. Many automation projects connect existing systems through APIs, webhooks, scheduled processes or other integration methods where those systems support them.",
+  },
+  {
+    question:
+      "Can automation work between different systems?",
+    answer:
+      "Yes. Cross-system automation is often one of the main opportunities, provided the systems expose suitable integration or data-access capabilities.",
+  },
+  {
+    question:
+      "Can approvals remain manual?",
+    answer:
+      "Yes. Automation can route and prepare the work while keeping important approvals or judgement-based decisions with people.",
+  },
+  {
+    question:
+      "Can LKP automate a process currently managed through spreadsheets?",
+    answer:
+      "Potentially. We first review how the spreadsheet is being used and determine whether the process should be automated around it or moved into a more structured system.",
+  },
+  {
+    question:
+      "How do you identify what should be automated?",
+    answer:
+      "Good candidates are usually repetitive, rule-based processes involving predictable inputs, hand-offs, notifications, data entry or recurring documents.",
+  },
+  {
+    question:
+      "Does automation require AI?",
+    answer:
+      "No. Many valuable business automations are deterministic workflows based on clear rules. AI is useful only where the process genuinely benefits from interpretation, classification or generation.",
+  },
+];
+---
+
+<section class="automation-faq">
+  <div class="site-container automation-faq__layout">
+    <div>
+      <p>Business automation FAQ</p>
+
+      <h2>
+        Questions before automating the process.
+      </h2>
+    </div>
+
+    <div class="automation-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .automation-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .automation-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .automation-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .automation-faq h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .automation-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .automation-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .automation-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .automation-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .automation-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

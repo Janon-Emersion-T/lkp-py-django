@@ -1,0 +1,89 @@
+<section
+  class="marketing-overview"
+  aria-labelledby="marketing-overview-title"
+>
+  <div class="site-container marketing-overview__layout">
+    <div>
+      <p>Marketing with a commercial purpose</p>
+
+      <h2 id="marketing-overview-title">
+        More traffic is not automatically better marketing.
+      </h2>
+    </div>
+
+    <div class="marketing-overview__copy">
+      <p>
+        A business can generate impressions, clicks, followers and
+        website visits while still producing very little commercial
+        value.
+      </p>
+
+      <p>
+        The real question is whether the right people are discovering
+        the business, understanding the offer and taking a meaningful
+        next action.
+      </p>
+
+      <p>
+        That is why we treat digital marketing as a connected system:
+        acquisition, website experience, conversion paths, measurement
+        and follow-up all need to support one another.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .marketing-overview {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .marketing-overview__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .marketing-overview__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .marketing-overview h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .marketing-overview__copy {
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  .marketing-overview__copy p {
+    max-width: 44rem;
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .marketing-overview__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

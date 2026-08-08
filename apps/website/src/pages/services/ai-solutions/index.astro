@@ -1,0 +1,40 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import AiSolutionsHero from "../../../components/ai-solutions/AiSolutionsHero.astro";
+import AiSolutionsOverview from "../../../components/ai-solutions/AiSolutionsOverview.astro";
+import AiSolutionsServices from "../../../components/ai-solutions/AiSolutionsServices.astro";
+import AiSolutionsPrinciples from "../../../components/ai-solutions/AiSolutionsPrinciples.astro";
+import AiSolutionsFlow from "../../../components/ai-solutions/AiSolutionsFlow.astro";
+import AiSolutionsUseCases from "../../../components/ai-solutions/AiSolutionsUseCases.astro";
+import AiSolutionsFaq from "../../../components/ai-solutions/AiSolutionsFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "AI Solutions",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/services/ai-solutions/",
+  description:
+    "AI chatbot, AI automation, AI assistant, AI integration and custom AI solution services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="AI Solutions"
+  description="AI chatbot, AI automation, AI assistant, AI integration and custom AI solution services from LKProfessionals."
+  canonicalPath="/services/ai-solutions/"
+  structuredData={schema}
+>
+  <AiSolutionsHero />
+  <AiSolutionsOverview />
+  <AiSolutionsServices />
+  <AiSolutionsPrinciples />
+  <AiSolutionsFlow />
+  <AiSolutionsUseCases />
+  <AiSolutionsFaq />
+</Layout>

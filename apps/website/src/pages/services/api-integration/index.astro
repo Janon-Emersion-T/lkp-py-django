@@ -1,0 +1,40 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import ApiIntegrationHero from "../../../components/api-integration/ApiIntegrationHero.astro";
+import ApiIntegrationOverview from "../../../components/api-integration/ApiIntegrationOverview.astro";
+import ApiIntegrationServices from "../../../components/api-integration/ApiIntegrationServices.astro";
+import ApiIntegrationPrinciples from "../../../components/api-integration/ApiIntegrationPrinciples.astro";
+import ApiIntegrationFlow from "../../../components/api-integration/ApiIntegrationFlow.astro";
+import ApiIntegrationRisks from "../../../components/api-integration/ApiIntegrationRisks.astro";
+import ApiIntegrationFaq from "../../../components/api-integration/ApiIntegrationFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "API & Integration",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/services/api-integration/",
+  description:
+    "Payment gateway, WhatsApp API, SMS gateway, CRM and ERP integration services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="API & Integration"
+  description="Payment gateway, WhatsApp API, SMS gateway, CRM and ERP integration services from LKProfessionals."
+  canonicalPath="/services/api-integration/"
+  structuredData={schema}
+>
+  <ApiIntegrationHero />
+  <ApiIntegrationOverview />
+  <ApiIntegrationServices />
+  <ApiIntegrationPrinciples />
+  <ApiIntegrationFlow />
+  <ApiIntegrationRisks />
+  <ApiIntegrationFaq />
+</Layout>

@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can LKProfessionals perform a security review of an existing system?",
+    answer:
+      "Yes. The review scope can include websites, applications, servers, access controls, dependencies, backup arrangements and relevant configuration depending on the environment.",
+  },
+  {
+    question:
+      "Does a security audit guarantee that a system cannot be compromised?",
+    answer:
+      "No. Security work reduces identifiable risk but cannot provide an absolute guarantee against every future vulnerability, attack or operational failure.",
+  },
+  {
+    question:
+      "Can you secure a website developed by another provider?",
+    answer:
+      "Potentially, yes. We first need appropriate access and an understanding of the platform, hosting environment, codebase and current technical condition.",
+  },
+  {
+    question:
+      "Do backups count as cybersecurity?",
+    answer:
+      "Yes. Reliable backup and recovery are an important part of resilience because incidents, mistakes, corruption and infrastructure failures can all affect availability or data.",
+  },
+  {
+    question:
+      "What is security hardening?",
+    answer:
+      "Hardening reduces unnecessary exposure by disabling unused services, tightening permissions, improving configurations and strengthening the environment around the application or server.",
+  },
+  {
+    question:
+      "Does security need ongoing maintenance?",
+    answer:
+      "Yes. Software, infrastructure, access, dependencies and threats change over time, so security cannot be treated as a one-time configuration exercise.",
+  },
+];
+---
+
+<section class="security-faq">
+  <div class="site-container security-faq__layout">
+    <div>
+      <p>Cybersecurity FAQ</p>
+
+      <h2>
+        Questions before strengthening the environment.
+      </h2>
+    </div>
+
+    <div class="security-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .security-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .security-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .security-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .security-faq h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .security-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .security-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .security-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .security-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .security-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

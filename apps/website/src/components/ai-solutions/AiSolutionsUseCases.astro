@@ -1,0 +1,118 @@
+---
+import {
+  aiUseCases,
+} from "../../config/ai-solutions";
+---
+
+<section class="ai-usecases">
+  <div class="site-container ai-usecases__layout">
+    <div>
+      <p>Where AI can help</p>
+
+      <h2>
+        Look for work where information has to be interpreted.
+      </h2>
+    </div>
+
+    <div class="ai-usecases__list">
+      {
+        aiUseCases.map((item) => (
+          <article>
+            <span>{item.number}</span>
+
+            <strong>{item.title}</strong>
+
+            <p>{item.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .ai-usecases {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .ai-usecases__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .ai-usecases__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .ai-usecases h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .ai-usecases__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .ai-usecases article {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(9rem, 0.3fr)
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .ai-usecases article > span {
+    color: #8792a2;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .ai-usecases article > strong {
+    color: #293b53;
+    font-size: 0.75rem;
+  }
+
+  .ai-usecases article > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.68rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 52rem) {
+    .ai-usecases__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .ai-usecases article {
+      grid-template-columns:
+        2rem
+        1fr;
+    }
+
+    .ai-usecases article > p {
+      grid-column: 2;
+    }
+  }
+</style>

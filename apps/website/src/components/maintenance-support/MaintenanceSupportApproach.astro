@@ -1,0 +1,143 @@
+<section
+  class="maintenance-approach"
+  aria-labelledby="maintenance-approach-title"
+>
+  <div class="site-container">
+    <header class="maintenance-approach__heading">
+      <p>How support begins</p>
+
+      <h2 id="maintenance-approach-title">
+        Understand the system before taking responsibility for it.
+      </h2>
+    </header>
+
+    <div class="maintenance-approach__steps">
+      <article>
+        <span>01</span>
+        <h3>Technical review</h3>
+        <p>
+          We first understand the current platform, architecture,
+          hosting, integrations, dependencies and known issues.
+        </p>
+      </article>
+
+      <article>
+        <span>02</span>
+        <h3>Access & ownership</h3>
+        <p>
+          Required access, responsibilities, backup arrangements
+          and operational dependencies are established.
+        </p>
+      </article>
+
+      <article>
+        <span>03</span>
+        <h3>Baseline</h3>
+        <p>
+          Existing condition, risks and priorities are recorded
+          so maintenance has a clear technical starting point.
+        </p>
+      </article>
+
+      <article>
+        <span>04</span>
+        <h3>Ongoing operation</h3>
+        <p>
+          Maintenance, support and improvements then follow the
+          agreed working arrangement and priorities.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .maintenance-approach {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .maintenance-approach__heading {
+    max-width: 48rem;
+    margin-bottom: 3rem;
+  }
+
+  .maintenance-approach__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .maintenance-approach h2 {
+    max-width: 14ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .maintenance-approach__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .maintenance-approach article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1.1rem;
+  }
+
+  .maintenance-approach article:first-child {
+    padding-left: 0;
+  }
+
+  .maintenance-approach article:last-child {
+    border-right: 0;
+  }
+
+  .maintenance-approach article > span {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .maintenance-approach h3 {
+    margin: 1rem 0 0;
+    color: #283a52;
+    font-size: 0.8rem;
+  }
+
+  .maintenance-approach article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.68rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 54rem) {
+    .maintenance-approach__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .maintenance-approach__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .maintenance-approach article,
+    .maintenance-approach article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

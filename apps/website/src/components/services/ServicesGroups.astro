@@ -1,0 +1,159 @@
+---
+import {
+  serviceGroups,
+} from "../../config/services";
+---
+
+<section class="services-groups">
+  <div class="site-container">
+    <header class="services-groups__heading">
+      <p>Four responsibilities</p>
+
+      <h2>
+        Technology work usually falls into one of four jobs.
+      </h2>
+    </header>
+
+    <div class="services-groups__grid">
+      {
+        serviceGroups.map((group, index) => (
+          <article>
+            <span>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            <p>{group.name}</p>
+
+            <h3>{group.statement}</h3>
+
+            <div></div>
+
+            <small>
+              {group.description}
+            </small>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-groups {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .services-groups__heading {
+    max-width: 50rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .services-groups__heading > p {
+    margin: 0 0 1rem;
+    color: rgba(246, 243, 235, 0.55);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .services-groups h2 {
+    max-width: 13ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.7rem, 5vw, 4.9rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .services-groups__grid {
+    display: grid;
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .services-groups article {
+    border-right: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 1.4rem 1.2rem 0;
+  }
+
+  .services-groups article:first-child {
+    padding-left: 0;
+  }
+
+  .services-groups article:last-child {
+    border-right: 0;
+  }
+
+  .services-groups article > span {
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .services-groups article > p {
+    margin: 1.6rem 0 0;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .services-groups h3 {
+    min-height: 4.2rem;
+    margin: 0.5rem 0 0;
+    color: #ffffff;
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 2.5vw, 2.3rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .services-groups article > div {
+    width: 2.5rem;
+    height: 1px;
+    margin: 1.4rem 0;
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  .services-groups small {
+    display: block;
+    color: rgba(246, 243, 235, 0.62);
+    font-size: 0.67rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 56rem) {
+    .services-groups__grid {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+
+    .services-groups article {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 1.4rem 1rem;
+    }
+  }
+
+  @media (max-width: 32rem) {
+    .services-groups__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .services-groups article,
+    .services-groups article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+
+    .services-groups h3 {
+      min-height: 0;
+    }
+  }
+</style>

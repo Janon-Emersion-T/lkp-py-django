@@ -1,0 +1,143 @@
+---
+const qualities = [
+  [
+    "Responsive behaviour",
+    "The experience should remain usable and intentional across phones, tablets and larger screens.",
+  ],
+  [
+    "Performance",
+    "Pages should avoid unnecessary weight and technical decisions that create preventable loading delays.",
+  ],
+  [
+    "Search foundations",
+    "Semantic structure, metadata, internal linking and indexability should be considered during development.",
+  ],
+  [
+    "Accessibility",
+    "Navigation, contrast, labels and interaction patterns should support a broader range of users.",
+  ],
+  [
+    "Conversion clarity",
+    "Important actions should be easy to identify without turning every section into an aggressive sales banner.",
+  ],
+  [
+    "Maintainability",
+    "Reusable components and structured content reduce the cost of future changes.",
+  ],
+];
+---
+
+<section class="web-quality">
+  <div class="site-container web-quality__layout">
+    <div>
+      <p>Quality beyond appearance</p>
+
+      <h2>
+        A screenshot cannot tell you whether the website is good.
+      </h2>
+    </div>
+
+    <div class="web-quality__list">
+      {
+        qualities.map(([title, description], index) => (
+          <article>
+            <span>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            <strong>{title}</strong>
+
+            <p>{description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .web-quality {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .web-quality__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .web-quality__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .web-quality h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .web-quality__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .web-quality article {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(10rem, 0.3fr)
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .web-quality article > span {
+    color: #8792a2;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .web-quality article > strong {
+    color: #293b53;
+    font-size: 0.75rem;
+  }
+
+  .web-quality article > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.68rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 52rem) {
+    .web-quality__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .web-quality article {
+      grid-template-columns:
+        2rem
+        1fr;
+    }
+
+    .web-quality article > p {
+      grid-column: 2;
+    }
+  }
+</style>

@@ -1,0 +1,152 @@
+<section
+  class="security-approach"
+  aria-labelledby="security-approach-title"
+>
+  <div class="site-container">
+    <header class="security-approach__heading">
+      <p>Security approach</p>
+
+      <h2 id="security-approach-title">
+        Understand the environment before recommending controls.
+      </h2>
+    </header>
+
+    <div class="security-approach__steps">
+      <article>
+        <span>01</span>
+        <h3>Identify</h3>
+        <p>
+          Understand the systems, access, data, infrastructure
+          and dependencies that need protecting.
+        </p>
+      </article>
+
+      <article>
+        <span>02</span>
+        <h3>Assess</h3>
+        <p>
+          Review current configuration, exposure, maintenance
+          condition and operational risks.
+        </p>
+      </article>
+
+      <article>
+        <span>03</span>
+        <h3>Prioritise</h3>
+        <p>
+          Separate significant risks from low-impact technical
+          observations so work can be prioritised sensibly.
+        </p>
+      </article>
+
+      <article>
+        <span>04</span>
+        <h3>Strengthen</h3>
+        <p>
+          Apply practical improvements to access, configuration,
+          software, infrastructure and recovery arrangements.
+        </p>
+      </article>
+
+      <article>
+        <span>05</span>
+        <h3>Maintain</h3>
+        <p>
+          Continue updates, reviews and operational discipline
+          as the environment changes.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .security-approach {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .security-approach__heading {
+    max-width: 48rem;
+    margin-bottom: 3rem;
+  }
+
+  .security-approach__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .security-approach h2 {
+    max-width: 14ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .security-approach__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .security-approach article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .security-approach article:first-child {
+    padding-left: 0;
+  }
+
+  .security-approach article:last-child {
+    border-right: 0;
+  }
+
+  .security-approach article > span {
+    color: #0b2f8f;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .security-approach h3 {
+    margin: 1rem 0 0;
+    color: #283a52;
+    font-size: 0.8rem;
+  }
+
+  .security-approach article p {
+    margin: 0.55rem 0 0;
+    color: #788497;
+    font-size: 0.67rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 58rem) {
+    .security-approach__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .security-approach__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .security-approach article,
+    .security-approach article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

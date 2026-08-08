@@ -1,0 +1,108 @@
+---
+import {
+  softwarePrinciples,
+} from "../../config/software-development";
+---
+
+<section class="software-principles">
+  <div class="site-container software-principles__layout">
+    <div>
+      <p>Software engineering discipline</p>
+
+      <h2>
+        Maintainable software is designed before it is coded.
+      </h2>
+    </div>
+
+    <div class="software-principles__list">
+      {
+        softwarePrinciples.map((principle) => (
+          <article>
+            <span>{principle.number}</span>
+
+            <div>
+              <h3>{principle.title}</h3>
+              <p>{principle.description}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .software-principles {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .software-principles__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, 0.72fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .software-principles__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: rgba(246, 243, 235, 0.56);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .software-principles h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .software-principles__list {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .software-principles article {
+    display: grid;
+    grid-template-columns:
+      3rem
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    padding-block: 1.2rem;
+  }
+
+  .software-principles article > span {
+    color: rgba(246, 243, 235, 0.4);
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .software-principles h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 0.82rem;
+  }
+
+  .software-principles article p {
+    max-width: 42rem;
+    margin: 0.45rem 0 0;
+    color: rgba(246, 243, 235, 0.65);
+    font-size: 0.7rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 52rem) {
+    .software-principles__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

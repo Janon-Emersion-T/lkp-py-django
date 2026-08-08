@@ -1,0 +1,88 @@
+<section
+  class="brand-overview"
+  aria-labelledby="brand-overview-title"
+>
+  <div class="site-container brand-overview__layout">
+    <div>
+      <p>Why design matters</p>
+
+      <h2 id="brand-overview-title">
+        People form an impression before they understand the details.
+      </h2>
+    </div>
+
+    <div class="brand-overview__copy">
+      <p>
+        A logo, website interface, proposal, advertisement or social
+        post may be the first interaction someone has with a business.
+      </p>
+
+      <p>
+        When those touchpoints look unrelated or communicate
+        inconsistently, the organisation becomes harder to recognise
+        and less credible.
+      </p>
+
+      <p>
+        Good branding creates a visual system. Good design applies
+        that system clearly wherever customers, employees or partners
+        interact with the business.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .brand-overview {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .brand-overview__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .brand-overview__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .brand-overview h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .brand-overview__copy {
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  .brand-overview__copy p {
+    max-width: 44rem;
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .brand-overview__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

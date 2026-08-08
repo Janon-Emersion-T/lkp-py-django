@@ -1,0 +1,40 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import WebDevelopmentHero from "../../../components/web-development/WebDevelopmentHero.astro";
+import WebDevelopmentOverview from "../../../components/web-development/WebDevelopmentOverview.astro";
+import WebDevelopmentServices from "../../../components/web-development/WebDevelopmentServices.astro";
+import WebDevelopmentPrinciples from "../../../components/web-development/WebDevelopmentPrinciples.astro";
+import WebDevelopmentProcess from "../../../components/web-development/WebDevelopmentProcess.astro";
+import WebDevelopmentQuality from "../../../components/web-development/WebDevelopmentQuality.astro";
+import WebDevelopmentFaq from "../../../components/web-development/WebDevelopmentFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Web Development",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/services/web-development/",
+  description:
+    "Business websites, corporate websites, ecommerce, landing pages, booking websites, custom web applications, redesign and maintenance services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Web Development"
+  description="Business websites, corporate websites, ecommerce, landing pages, booking websites, custom web applications, redesign and maintenance services from LKProfessionals."
+  canonicalPath="/services/web-development/"
+  structuredData={schema}
+>
+  <WebDevelopmentHero />
+  <WebDevelopmentOverview />
+  <WebDevelopmentServices />
+  <WebDevelopmentPrinciples />
+  <WebDevelopmentProcess />
+  <WebDevelopmentQuality />
+  <WebDevelopmentFaq />
+</Layout>

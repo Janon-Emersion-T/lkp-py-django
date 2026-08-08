@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "How do I know what type of website my business needs?",
+    answer:
+      "That depends on what visitors need to accomplish. A business website, ecommerce platform, booking system, landing page and custom web application solve different problems, so we begin with the business requirement rather than a fixed package.",
+  },
+  {
+    question:
+      "Will the website work properly on mobile devices?",
+    answer:
+      "Yes. Responsive behaviour is part of the development process rather than a separate optional feature.",
+  },
+  {
+    question:
+      "Do you consider SEO while developing the website?",
+    answer:
+      "Yes. Technical structure, metadata, semantics, internal links, performance and crawlability should be considered during development. Ongoing SEO strategy remains a separate broader discipline.",
+  },
+  {
+    question:
+      "Can LKProfessionals redesign an existing website?",
+    answer:
+      "Yes. Existing websites can be reviewed and rebuilt where design, structure, performance, maintainability or conversion effectiveness need improvement.",
+  },
+  {
+    question:
+      "Can the website connect to external systems?",
+    answer:
+      "Yes, where appropriate integration methods are available. Websites and web applications can connect to payment providers, CRMs, messaging services, booking systems, APIs and other business platforms.",
+  },
+  {
+    question:
+      "What happens after the website launches?",
+    answer:
+      "A production website still requires updates, monitoring, technical maintenance and periodic improvement as the business and web ecosystem change.",
+  },
+];
+---
+
+<section class="web-faq">
+  <div class="site-container web-faq__layout">
+    <div>
+      <p>Web development FAQ</p>
+
+      <h2>
+        Questions before turning the brief into pages.
+      </h2>
+    </div>
+
+    <div class="web-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .web-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .web-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .web-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .web-faq h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .web-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .web-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .web-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .web-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .web-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

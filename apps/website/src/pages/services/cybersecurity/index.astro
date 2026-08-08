@@ -1,0 +1,40 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import CybersecurityHero from "../../../components/cybersecurity/CybersecurityHero.astro";
+import CybersecurityOverview from "../../../components/cybersecurity/CybersecurityOverview.astro";
+import CybersecurityServices from "../../../components/cybersecurity/CybersecurityServices.astro";
+import CybersecurityPrinciples from "../../../components/cybersecurity/CybersecurityPrinciples.astro";
+import CybersecurityApproach from "../../../components/cybersecurity/CybersecurityApproach.astro";
+import CybersecurityRisks from "../../../components/cybersecurity/CybersecurityRisks.astro";
+import CybersecurityFaq from "../../../components/cybersecurity/CybersecurityFaq.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Cybersecurity",
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+  },
+  areaServed: "Worldwide",
+  url:
+    "https://lkprofessionals.com/services/cybersecurity/",
+  description:
+    "Security audits, website security, backup and recovery, and security hardening services from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Cybersecurity"
+  description="Security audits, website security, backup and recovery, and security hardening services from LKProfessionals."
+  canonicalPath="/services/cybersecurity/"
+  structuredData={schema}
+>
+  <CybersecurityHero />
+  <CybersecurityOverview />
+  <CybersecurityServices />
+  <CybersecurityPrinciples />
+  <CybersecurityApproach />
+  <CybersecurityRisks />
+  <CybersecurityFaq />
+</Layout>

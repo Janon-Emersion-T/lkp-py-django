@@ -1,0 +1,143 @@
+---
+const risks = [
+  [
+    "Duplicate data",
+    "Unclear ownership can create conflicting versions of the same record.",
+  ],
+  [
+    "Silent failures",
+    "A failed integration can stop business processes without being obvious to users.",
+  ],
+  [
+    "Provider changes",
+    "External APIs, authentication rules and endpoints can change over time.",
+  ],
+  [
+    "Security exposure",
+    "Credentials and sensitive data require appropriate technical boundaries.",
+  ],
+  [
+    "Rate limits",
+    "External providers may restrict request volume and throughput.",
+  ],
+  [
+    "Error recovery",
+    "Failed operations need a controlled path for retry, review or reconciliation.",
+  ],
+];
+---
+
+<section class="integration-risks">
+  <div class="site-container integration-risks__layout">
+    <div>
+      <p>Integration realities</p>
+
+      <h2>
+        The difficult part is often what happens when things go wrong.
+      </h2>
+    </div>
+
+    <div class="integration-risks__list">
+      {
+        risks.map(([title, description], index) => (
+          <article>
+            <span>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            <strong>{title}</strong>
+
+            <p>{description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .integration-risks {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #f6f8fb;
+  }
+
+  .integration-risks__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .integration-risks__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .integration-risks h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .integration-risks__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .integration-risks article {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(8rem, 0.3fr)
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .integration-risks article > span {
+    color: #8792a2;
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .integration-risks article > strong {
+    color: #293b53;
+    font-size: 0.75rem;
+  }
+
+  .integration-risks article > p {
+    margin: 0;
+    color: #788497;
+    font-size: 0.68rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 52rem) {
+    .integration-risks__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .integration-risks article {
+      grid-template-columns:
+        2rem
+        1fr;
+    }
+
+    .integration-risks article > p {
+      grid-column: 2;
+    }
+  }
+</style>

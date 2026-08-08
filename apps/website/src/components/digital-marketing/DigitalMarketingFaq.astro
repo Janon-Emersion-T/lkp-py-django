@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Which digital marketing service should my business start with?",
+    answer:
+      "That depends on your market, current website, customer acquisition model, competition, budget and how quickly results are required. We prefer to assess those factors before recommending channels.",
+  },
+  {
+    question:
+      "How long does SEO take to produce results?",
+    answer:
+      "SEO is generally a medium- to long-term acquisition channel. Timing varies considerably based on competition, website condition, market authority, content quality and the searches being targeted.",
+  },
+  {
+    question:
+      "Can Google Ads generate leads immediately?",
+    answer:
+      "Paid search can generate visibility quickly once campaigns are active, but profitable lead generation still depends on targeting, competition, the offer, landing experience and conversion quality.",
+  },
+  {
+    question:
+      "Do you guarantee rankings or a specific number of leads?",
+    answer:
+      "No responsible marketing provider can guarantee a specific organic ranking or customer volume because search engines, auctions, competitors and customer behaviour are outside the provider's control. We focus on measurable work and continuous optimisation.",
+  },
+  {
+    question:
+      "Can LKProfessionals handle both the website and marketing?",
+    answer:
+      "Yes. This can be particularly useful because technical performance, SEO, landing pages, analytics and conversion paths often need changes to the website itself.",
+  },
+  {
+    question:
+      "Do you work with businesses outside Sri Lanka?",
+    answer:
+      "Yes. LKProfessionals can support digital marketing requirements for businesses targeting local, national and international markets depending on the project scope.",
+  },
+];
+---
+
+<section class="marketing-faq">
+  <div class="site-container marketing-faq__layout">
+    <div>
+      <p>Digital marketing FAQ</p>
+
+      <h2>
+        Questions before spending time or budget on acquisition.
+      </h2>
+    </div>
+
+    <div class="marketing-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .marketing-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .marketing-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .marketing-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .marketing-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .marketing-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .marketing-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .marketing-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .marketing-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .marketing-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

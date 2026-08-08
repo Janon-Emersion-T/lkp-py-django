@@ -1,0 +1,187 @@
+<section
+  class="marketing-hero"
+  aria-labelledby="marketing-hero-title"
+>
+  <div class="site-container marketing-hero__inner">
+    <div class="marketing-hero__content">
+      <p class="marketing-hero__eyebrow">
+        Digital Marketing
+      </p>
+
+      <h1 id="marketing-hero-title">
+        Turn attention into
+        <span>business opportunity.</span>
+      </h1>
+
+      <p class="marketing-hero__lead">
+        LKProfessionals combines search, paid acquisition, content,
+        social media, email and automation to build digital marketing
+        systems around measurable business outcomes — not activity
+        for activity's sake.
+      </p>
+    </div>
+
+    <aside class="marketing-hero__aside">
+      <span>Marketing objective</span>
+
+      <p>
+        Get discovered.<br />
+        Earn attention.<br />
+        Create action.
+      </p>
+    </aside>
+  </div>
+
+  <div
+    class="site-container marketing-hero__journey"
+    aria-hidden="true"
+  >
+    <span>Visibility</span>
+    <i></i>
+    <span>Attention</span>
+    <i></i>
+    <span>Intent</span>
+    <i></i>
+    <span>Conversion</span>
+    <i></i>
+    <span>Retention</span>
+  </div>
+</section>
+
+<style>
+  .marketing-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dde4ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(4.5rem, 9vw, 8rem)
+      clamp(2.8rem, 5vw, 4rem);
+  }
+
+  .marketing-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .marketing-hero__inner,
+  .marketing-hero__journey {
+    position: relative;
+    z-index: 1;
+  }
+
+  .marketing-hero__inner {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(14rem, 0.3fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .marketing-hero__eyebrow {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .marketing-hero h1 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3.7rem, 8vw, 7.3rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  .marketing-hero h1 span {
+    display: block;
+    color: #0b2f8f;
+  }
+
+  .marketing-hero__lead {
+    max-width: 47rem;
+    margin: 1.6rem 0 0;
+    color: #687589;
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    line-height: 1.8;
+  }
+
+  .marketing-hero__aside {
+    border-left: 1px solid #cad4e1;
+    padding-left: 1.25rem;
+  }
+
+  .marketing-hero__aside span {
+    color: #8792a2;
+    font-size: 0.59rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .marketing-hero__aside p {
+    margin: 0.55rem 0 0;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 700;
+    line-height: 1.75;
+  }
+
+  .marketing-hero__journey {
+    display: grid;
+    grid-template-columns:
+      auto 1fr auto 1fr auto 1fr auto 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    border-top: 1px solid #d9e0e9;
+    margin-top: clamp(3.5rem, 7vw, 6rem);
+    padding-top: 1.25rem;
+  }
+
+  .marketing-hero__journey span {
+    color: #53647a;
+    font-size: 0.58rem;
+    font-weight: 750;
+  }
+
+  .marketing-hero__journey i {
+    height: 1px;
+    background: #cfd8e4;
+  }
+
+  @media (max-width: 52rem) {
+    .marketing-hero__inner {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .marketing-hero h1 {
+      font-size: clamp(3.1rem, 16vw, 5rem);
+    }
+
+    .marketing-hero__journey {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Should we build a mobile app or a responsive website?",
+    answer:
+      "That depends on how people need to use the service. If the experience is occasional and primarily informational, a responsive website may be enough. Repeated use, notifications, offline capability or device-specific features can make an app more appropriate.",
+  },
+  {
+    question:
+      "Can one application work on both Android and iOS?",
+    answer:
+      "Yes. Cross-platform frameworks can share a significant portion of the codebase across Android and iOS. Whether that approach is suitable depends on functionality, performance and platform-specific requirements.",
+  },
+  {
+    question:
+      "Can the app connect to our existing software?",
+    answer:
+      "Usually, if the existing system exposes suitable APIs or can be extended safely. Integration requirements should be reviewed before mobile development begins.",
+  },
+  {
+    question:
+      "Can you build the backend as well as the mobile app?",
+    answer:
+      "Yes. LKProfessionals can develop APIs, authentication, data services, administrative systems and other backend components required by the application.",
+  },
+  {
+    question:
+      "Do mobile apps need ongoing maintenance?",
+    answer:
+      "Yes. Mobile operating systems, store policies, dependencies, device behaviour and backend services change over time.",
+  },
+  {
+    question:
+      "Can LKP help publish the app?",
+    answer:
+      "Yes. Release preparation can include production configuration and assistance with the relevant store submission process, subject to the customer's required developer accounts and platform policies.",
+  },
+];
+---
+
+<section class="mobile-faq">
+  <div class="site-container mobile-faq__layout">
+    <div>
+      <p>Mobile app development FAQ</p>
+
+      <h2>
+        Questions before committing to the app.
+      </h2>
+    </div>
+
+    <div class="mobile-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .mobile-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .mobile-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .mobile-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .mobile-faq h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .mobile-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .mobile-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .mobile-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .mobile-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .mobile-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

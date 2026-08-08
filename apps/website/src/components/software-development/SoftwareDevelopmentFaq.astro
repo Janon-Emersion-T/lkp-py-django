@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "When should a business consider custom software?",
+    answer:
+      "Custom software becomes worth considering when existing products cannot support important workflows without excessive manual work, duplicate systems or compromises that materially affect the business.",
+  },
+  {
+    question:
+      "Can LKProfessionals replace spreadsheet-based processes?",
+    answer:
+      "Yes, where the process is suitable. We first understand what the spreadsheets are doing, who uses them and which rules need to become part of a structured application.",
+  },
+  {
+    question:
+      "Can new software integrate with our existing systems?",
+    answer:
+      "Usually, where suitable APIs, databases or other integration methods are available. Integration requirements should be included in the architecture from the beginning.",
+  },
+  {
+    question:
+      "Can software be developed in phases?",
+    answer:
+      "Yes. Larger systems often benefit from phased delivery so the most important workflows can be validated before additional modules are introduced.",
+  },
+  {
+    question:
+      "Who owns the custom software?",
+    answer:
+      "Ownership and licensing terms should be defined in the project agreement. For bespoke projects, those terms can be structured according to the agreed commercial arrangement.",
+  },
+  {
+    question:
+      "Does custom software need ongoing maintenance?",
+    answer:
+      "Yes. Dependencies, infrastructure, integrations, security requirements and business workflows change over time, so production software requires ongoing technical attention.",
+  },
+];
+---
+
+<section class="software-faq">
+  <div class="site-container software-faq__layout">
+    <div>
+      <p>Software development FAQ</p>
+
+      <h2>
+        Questions before replacing the workaround with a system.
+      </h2>
+    </div>
+
+    <div class="software-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .software-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .software-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .software-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .software-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .software-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .software-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .software-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .software-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .software-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,108 @@
+---
+import {
+  analyticsPrinciples,
+} from "../../config/data-analytics";
+---
+
+<section class="da-principles">
+  <div class="site-container da-principles__layout">
+    <div>
+      <p>Our analytics approach</p>
+
+      <h2>
+        The chart is not the objective.
+      </h2>
+    </div>
+
+    <div class="da-principles__list">
+      {
+        analyticsPrinciples.map((principle) => (
+          <article>
+            <span>{principle.number}</span>
+
+            <div>
+              <h3>{principle.title}</h3>
+              <p>{principle.description}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .da-principles {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #0b2f8f;
+    color: #f6f3eb;
+  }
+
+  .da-principles__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(17rem, .72fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .da-principles__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: rgba(246,243,235,.56);
+    font-size: .64rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+
+  .da-principles h2 {
+    max-width: 10ch;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.7rem);
+    font-weight: 400;
+    letter-spacing: -.05em;
+    line-height: 1;
+  }
+
+  .da-principles__list {
+    border-top: 1px solid rgba(255,255,255,.18);
+  }
+
+  .da-principles article {
+    display: grid;
+    grid-template-columns:
+      3rem
+      1fr;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,.18);
+    padding-block: 1.2rem;
+  }
+
+  .da-principles article > span {
+    color: rgba(246,243,235,.4);
+    font-size: .58rem;
+    font-weight: 800;
+  }
+
+  .da-principles h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: .82rem;
+  }
+
+  .da-principles article p {
+    max-width: 42rem;
+    margin: .45rem 0 0;
+    color: rgba(246,243,235,.65);
+    font-size: .7rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 52rem) {
+    .da-principles__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

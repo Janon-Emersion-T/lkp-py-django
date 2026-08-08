@@ -1,0 +1,90 @@
+<section
+  class="web-overview"
+  aria-labelledby="web-overview-title"
+>
+  <div class="site-container web-overview__layout">
+    <div>
+      <p>The role of the website</p>
+
+      <h2 id="web-overview-title">
+        A website is infrastructure for trust, discovery and conversion.
+      </h2>
+    </div>
+
+    <div class="web-overview__copy">
+      <p>
+        For many businesses, the website sits between a potential
+        customer discovering the company and deciding whether the
+        organisation is credible enough to contact.
+      </p>
+
+      <p>
+        That means visual design is only one part of the job.
+        Structure, content, mobile behaviour, loading performance,
+        search visibility and conversion paths all affect the
+        commercial value of the website.
+      </p>
+
+      <p>
+        We build those concerns together instead of treating the
+        website as a collection of pages that simply need to look
+        modern.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .web-overview {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .web-overview__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .web-overview__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .web-overview h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .web-overview__copy {
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  .web-overview__copy p {
+    max-width: 44rem;
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .web-overview__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

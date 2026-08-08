@@ -1,0 +1,130 @@
+---
+const faqs = [
+  {
+    question:
+      "Can LKProfessionals consult without doing the implementation?",
+    answer:
+      "Yes. Consulting can be provided independently where the requirement is assessment, planning, technical guidance or review rather than implementation.",
+  },
+  {
+    question:
+      "Can you review a technology proposal from another vendor?",
+    answer:
+      "Yes. We can review requirements, proposed architecture, scope, technical assumptions and implementation considerations where appropriate.",
+  },
+  {
+    question:
+      "Can consultancy help us decide whether to build custom software?",
+    answer:
+      "Yes. Build-versus-buy decisions should consider requirements, budget, ownership, flexibility, implementation time, support and long-term operating cost.",
+  },
+  {
+    question:
+      "Do you consult on existing systems as well as new projects?",
+    answer:
+      "Yes. Existing environments can be reviewed for architecture, maintainability, integration, operational problems or improvement opportunities.",
+  },
+  {
+    question:
+      "Can you help define project requirements before development starts?",
+    answer:
+      "Yes. Clarifying objectives, users, workflows, integrations, constraints and acceptance expectations before development can reduce expensive changes later.",
+  },
+  {
+    question:
+      "Is IT consultancy only for large companies?",
+    answer:
+      "No. Small and growing businesses can benefit significantly from making better technology decisions before committing limited budgets to unsuitable systems.",
+  },
+];
+---
+
+<section class="consultancy-faq">
+  <div class="site-container consultancy-faq__layout">
+    <div>
+      <p>IT consultancy FAQ</p>
+
+      <h2>
+        Questions before committing to the technology decision.
+      </h2>
+    </div>
+
+    <div class="consultancy-faq__list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>{faq.question}</summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .consultancy-faq {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .consultancy-faq__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.68fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .consultancy-faq__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .consultancy-faq h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .consultancy-faq__list {
+    border-top: 1px solid #dce3ec;
+  }
+
+  .consultancy-faq details {
+    border-bottom: 1px solid #dce3ec;
+    padding-block: 1rem;
+  }
+
+  .consultancy-faq summary {
+    cursor: pointer;
+    color: #293b53;
+    font-size: 0.76rem;
+    font-weight: 740;
+    line-height: 1.5;
+  }
+
+  .consultancy-faq details p {
+    max-width: 44rem;
+    margin: 0.75rem 0 0;
+    color: #788497;
+    font-size: 0.69rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .consultancy-faq__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

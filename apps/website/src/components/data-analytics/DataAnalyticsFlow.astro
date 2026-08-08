@@ -1,0 +1,149 @@
+<section class="da-flow" aria-labelledby="da-flow-title">
+  <div class="site-container">
+    <header class="da-flow__heading">
+      <p>From systems to decisions</p>
+
+      <h2 id="da-flow-title">
+        Useful analytics depends on the full information chain.
+      </h2>
+    </header>
+
+    <div class="da-flow__steps">
+      <article>
+        <span>01</span>
+        <h3>Sources</h3>
+        <p>
+          Identify the systems, files, databases and platforms
+          containing relevant business information.
+        </p>
+      </article>
+
+      <article>
+        <span>02</span>
+        <h3>Structure</h3>
+        <p>
+          Align definitions, fields and relationships so information
+          can be interpreted consistently.
+        </p>
+      </article>
+
+      <article>
+        <span>03</span>
+        <h3>Metrics</h3>
+        <p>
+          Define what should actually be measured and how each metric
+          relates to business performance.
+        </p>
+      </article>
+
+      <article>
+        <span>04</span>
+        <h3>Presentation</h3>
+        <p>
+          Deliver dashboards and reports suited to the people who
+          need to use them.
+        </p>
+      </article>
+
+      <article>
+        <span>05</span>
+        <h3>Action</h3>
+        <p>
+          Use the information to recognise exceptions, priorities,
+          trends and decisions.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .da-flow {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: #ffffff;
+  }
+
+  .da-flow__heading {
+    max-width: 48rem;
+    margin-bottom: 3rem;
+  }
+
+  .da-flow__heading > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: .64rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+
+  .da-flow h2 {
+    max-width: 14ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -.05em;
+    line-height: 1;
+  }
+
+  .da-flow__steps {
+    display: grid;
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr));
+    border-top: 1px solid #dce3ec;
+  }
+
+  .da-flow article {
+    border-right: 1px solid #dce3ec;
+    border-bottom: 1px solid #dce3ec;
+    padding: 1.3rem 1rem;
+  }
+
+  .da-flow article:first-child {
+    padding-left: 0;
+  }
+
+  .da-flow article:last-child {
+    border-right: 0;
+  }
+
+  .da-flow article > span {
+    color: #0b2f8f;
+    font-size: .58rem;
+    font-weight: 800;
+  }
+
+  .da-flow h3 {
+    margin: 1rem 0 0;
+    color: #283a52;
+    font-size: .8rem;
+  }
+
+  .da-flow article p {
+    margin: .55rem 0 0;
+    color: #788497;
+    font-size: .67rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 58rem) {
+    .da-flow__steps {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .da-flow__steps {
+      grid-template-columns: 1fr;
+    }
+
+    .da-flow article,
+    .da-flow article:first-child {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
+</style>

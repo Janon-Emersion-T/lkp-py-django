@@ -1,0 +1,88 @@
+<section
+  class="consultancy-overview"
+  aria-labelledby="consultancy-overview-title"
+>
+  <div class="site-container consultancy-overview__layout">
+    <div>
+      <p>Why consultancy matters</p>
+
+      <h2 id="consultancy-overview-title">
+        Technology decisions create long-term consequences.
+      </h2>
+    </div>
+
+    <div class="consultancy-overview__copy">
+      <p>
+        Platform choices, architecture, integrations and project
+        scope affect cost long after the initial implementation
+        is complete.
+      </p>
+
+      <p>
+        A decision that looks inexpensive today can create
+        maintenance, licensing, migration or operational problems
+        later if the wider context is ignored.
+      </p>
+
+      <p>
+        Consulting creates room to evaluate those trade-offs before
+        the organisation becomes committed to the wrong direction.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .consultancy-overview {
+    padding-block: clamp(5rem, 10vw, 9rem);
+    background: #ffffff;
+  }
+
+  .consultancy-overview__layout {
+    display: grid;
+    grid-template-columns:
+      minmax(16rem, 0.7fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .consultancy-overview__layout
+    > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .consultancy-overview h2 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0d203c;
+    font-family: var(--font-serif);
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .consultancy-overview__copy {
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  .consultancy-overview__copy p {
+    max-width: 44rem;
+    margin: 0;
+    color: #6f7c90;
+    font-size: 0.84rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .consultancy-overview__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
