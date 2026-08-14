@@ -67,15 +67,15 @@ export const footerNavigation = {
     },
     {
       label: "Custom software",
-      href: "/services/custom-software-development",
+      href: "/services/software-development/custom-software/",
     },
     {
       label: "E-commerce",
-      href: "/services/ecommerce-development",
+      href: "/services/web-development/ecommerce-websites/",
     },
     {
       label: "SEO",
-      href: "/services/search-engine-optimisation",
+      href: "/services/digital-marketing/seo/",
     },
   ],
   resources: [
@@ -117,7 +117,7 @@ export const services: ServiceSummary[] = [
     title: "Business software",
     description:
       "Purpose-built operational systems that replace fragmented spreadsheets, manual processes and disconnected tools.",
-    href: "/services/custom-software-development",
+    href: "/services/software-development/custom-software/",
     capabilities: [
       "ERP and CRM",
       "Booking systems",
@@ -130,7 +130,7 @@ export const services: ServiceSummary[] = [
     title: "Search and growth",
     description:
       "Practical SEO and digital acquisition programmes grounded in technical quality, useful content and commercial intent.",
-    href: "/services/search-engine-optimisation",
+    href: "/services/digital-marketing/seo/",
     capabilities: [
       "Technical SEO",
       "Local SEO",
@@ -143,7 +143,7 @@ export const services: ServiceSummary[] = [
     title: "Technology partnership",
     description:
       "Ongoing technical support for organisations that need a dependable team without building every capability in-house.",
-    href: "/services/it-consulting",
+    href: "/services/it-consultancy/technology-consulting/",
     capabilities: [
       "Technical consulting",
       "Maintenance",
