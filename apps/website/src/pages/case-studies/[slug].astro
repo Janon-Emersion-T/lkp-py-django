@@ -1,0 +1,579 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import {
+  getPortfolioProject,
+} from "../../lib/portfolio/api";
+
+const { slug } = Astro.params;
+
+const project =
+  slug
+    ? await getPortfolioProject(slug)
+    : null;
+
+if (!project) {
+  Astro.response.status = 404;
+}
+
+const title =
+  project?.seo?.meta_title
+  || project?.title
+  || "Case study not found";
+
+const description =
+  project?.seo?.meta_description
+  || project?.short_description
+  || "LKProfessionals case study.";
+
+const canonicalPath =
+  project
+    ? `/case-studies/${project.slug}/`
+    : "/case-studies/";
+
+const schema =
+  project
+    ? (
+        project.seo?.structured_data
+        && Object.keys(
+          project.seo.structured_data,
+        ).length > 0
+      )
+      ? project.seo.structured_data
+      : {
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          name: project.title,
+          description:
+            project.short_description ?? "",
+          url:
+            `https://lkprofessionals.com${canonicalPath}`,
+        }
+    : undefined;
+
+const textValue = (
+  value: Record<string, unknown> | undefined,
+) => {
+  if (!value) {
+    return null;
+  }
+
+  for (const key of [
+    "text",
+    "body",
+    "description",
+    "summary",
+    "content",
+  ]) {
+    const candidate = value[key];
+
+    if (
+      typeof candidate === "string"
+      && candidate.trim()
+    ) {
+      return candidate;
+    }
+  }
+
+  return null;
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  noindex={!project}
+  structuredData={schema}
+>
+  {
+    project ? (
+      <article class="case-detail">
+        <header class="case-detail__hero">
+          <div class="site-container case-detail__hero-layout">
+            <div>
+              <p class="case-detail__eyebrow">
+                Case Study
+              </p>
+
+              <h1>{project.title}</h1>
+
+              {
+                project.short_description && (
+                  <p class="case-detail__summary">
+                    {project.short_description}
+                  </p>
+                )
+              }
+            </div>
+
+            <aside class="case-detail__facts">
+              {
+                project.client_name && (
+                  <div>
+                    <span>Client</span>
+                    <strong>
+                      {project.client_name}
+                    </strong>
+                  </div>
+                )
+              }
+
+              {
+                project.industry_name && (
+                  <div>
+                    <span>Industry</span>
+                    <strong>
+                      {project.industry_name}
+                    </strong>
+                  </div>
+                )
+              }
+
+              {
+                project.location && (
+                  <div>
+                    <span>Location</span>
+                    <strong>
+                      {project.location}
+                    </strong>
+                  </div>
+                )
+              }
+
+              {
+                project.project_duration && (
+                  <div>
+                    <span>Duration</span>
+                    <strong>
+                      {project.project_duration}
+                    </strong>
+                  </div>
+                )
+              }
+            </aside>
+          </div>
+        </header>
+
+        {
+          project.featured_image_url && (
+            <div class="site-container case-detail__feature">
+              <img
+                src={project.featured_image_url}
+                alt={project.title}
+              />
+            </div>
+          )
+        }
+
+        <div class="site-container case-detail__body">
+          {
+            textValue(project.overview) && (
+              <section>
+                <p class="case-detail__section-label">
+                  Overview
+                </p>
+                <h2>The project</h2>
+                <p>
+                  {textValue(project.overview)}
+                </p>
+              </section>
+            )
+          }
+
+          {
+            textValue(project.challenge) && (
+              <section>
+                <p class="case-detail__section-label">
+                  Challenge
+                </p>
+                <h2>What needed to change</h2>
+                <p>
+                  {textValue(project.challenge)}
+                </p>
+              </section>
+            )
+          }
+
+          {
+            textValue(project.solution) && (
+              <section>
+                <p class="case-detail__section-label">
+                  Solution
+                </p>
+                <h2>How we approached it</h2>
+                <p>
+                  {textValue(project.solution)}
+                </p>
+              </section>
+            )
+          }
+
+          {
+            textValue(project.implementation) && (
+              <section>
+                <p class="case-detail__section-label">
+                  Implementation
+                </p>
+                <h2>How it was delivered</h2>
+                <p>
+                  {textValue(project.implementation)}
+                </p>
+              </section>
+            )
+          }
+
+          {
+            project.metrics
+            && project.metrics.length > 0 && (
+              <section class="case-detail__metrics">
+                <div class="case-detail__metrics-heading">
+                  <p class="case-detail__section-label">
+                    Results
+                  </p>
+
+                  <h2>Measured outcomes</h2>
+                </div>
+
+                <div class="case-detail__metric-grid">
+                  {
+                    project.metrics.map((metric) => (
+                      <div class="case-detail__metric">
+                        <strong>
+                          {metric.value}
+                        </strong>
+
+                        <span>
+                          {metric.label}
+                        </span>
+
+                        {
+                          metric.description && (
+                            <p>
+                              {metric.description}
+                            </p>
+                          )
+                        }
+                      </div>
+                    ))
+                  }
+                </div>
+              </section>
+            )
+          }
+
+          {
+            project.technologies
+            && project.technologies.length > 0 && (
+              <section>
+                <p class="case-detail__section-label">
+                  Technology
+                </p>
+
+                <h2>
+                  Tools and technologies
+                </h2>
+
+                <ul class="case-detail__tech">
+                  {
+                    project.technologies.map(
+                      (technology) => (
+                        <li>{technology.name}</li>
+                      ),
+                    )
+                  }
+                </ul>
+              </section>
+            )
+          }
+
+          {
+            project.testimonial && (
+              <blockquote class="case-detail__quote">
+                <p>
+                  “{project.testimonial}”
+                </p>
+
+                {
+                  project.testimonial_author && (
+                    <footer>
+                      <strong>
+                        {project.testimonial_author}
+                      </strong>
+
+                      {
+                        project.testimonial_position && (
+                          <span>
+                            {
+                              project
+                                .testimonial_position
+                            }
+                          </span>
+                        )
+                      }
+                    </footer>
+                  )
+                }
+              </blockquote>
+            )
+          }
+        </div>
+      </article>
+    ) : (
+      <section class="case-detail__not-found">
+        <div class="site-container">
+          <p>404</p>
+
+          <h1>Case study not found.</h1>
+
+          <a href="/case-studies/">
+            Return to Case Studies
+          </a>
+        </div>
+      </section>
+    )
+  }
+</Layout>
+
+<style>
+  .case-detail {
+    background: #f7f9fc;
+  }
+
+  .case-detail__hero {
+    border-bottom: 1px solid #d8e0e9;
+    padding-block: clamp(5rem, 10vw, 9rem);
+  }
+
+  .case-detail__hero-layout {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(16rem, 0.38fr);
+    gap: clamp(3rem, 8vw, 7rem);
+    align-items: end;
+  }
+
+  .case-detail__eyebrow,
+  .case-detail__section-label {
+    margin: 0;
+    color: #0b2f8f;
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .case-detail h1 {
+    max-width: 12ch;
+    margin: 1.1rem 0 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3.6rem, 7.5vw, 7rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  .case-detail__summary {
+    max-width: 48rem;
+    margin: 2rem 0 0;
+    color: #6d798b;
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    line-height: 1.8;
+  }
+
+  .case-detail__facts {
+    border-left: 1px solid #cfd7e2;
+    padding-left: 1.5rem;
+  }
+
+  .case-detail__facts div {
+    display: grid;
+    gap: 0.25rem;
+    border-bottom: 1px solid #d8e0e9;
+    padding-block: 0.9rem;
+  }
+
+  .case-detail__facts span {
+    color: #8390a0;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .case-detail__facts strong {
+    color: #23354d;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  .case-detail__feature {
+    padding-top: clamp(3rem, 6vw, 5rem);
+  }
+
+  .case-detail__feature img {
+    width: 100%;
+    max-height: 44rem;
+    object-fit: cover;
+  }
+
+  .case-detail__body {
+    max-width: 60rem;
+    padding-block: clamp(5rem, 9vw, 8rem);
+  }
+
+  .case-detail__body > section {
+    border-top: 1px solid #d8e0e9;
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  .case-detail__body h2 {
+    max-width: 15ch;
+    margin: 1rem 0 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(2.3rem, 4vw, 3.8rem);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .case-detail__body section > p:last-child {
+    max-width: 46rem;
+    margin: 1.5rem 0 0;
+    color: #53647a;
+    line-height: 1.9;
+  }
+
+  .case-detail__metrics {
+    display: grid;
+    grid-template-columns:
+      minmax(13rem, 0.45fr)
+      minmax(0, 1fr);
+    gap: clamp(3rem, 7vw, 6rem);
+  }
+
+  .case-detail__metric-grid {
+    display: grid;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .case-detail__metric {
+    border-top: 1px solid #d8e0e9;
+    padding: 1.5rem 1.2rem 1.5rem 0;
+  }
+
+  .case-detail__metric strong {
+    display: block;
+    color: #0b2f8f;
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 400;
+  }
+
+  .case-detail__metric span {
+    display: block;
+    margin-top: 0.4rem;
+    color: #23354d;
+    font-size: 0.75rem;
+    font-weight: 750;
+  }
+
+  .case-detail__metric p {
+    margin: 0.5rem 0 0;
+    color: #758195;
+    font-size: 0.7rem;
+    line-height: 1.7;
+  }
+
+  .case-detail__tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .case-detail__tech li {
+    border: 1px solid #d4dde8;
+    margin: -1px 0 0 -1px;
+    padding: 0.8rem 1rem;
+    color: #53647a;
+    font-size: 0.72rem;
+  }
+
+  .case-detail__quote {
+    border-block: 1px solid #d8e0e9;
+    margin: 0;
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  .case-detail__quote > p {
+    max-width: 30ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.15;
+  }
+
+  .case-detail__quote footer {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .case-detail__quote footer strong {
+    color: #0b2f8f;
+    font-size: 0.78rem;
+  }
+
+  .case-detail__quote footer span {
+    color: #7b8796;
+    font-size: 0.7rem;
+  }
+
+  .case-detail__not-found {
+    padding-block: 8rem;
+  }
+
+  .case-detail__not-found > div > p {
+    color: #0b2f8f;
+    font-weight: 800;
+  }
+
+  .case-detail__not-found h1 {
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 400;
+  }
+
+  .case-detail__not-found a {
+    border-bottom: 1px solid #0b2f8f;
+    color: #0b2f8f;
+  }
+
+  @media (max-width: 52rem) {
+    .case-detail__hero-layout,
+    .case-detail__metrics {
+      grid-template-columns: 1fr;
+    }
+
+    .case-detail__facts {
+      border-top: 1px solid #d8e0e9;
+      border-left: 0;
+      padding-top: 1rem;
+      padding-left: 0;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .case-detail__metric-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

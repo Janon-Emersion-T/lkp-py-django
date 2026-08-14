@@ -1,0 +1,88 @@
+---
+import {
+  portfolioCategories,
+} from "../../lib/portfolio/categories";
+
+interface Props {
+  activePath: string;
+}
+
+const { activePath } = Astro.props;
+
+const links = [
+  {
+    label: "All Work",
+    href: "/portfolio",
+  },
+  ...Object.values(portfolioCategories).map(
+    (category) => ({
+      label: category.label,
+      href: `/portfolio/${category.slug}`,
+    }),
+  ),
+];
+---
+
+<nav
+  class="portfolio-nav"
+  aria-label="Portfolio categories"
+>
+  <div class="site-container portfolio-nav__inner">
+    {
+      links.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            "portfolio-nav__link",
+            activePath === link.href
+              && "portfolio-nav__link--active",
+          ]}
+          aria-current={
+            activePath === link.href
+              ? "page"
+              : undefined
+          }
+        >
+          {link.label}
+        </a>
+      ))
+    }
+  </div>
+</nav>
+
+<style>
+  .portfolio-nav {
+    border-bottom: 1px solid #d8e0e9;
+    background: #fff;
+  }
+
+  .portfolio-nav__inner {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .portfolio-nav__inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .portfolio-nav__link {
+    flex: 0 0 auto;
+    border-bottom: 2px solid transparent;
+    padding: 1rem 1rem 0.85rem;
+    color: #6d798b;
+    font-size: 0.72rem;
+    font-weight: 750;
+    white-space: nowrap;
+  }
+
+  .portfolio-nav__link:first-child {
+    padding-left: 0;
+  }
+
+  .portfolio-nav__link:hover,
+  .portfolio-nav__link--active {
+    border-bottom-color: #0b2f8f;
+    color: #0b2f8f;
+  }
+</style>

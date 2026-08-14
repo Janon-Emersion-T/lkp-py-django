@@ -1,0 +1,185 @@
+---
+import type {
+  PublicInsight,
+} from "../../lib/insights/types";
+
+interface Props {
+  articles: PublicInsight[];
+  emptyMessage?: string;
+}
+
+const {
+  articles,
+  emptyMessage = "No articles have been published yet.",
+} = Astro.props;
+
+const articleHref = (article: PublicInsight) => {
+  const category =
+    article.category_slug ?? "blog";
+
+  return `/insights/${category}/${article.slug}/`;
+};
+---
+
+<section class="insight-list">
+  <div class="site-container">
+    {
+      articles.length > 0 ? (
+        <div class="insight-list__items">
+          {
+            articles.map((article, index) => (
+              <article class="insight-row">
+                <span class="insight-row__index">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <div class="insight-row__main">
+                  <div class="insight-row__meta">
+                    <span>
+                      {article.category_name ?? "Insights"}
+                    </span>
+
+                    {
+                      article.reading_time_minutes && (
+                        <span>
+                          {article.reading_time_minutes} min read
+                        </span>
+                      )
+                    }
+                  </div>
+
+                  <h2>
+                    <a href={articleHref(article)}>
+                      {article.title}
+                    </a>
+                  </h2>
+                </div>
+
+                <div class="insight-row__summary">
+                  {
+                    article.excerpt && (
+                      <p>{article.excerpt}</p>
+                    )
+                  }
+
+                  <a href={articleHref(article)}>
+                    Read article
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      ) : (
+        <div class="insight-list__empty">
+          <p>{emptyMessage}</p>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .insight-list {
+    background: #fff;
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .insight-list__items {
+    border-top: 1px solid #d8e0e9;
+  }
+
+  .insight-row {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(15rem, 0.9fr)
+      minmax(15rem, 1fr);
+    gap: clamp(1.5rem, 5vw, 5rem);
+    border-bottom: 1px solid #d8e0e9;
+    padding-block: clamp(2.2rem, 4vw, 3.4rem);
+  }
+
+  .insight-row__index {
+    color: #8d98a7;
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+  }
+
+  .insight-row__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 1.25rem;
+    margin-bottom: 0.9rem;
+    color: #0b2f8f;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .insight-row h2 {
+    max-width: 18ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3.3vw, 3rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1.08;
+  }
+
+  .insight-row h2 a:hover {
+    color: #0b2f8f;
+  }
+
+  .insight-row__summary p {
+    max-width: 39rem;
+    margin: 0;
+    color: #6d798b;
+    font-size: 0.78rem;
+    line-height: 1.85;
+  }
+
+  .insight-row__summary > a {
+    display: inline-flex;
+    gap: 0.55rem;
+    border-bottom: 1px solid #0b2f8f;
+    margin-top: 1.5rem;
+    padding-bottom: 0.15rem;
+    color: #0b2f8f;
+    font-size: 0.72rem;
+    font-weight: 750;
+  }
+
+  .insight-list__empty {
+    border-block: 1px solid #d8e0e9;
+    padding-block: 2rem;
+    color: #758195;
+  }
+
+  @media (max-width: 50rem) {
+    .insight-row {
+      grid-template-columns: 2rem 1fr;
+    }
+
+    .insight-row__summary {
+      grid-column: 2;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .insight-row {
+      grid-template-columns: 1fr;
+    }
+
+    .insight-row__index {
+      display: none;
+    }
+
+    .insight-row__summary {
+      grid-column: auto;
+    }
+  }
+</style>

@@ -1,0 +1,173 @@
+---
+import type {
+  AggregatedFaq,
+} from "../../lib/faq/types";
+
+interface Props {
+  faqs: AggregatedFaq[];
+}
+
+const { faqs } = Astro.props;
+---
+
+<section class="faq-list">
+  <div class="site-container">
+    {
+      faqs.length > 0 ? (
+        <div class="faq-list__items">
+          {
+            faqs.map((faq, index) => (
+              <details class="faq-item">
+                <summary>
+                  <span class="faq-item__number">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+
+                  <span class="faq-item__question">
+                    {faq.question}
+                  </span>
+
+                  <span
+                    class="faq-item__icon"
+                    aria-hidden="true"
+                  >
+                    +
+                  </span>
+                </summary>
+
+                <div class="faq-item__answer">
+                  <div></div>
+
+                  <div>
+                    <p>{faq.answer}</p>
+
+                    <a
+                      href={`/services/${faq.serviceSlug}/`}
+                    >
+                      {faq.serviceTitle}
+                      <span aria-hidden="true">
+                        →
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </details>
+            ))
+          }
+        </div>
+      ) : (
+        <div class="faq-list__empty">
+          <p>
+            No frequently asked questions have
+            been published yet.
+          </p>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .faq-list {
+    background: #fff;
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .faq-list__items {
+    border-top: 1px solid #d8e0e9;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid #d8e0e9;
+  }
+
+  .faq-item summary {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(0, 1fr)
+      2rem;
+    gap: clamp(1.2rem, 4vw, 3rem);
+    align-items: center;
+    padding-block: clamp(1.7rem, 3vw, 2.4rem);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item__number {
+    color: #8b97a7;
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+  }
+
+  .faq-item__question {
+    max-width: 38ch;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 2.7vw, 2.4rem);
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+  }
+
+  .faq-item__icon {
+    color: #0b2f8f;
+    font-size: 1.4rem;
+    transition: transform 160ms ease;
+  }
+
+  .faq-item[open] .faq-item__icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-item__answer {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: clamp(1.2rem, 4vw, 3rem);
+    padding-bottom: 2.4rem;
+  }
+
+  .faq-item__answer > div:last-child {
+    max-width: 47rem;
+  }
+
+  .faq-item__answer p {
+    margin: 0;
+    color: #53647a;
+    font-size: 0.82rem;
+    line-height: 1.9;
+  }
+
+  .faq-item__answer a {
+    display: inline-flex;
+    gap: 0.5rem;
+    border-bottom: 1px solid #0b2f8f;
+    margin-top: 1.2rem;
+    padding-bottom: 0.15rem;
+    color: #0b2f8f;
+    font-size: 0.7rem;
+    font-weight: 750;
+  }
+
+  .faq-list__empty {
+    border-block: 1px solid #d8e0e9;
+    padding-block: 2rem;
+    color: #758195;
+  }
+
+  @media (max-width: 36rem) {
+    .faq-item summary {
+      grid-template-columns:
+        2rem
+        minmax(0, 1fr)
+        1.5rem;
+    }
+
+    .faq-item__answer {
+      grid-template-columns: 2rem 1fr;
+    }
+  }
+</style>

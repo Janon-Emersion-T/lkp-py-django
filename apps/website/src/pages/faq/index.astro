@@ -1,0 +1,36 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import FaqHero from "../../components/faq/FaqHero.astro";
+import FaqList from "../../components/faq/FaqList.astro";
+
+import {
+  getFaqs,
+} from "../../lib/faq/api";
+
+const faqs = await getFaqs();
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
+---
+
+<Layout
+  title="Frequently Asked Questions"
+  description="Answers to common questions about LKProfessionals services, technology, project delivery and digital solutions."
+  canonicalPath="/faq/"
+  structuredData={schema}
+>
+  <FaqHero />
+
+  <FaqList faqs={faqs} />
+</Layout>

@@ -1,0 +1,130 @@
+<section class="tutorial-hero">
+  <div class="site-container tutorial-hero__grid">
+    <div class="tutorial-hero__heading">
+      <p class="eyebrow">Insights / Tutorials</p>
+
+      <h1>Practical technology tutorials</h1>
+    </div>
+
+    <div class="tutorial-hero__copy">
+      <p>
+        Step-by-step guides from the LKProfessionals team covering
+        websites, software, SEO, digital marketing, infrastructure
+        and the practical technology businesses use every day.
+      </p>
+
+      <p class="tutorial-hero__note">
+        Written for business owners, teams and developers who want
+        useful answers without unnecessary complexity.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tutorial-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dde4ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(5rem, 10vw, 9rem)
+      clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .tutorial-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .tutorial-hero__grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(17rem, 0.42fr);
+    gap: clamp(3rem, 9vw, 8rem);
+    align-items: end;
+  }
+
+  .tutorial-hero__heading {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .tutorial-hero :global(.eyebrow) {
+    color: #0b2f8f;
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+  }
+
+  .tutorial-hero :global(.eyebrow)::before {
+    display: none;
+  }
+
+  .tutorial-hero h1 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(4rem, 8.5vw, 7.7rem);
+    font-weight: 400;
+    letter-spacing: -0.065em;
+    line-height: 0.9;
+  }
+
+  .tutorial-hero__copy {
+    border-left: 1px solid #cdd6e2;
+    padding-left: 1.4rem;
+  }
+
+  .tutorial-hero__copy > p:first-child {
+    margin: 0;
+    color: #6d798b;
+    font-size: 0.78rem;
+    line-height: 1.75;
+  }
+
+  .tutorial-hero__note {
+    border-top: 1px solid #d8e0e9;
+    margin: 1rem 0 0;
+    padding-top: 1rem;
+    color: #8792a2;
+    font-size: 0.67rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 52rem) {
+    .tutorial-hero__grid {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .tutorial-hero__copy {
+      max-width: 37rem;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .tutorial-hero h1 {
+      font-size: clamp(3.2rem, 16vw, 5.2rem);
+    }
+  }
+</style>
+
+

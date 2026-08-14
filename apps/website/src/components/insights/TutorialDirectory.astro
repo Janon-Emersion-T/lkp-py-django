@@ -1,0 +1,474 @@
+---
+import type {
+  PublicInsight,
+} from "../../lib/insights/types";
+
+interface Props {
+  tutorials: PublicInsight[];
+}
+
+const { tutorials } = Astro.props;
+
+const categories = [
+  "All",
+  ...Array.from(
+    new Set(
+      tutorials
+        .map((item) => item.category_name)
+        .filter(
+          (value): value is string => Boolean(value),
+        ),
+    ),
+  ),
+];
+---
+
+<section
+  class="tutorial-directory"
+  aria-labelledby="tutorial-directory-title"
+>
+  <div class="site-container">
+    <div class="tutorial-directory__heading">
+      <div>
+        <p class="tutorial-directory__eyebrow">
+          Tutorial library
+        </p>
+
+        <h2 id="tutorial-directory-title">
+          Browse practical guides
+        </h2>
+      </div>
+
+      <label class="tutorial-directory__search">
+        <span>Search tutorials</span>
+
+        <input
+          type="search"
+          placeholder="Search tutorials"
+          data-tutorial-search
+        />
+      </label>
+    </div>
+
+    {
+      tutorials.length > 0 ? (
+        <>
+          <div
+            class="tutorial-directory__filters"
+            aria-label="Filter tutorials"
+          >
+            {
+              categories.map((category) => (
+                <button
+                  type="button"
+                  class:list={[
+                    "tutorial-directory__filter",
+                    category === "All"
+                      && "tutorial-directory__filter--active",
+                  ]}
+                  data-tutorial-filter={category}
+                  aria-pressed={
+                    category === "All"
+                      ? "true"
+                      : "false"
+                  }
+                >
+                  {category}
+                </button>
+              ))
+            }
+          </div>
+
+          <div class="tutorial-directory__list">
+            {
+              tutorials.map((tutorial, index) => (
+                <article
+                  class="tutorial-entry"
+                  data-tutorial-entry
+                  data-category={
+                    tutorial.category_name ?? ""
+                  }
+                  data-search={
+                    `${tutorial.title} ${
+                      tutorial.excerpt ?? ""
+                    } ${
+                      tutorial.category_name ?? ""
+                    }`.toLowerCase()
+                  }
+                >
+                  <span class="tutorial-entry__number">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+
+                  <div class="tutorial-entry__body">
+                    <div class="tutorial-entry__meta">
+                      <span>
+                        {
+                          tutorial.category_name
+                          ?? "Tutorial"
+                        }
+                      </span>
+
+                      {
+                        tutorial.reading_time_minutes && (
+                          <span>
+                            {
+                              tutorial
+                                .reading_time_minutes
+                            } min read
+                          </span>
+                        )
+                      }
+                    </div>
+
+                    <h3>
+                      <a
+                        href={
+                          `/insights/tutorials/${
+                            tutorial.slug
+                          }/`
+                        }
+                      >
+                        {tutorial.title}
+                      </a>
+                    </h3>
+
+                    {
+                      tutorial.excerpt && (
+                        <p>{tutorial.excerpt}</p>
+                      )
+                    }
+                  </div>
+
+                  <a
+                    class="tutorial-entry__arrow"
+                    href={
+                      `/insights/tutorials/${
+                        tutorial.slug
+                      }/`
+                    }
+                    aria-label={`Read ${tutorial.title}`}
+                  >
+                    →
+                  </a>
+                </article>
+              ))
+            }
+          </div>
+
+          <p
+            class="tutorial-directory__empty"
+            data-tutorial-empty
+            hidden
+          >
+            No tutorials match your search.
+          </p>
+        </>
+      ) : (
+        <div class="tutorial-directory__no-content">
+          <p>
+            No tutorials have been published yet.
+          </p>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<script>
+  const initTutorialDirectory = () => {
+    const search =
+      document.querySelector<HTMLInputElement>(
+        "[data-tutorial-search]",
+      );
+
+    const entries = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        "[data-tutorial-entry]",
+      ),
+    );
+
+    const filters = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(
+        "[data-tutorial-filter]",
+      ),
+    );
+
+    const empty =
+      document.querySelector<HTMLElement>(
+        "[data-tutorial-empty]",
+      );
+
+    if (!search || entries.length === 0) {
+      return;
+    }
+
+    let activeCategory = "All";
+
+    const update = () => {
+      const query = search.value
+        .trim()
+        .toLowerCase();
+
+      let visible = 0;
+
+      for (const entry of entries) {
+        const category =
+          entry.dataset.category ?? "";
+
+        const text =
+          entry.dataset.search ?? "";
+
+        const categoryMatches =
+          activeCategory === "All"
+          || category === activeCategory;
+
+        const searchMatches =
+          !query || text.includes(query);
+
+        const show =
+          categoryMatches && searchMatches;
+
+        entry.hidden = !show;
+
+        if (show) {
+          visible += 1;
+        }
+      }
+
+      if (empty) {
+        empty.hidden = visible !== 0;
+      }
+    };
+
+    for (const button of filters) {
+      button.addEventListener("click", () => {
+        activeCategory =
+          button.dataset.tutorialFilter
+          ?? "All";
+
+        for (const filter of filters) {
+          const selected =
+            filter === button;
+
+          filter.classList.toggle(
+            "tutorial-directory__filter--active",
+            selected,
+          );
+
+          filter.setAttribute(
+            "aria-pressed",
+            String(selected),
+          );
+        }
+
+        update();
+      });
+    }
+
+    search.addEventListener("input", update);
+  };
+
+  initTutorialDirectory();
+
+  document.addEventListener(
+    "astro:page-load",
+    initTutorialDirectory,
+  );
+</script>
+
+<style>
+  .tutorial-directory {
+    background: #f7f9fc;
+    padding-block: clamp(5rem, 9vw, 8rem);
+  }
+
+  .tutorial-directory__heading {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, 23rem);
+    gap: 2rem;
+    align-items: end;
+  }
+
+  .tutorial-directory__heading > div {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .tutorial-directory__eyebrow {
+    margin: 0;
+    color: #0b2f8f;
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .tutorial-directory h2 {
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(2.8rem, 5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .tutorial-directory__search {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .tutorial-directory__search span {
+    color: #758195;
+    font-size: 0.65rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .tutorial-directory__search input {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid #53647a;
+    border-radius: 0;
+    background: transparent;
+    padding: 0.8rem 0;
+    outline: none;
+  }
+
+  .tutorial-directory__filters {
+    display: flex;
+    flex-wrap: wrap;
+    border-block: 1px solid #d5dde7;
+    margin-top: 3rem;
+  }
+
+  .tutorial-directory__filter {
+    border: 0;
+    border-right: 1px solid #d5dde7;
+    background: transparent;
+    color: #6d798b;
+    cursor: pointer;
+    padding: 0.9rem 1rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+
+  .tutorial-directory__filter--active,
+  .tutorial-directory__filter:hover {
+    background: #0b2f8f;
+    color: #fff;
+  }
+
+  .tutorial-directory__list {
+    border-top: 1px solid #d5dde7;
+    margin-top: 3rem;
+  }
+
+  .tutorial-entry {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(0, 1fr)
+      2.5rem;
+    gap: clamp(1.3rem, 4vw, 3rem);
+    border-bottom: 1px solid #d5dde7;
+    padding-block: clamp(2rem, 4vw, 3rem);
+  }
+
+  .tutorial-entry[hidden] {
+    display: none;
+  }
+
+  .tutorial-entry__number {
+    color: #8b97a7;
+    font-family: var(--font-serif);
+  }
+
+  .tutorial-entry__body {
+    max-width: 52rem;
+  }
+
+  .tutorial-entry__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem 1.4rem;
+    margin-bottom: 0.8rem;
+    color: #0b2f8f;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .tutorial-entry h3 {
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+  }
+
+  .tutorial-entry h3 a:hover {
+    color: #0b2f8f;
+  }
+
+  .tutorial-entry p {
+    max-width: 44rem;
+    margin: 0.9rem 0 0;
+    color: #6d798b;
+    font-size: 0.78rem;
+    line-height: 1.8;
+  }
+
+  .tutorial-entry__arrow {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid #ccd6e2;
+    color: #0b2f8f;
+  }
+
+  .tutorial-entry__arrow:hover {
+    border-color: #0b2f8f;
+    background: #0b2f8f;
+    color: #fff;
+  }
+
+  .tutorial-directory__empty,
+  .tutorial-directory__no-content {
+    border-bottom: 1px solid #d5dde7;
+    margin: 0;
+    padding-block: 2rem;
+    color: #758195;
+  }
+
+  @media (max-width: 48rem) {
+    .tutorial-directory__heading {
+      grid-template-columns: 1fr;
+    }
+
+    .tutorial-directory__filters {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+
+    .tutorial-directory__filter {
+      flex: 0 0 auto;
+    }
+
+    .tutorial-entry {
+      grid-template-columns: 2rem 1fr;
+    }
+
+    .tutorial-entry__arrow {
+      display: none;
+    }
+  }
+</style>

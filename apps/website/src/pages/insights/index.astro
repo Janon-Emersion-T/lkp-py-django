@@ -1,0 +1,48 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import InsightsSectionNav from "../../components/insights/InsightsSectionNav.astro";
+import InsightsLandingHero from "../../components/insights/InsightsLandingHero.astro";
+import InsightArticleList from "../../components/insights/InsightArticleList.astro";
+
+import {
+  getPublicInsights,
+} from "../../lib/insights/api";
+
+const insights = await getPublicInsights();
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "LKProfessionals Insights",
+  url: "https://lkprofessionals.com/insights/",
+  description:
+    "Practical technology and business insights from LKProfessionals.",
+  hasPart: insights.map((article) => ({
+    "@type": "Article",
+    headline: article.title,
+    description: article.excerpt ?? "",
+    url:
+      `https://lkprofessionals.com/insights/${
+        article.category_slug ?? "blog"
+      }/${article.slug}/`,
+  })),
+};
+---
+
+<Layout
+  title="Insights"
+  description="Practical technology and business insights from LKProfessionals covering websites, software, SEO, digital marketing, AI and business systems."
+  canonicalPath="/insights/"
+  structuredData={schema}
+>
+  <InsightsSectionNav activePath="/insights" />
+
+  <InsightsLandingHero />
+
+  <InsightArticleList
+    articles={insights}
+    emptyMessage="No insights have been published yet."
+  />
+
+</Layout>

@@ -1,0 +1,218 @@
+---
+import type {
+  PublicInsight,
+} from "../../lib/insights/types";
+
+interface Props {
+  tutorial: PublicInsight;
+}
+
+const { tutorial } = Astro.props;
+
+const href =
+  `/insights/tutorials/${tutorial.slug}/`;
+---
+
+<section class="featured-tutorial">
+  <div class="site-container">
+    <article class="featured-tutorial__article">
+      <div
+        class="featured-tutorial__index"
+        aria-hidden="true"
+      >
+        01
+      </div>
+
+      <div class="featured-tutorial__content">
+        <div class="featured-tutorial__meta">
+          <span>
+            {tutorial.category_name ?? "Tutorial"}
+          </span>
+
+          {
+            tutorial.reading_time_minutes && (
+              <span>
+                {tutorial.reading_time_minutes}
+                {" "}min read
+              </span>
+            )
+          }
+        </div>
+
+        <h2>
+          <a href={href}>
+            {tutorial.title}
+          </a>
+        </h2>
+
+        {
+          tutorial.excerpt && (
+            <p>{tutorial.excerpt}</p>
+          )
+        }
+
+        <a
+          href={href}
+          class="featured-tutorial__link"
+        >
+          Read tutorial
+
+          <svg
+            aria-hidden="true"
+            width="17"
+            height="17"
+            viewBox="0 0 17 17"
+          >
+            <path
+              d="M2.5 8.5h11M9.5 4.5l4 4-4 4"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.4"
+            />
+          </svg>
+        </a>
+      </div>
+
+      <aside class="featured-tutorial__aside">
+        <p>Featured tutorial</p>
+
+        <span>
+          Selected practical guidance from the
+          LKProfessionals Insights library.
+        </span>
+      </aside>
+    </article>
+  </div>
+</section>
+
+<style>
+  .featured-tutorial {
+    border-block: 1px solid #d9e0e9;
+    background: #fff;
+  }
+
+  .featured-tutorial__article {
+    display: grid;
+    grid-template-columns:
+      5rem
+      minmax(0, 1.5fr)
+      minmax(15rem, 0.55fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  .featured-tutorial__index {
+    color: #8c98a8;
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+  }
+
+  .featured-tutorial__content {
+    max-width: 50rem;
+  }
+
+  .featured-tutorial__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem 1.5rem;
+    margin-bottom: 1.4rem;
+    color: #0b2f8f;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .featured-tutorial h2 {
+    max-width: 16ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(2.4rem, 4.6vw, 4.6rem);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .featured-tutorial h2 a:hover {
+    color: #0b2f8f;
+  }
+
+  .featured-tutorial__content > p {
+    max-width: 43rem;
+    margin: 1.6rem 0 0;
+    color: #6d798b;
+    font-size: 0.88rem;
+    line-height: 1.8;
+  }
+
+  .featured-tutorial__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    border-bottom: 1px solid currentColor;
+    margin-top: 2rem;
+    padding-bottom: 0.2rem;
+    color: #0b2f8f;
+    font-size: 0.78rem;
+    font-weight: 750;
+  }
+
+  .featured-tutorial__link svg {
+    transition: transform 170ms ease;
+  }
+
+  .featured-tutorial__link:hover svg {
+    transform: translateX(0.22rem);
+  }
+
+  .featured-tutorial__aside {
+    border-left: 1px solid #d9e0e9;
+    padding-left: clamp(1.3rem, 3vw, 2.5rem);
+  }
+
+  .featured-tutorial__aside p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .featured-tutorial__aside span {
+    color: #758195;
+    font-size: 0.76rem;
+    line-height: 1.75;
+  }
+
+  @media (max-width: 52rem) {
+    .featured-tutorial__article {
+      grid-template-columns: 2rem 1fr;
+    }
+
+    .featured-tutorial__aside {
+      grid-column: 2;
+      border-top: 1px solid #d9e0e9;
+      border-left: 0;
+      padding-top: 1.4rem;
+      padding-left: 0;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .featured-tutorial__article {
+      grid-template-columns: 1fr;
+    }
+
+    .featured-tutorial__index {
+      display: none;
+    }
+
+    .featured-tutorial__aside {
+      grid-column: auto;
+    }
+  }
+</style>

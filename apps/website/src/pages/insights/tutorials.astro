@@ -1,0 +1,71 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import InsightsSectionNav from "../../components/insights/InsightsSectionNav.astro";
+import InsightsTutorialHero from "../../components/insights/InsightsTutorialHero.astro";
+import FeaturedTutorial from "../../components/insights/FeaturedTutorial.astro";
+import TutorialDirectory from "../../components/insights/TutorialDirectory.astro";
+
+import {
+  getInsightsByCategory,
+} from "../../lib/insights/api";
+
+const tutorials =
+  await getInsightsByCategory("tutorials");
+
+const featured =
+  tutorials.find(
+    (tutorial) => tutorial.is_featured,
+  )
+  ?? tutorials[0]
+  ?? null;
+
+const remainingTutorials =
+  featured
+    ? tutorials.filter(
+        (tutorial) =>
+          tutorial.id !== featured.id,
+      )
+    : [];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Technology Tutorials",
+  url:
+    "https://lkprofessionals.com/insights/tutorials/",
+  description:
+    "Practical technology tutorials from LKProfessionals covering web development, software, SEO, digital marketing, AI, hosting and business technology.",
+  hasPart: tutorials.map((tutorial) => ({
+    "@type": "Article",
+    headline: tutorial.title,
+    description: tutorial.excerpt ?? "",
+    url:
+      `https://lkprofessionals.com/insights/tutorials/${tutorial.slug}/`,
+  })),
+};
+---
+
+<Layout
+  title="Technology Tutorials"
+  description="Practical technology tutorials from LKProfessionals covering web development, software, SEO, digital marketing, AI, hosting and business technology."
+  canonicalPath="/insights/tutorials/"
+  structuredData={schema}
+>
+  <InsightsSectionNav
+    activePath="/insights/tutorials"
+  />
+
+  <InsightsTutorialHero />
+
+  {
+    featured && (
+      <FeaturedTutorial tutorial={featured} />
+    )
+  }
+
+  <TutorialDirectory
+    tutorials={remainingTutorials}
+  />
+
+</Layout>

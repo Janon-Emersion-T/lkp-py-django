@@ -1,0 +1,105 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description: string;
+}
+
+const {
+  eyebrow = "Portfolio",
+  title,
+  description,
+} = Astro.props;
+---
+
+<section class="portfolio-hero">
+  <div class="site-container portfolio-hero__layout">
+    <div>
+      <p>{eyebrow}</p>
+      <h1>{title}</h1>
+    </div>
+
+    <div class="portfolio-hero__description">
+      <p>{description}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .portfolio-hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dde4ed;
+    background: #f7f9fc;
+    padding-block:
+      clamp(5rem, 10vw, 9rem)
+      clamp(3.5rem, 7vw, 5rem);
+  }
+
+  .portfolio-hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.035) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .portfolio-hero__layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(17rem, 0.42fr);
+    gap: clamp(3rem, 9vw, 8rem);
+    align-items: end;
+  }
+
+  .portfolio-hero__layout > div:first-child > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .portfolio-hero h1 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(4rem, 8.5vw, 7.7rem);
+    font-weight: 400;
+    letter-spacing: -0.065em;
+    line-height: 0.9;
+  }
+
+  .portfolio-hero__description {
+    border-left: 1px solid #cdd6e2;
+    padding-left: 1.4rem;
+  }
+
+  .portfolio-hero__description p {
+    margin: 0;
+    color: #6d798b;
+    font-size: 0.78rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 52rem) {
+    .portfolio-hero__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

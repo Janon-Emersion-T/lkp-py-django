@@ -1,0 +1,222 @@
+---
+import type {
+  PublicTestimonial,
+} from "../../lib/testimonials/types";
+
+interface Props {
+  testimonials: PublicTestimonial[];
+}
+
+const { testimonials } = Astro.props;
+
+const stars = (rating?: number) =>
+  "★★★★★".slice(
+    0,
+    Math.max(
+      0,
+      Math.min(5, rating ?? 5),
+    ),
+  );
+---
+
+<section class="testimonial-list">
+  <div class="site-container">
+    {
+      testimonials.length > 0 ? (
+        <div class="testimonial-list__items">
+          {
+            testimonials.map((testimonial, index) => (
+              <article class="testimonial-entry">
+                <div class="testimonial-entry__number">
+                  {String(index + 1).padStart(2, "0")}
+                </div>
+
+                <blockquote>
+                  <p>
+                    “{testimonial.content}”
+                  </p>
+                </blockquote>
+
+                <div class="testimonial-entry__author">
+                  {
+                    testimonial.rating && (
+                      <p
+                        class="testimonial-entry__rating"
+                        aria-label={`${testimonial.rating} out of 5 stars`}
+                      >
+                        {stars(testimonial.rating)}
+                      </p>
+                    )
+                  }
+
+                  <strong>
+                    {testimonial.author_name}
+                  </strong>
+
+                  {
+                    testimonial.author_position && (
+                      <span>
+                        {testimonial.author_position}
+                      </span>
+                    )
+                  }
+
+                  {
+                    testimonial.company_name && (
+                      <span>
+                        {testimonial.company_name}
+                      </span>
+                    )
+                  }
+
+                  <div class="testimonial-entry__meta">
+                    {
+                      testimonial.is_verified && (
+                        <span>
+                          Verified
+                        </span>
+                      )
+                    }
+
+                    {
+                      testimonial.source && (
+                        <span>
+                          {testimonial.source}
+                        </span>
+                      )
+                    }
+                  </div>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      ) : (
+        <div class="testimonial-list__empty">
+          <p>
+            No testimonials have been published yet.
+          </p>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .testimonial-list {
+    background: #fff;
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .testimonial-list__items {
+    border-top: 1px solid #d8e0e9;
+  }
+
+  .testimonial-entry {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(0, 1.4fr)
+      minmax(14rem, 0.45fr);
+    gap: clamp(1.5rem, 5vw, 5rem);
+    border-bottom: 1px solid #d8e0e9;
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  .testimonial-entry__number {
+    color: #8b97a7;
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+  }
+
+  .testimonial-entry blockquote {
+    margin: 0;
+  }
+
+  .testimonial-entry blockquote p {
+    max-width: 29ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1.18;
+  }
+
+  .testimonial-entry__author {
+    border-left: 1px solid #d8e0e9;
+    padding-left: 1.4rem;
+  }
+
+  .testimonial-entry__rating {
+    margin: 0 0 1.3rem;
+    color: #0b2f8f;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+  }
+
+  .testimonial-entry__author strong {
+    display: block;
+    color: #0b1e3a;
+    font-size: 0.82rem;
+  }
+
+  .testimonial-entry__author > span {
+    display: block;
+    margin-top: 0.25rem;
+    color: #758195;
+    font-size: 0.7rem;
+  }
+
+  .testimonial-entry__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+    border-top: 1px solid #e0e6ed;
+    margin-top: 1.3rem;
+    padding-top: 1rem;
+  }
+
+  .testimonial-entry__meta span {
+    color: #0b2f8f;
+    font-size: 0.59rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .testimonial-list__empty {
+    border-block: 1px solid #d8e0e9;
+    padding-block: 2rem;
+    color: #758195;
+  }
+
+  @media (max-width: 52rem) {
+    .testimonial-entry {
+      grid-template-columns: 2rem 1fr;
+    }
+
+    .testimonial-entry__author {
+      grid-column: 2;
+      border-top: 1px solid #d8e0e9;
+      border-left: 0;
+      padding-top: 1.3rem;
+      padding-left: 0;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .testimonial-entry {
+      grid-template-columns: 1fr;
+    }
+
+    .testimonial-entry__number {
+      display: none;
+    }
+
+    .testimonial-entry__author {
+      grid-column: auto;
+    }
+  }
+</style>

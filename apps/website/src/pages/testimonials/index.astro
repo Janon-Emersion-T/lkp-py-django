@@ -1,0 +1,35 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import TestimonialsHero from "../../components/testimonials/TestimonialsHero.astro";
+import TestimonialsList from "../../components/testimonials/TestimonialsList.astro";
+
+import {
+  getTestimonials,
+} from "../../lib/testimonials/api";
+
+const testimonials = await getTestimonials();
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Client Testimonials",
+  url:
+    "https://lkprofessionals.com/testimonials/",
+  description:
+    "Client testimonials and feedback about LKProfessionals projects and services.",
+};
+---
+
+<Layout
+  title="Client Testimonials"
+  description="Client testimonials and feedback about LKProfessionals projects, websites, software and digital services."
+  canonicalPath="/testimonials/"
+  structuredData={schema}
+>
+  <TestimonialsHero />
+
+  <TestimonialsList
+    testimonials={testimonials}
+  />
+</Layout>

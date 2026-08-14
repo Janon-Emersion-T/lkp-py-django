@@ -1,0 +1,74 @@
+---
+import { insightNavigation } from "../../config/navigation";
+
+interface Props {
+  activePath: string;
+}
+
+const { activePath } = Astro.props;
+---
+
+<nav class="insights-nav" aria-label="Insights sections">
+  <div class="site-container insights-nav__inner">
+    {
+      insightNavigation.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            "insights-nav__link",
+            activePath === item.href
+              && "insights-nav__link--active",
+          ]}
+          aria-current={
+            activePath === item.href
+              ? "page"
+              : undefined
+          }
+        >
+          {item.label}
+        </a>
+      ))
+    }
+  </div>
+</nav>
+
+<style>
+  .insights-nav {
+    border-bottom: 1px solid var(--colour-line);
+    background: rgba(247, 245, 240, 0.96);
+  }
+
+  .insights-nav__inner {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .insights-nav__inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .insights-nav__link {
+    flex: 0 0 auto;
+    border-bottom: 2px solid transparent;
+    padding: 1rem 0.9rem 0.85rem;
+    color: var(--colour-muted);
+    font-size: 0.76rem;
+    font-weight: 700;
+    white-space: nowrap;
+    transition:
+      border-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .insights-nav__link:first-child {
+    padding-left: 0;
+  }
+
+  .insights-nav__link:hover,
+  .insights-nav__link--active {
+    border-bottom-color: var(--colour-ink);
+    color: var(--colour-ink-strong);
+  }
+</style>

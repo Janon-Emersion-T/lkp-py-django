@@ -1,0 +1,55 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import InsightsSectionNav from "../../components/insights/InsightsSectionNav.astro";
+import InsightCategoryHero from "../../components/insights/InsightCategoryHero.astro";
+import InsightArticleList from "../../components/insights/InsightArticleList.astro";
+
+import {
+  getInsightsByCategory,
+} from "../../lib/insights/api";
+
+const articles =
+  await getInsightsByCategory("blog");
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "LKProfessionals Blog",
+  url:
+    "https://lkprofessionals.com/insights/blog/",
+  description:
+    "Technology and business commentary from LKProfessionals.",
+  blogPost: articles.map((article) => ({
+    "@type": "BlogPosting",
+    headline: article.title,
+    description: article.excerpt ?? "",
+    url:
+      `https://lkprofessionals.com/insights/blog/${article.slug}/`,
+  })),
+};
+---
+
+<Layout
+  title="Technology & Business Blog"
+  description="Technology and business commentary from LKProfessionals covering websites, software, SEO, automation and digital operations."
+  canonicalPath="/insights/blog/"
+  structuredData={schema}
+>
+  <InsightsSectionNav
+    activePath="/insights/blog"
+  />
+
+  <InsightCategoryHero
+    eyebrow="Insights / Blog"
+    title="Technology in practical terms."
+    description="Commentary on websites, software, search, automation and digital operations from the perspective of how businesses actually use technology."
+    note="Less trend-chasing. More attention to decisions, implementation and long-term value."
+  />
+
+  <InsightArticleList
+    articles={articles}
+    emptyMessage="No blog articles have been published yet."
+  />
+
+</Layout>

@@ -1,0 +1,38 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import PortfolioNav from "../../components/portfolio/PortfolioNav.astro";
+import PortfolioHero from "../../components/portfolio/PortfolioHero.astro";
+import PortfolioGrid from "../../components/portfolio/PortfolioGrid.astro";
+
+import {
+  getPortfolioProjects,
+} from "../../lib/portfolio/api";
+
+const projects = await getPortfolioProjects();
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "LKProfessionals Portfolio",
+  url: "https://lkprofessionals.com/portfolio/",
+  description:
+    "Selected websites, software, mobile applications, branding and digital work delivered by LKProfessionals.",
+};
+---
+
+<Layout
+  title="Portfolio"
+  description="Selected websites, software, mobile applications, branding and digital work delivered by LKProfessionals."
+  canonicalPath="/portfolio/"
+  structuredData={schema}
+>
+  <PortfolioNav activePath="/portfolio" />
+
+  <PortfolioHero
+    title="Selected work, not a wall of logos."
+    description="A selection of websites, software, applications, digital systems and marketing work delivered around real business requirements."
+  />
+
+  <PortfolioGrid projects={projects} />
+</Layout>

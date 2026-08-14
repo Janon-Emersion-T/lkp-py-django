@@ -1,0 +1,225 @@
+---
+import type {
+  PortfolioProject,
+} from "../../lib/portfolio/types";
+
+interface Props {
+  projects: PortfolioProject[];
+}
+
+const { projects } = Astro.props;
+---
+
+<section class="portfolio-work">
+  <div class="site-container">
+    {
+      projects.length > 0 ? (
+        <div class="portfolio-work__grid">
+          {
+            projects.map((project, index) => (
+              <article class="portfolio-project">
+                {
+                  project.featured_image_url ? (
+                    <a
+                      class="portfolio-project__media"
+                      href={`/case-studies/${project.slug}/`}
+                    >
+                      <img
+                        src={project.featured_image_url}
+                        alt=""
+                        loading={
+                          index < 2
+                            ? "eager"
+                            : "lazy"
+                        }
+                      />
+                    </a>
+                  ) : (
+                    <div
+                      class="portfolio-project__placeholder"
+                      aria-hidden="true"
+                    >
+                      <span>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+                  )
+                }
+
+                <div class="portfolio-project__content">
+                  <div class="portfolio-project__meta">
+                    {
+                      project.industry_name && (
+                        <span>
+                          {project.industry_name}
+                        </span>
+                      )
+                    }
+
+                    {
+                      project.location && (
+                        <span>{project.location}</span>
+                      )
+                    }
+                  </div>
+
+                  <h2>
+                    <a href={`/case-studies/${project.slug}/`}>
+                      {project.title}
+                    </a>
+                  </h2>
+
+                  {
+                    project.short_description && (
+                      <p>
+                        {project.short_description}
+                      </p>
+                    )
+                  }
+
+                  {
+                    project.services
+                    && project.services.length > 0 && (
+                      <ul>
+                        {
+                          project.services
+                            .slice(0, 3)
+                            .map((service) => (
+                              <li>{service.title}</li>
+                            ))
+                        }
+                      </ul>
+                    )
+                  }
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      ) : (
+        <div class="portfolio-work__empty">
+          <p>
+            No portfolio projects have been published yet.
+          </p>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .portfolio-work {
+    background: #fff;
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .portfolio-work__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap:
+      clamp(4rem, 8vw, 7rem)
+      clamp(2rem, 5vw, 4rem);
+  }
+
+  .portfolio-project:nth-child(even) {
+    margin-top: clamp(4rem, 8vw, 7rem);
+  }
+
+  .portfolio-project__media,
+  .portfolio-project__placeholder {
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #edf2f7;
+  }
+
+  .portfolio-project__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 300ms ease;
+  }
+
+  .portfolio-project__media:hover img {
+    transform: scale(1.015);
+  }
+
+  .portfolio-project__placeholder {
+    display: flex;
+    align-items: flex-end;
+    padding: 1.4rem;
+  }
+
+  .portfolio-project__placeholder span {
+    color: #8491a1;
+    font-family: var(--font-serif);
+  }
+
+  .portfolio-project__content {
+    border-top: 1px solid #d8e0e9;
+    margin-top: 1.4rem;
+    padding-top: 1.2rem;
+  }
+
+  .portfolio-project__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 1.2rem;
+    color: #0b2f8f;
+    font-size: 0.63rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .portfolio-project h2 {
+    margin: 0.9rem 0 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+
+  .portfolio-project h2 a:hover {
+    color: #0b2f8f;
+  }
+
+  .portfolio-project p {
+    margin: 1rem 0 0;
+    color: #6d798b;
+    font-size: 0.78rem;
+    line-height: 1.8;
+  }
+
+  .portfolio-project ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+    margin: 1.2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .portfolio-project li {
+    color: #7a8798;
+    font-size: 0.65rem;
+  }
+
+  .portfolio-work__empty {
+    border-block: 1px solid #d8e0e9;
+    padding-block: 2rem;
+    color: #758195;
+  }
+
+  @media (max-width: 48rem) {
+    .portfolio-work__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .portfolio-project:nth-child(even) {
+      margin-top: 0;
+    }
+  }
+</style>

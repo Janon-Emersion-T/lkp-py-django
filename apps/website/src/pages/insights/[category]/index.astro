@@ -1,0 +1,132 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+
+import InsightsSectionNav from "../../../components/insights/InsightsSectionNav.astro";
+import InsightCategoryHero from "../../../components/insights/InsightCategoryHero.astro";
+import InsightArticleList from "../../../components/insights/InsightArticleList.astro";
+
+import {
+  getInsightsByCategory,
+} from "../../../lib/insights/api";
+
+import {
+  insightCategoryConfigs,
+} from "../../../lib/insights/categories";
+
+const { category } = Astro.params;
+
+const config =
+  category
+    ? insightCategoryConfigs[category]
+    : undefined;
+
+if (!config) {
+  Astro.response.status = 404;
+}
+
+const articles =
+  config
+    ? await getInsightsByCategory(config.slug)
+    : [];
+
+const canonicalPath =
+  config
+    ? `/insights/${config.slug}/`
+    : "/insights/";
+
+const schema =
+  config
+    ? {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: config.label,
+        url:
+          `https://lkprofessionals.com${canonicalPath}`,
+        description:
+          config.metaDescription,
+        hasPart: articles.map((article) => ({
+          "@type": "Article",
+          headline: article.title,
+          description: article.excerpt ?? "",
+          url:
+            `https://lkprofessionals.com/insights/${config.slug}/${article.slug}/`,
+        })),
+      }
+    : undefined;
+---
+
+<Layout
+  title={config?.metaTitle ?? "Insights"}
+  description={
+    config?.metaDescription
+    ?? "LKProfessionals technology insights."
+  }
+  canonicalPath={canonicalPath}
+  noindex={!config}
+  structuredData={schema}
+>
+  {
+    config ? (
+      <>
+        <InsightsSectionNav
+          activePath={`/insights/${config.slug}`}
+        />
+
+        <InsightCategoryHero
+          eyebrow={`Insights / ${config.label}`}
+          title={config.title}
+          description={config.description}
+          note={config.note}
+        />
+
+        <InsightArticleList
+          articles={articles}
+          emptyMessage={`No ${config.label.toLowerCase()} articles have been published yet.`}
+        />
+      </>
+    ) : (
+      <section class="category-not-found">
+        <div class="site-container">
+          <p>404</p>
+          <h1>Insights category not found.</h1>
+
+          <a href="/insights/">
+            Return to Insights
+          </a>
+        </div>
+      </section>
+    )
+  }
+</Layout>
+
+<style>
+  .category-not-found {
+    padding-block: clamp(6rem, 12vw, 10rem);
+  }
+
+  .category-not-found p {
+    margin: 0;
+    color: #0b2f8f;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+
+  .category-not-found h1 {
+    max-width: 12ch;
+    margin: 1rem 0 2rem;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+  }
+
+  .category-not-found a {
+    border-bottom: 1px solid #0b2f8f;
+    color: #0b2f8f;
+    font-size: 0.78rem;
+    font-weight: 750;
+  }
+</style>

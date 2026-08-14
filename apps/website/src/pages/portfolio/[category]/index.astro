@@ -1,0 +1,99 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+
+import PortfolioNav from "../../../components/portfolio/PortfolioNav.astro";
+import PortfolioHero from "../../../components/portfolio/PortfolioHero.astro";
+import PortfolioGrid from "../../../components/portfolio/PortfolioGrid.astro";
+
+import {
+  portfolioCategories,
+} from "../../../lib/portfolio/categories";
+
+import {
+  getPortfolioProjects,
+} from "../../../lib/portfolio/api";
+
+const { category } = Astro.params;
+
+const config =
+  category
+    ? portfolioCategories[category]
+    : undefined;
+
+if (!config) {
+  Astro.response.status = 404;
+}
+
+const projects =
+  config
+    ? await getPortfolioProjects(
+        config.serviceSlug,
+      )
+    : [];
+
+const canonicalPath =
+  config
+    ? `/portfolio/${config.slug}/`
+    : "/portfolio/";
+---
+
+<Layout
+  title={config?.metaTitle ?? "Portfolio"}
+  description={
+    config?.metaDescription
+    ?? "LKProfessionals portfolio."
+  }
+  canonicalPath={canonicalPath}
+  noindex={!config}
+>
+  {
+    config ? (
+      <>
+        <PortfolioNav
+          activePath={`/portfolio/${config.slug}`}
+        />
+
+        <PortfolioHero
+          eyebrow={`Portfolio / ${config.label}`}
+          title={config.title}
+          description={config.description}
+        />
+
+        <PortfolioGrid projects={projects} />
+      </>
+    ) : (
+      <section class="portfolio-not-found">
+        <div class="site-container">
+          <p>404</p>
+          <h1>Portfolio category not found.</h1>
+          <a href="/portfolio/">
+            Return to Portfolio
+          </a>
+        </div>
+      </section>
+    )
+  }
+</Layout>
+
+<style>
+  .portfolio-not-found {
+    padding-block: 8rem;
+  }
+
+  .portfolio-not-found p {
+    color: #0b2f8f;
+    font-weight: 800;
+  }
+
+  .portfolio-not-found h1 {
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 400;
+  }
+
+  .portfolio-not-found a {
+    border-bottom: 1px solid #0b2f8f;
+    color: #0b2f8f;
+  }
+</style>
