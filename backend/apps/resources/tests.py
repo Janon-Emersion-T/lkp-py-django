@@ -79,10 +79,7 @@ class PublicResourceApiTests(TestCase):
         )
 
         response = self.client.get(
-            "/public",
-            {
-                "resource_type": "template",
-            },
+            "/public?resource_type=template"
         )
 
         payload = response.json()

@@ -39,9 +39,8 @@ export async function getResources(
       return [];
     }
 
-    const data =
-      await response.json()
-      as PublicResourcesResponse;
+    const data: PublicResourcesResponse =
+      await response.json();
 
     return Array.isArray(data.items)
       ? data.items
@@ -73,8 +72,10 @@ export async function getResource(
       return null;
     }
 
-    return await response.json()
-      as PublicResource;
+    const data: PublicResource =
+      await response.json();
+
+    return data;
   } catch (error) {
     console.error(
       "[Resources] Failed to load resource:",

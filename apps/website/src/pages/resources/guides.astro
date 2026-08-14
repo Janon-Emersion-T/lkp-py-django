@@ -1,0 +1,11 @@
+---
+import ResourceCategoryPage from "../../components/resources/ResourceCategoryPage.astro";
+import {
+  resourceCategories,
+} from "../../lib/resources/categories";
+
+const config =
+  resourceCategories["guides"];
+---
+
+<ResourceCategoryPage config={config} />

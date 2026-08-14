@@ -5,7 +5,18 @@ import ResourcesNav from "../../components/resources/ResourcesNav.astro";
 
 import {
   getResource,
+  getResources,
 } from "../../lib/resources/api";
+
+export async function getStaticPaths() {
+  const resources = await getResources();
+
+  return resources.map((resource) => ({
+    params: {
+      slug: resource.slug,
+    },
+  }));
+}
 
 const { slug } = Astro.params;
 
@@ -15,26 +26,25 @@ const resource =
     : null;
 
 if (!resource) {
-  Astro.response.status = 404;
+  throw new Error(
+    `Resource not found during build: ${slug}`,
+  );
 }
 
 const title =
-  resource?.seo?.meta_title
-  || resource?.title
-  || "Resource not found";
+  resource.seo?.meta_title
+  || resource.title;
 
 const description =
-  resource?.seo?.meta_description
-  || resource?.excerpt
+  resource.seo?.meta_description
+  || resource.excerpt
   || "LKProfessionals resource.";
 
 const canonicalPath =
-  resource
-    ? `/resources/${resource.slug}/`
-    : "/resources/";
+  `/resources/${resource.slug}/`;
 
 const sections =
-  resource?.content?.sections ?? [];
+  resource.content?.sections ?? [];
 
 const categoryPaths = {
   download: "/resources/downloads",
@@ -44,10 +54,9 @@ const categoryPaths = {
 };
 
 const activePath =
-  resource
-    ? categoryPaths[resource.resource_type]
-    : "/resources";
+  categoryPaths[resource.resource_type];
 ---
+
 
 <Layout
   title={title}

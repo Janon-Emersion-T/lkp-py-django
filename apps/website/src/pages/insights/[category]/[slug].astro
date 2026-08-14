@@ -5,11 +5,29 @@ import InsightsSectionNav from "../../../components/insights/InsightsSectionNav.
 
 import {
   getInsightBySlug,
+  getPublicInsights,
 } from "../../../lib/insights/api";
 
 import {
   insightCategoryConfigs,
 } from "../../../lib/insights/categories";
+
+export async function getStaticPaths() {
+  const insights = await getPublicInsights();
+
+  return insights
+    .filter(
+      (article) =>
+        article.category_slug
+        && article.category_slug !== "tutorials",
+    )
+    .map((article) => ({
+      params: {
+        category: article.category_slug!,
+        slug: article.slug,
+      },
+    }));
+}
 
 const {
   category,

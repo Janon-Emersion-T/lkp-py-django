@@ -5,7 +5,19 @@ import InsightsSectionNav from "../../../components/insights/InsightsSectionNav.
 
 import {
   getInsightBySlug,
+  getInsightsByCategory,
 } from "../../../lib/insights/api";
+
+export async function getStaticPaths() {
+  const tutorials =
+    await getInsightsByCategory("tutorials");
+
+  return tutorials.map((tutorial) => ({
+    params: {
+      slug: tutorial.slug,
+    },
+  }));
+}
 
 const { slug } = Astro.params;
 

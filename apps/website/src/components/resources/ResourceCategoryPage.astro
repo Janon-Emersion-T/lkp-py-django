@@ -1,0 +1,45 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import ResourcesNav from "./ResourcesNav.astro";
+import ResourcesHero from "./ResourcesHero.astro";
+import ResourcesList from "./ResourcesList.astro";
+
+import {
+  getResources,
+} from "../../lib/resources/api";
+
+import type {
+  ResourceCategoryConfig,
+} from "../../lib/resources/categories";
+
+interface Props {
+  config: ResourceCategoryConfig;
+}
+
+const { config } = Astro.props;
+
+const resources =
+  await getResources(config.resourceType);
+
+const canonicalPath =
+  `/resources/${config.slug}/`;
+---
+
+<Layout
+  title={config.metaTitle}
+  description={config.metaDescription}
+  canonicalPath={canonicalPath}
+>
+  <ResourcesNav
+    activePath={`/resources/${config.slug}`}
+  />
+
+  <ResourcesHero
+    eyebrow={`Resources / ${config.label}`}
+    title={config.title}
+    description={config.description}
+  />
+
+  <ResourcesList resources={resources} />
+</Layout>

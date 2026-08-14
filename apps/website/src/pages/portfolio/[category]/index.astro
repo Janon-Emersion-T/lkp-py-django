@@ -13,6 +13,16 @@ import {
   getPortfolioProjects,
 } from "../../../lib/portfolio/api";
 
+export function getStaticPaths() {
+  return Object.keys(
+    portfolioCategories,
+  ).map((category) => ({
+    params: {
+      category,
+    },
+  }));
+}
+
 const { category } = Astro.params;
 
 const config =

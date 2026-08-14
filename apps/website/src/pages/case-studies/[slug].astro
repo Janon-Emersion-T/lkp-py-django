@@ -3,7 +3,19 @@ import Layout from "../../layouts/Layout.astro";
 
 import {
   getPortfolioProject,
+  getPortfolioProjects,
 } from "../../lib/portfolio/api";
+
+export async function getStaticPaths() {
+  const projects =
+    await getPortfolioProjects();
+
+  return projects.map((project) => ({
+    params: {
+      slug: project.slug,
+    },
+  }));
+}
 
 const { slug } = Astro.params;
 
