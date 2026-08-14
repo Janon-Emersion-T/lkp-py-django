@@ -85,15 +85,15 @@ export const footerNavigation = {
     },
     {
       label: "Request a quote",
-      href: "/request-quote",
+      href: "/get-a-quote/",
     },
     {
       label: "Privacy",
-      href: "/privacy-policy",
+      href: "/legal/privacy-policy/",
     },
     {
       label: "Terms",
-      href: "/terms-and-conditions",
+      href: "/legal/terms-conditions/",
     },
   ],
 } satisfies Record<string, NavigationItem[]>;

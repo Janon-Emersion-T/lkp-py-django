@@ -1,0 +1,70 @@
+---
+import LegalDocument from "../../components/legal/LegalDocument.astro";
+
+const sections = [
+  {
+    title: "Website use",
+    paragraphs: [
+      "The LKProfessionals website provides general information about our services, capabilities, work and business activities.",
+      "Website content may be updated, corrected or withdrawn without notice. Information on the website does not by itself constitute a binding quotation, contract or guarantee of availability.",
+    ],
+  },
+  {
+    title: "Quotations and project scope",
+    paragraphs: [
+      "A project becomes commercially binding only when the relevant scope, price, payment terms and other agreed conditions have been accepted by the parties.",
+      "Requests or work outside an agreed scope may require a revised quotation, variation or additional charge.",
+    ],
+  },
+  {
+    title: "Payments",
+    paragraphs: [
+      "Payment schedules may differ according to the project and will normally be stated in the quotation, invoice or agreement.",
+      "Where an advance or deposit is required, work may not begin until the relevant payment has been received unless otherwise agreed.",
+    ],
+  },
+  {
+    title: "Client responsibilities",
+    paragraphs: [
+      "Clients are responsible for providing accurate requirements, approvals, content, access credentials and other information reasonably required to deliver the agreed work.",
+      "Delays in receiving client materials, approvals or decisions may affect delivery schedules.",
+    ],
+  },
+  {
+    title: "Third-party services",
+    paragraphs: [
+      "Projects may rely on third-party services including domains, hosting, software libraries, APIs, payment providers, advertising platforms and external integrations.",
+      "LKProfessionals cannot guarantee the uninterrupted availability, pricing or continued operation of independent third-party services.",
+    ],
+  },
+  {
+    title: "Intellectual property",
+    paragraphs: [
+      "Ownership and licensing of final project deliverables will follow the relevant quotation or agreement.",
+      "Pre-existing LKProfessionals materials, reusable libraries, frameworks, internal tools, methods and third-party components remain subject to their existing ownership or licence arrangements unless explicitly transferred in writing.",
+    ],
+  },
+  {
+    title: "Limitation and responsibility",
+    paragraphs: [
+      "LKProfessionals will use reasonable professional care in delivering agreed services.",
+      "Clients remain responsible for business decisions, legal compliance, content they provide, operational use of delivered systems and maintaining appropriate backups or business continuity arrangements where applicable.",
+    ],
+  },
+  {
+    title: "Changes to these terms",
+    paragraphs: [
+      "These website terms may be updated as services and operating practices change.",
+      "Project-specific agreements, quotations or signed contracts take precedence where they contain terms that differ from these general website terms.",
+    ],
+  },
+];
+---
+
+<LegalDocument
+  title="Terms & Conditions"
+  description="General terms governing use of the LKProfessionals website and the commercial principles applying to our services."
+  canonicalPath="/legal/terms-conditions/"
+  updated="14 August 2026"
+  sections={sections}
+/>

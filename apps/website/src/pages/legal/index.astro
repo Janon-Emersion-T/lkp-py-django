@@ -1,0 +1,168 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import LegalNav from "../../components/legal/LegalNav.astro";
+
+const documents = [
+  {
+    title: "Privacy Policy",
+    href: "/legal/privacy-policy/",
+    description:
+      "How LKProfessionals handles personal information submitted through our websites, forms and business communications.",
+  },
+  {
+    title: "Terms & Conditions",
+    href: "/legal/terms-conditions/",
+    description:
+      "General terms governing use of our website and the commercial principles applying to our services.",
+  },
+  {
+    title: "Cookie Policy",
+    href: "/legal/cookie-policy/",
+    description:
+      "Information about cookies and similar technologies that may be used across LKProfessionals websites.",
+  },
+  {
+    title: "Refund Policy",
+    href: "/legal/refund-policy/",
+    description:
+      "How deposits, completed work, cancellations and eligible refunds are handled for service engagements.",
+  },
+  {
+    title: "Sitemap",
+    href: "/legal/sitemap/",
+    description:
+      "A structured directory of the main public sections of the LKProfessionals website.",
+  },
+];
+---
+
+<Layout
+  title="Legal"
+  description="Policies and terms governing LKProfessionals websites, services and commercial engagements."
+  canonicalPath="/legal/"
+>
+  <LegalNav activePath="/legal" />
+
+  <section class="legal-index">
+    <div class="site-container">
+      <header class="legal-index__header">
+        <p class="legal-index__eyebrow">Legal</p>
+
+        <h1>
+          Policies written for practical business use.
+        </h1>
+
+        <p>
+          These documents explain the general policies governing
+          LKProfessionals websites, enquiries and commercial engagements.
+        </p>
+      </header>
+
+      <div class="legal-index__documents">
+        {
+          documents.map((document, index) => (
+            <a
+              class="legal-index__document"
+              href={document.href}
+            >
+              <span>
+                {String(index + 1).padStart(2, "0")}
+              </span>
+
+              <div>
+                <h2>{document.title}</h2>
+                <p>{document.description}</p>
+              </div>
+
+              <strong aria-hidden="true">→</strong>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .legal-index {
+    background: #f7f9fc;
+    padding-block:
+      clamp(5rem, 10vw, 9rem)
+      clamp(5rem, 9vw, 8rem);
+  }
+
+  .legal-index__header {
+    max-width: 67rem;
+  }
+
+  .legal-index__eyebrow {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .legal-index__header h1 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(4rem, 8vw, 7rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.93;
+  }
+
+  .legal-index__header > p:last-child {
+    max-width: 44rem;
+    margin: 1.8rem 0 0;
+    color: #647286;
+    line-height: 1.8;
+  }
+
+  .legal-index__documents {
+    border-top: 1px solid #d8e0e9;
+    margin-top: clamp(4rem, 8vw, 7rem);
+  }
+
+  .legal-index__document {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(0, 1fr)
+      2rem;
+    gap: clamp(1.5rem, 5vw, 4rem);
+    align-items: center;
+    border-bottom: 1px solid #d8e0e9;
+    padding-block: 2.3rem;
+  }
+
+  .legal-index__document > span {
+    color: #8b97a7;
+    font-family: var(--font-serif);
+  }
+
+  .legal-index__document h2 {
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(1.7rem, 3vw, 2.7rem);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+  }
+
+  .legal-index__document p {
+    max-width: 42rem;
+    margin: 0.6rem 0 0;
+    color: #6d798b;
+    font-size: 0.78rem;
+    line-height: 1.75;
+  }
+
+  .legal-index__document strong {
+    color: #0b2f8f;
+    font-weight: 400;
+  }
+</style>

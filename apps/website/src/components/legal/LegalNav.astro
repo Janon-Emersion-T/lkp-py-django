@@ -1,0 +1,98 @@
+---
+interface Props {
+  activePath: string;
+}
+
+const { activePath } = Astro.props;
+
+const links = [
+  {
+    label: "Legal",
+    href: "/legal",
+  },
+  {
+    label: "Privacy",
+    href: "/legal/privacy-policy",
+  },
+  {
+    label: "Terms",
+    href: "/legal/terms-conditions",
+  },
+  {
+    label: "Cookies",
+    href: "/legal/cookie-policy",
+  },
+  {
+    label: "Refunds",
+    href: "/legal/refund-policy",
+  },
+  {
+    label: "Sitemap",
+    href: "/legal/sitemap",
+  },
+];
+---
+
+<nav
+  class="legal-nav"
+  aria-label="Legal navigation"
+>
+  <div class="site-container legal-nav__inner">
+    {
+      links.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            "legal-nav__link",
+            activePath === link.href
+              && "legal-nav__link--active",
+          ]}
+          aria-current={
+            activePath === link.href
+              ? "page"
+              : undefined
+          }
+        >
+          {link.label}
+        </a>
+      ))
+    }
+  </div>
+</nav>
+
+<style>
+  .legal-nav {
+    border-bottom: 1px solid #d8e0e9;
+    background: #fff;
+  }
+
+  .legal-nav__inner {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .legal-nav__inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .legal-nav__link {
+    flex: 0 0 auto;
+    border-bottom: 2px solid transparent;
+    padding: 1rem 1rem 0.85rem;
+    color: #6d798b;
+    font-size: 0.72rem;
+    font-weight: 750;
+    white-space: nowrap;
+  }
+
+  .legal-nav__link:first-child {
+    padding-left: 0;
+  }
+
+  .legal-nav__link:hover,
+  .legal-nav__link--active {
+    border-bottom-color: #0b2f8f;
+    color: #0b2f8f;
+  }
+</style>

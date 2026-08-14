@@ -1,0 +1,47 @@
+---
+import LegalDocument from "../../components/legal/LegalDocument.astro";
+
+const sections = [
+  {
+    title: "What cookies are",
+    paragraphs: [
+      "Cookies are small data files that websites may store through your browser to support technical functionality, preferences, security and measurement.",
+    ],
+  },
+  {
+    title: "How LKProfessionals may use cookies",
+    paragraphs: [
+      "Our websites may use cookies or similar technologies where required for core website operation, security, session handling, preferences, analytics or measurement.",
+      "The exact technologies in use may change as the website and its supporting services evolve.",
+    ],
+  },
+  {
+    title: "Third-party technologies",
+    paragraphs: [
+      "Third-party services embedded in or connected to the website may place or process their own cookies or similar identifiers.",
+      "Examples may include analytics, map services, media platforms, advertising systems or other external integrations where those services are enabled.",
+    ],
+  },
+  {
+    title: "Managing cookies",
+    paragraphs: [
+      "Most browsers provide controls that allow you to block, restrict or delete cookies.",
+      "Restricting essential technical storage may affect the operation of some website features.",
+    ],
+  },
+  {
+    title: "Changes to this policy",
+    paragraphs: [
+      "This Cookie Policy may be updated when website functionality, analytics tools or other integrations change.",
+    ],
+  },
+];
+---
+
+<LegalDocument
+  title="Cookie Policy"
+  description="Information about cookies and similar technologies that may be used across LKProfessionals websites."
+  canonicalPath="/legal/cookie-policy/"
+  updated="14 August 2026"
+  sections={sections}
+/>

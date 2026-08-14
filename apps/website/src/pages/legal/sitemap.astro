@@ -1,0 +1,172 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import LegalNav from "../../components/legal/LegalNav.astro";
+
+const groups = [
+  {
+    title: "Company",
+    links: [
+      ["Home", "/"],
+      ["About", "/about/"],
+      ["Careers", "/about/careers/"],
+      ["Contact", "/contact/"],
+      ["Book a Consultation", "/book-a-consultation/"],
+      ["Get a Quote", "/get-a-quote/"],
+    ],
+  },
+  {
+    title: "Services",
+    links: [
+      ["All Services", "/services/"],
+      ["Web Development", "/services/web-development/"],
+      ["Software Development", "/services/software-development/"],
+      ["Mobile App Development", "/services/mobile-app-development/"],
+      ["AI Solutions", "/services/ai-solutions/"],
+      ["Digital Marketing", "/services/digital-marketing/"],
+      ["Branding & Design", "/services/branding-design/"],
+      ["Cloud & Hosting", "/services/cloud-hosting/"],
+      ["IT Consultancy", "/services/it-consultancy/"],
+    ],
+  },
+  {
+    title: "Work & Knowledge",
+    links: [
+      ["Case Studies", "/case-studies/"],
+      ["Portfolio", "/portfolio/"],
+      ["Insights", "/insights/"],
+      ["Resources", "/resources/"],
+      ["Testimonials", "/testimonials/"],
+      ["FAQ", "/faq/"],
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      ["Legal", "/legal/"],
+      ["Privacy Policy", "/legal/privacy-policy/"],
+      ["Terms & Conditions", "/legal/terms-conditions/"],
+      ["Cookie Policy", "/legal/cookie-policy/"],
+      ["Refund Policy", "/legal/refund-policy/"],
+    ],
+  },
+];
+---
+
+<Layout
+  title="Sitemap"
+  description="Browse the main public pages and sections of the LKProfessionals website."
+  canonicalPath="/legal/sitemap/"
+>
+  <LegalNav activePath="/legal/sitemap" />
+
+  <section class="sitemap-page">
+    <div class="site-container">
+      <header>
+        <p>Sitemap</p>
+        <h1>Find your way around.</h1>
+      </header>
+
+      <div class="sitemap-page__groups">
+        {
+          groups.map((group) => (
+            <section>
+              <h2>{group.title}</h2>
+
+              <ul>
+                {
+                  group.links.map(([label, href]) => (
+                    <li>
+                      <a href={href}>
+                        <span>{label}</span>
+                        <strong aria-hidden="true">→</strong>
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .sitemap-page {
+    background: #f7f9fc;
+    padding-block: clamp(5rem, 10vw, 8rem);
+  }
+
+  .sitemap-page header > p {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .sitemap-page h1 {
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(4rem, 8vw, 7rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+  }
+
+  .sitemap-page__groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4rem;
+    margin-top: clamp(4rem, 8vw, 7rem);
+  }
+
+  .sitemap-page__groups section {
+    border-top: 1px solid #d8e0e9;
+    padding-top: 1.5rem;
+  }
+
+  .sitemap-page h2 {
+    margin: 0 0 1rem;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 400;
+  }
+
+  .sitemap-page ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sitemap-page li {
+    border-bottom: 1px solid #dde4eb;
+  }
+
+  .sitemap-page li a {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.85rem;
+    color: #53647a;
+    font-size: 0.78rem;
+  }
+
+  .sitemap-page li a:hover {
+    color: #0b2f8f;
+  }
+
+  .sitemap-page li strong {
+    color: #0b2f8f;
+    font-weight: 400;
+  }
+
+  @media (max-width: 44rem) {
+    .sitemap-page__groups {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+import LegalDocument from "../../components/legal/LegalDocument.astro";
+
+const sections = [
+  {
+    title: "Information we collect",
+    paragraphs: [
+      "LKProfessionals may collect information that you voluntarily provide when you contact us, request a quotation, subscribe to communications, apply for a position or otherwise communicate with us.",
+      "This may include your name, company, email address, phone or WhatsApp number, country, project requirements and other information relevant to your enquiry or commercial relationship.",
+    ],
+  },
+  {
+    title: "How information is used",
+    paragraphs: [
+      "Information is used to respond to enquiries, prepare quotations, deliver services, provide support, maintain business records, improve our services and communicate with clients or prospective clients.",
+      "We do not intend to use information submitted for one business purpose for an unrelated purpose without an appropriate reason.",
+    ],
+  },
+  {
+    title: "Service providers and third parties",
+    paragraphs: [
+      "We may use third-party infrastructure and service providers for functions such as hosting, domain registration, email, analytics, communications, payment processing and other technical services.",
+      "Information may be processed through those providers only where reasonably necessary to provide or operate the relevant service.",
+    ],
+  },
+  {
+    title: "Data retention and security",
+    paragraphs: [
+      "We retain information for as long as reasonably required for the purpose for which it was collected, for ongoing business relationships, record keeping, security, dispute handling and other legitimate operational requirements.",
+      "Reasonable administrative and technical measures are used to protect information, but no internet-connected system can guarantee absolute security.",
+    ],
+  },
+  {
+    title: "Your choices",
+    paragraphs: [
+      "You may contact LKProfessionals to request correction of inaccurate information, ask questions about information associated with you or request that information no longer required for an active business purpose be reviewed for deletion.",
+      "Some information may need to be retained where required for contractual, accounting, security or dispute-resolution purposes.",
+    ],
+  },
+  {
+    title: "Contact",
+    paragraphs: [
+      "Questions about this Privacy Policy may be sent to info@lkprofessionals.com.",
+      "LKProfessionals (Pvt) Ltd is based in Jaffna, Sri Lanka.",
+    ],
+  },
+];
+---
+
+<LegalDocument
+  title="Privacy Policy"
+  description="How LKProfessionals collects, uses and handles personal information submitted through our websites and business communications."
+  canonicalPath="/legal/privacy-policy/"
+  updated="14 August 2026"
+  sections={sections}
+/>

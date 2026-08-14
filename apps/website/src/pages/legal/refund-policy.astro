@@ -1,0 +1,55 @@
+---
+import LegalDocument from "../../components/legal/LegalDocument.astro";
+
+const sections = [
+  {
+    title: "General principle",
+    paragraphs: [
+      "LKProfessionals provides professional and custom technology services. Payments commonly cover reserved project capacity, analysis, design, development, configuration, licences, hosting, domains or other work already performed or committed.",
+      "For that reason, payments are not automatically refundable simply because a client later decides not to continue.",
+    ],
+  },
+  {
+    title: "Advance and milestone payments",
+    paragraphs: [
+      "Advance, deposit and milestone payments may become non-refundable once the associated work has started, resources have been committed or third-party costs have been incurred.",
+      "The specific quotation or agreement for a project takes precedence where it contains its own cancellation or refund terms.",
+    ],
+  },
+  {
+    title: "Third-party costs",
+    paragraphs: [
+      "Charges paid or committed for domains, hosting, software licences, advertising, external services, transaction fees or other third-party products are generally subject to the refund rules of the relevant provider.",
+      "LKProfessionals cannot guarantee recovery of third-party costs already incurred on behalf of a client.",
+    ],
+  },
+  {
+    title: "Cancellation before work begins",
+    paragraphs: [
+      "Where a client cancels before substantive work has started and before non-recoverable third-party costs have been incurred, LKProfessionals may review whether part or all of the relevant payment can reasonably be refunded.",
+    ],
+  },
+  {
+    title: "Completed or delivered work",
+    paragraphs: [
+      "Fees relating to work already completed, demonstrated, delivered or made available are generally not refundable.",
+      "If there is a genuine issue with agreed deliverables, the normal first step is to allow reasonable opportunity for correction within the agreed project scope.",
+    ],
+  },
+  {
+    title: "Refund requests",
+    paragraphs: [
+      "Refund requests should be submitted in writing with the relevant project, invoice or payment details and the reason for the request.",
+      "Requests may be sent to info@lkprofessionals.com and will be reviewed against the project scope, work completed, costs incurred and any project-specific agreement.",
+    ],
+  },
+];
+---
+
+<LegalDocument
+  title="Refund Policy"
+  description="How LKProfessionals handles project deposits, completed work, cancellations and eligible refund requests."
+  canonicalPath="/legal/refund-policy/"
+  updated="14 August 2026"
+  sections={sections}
+/>
