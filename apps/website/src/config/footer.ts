@@ -97,7 +97,7 @@ export const footerKeyPages: FooterLink[] = [
   },
   {
     label: "Get a Quote",
-    href: "/get-a-quote",
+    href: "/get-a-quote/",
   },
 ];
 

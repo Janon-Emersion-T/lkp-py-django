@@ -53,7 +53,7 @@ export const footerNavigation = {
     },
     {
       label: "Careers",
-      href: "/careers",
+      href: "/about/careers/",
     },
     {
       label: "Contact",
