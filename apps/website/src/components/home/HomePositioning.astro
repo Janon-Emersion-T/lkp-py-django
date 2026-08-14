@@ -1,0 +1,99 @@
+---
+import Container from "../ui/Container.astro";
+import TextLink from "../ui/TextLink.astro";
+---
+
+<section class="home-positioning section-space">
+  <Container class="home-positioning__grid">
+    <div>
+      <p class="eyebrow">
+        Business-first technology
+      </p>
+
+      <h2 class="section-heading">
+        Technology should solve the operation,
+        not complicate it.
+      </h2>
+    </div>
+
+    <div class="home-positioning__content">
+      <p class="body-large">
+        LKProfessionals has been building technology
+        from Jaffna since 2013 with one practical
+        principle: understand the business requirement
+        before deciding what should be built.
+      </p>
+
+      <p>
+        We combine engineering, infrastructure,
+        automation, design and digital growth so that
+        connected problems can be treated as one
+        operating challenge rather than a collection
+        of disconnected vendor tasks.
+      </p>
+
+      <p>
+        Responsibility remains visible throughout.
+        Technical decisions, ownership, access,
+        maintainability and future changes are treated
+        as part of delivery rather than somebody
+        else's problem after launch.
+      </p>
+
+      <TextLink
+        href="/about/"
+        label="About LKProfessionals"
+      />
+    </div>
+  </Container>
+</section>
+
+<style>
+  .home-positioning {
+    background: var(--colour-ink);
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .home-positioning__grid {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1.2fr)
+      minmax(18rem, 0.65fr);
+    gap: clamp(3rem, 9vw, 9rem);
+  }
+
+  .home-positioning .eyebrow {
+    margin-bottom: 1.5rem;
+    color: #f58a60;
+  }
+
+  .home-positioning .section-heading {
+    color: var(--colour-white);
+  }
+
+  .home-positioning__content {
+    display: grid;
+    align-content: end;
+    gap: 1.4rem;
+  }
+
+  .home-positioning__content p {
+    margin: 0;
+  }
+
+  .home-positioning__content .body-large {
+    color: var(--colour-white);
+  }
+
+  .home-positioning :global(.text-link) {
+    width: fit-content;
+    margin-top: 1rem;
+    color: var(--colour-white);
+  }
+
+  @media (max-width: 50rem) {
+    .home-positioning__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

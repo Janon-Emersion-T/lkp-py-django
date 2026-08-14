@@ -1,0 +1,172 @@
+---
+import type {
+  PublicInsight,
+} from "../../lib/insights/types";
+
+import Container from "../ui/Container.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import TextLink from "../ui/TextLink.astro";
+
+interface Props {
+  insights: PublicInsight[];
+}
+
+const {
+  insights,
+} = Astro.props;
+
+const hrefFor = (
+  insight: PublicInsight,
+) =>
+  `/insights/${
+    insight.category_slug ?? "blog"
+  }/${insight.slug}/`;
+---
+
+{
+  insights.length > 0 && (
+    <section class="home-insights section-space">
+      <Container>
+        <SectionHeading
+          eyebrow="Insights"
+          title="Useful thinking for practical technology decisions."
+          description="Articles and tutorials covering websites, software, search, digital growth, AI and business systems."
+          align="split"
+        />
+
+        <div class="home-insights__list">
+          {
+            insights.map((insight, index) => (
+              <article>
+                <span class="home-insights__number">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <div>
+                  <p class="home-insights__meta">
+                    {
+                      insight.category_name
+                      ?? "Insights"
+                    }
+
+                    {
+                      insight.reading_time_minutes
+                      ? ` · ${insight.reading_time_minutes} min read`
+                      : ""
+                    }
+                  </p>
+
+                  <h3>
+                    <a href={hrefFor(insight)}>
+                      {insight.title}
+                    </a>
+                  </h3>
+
+                  {
+                    insight.excerpt && (
+                      <p class="home-insights__excerpt">
+                        {insight.excerpt}
+                      </p>
+                    )
+                  }
+                </div>
+
+                <a
+                  href={hrefFor(insight)}
+                  class="home-insights__arrow"
+                  aria-label={`Read ${insight.title}`}
+                >
+                  →
+                </a>
+              </article>
+            ))
+          }
+        </div>
+
+        <div class="home-insights__footer">
+          <TextLink
+            href="/insights/"
+            label="Explore all insights"
+          />
+        </div>
+      </Container>
+    </section>
+  )
+}
+
+<style>
+  .home-insights {
+    background: var(--colour-white);
+  }
+
+  .home-insights__list {
+    border-top: 1px solid var(--colour-line);
+  }
+
+  .home-insights article {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(0, 1fr)
+      auto;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    border-bottom: 1px solid var(--colour-line);
+    padding-block: clamp(1.75rem, 3vw, 2.5rem);
+  }
+
+  .home-insights__number {
+    color: var(--colour-accent);
+    font-size: 0.62rem;
+    font-weight: 800;
+  }
+
+  .home-insights__meta {
+    margin: 0 0 0.6rem;
+    color: var(--colour-muted);
+    font-size: 0.6rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .home-insights h3 {
+    max-width: 26ch;
+    margin: 0;
+    color: var(--colour-ink-strong);
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 3vw, 2.5rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .home-insights__excerpt {
+    max-width: 46rem;
+    margin: 0.9rem 0 0;
+    color: var(--colour-muted);
+    font-size: 0.8rem;
+    line-height: 1.7;
+  }
+
+  .home-insights__arrow {
+    color: var(--colour-accent-dark);
+    font-size: 1.3rem;
+  }
+
+  .home-insights__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 2rem;
+  }
+
+  @media (max-width: 38rem) {
+    .home-insights article {
+      grid-template-columns:
+        2rem
+        minmax(0, 1fr);
+    }
+
+    .home-insights__arrow {
+      display: none;
+    }
+  }
+</style>

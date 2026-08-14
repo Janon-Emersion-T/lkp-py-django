@@ -1,0 +1,216 @@
+---
+import ButtonLink from "../ui/ButtonLink.astro";
+import Container from "../ui/Container.astro";
+---
+
+<section class="home-hero">
+  <Container class="home-hero__container">
+    <div class="home-hero__grid">
+      <div class="home-hero__main">
+        <p class="eyebrow">
+          Technology built around the business
+        </p>
+
+        <h1 class="display-heading">
+          Digital systems
+          <span>built to work.</span>
+        </h1>
+      </div>
+
+      <div class="home-hero__aside">
+        <p class="body-large">
+          LKProfessionals designs, develops and supports
+          websites, software, mobile applications,
+          automation, infrastructure and digital growth
+          systems for organisations that expect
+          technology to deliver practical value.
+        </p>
+
+        <div class="home-hero__actions">
+          <ButtonLink
+            href="/get-a-quote/"
+            label="Discuss your project"
+          />
+
+          <ButtonLink
+            href="/case-studies/"
+            label="See our work"
+            variant="secondary"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="home-hero__system">
+      <div class="home-hero__system-head">
+        <span>LKProfessionals</span>
+        <span>Technology capability</span>
+      </div>
+
+      <div class="home-hero__capabilities">
+        <div>
+          <span>01</span>
+          <strong>Web</strong>
+        </div>
+
+        <div>
+          <span>02</span>
+          <strong>Software</strong>
+        </div>
+
+        <div>
+          <span>03</span>
+          <strong>Mobile</strong>
+        </div>
+
+        <div>
+          <span>04</span>
+          <strong>AI</strong>
+        </div>
+
+        <div>
+          <span>05</span>
+          <strong>Automation</strong>
+        </div>
+
+        <div>
+          <span>06</span>
+          <strong>Infrastructure</strong>
+        </div>
+
+        <div>
+          <span>07</span>
+          <strong>Digital growth</strong>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .home-hero {
+    padding-block:
+      clamp(5rem, 10vw, 9rem)
+      clamp(4rem, 8vw, 7rem);
+    background: var(--colour-paper);
+  }
+
+  .home-hero__grid {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1.45fr)
+      minmax(19rem, 0.55fr);
+    gap: clamp(3rem, 8vw, 8rem);
+    align-items: end;
+  }
+
+  .home-hero__main .eyebrow {
+    margin-bottom: 1.5rem;
+  }
+
+  .home-hero .display-heading {
+    max-width: 10ch;
+  }
+
+  .home-hero .display-heading span {
+    display: block;
+    color: var(--colour-accent);
+    font-style: italic;
+  }
+
+  .home-hero__aside {
+    display: grid;
+    gap: 2rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .home-hero__aside p {
+    margin: 0;
+  }
+
+  .home-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .home-hero__system {
+    margin-top: clamp(4rem, 8vw, 7rem);
+    border-top: 1px solid var(--colour-line);
+    border-left: 1px solid var(--colour-line);
+    background: var(--colour-white);
+  }
+
+  .home-hero__system-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    border-right: 1px solid var(--colour-line);
+    border-bottom: 1px solid var(--colour-line);
+    padding: 1rem 1.25rem;
+    color: var(--colour-muted);
+    font-size: 0.64rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .home-hero__capabilities {
+    display: grid;
+    grid-template-columns:
+      repeat(7, minmax(0, 1fr));
+  }
+
+  .home-hero__capabilities > div {
+    min-height: 9rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid var(--colour-line);
+    border-bottom: 1px solid var(--colour-line);
+    padding: 1.25rem;
+  }
+
+  .home-hero__capabilities span {
+    color: var(--colour-accent);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+
+  .home-hero__capabilities strong {
+    color: var(--colour-ink-strong);
+    font-family: var(--font-serif);
+    font-size: clamp(1.15rem, 2vw, 1.55rem);
+    font-weight: 400;
+  }
+
+  @media (max-width: 68rem) {
+    .home-hero__capabilities {
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 55rem) {
+    .home-hero__grid {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .home-hero__aside {
+      max-width: 42rem;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .home-hero__capabilities {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+
+    .home-hero__capabilities > div {
+      min-height: 7.5rem;
+    }
+  }
+</style>

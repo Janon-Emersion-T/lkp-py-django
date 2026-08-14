@@ -1,0 +1,195 @@
+---
+import type {
+  PortfolioProject,
+} from "../../lib/portfolio/types";
+
+import Container from "../ui/Container.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import TextLink from "../ui/TextLink.astro";
+
+interface Props {
+  projects: PortfolioProject[];
+}
+
+const { projects } = Astro.props;
+---
+
+<section class="home-work section-space">
+  <Container>
+    <SectionHeading
+      eyebrow="Selected work"
+      title="The outcome matters more than the deliverable."
+      description="A selection of published LKProfessionals work across websites, software, applications, growth and business technology."
+      align="split"
+    />
+
+    {
+      projects.length > 0 ? (
+        <div class="home-work__list">
+          {
+            projects.map((project, index) => (
+              <article class="home-work__item">
+                <span class="home-work__number">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <div class="home-work__main">
+                  <div class="home-work__meta">
+                    {
+                      project.client_name && (
+                        <span>
+                          {project.client_name}
+                        </span>
+                      )
+                    }
+
+                    {
+                      project.industry_name && (
+                        <span>
+                          {project.industry_name}
+                        </span>
+                      )
+                    }
+                  </div>
+
+                  <h3>
+                    {project.title}
+                  </h3>
+
+                  {
+                    project.short_description && (
+                      <p>
+                        {project.short_description}
+                      </p>
+                    )
+                  }
+                </div>
+
+                <a
+                  class="home-work__link"
+                  href={`/case-studies/${project.slug}/`}
+                >
+                  View case study
+                  <span aria-hidden="true">
+                    →
+                  </span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      ) : (
+        <div class="home-work__empty">
+          <p>
+            Published case studies will appear here
+            as completed work is released through the
+            LKProfessionals case-study system.
+          </p>
+        </div>
+      )
+    }
+
+    <div class="home-work__footer">
+      <TextLink
+        href="/case-studies/"
+        label="View all case studies"
+      />
+    </div>
+  </Container>
+</section>
+
+<style>
+  .home-work {
+    background: var(--colour-paper);
+  }
+
+  .home-work__list {
+    border-top: 1px solid var(--colour-line);
+  }
+
+  .home-work__item {
+    display: grid;
+    grid-template-columns:
+      3rem
+      minmax(0, 1fr)
+      auto;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: center;
+    border-bottom: 1px solid var(--colour-line);
+    padding-block: clamp(2rem, 4vw, 3rem);
+  }
+
+  .home-work__number {
+    color: var(--colour-accent);
+    font-size: 0.65rem;
+    font-weight: 800;
+  }
+
+  .home-work__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.2rem;
+    margin-bottom: 0.65rem;
+    color: var(--colour-muted);
+    font-size: 0.6rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .home-work h3 {
+    margin: 0;
+    color: var(--colour-ink-strong);
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .home-work__main > p {
+    max-width: 44rem;
+    margin: 1rem 0 0;
+    color: var(--colour-muted);
+  }
+
+  .home-work__link {
+    display: inline-flex;
+    gap: 0.55rem;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 0.2rem;
+    font-size: 0.76rem;
+    font-weight: 750;
+    white-space: nowrap;
+  }
+
+  .home-work__empty {
+    border-top: 1px solid var(--colour-line);
+    border-bottom: 1px solid var(--colour-line);
+    padding-block: 3rem;
+    color: var(--colour-muted);
+  }
+
+  .home-work__empty p {
+    max-width: 42rem;
+    margin: 0;
+  }
+
+  .home-work__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 2rem;
+  }
+
+  @media (max-width: 44rem) {
+    .home-work__item {
+      grid-template-columns:
+        2rem
+        minmax(0, 1fr);
+    }
+
+    .home-work__link {
+      grid-column: 2;
+      width: fit-content;
+    }
+  }
+</style>

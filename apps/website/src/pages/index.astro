@@ -1,19 +1,143 @@
 ---
 import Layout from "../layouts/Layout.astro";
 
-const webpageSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  name: "LKProfessionals",
-  url: "https://lkprofessionals.com/",
-  description:
-    "Reliable websites, business software and digital growth systems designed and developed by LKProfessionals.",
-};
+import HomeHero from "../components/home/HomeHero.astro";
+import HomeProof from "../components/home/HomeProof.astro";
+import HomePositioning from "../components/home/HomePositioning.astro";
+import HomeServices from "../components/home/HomeServices.astro";
+import HomeFeaturedWork from "../components/home/HomeFeaturedWork.astro";
+import HomeIndustries from "../components/home/HomeIndustries.astro";
+import HomeProcess from "../components/home/HomeProcess.astro";
+import HomeWhyLkp from "../components/home/HomeWhyLkp.astro";
+import HomeTestimonials from "../components/home/HomeTestimonials.astro";
+import HomeInsights from "../components/home/HomeInsights.astro";
+
+import {
+  getPortfolioProjects,
+} from "../lib/portfolio/api";
+
+import {
+  getPublicInsights,
+} from "../lib/insights/api";
+
+import {
+  getTestimonials,
+} from "../lib/testimonials/api";
+
+const [
+  allProjects,
+  allInsights,
+  allTestimonials,
+] = await Promise.all([
+  getPortfolioProjects(),
+  getPublicInsights(),
+  getTestimonials(),
+]);
+
+const featuredProjects = [
+  ...allProjects.filter(
+    (project) => project.is_featured,
+  ),
+  ...allProjects.filter(
+    (project) => !project.is_featured,
+  ),
+]
+  .filter(
+    (project, index, items) =>
+      items.findIndex(
+        (item) => item.id === project.id,
+      ) === index,
+  )
+  .slice(0, 3);
+
+const featuredInsights = [
+  ...allInsights.filter(
+    (insight) => insight.is_featured,
+  ),
+  ...allInsights.filter(
+    (insight) => !insight.is_featured,
+  ),
+]
+  .filter(
+    (insight, index, items) =>
+      items.findIndex(
+        (item) => item.id === insight.id,
+      ) === index,
+  )
+  .slice(0, 3);
+
+const featuredTestimonials = [
+  ...allTestimonials.filter(
+    (testimonial) =>
+      testimonial.is_featured
+      && testimonial.is_verified,
+  ),
+  ...allTestimonials.filter(
+    (testimonial) =>
+      testimonial.is_featured,
+  ),
+  ...allTestimonials.filter(
+    (testimonial) =>
+      testimonial.is_verified,
+  ),
+  ...allTestimonials,
+]
+  .filter(
+    (testimonial, index, items) =>
+      items.findIndex(
+        (item) =>
+          item.id === testimonial.id,
+      ) === index,
+  )
+  .slice(0, 3);
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "LKProfessionals",
+    url: "https://lkprofessionals.com/",
+    description:
+      "LKProfessionals provides web development, software, mobile apps, AI, automation, infrastructure and digital growth services for organisations in Sri Lanka and internationally.",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "LKProfessionals",
+    url: "https://lkprofessionals.com/",
+  },
+];
 ---
 
 <Layout
   title="LKProfessionals"
-  description="Reliable websites, business software and digital growth systems designed and developed by LKProfessionals."
+  description="LKProfessionals provides web development, custom software, mobile apps, AI, automation, infrastructure, digital marketing and business technology services from Jaffna, Sri Lanka."
   canonicalPath="/"
-  structuredData={webpageSchema}
-/>
+  structuredData={structuredData}
+>
+  <HomeHero />
+
+  <HomeProof />
+
+  <HomePositioning />
+
+  <HomeServices />
+
+  <HomeFeaturedWork
+    projects={featuredProjects}
+  />
+
+  <HomeIndustries />
+
+  <HomeProcess />
+
+  <HomeWhyLkp />
+
+  <HomeTestimonials
+    testimonials={featuredTestimonials}
+  />
+
+  <HomeInsights
+    insights={featuredInsights}
+  />
+</Layout>

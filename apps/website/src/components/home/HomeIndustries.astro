@@ -1,0 +1,133 @@
+---
+import {
+  industries,
+} from "../../config/industries";
+
+import Container from "../ui/Container.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import TextLink from "../ui/TextLink.astro";
+---
+
+<section class="home-industries section-space">
+  <Container>
+    <SectionHeading
+      eyebrow="Industries"
+      title="Technology shaped around the operation."
+      description="Different organisations carry different workflows, constraints and responsibilities. We adapt the technology to that context rather than forcing every business into the same template."
+      align="split"
+    />
+
+    <div class="home-industries__grid">
+      {
+        industries.map((industry) => (
+          <a
+            href={industry.href}
+            class="home-industry"
+          >
+            <span>
+              {industry.number}
+            </span>
+
+            <div>
+              <h3>
+                {industry.title}
+              </h3>
+
+              <p>
+                {industry.areas.join(" · ")}
+              </p>
+            </div>
+
+            <span aria-hidden="true">
+              →
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="home-industries__footer">
+      <TextLink
+        href="/industries/"
+        label="Explore industries"
+      />
+    </div>
+  </Container>
+</section>
+
+<style>
+  .home-industries {
+    background: var(--colour-white);
+  }
+
+  .home-industries__grid {
+    display: grid;
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--colour-line);
+    border-left: 1px solid var(--colour-line);
+  }
+
+  .home-industry {
+    min-height: 12rem;
+    display: grid;
+    grid-template-columns:
+      auto
+      minmax(0, 1fr)
+      auto;
+    gap: 1rem;
+    align-items: start;
+    border-right: 1px solid var(--colour-line);
+    border-bottom: 1px solid var(--colour-line);
+    padding: 1.5rem;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .home-industry:hover {
+    background: var(--colour-soft-blue);
+  }
+
+  .home-industry > span:first-child {
+    color: var(--colour-accent);
+    font-size: 0.62rem;
+    font-weight: 800;
+  }
+
+  .home-industry h3 {
+    margin: 0;
+    color: var(--colour-ink-strong);
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 2.2vw, 1.9rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .home-industry p {
+    margin: 0.8rem 0 0;
+    color: var(--colour-muted);
+    font-size: 0.72rem;
+    line-height: 1.6;
+  }
+
+  .home-industries__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 2rem;
+  }
+
+  @media (max-width: 58rem) {
+    .home-industries__grid {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .home-industries__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

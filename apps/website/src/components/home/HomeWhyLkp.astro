@@ -1,0 +1,129 @@
+---
+import {
+  whyChooseReasons,
+} from "../../config/why-choose-lkp";
+
+import Container from "../ui/Container.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import TextLink from "../ui/TextLink.astro";
+---
+
+<section class="home-why section-space">
+  <Container>
+    <SectionHeading
+      eyebrow="Why LKProfessionals"
+      title="Accountability is part of the technical work."
+      description="A strong delivery model depends on more than technical capability. Ownership, maintainability, communication and business context matter just as much."
+      align="split"
+    />
+
+    <div class="home-why__grid">
+      {
+        whyChooseReasons.map((reason) => (
+          <article>
+            <span>
+              {reason.number}
+            </span>
+
+            <h3>
+              {reason.title}
+            </h3>
+
+            <p>
+              {reason.description}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="home-why__footer">
+      <TextLink
+        href="/about/why-choose-lkp/"
+        label="Why choose LKProfessionals"
+      />
+    </div>
+  </Container>
+</section>
+
+<style>
+  .home-why {
+    background: var(--colour-ink);
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .home-why :global(.section-heading) {
+    color: var(--colour-white);
+  }
+
+  .home-why :global(.section-heading__description) {
+    color: rgba(255, 255, 255, 0.68);
+  }
+
+  .home-why :global(.eyebrow) {
+    color: #f58a60;
+  }
+
+  .home-why__grid {
+    display: grid;
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    border-left: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .home-why article {
+    min-height: 18rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.18);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .home-why article > span {
+    display: block;
+    margin-bottom: clamp(3rem, 7vw, 5rem);
+    color: #f58a60;
+    font-size: 0.62rem;
+    font-weight: 800;
+  }
+
+  .home-why h3 {
+    margin: 0;
+    color: var(--colour-white);
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 2.5vw, 2.15rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .home-why article p {
+    margin: 1rem 0 0;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 0.82rem;
+    line-height: 1.7;
+  }
+
+  .home-why__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 2rem;
+  }
+
+  .home-why__footer :global(.text-link) {
+    color: var(--colour-white);
+  }
+
+  @media (max-width: 56rem) {
+    .home-why__grid {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .home-why__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
