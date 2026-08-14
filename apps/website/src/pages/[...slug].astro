@@ -1,6 +1,9 @@
 ---
 import FoundationPage from "../components/pages/FoundationPage.astro";
 import {
+  getFoundationPageContent,
+} from "../content/foundation-page-content";
+import {
   sitePages,
   type SitePage,
 } from "../content/site-pages";
@@ -22,11 +25,12 @@ interface Props {
 }
 
 const { page } = Astro.props;
+const content = getFoundationPageContent(page);
 ---
 
 <Layout
-  title={page.title}
-  description={page.summary}
+  title={content.title}
+  description={content.description}
   canonicalPath={`/${page.path}/`}
   noindex={page.noindex}
 >
