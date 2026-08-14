@@ -207,6 +207,178 @@ class PublicSerializationService:
         }
 
     @classmethod
+    def serialize_insight(cls, article):
+        try:
+            seo = article.seo
+        except Exception:
+            seo = None
+
+        return {
+            "resource_type": "insight_article",
+            "id": str(article.id),
+            "title": article.title,
+            "slug": article.slug,
+            "excerpt": article.excerpt,
+            "content": cls.normalize(article.content),
+            "status": article.status,
+            "published_at": cls.normalize(
+                article.published_at
+            ),
+            "created_at": cls.normalize(
+                article.created_at
+            ),
+            "updated_at": cls.normalize(
+                article.updated_at
+            ),
+            "is_featured": article.is_featured,
+            "reading_time_minutes": (
+                article.reading_time_minutes
+            ),
+            "word_count": article.word_count,
+            "view_count": article.view_count,
+            "category_id": (
+                str(article.category_id)
+                if article.category_id
+                else None
+            ),
+            "category_name": (
+                article.category.name
+                if article.category
+                else None
+            ),
+            "category_slug": (
+                article.category.slug
+                if article.category
+                else None
+            ),
+            "author_id": (
+                article.author_id
+            ),
+            "author_email": (
+                article.author.email
+                if article.author
+                else None
+            ),
+            "featured_image_id": (
+                str(article.featured_image_id)
+                if article.featured_image_id
+                else None
+            ),
+            "tags": [
+                {
+                    "id": str(item.tag.id),
+                    "name": item.tag.name,
+                    "slug": item.tag.slug,
+                }
+                for item in article.article_tags.all()
+            ],
+            "seo": (
+                {
+                    "meta_title": seo.meta_title,
+                    "meta_description": (
+                        seo.meta_description
+                    ),
+                    "canonical_url": (
+                        seo.canonical_url
+                    ),
+                    "robots_index": (
+                        seo.robots_index
+                    ),
+                    "robots_follow": (
+                        seo.robots_follow
+                    ),
+                    "open_graph_title": (
+                        seo.open_graph_title
+                    ),
+                    "open_graph_description": (
+                        seo.open_graph_description
+                    ),
+                    "open_graph_image_id": (
+                        str(seo.open_graph_image_id)
+                        if seo.open_graph_image_id
+                        else None
+                    ),
+                    "twitter_title": (
+                        seo.twitter_title
+                    ),
+                    "twitter_description": (
+                        seo.twitter_description
+                    ),
+                    "article_schema": (
+                        cls.normalize(
+                            seo.article_schema
+                        )
+                    ),
+                    "faq_schema": (
+                        cls.normalize(
+                            seo.faq_schema
+                        )
+                    ),
+                }
+                if seo
+                else None
+            ),
+        }
+
+    @classmethod
+    def serialize_testimonial(cls, testimonial):
+        return {
+            "resource_type": "testimonial",
+            "id": str(testimonial.id),
+            "author_name": testimonial.author_name,
+            "author_position": testimonial.author_position,
+            "company_name": testimonial.company_name,
+            "content": testimonial.content,
+            "short_content": testimonial.short_content,
+            "rating": testimonial.rating,
+            "source": testimonial.source,
+            "source_url": testimonial.source_url,
+            "author_image_id": (
+                str(testimonial.author_image_id)
+                if testimonial.author_image_id
+                else None
+            ),
+            "company_logo_id": (
+                str(testimonial.company_logo_id)
+                if testimonial.company_logo_id
+                else None
+            ),
+            "client_id": (
+                str(testimonial.client_id)
+                if testimonial.client_id
+                else None
+            ),
+            "client_name": (
+                str(testimonial.client)
+                if testimonial.client
+                else None
+            ),
+            "project_id": (
+                str(testimonial.project_id)
+                if testimonial.project_id
+                else None
+            ),
+            "project_title": (
+                testimonial.project.title
+                if testimonial.project
+                else None
+            ),
+            "status": testimonial.status,
+            "published_at": cls.normalize(
+                testimonial.published_at
+            ),
+            "is_featured": testimonial.is_featured,
+            "is_verified": testimonial.is_verified,
+            "sort_order": testimonial.sort_order,
+            "created_at": cls.normalize(
+                testimonial.created_at
+            ),
+            "updated_at": cls.normalize(
+                testimonial.updated_at
+            ),
+        }
+
+    @classmethod
     def serialize_model(cls, instance):
         fields = {
             field.name
@@ -475,11 +647,22 @@ class PublicWebsiteService:
             )
         )
 
-        serializer = (
-            PublicSerializationService.serialize_service
-            if resource_name == "services"
-            else PublicSerializationService.serialize_model
-        )
+        if resource_name == "services":
+            serializer = (
+                PublicSerializationService.serialize_service
+            )
+        elif resource_name == "insights":
+            serializer = (
+                PublicSerializationService.serialize_insight
+            )
+        elif resource_name == "testimonials":
+            serializer = (
+                PublicSerializationService.serialize_testimonial
+            )
+        else:
+            serializer = (
+                PublicSerializationService.serialize_model
+            )
 
         return [
             serializer(instance)

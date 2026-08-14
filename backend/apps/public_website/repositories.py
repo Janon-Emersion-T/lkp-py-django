@@ -176,6 +176,16 @@ class PublicResourceRepository:
                 "faqs",
             )
 
+        if resource_name == "insights":
+            queryset = queryset.select_related(
+                "category",
+                "author",
+                "featured_image",
+                "seo",
+            ).prefetch_related(
+                "article_tags__tag",
+            )
+
         fields = cls.model_fields(
             queryset.model
         )
