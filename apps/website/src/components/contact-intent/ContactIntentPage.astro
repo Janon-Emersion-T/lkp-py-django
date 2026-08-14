@@ -1,0 +1,134 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ContactForm from "../contact/ContactForm.astro";
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  description: string;
+  canonicalPath: string;
+  subject: string;
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  canonicalPath,
+  subject,
+} = Astro.props;
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+>
+  <article class="contact-intent">
+    <div class="site-container contact-intent__layout">
+      <section class="contact-intent__intro">
+        <p class="eyebrow">
+          {eyebrow}
+        </p>
+
+        <h1>
+          {title}
+        </h1>
+
+        <p class="contact-intent__lead">
+          {description}
+        </p>
+      </section>
+
+      <section class="contact-intent__form">
+        <ContactForm
+          presetSubject={subject}
+        />
+      </section>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .contact-intent {
+    background:
+      linear-gradient(
+        180deg,
+        #f7f9fc,
+        #ffffff 25rem
+      );
+
+    padding-block:
+      clamp(4rem, 8vw, 7rem)
+      clamp(5rem, 9vw, 8rem);
+  }
+
+  .contact-intent__layout {
+    display: grid;
+
+    grid-template-columns:
+      minmax(16rem, 0.75fr)
+      minmax(0, 1.3fr);
+
+    gap: clamp(3rem, 8vw, 7rem);
+
+    align-items: start;
+  }
+
+  .contact-intent__intro {
+    position: sticky;
+    top: 7rem;
+  }
+
+  .contact-intent h1 {
+    max-width: 10ch;
+    margin: 1rem 0 0;
+
+    color: #0c1e39;
+
+    font-family: var(--font-serif);
+    font-size: clamp(
+      3rem,
+      6vw,
+      5.5rem
+    );
+
+    font-weight: 400;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+  }
+
+  .contact-intent__lead {
+    max-width: 34rem;
+
+    margin: 1.6rem 0 0;
+
+    color: #647084;
+
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+
+  .contact-intent__form {
+    border: 1px solid #dde4ed;
+
+    background: #ffffff;
+
+    padding:
+      clamp(1.25rem, 3vw, 2rem);
+
+    box-shadow:
+      0 24px 60px
+      rgba(10, 32, 65, 0.06);
+  }
+
+  @media (max-width: 58rem) {
+    .contact-intent__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-intent__intro {
+      position: static;
+    }
+  }
+</style>

@@ -10,46 +10,6 @@ export interface SitePage {
 
 export const sitePages: SitePage[] = [
   {
-    title: "Book a Consultation",
-    path: "book-a-consultation",
-    eyebrow: "Consultation",
-    summary:
-      "Arrange a focused discussion about your requirements and practical next steps.",
-    parentPath: null,
-    childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "General Enquiry",
-    path: "contact/general-enquiry",
-    eyebrow: "Contact Us",
-    summary:
-      "Learn more about general enquiry within the LKProfessionals contact us section.",
-    parentPath: "contact",
-    childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Support",
-    path: "contact/support",
-    eyebrow: "Contact Us",
-    summary:
-      "Learn more about support within the LKProfessionals contact us section.",
-    parentPath: "contact",
-    childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Sales",
-    path: "contact/sales",
-    eyebrow: "Contact Us",
-    summary:
-      "Learn more about sales within the LKProfessionals contact us section.",
-    parentPath: "contact",
-    childPaths: [],
-    noindex: false,
-  },
-  {
     title: "Client Portal",
     path: "client-portal",
     eyebrow: "Client Access",

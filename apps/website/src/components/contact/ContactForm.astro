@@ -1,4 +1,12 @@
 ---
+interface Props {
+  presetSubject?: string;
+}
+
+const {
+  presetSubject = "",
+} = Astro.props;
+
 const apiBaseUrl =
   import.meta.env.PUBLIC_API_BASE_URL
   ?? "http://127.0.0.1:8082/api/v1";
@@ -111,6 +119,7 @@ const apiBaseUrl =
             name="subject"
             type="text"
             maxlength="250"
+            value={presetSubject}
             required
           />
 
