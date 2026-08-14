@@ -1,0 +1,396 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+interface ServiceItem {
+  title: string;
+  href: string;
+  description?: string;
+  capabilities?: string[];
+}
+
+interface Props {
+  service: ServiceItem;
+  category: string;
+}
+
+const {
+  service,
+  category,
+} = Astro.props;
+
+const categoryLabels: Record<string, string> = {
+  "web-development": "Web Development",
+  "software-development": "Software Development",
+  "mobile-app-development": "Mobile App Development",
+  "ai-solutions": "AI Solutions",
+  "digital-marketing": "Digital Marketing",
+  "branding-design": "Branding & Design",
+  "cloud-hosting": "Cloud & Hosting",
+  "it-consultancy": "IT Consultancy",
+  cybersecurity: "Cybersecurity",
+  "api-integration": "API & Integration",
+  "business-automation": "Business Automation",
+  "data-analytics": "Data & Analytics",
+  "maintenance-support": "Maintenance & Support",
+};
+
+const categoryLabel =
+  categoryLabels[category]
+  ?? category
+    .split("-")
+    .map(
+      (word) =>
+        word.charAt(0).toUpperCase()
+        + word.slice(1),
+    )
+    .join(" ");
+
+const canonicalPath = service.href.endsWith("/")
+  ? service.href
+  : `${service.href}/`;
+
+const description =
+  service.description
+  ?? `${service.title} services from LKProfessionals.`;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: service.title,
+  serviceType: service.title,
+  provider: {
+    "@type": "Organization",
+    name: "LKProfessionals",
+    url: "https://lkprofessionals.com/",
+  },
+  areaServed: "Worldwide",
+  url:
+    `https://lkprofessionals.com${canonicalPath}`,
+  description,
+};
+---
+
+<Layout
+  title={service.title}
+  description={description}
+  canonicalPath={canonicalPath}
+  structuredData={schema}
+>
+  <article class="service-detail">
+    <header class="service-detail__hero">
+      <div class="site-container service-detail__hero-grid">
+        <div class="service-detail__heading">
+          <p class="service-detail__eyebrow">
+            <a href={`/services/${category}/`}>
+              {categoryLabel}
+            </a>
+            <span aria-hidden="true"> / </span>
+            <span>{service.title}</span>
+          </p>
+
+          <h1>{service.title}</h1>
+        </div>
+
+        <div class="service-detail__intro">
+          <p>{description}</p>
+
+          <a
+            class="service-detail__quote"
+            href="/get-a-quote/"
+          >
+            Discuss your requirement
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    {
+      service.capabilities
+      && service.capabilities.length > 0 && (
+        <section class="service-detail__capabilities">
+          <div class="site-container service-detail__section-grid">
+            <div>
+              <p class="service-detail__section-label">
+                Capabilities
+              </p>
+
+              <h2>
+                What this service can cover.
+              </h2>
+            </div>
+
+            <div class="service-detail__capability-list">
+              {
+                service.capabilities.map(
+                  (capability, index) => (
+                    <div class="service-detail__capability">
+                      <span>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                      <strong>
+                        {capability}
+                      </strong>
+                    </div>
+                  ),
+                )
+              }
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    <section class="service-detail__approach">
+      <div class="site-container service-detail__section-grid">
+        <div>
+          <p class="service-detail__section-label">
+            Delivery approach
+          </p>
+
+          <h2>
+            Built around the business requirement.
+          </h2>
+        </div>
+
+        <div class="service-detail__copy">
+          <p>
+            LKProfessionals approaches each engagement
+            from the underlying business requirement
+            rather than forcing the work into a
+            predetermined template.
+          </p>
+
+          <p>
+            Scope, technology, integrations and delivery
+            priorities are defined around the organisation,
+            its users and the operational result the
+            project needs to achieve.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="service-detail__next">
+      <div class="site-container service-detail__next-grid">
+        <div>
+          <p class="service-detail__section-label">
+            Next step
+          </p>
+
+          <h2>
+            Have a requirement in mind?
+          </h2>
+        </div>
+
+        <div>
+          <p>
+            Tell us what you are planning and where the
+            current challenge sits. We can then determine
+            the appropriate technical and commercial
+            direction.
+          </p>
+
+          <div class="service-detail__actions">
+            <a href="/get-a-quote/">
+              Get a quote
+              <span aria-hidden="true">→</span>
+            </a>
+
+            <a href={`/services/${category}/`}>
+              View {categoryLabel}
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .service-detail {
+    background: #fff;
+  }
+
+  .service-detail__hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #d8e0e9;
+    background: #f7f9fc;
+    padding-block:
+      clamp(5rem, 10vw, 9rem)
+      clamp(4rem, 7vw, 6rem);
+  }
+
+  .service-detail__hero::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 47, 143, 0.03) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        rgba(11, 47, 143, 0.03) 1px,
+        transparent 1px
+      );
+    background-size: 4.5rem 4.5rem;
+    content: "";
+    pointer-events: none;
+  }
+
+  .service-detail__hero-grid,
+  .service-detail__section-grid,
+  .service-detail__next-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(18rem, 0.43fr);
+    gap: clamp(3rem, 9vw, 8rem);
+  }
+
+  .service-detail__hero-grid {
+    align-items: end;
+  }
+
+  .service-detail__eyebrow,
+  .service-detail__section-label {
+    margin: 0 0 1rem;
+    color: #0b2f8f;
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .service-detail__eyebrow a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+  }
+
+  .service-detail h1 {
+    max-width: 11ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(4rem, 8vw, 7.2rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.92;
+  }
+
+  .service-detail__intro {
+    border-left: 1px solid #ccd6e2;
+    padding-left: 1.5rem;
+  }
+
+  .service-detail__intro > p,
+  .service-detail__copy p,
+  .service-detail__next-grid > div:last-child > p {
+    margin: 0;
+    color: #617086;
+    font-size: 0.82rem;
+    line-height: 1.85;
+  }
+
+  .service-detail__quote {
+    display: inline-flex;
+    gap: 0.6rem;
+    border-bottom: 1px solid #0b2f8f;
+    margin-top: 1.5rem;
+    padding-bottom: 0.2rem;
+    color: #0b2f8f;
+    font-size: 0.72rem;
+    font-weight: 750;
+  }
+
+  .service-detail__capabilities,
+  .service-detail__approach,
+  .service-detail__next {
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .service-detail__approach {
+    border-top: 1px solid #d8e0e9;
+    background: #f7f9fc;
+  }
+
+  .service-detail__next {
+    border-top: 1px solid #d8e0e9;
+  }
+
+  .service-detail__section-grid h2,
+  .service-detail__next h2 {
+    max-width: 12ch;
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .service-detail__capability-list {
+    border-top: 1px solid #d8e0e9;
+  }
+
+  .service-detail__capability {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    border-bottom: 1px solid #d8e0e9;
+    padding-block: 1.25rem;
+  }
+
+  .service-detail__capability span {
+    color: #8b97a7;
+    font-family: var(--font-serif);
+    font-size: 0.8rem;
+  }
+
+  .service-detail__capability strong {
+    color: #263a54;
+    font-size: 0.82rem;
+    font-weight: 650;
+  }
+
+  .service-detail__copy {
+    display: grid;
+    gap: 1.3rem;
+  }
+
+  .service-detail__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.7rem;
+  }
+
+  .service-detail__actions a {
+    border-bottom: 1px solid #0b2f8f;
+    padding-bottom: 0.2rem;
+    color: #0b2f8f;
+    font-size: 0.72rem;
+    font-weight: 750;
+  }
+
+  @media (max-width: 52rem) {
+    .service-detail__hero-grid,
+    .service-detail__section-grid,
+    .service-detail__next-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .service-detail__intro {
+      border-top: 1px solid #d8e0e9;
+      border-left: 0;
+      padding-top: 1.5rem;
+      padding-left: 0;
+    }
+  }
+</style>

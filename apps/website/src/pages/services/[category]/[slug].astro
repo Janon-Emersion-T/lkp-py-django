@@ -1,0 +1,144 @@
+---
+import ServiceDetailPage from "../../../components/service-detail/ServiceDetailPage.astro";
+
+interface ServiceItem {
+  title: string;
+  href: string;
+  description?: string;
+  capabilities?: string[];
+}
+
+interface RouteProps {
+  service: ServiceItem;
+  category: string;
+}
+
+export async function getStaticPaths() {
+  const collectServiceItems = (
+    value: unknown,
+    output: ServiceItem[],
+  ): void => {
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        collectServiceItems(
+          item,
+          output,
+        );
+      }
+
+      return;
+    }
+
+    if (
+      value
+      && typeof value === "object"
+    ) {
+      const record =
+        value as Record<string, unknown>;
+
+      if (
+        typeof record.href === "string"
+        && typeof record.title === "string"
+        && /^\/services\/[^/]+\/[^/]+\/?$/.test(
+          record.href,
+        )
+      ) {
+        output.push({
+          title: record.title,
+          href: record.href,
+          description:
+            typeof record.description === "string"
+              ? record.description
+              : undefined,
+          capabilities:
+            Array.isArray(record.capabilities)
+              ? record.capabilities.filter(
+                  (item): item is string =>
+                    typeof item === "string",
+                )
+              : undefined,
+        });
+      }
+    }
+  };
+
+  const modules = import.meta.glob(
+    "../../../config/*.ts",
+    {
+      eager: true,
+    },
+  ) as Record<
+    string,
+    Record<string, unknown>
+  >;
+
+  const services: ServiceItem[] = [];
+
+  for (
+    const module
+    of Object.values(modules)
+  ) {
+    for (
+      const value
+      of Object.values(module)
+    ) {
+      collectServiceItems(
+        value,
+        services,
+      );
+    }
+  }
+
+  const routes = new Map<
+    string,
+    {
+      params: {
+        category: string;
+        slug: string;
+      };
+      props: RouteProps;
+    }
+  >();
+
+  for (const service of services) {
+    const match = service.href.match(
+      /^\/services\/([^/]+)\/([^/]+)\/?$/,
+    );
+
+    if (!match) {
+      continue;
+    }
+
+    const category = match[1];
+    const slug = match[2];
+
+    routes.set(
+      `${category}/${slug}`,
+      {
+        params: {
+          category,
+          slug,
+        },
+        props: {
+          service,
+          category,
+        },
+      },
+    );
+  }
+
+  return Array.from(
+    routes.values(),
+  );
+}
+
+const {
+  service,
+  category,
+} = Astro.props as RouteProps;
+---
+
+<ServiceDetailPage
+  service={service}
+  category={category}
+/>

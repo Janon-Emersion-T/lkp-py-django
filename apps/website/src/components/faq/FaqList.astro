@@ -8,6 +8,32 @@ interface Props {
 }
 
 const { faqs } = Astro.props;
+
+const serviceHref = (
+  slug: string,
+) => {
+  const overrides: Record<string, string> = {
+    "custom-software-development":
+      "/services/software-development/",
+    "ecommerce-development":
+      "/services/web-development/ecommerce-websites/",
+    "google-ads-management":
+      "/services/digital-marketing/google-ads/",
+    "it-consulting":
+      "/services/it-consultancy/",
+    "local-seo":
+      "/services/digital-marketing/local-seo/",
+    "search-engine-optimisation":
+      "/services/digital-marketing/seo/",
+    "website-maintenance":
+      "/services/maintenance-support/website-maintenance/",
+  };
+
+  return (
+    overrides[slug]
+    ?? `/services/${slug}/`
+  );
+};
 ---
 
 <section class="faq-list">
@@ -42,7 +68,7 @@ const { faqs } = Astro.props;
                     <p>{faq.answer}</p>
 
                     <a
-                      href={`/services/${faq.serviceSlug}/`}
+                      href={serviceHref(faq.serviceSlug)}
                     >
                       {faq.serviceTitle}
                       <span aria-hidden="true">
