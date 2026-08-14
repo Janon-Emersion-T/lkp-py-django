@@ -1,99 +1,179 @@
 ---
 import Container from "../ui/Container.astro";
-import TextLink from "../ui/TextLink.astro";
 ---
 
-<section class="home-positioning section-space">
-  <Container class="home-positioning__grid">
-    <div>
-      <p class="eyebrow">
-        Business-first technology
-      </p>
+<section class="home-positioning">
+  <Container>
+    <div class="home-positioning__label">
+      <span>LKProfessionals</span>
+      <span>Business-first technology</span>
+    </div>
 
-      <h2 class="section-heading">
-        Technology should solve the operation,
-        not complicate it.
+    <div class="home-positioning__statement">
+      <h2>
+        We don't start
+        <em>with the technology.</em>
+        We start with what
+        the business needs to do.
       </h2>
     </div>
 
-    <div class="home-positioning__content">
-      <p class="body-large">
-        LKProfessionals has been building technology
-        from Jaffna since 2013 with one practical
-        principle: understand the business requirement
-        before deciding what should be built.
+    <div class="home-positioning__detail">
+      <p class="home-positioning__lead">
+        Since 2013, LKProfessionals has worked from
+        one practical principle: understand the
+        operation before deciding what should be built.
       </p>
 
-      <p>
-        We combine engineering, infrastructure,
-        automation, design and digital growth so that
-        connected problems can be treated as one
-        operating challenge rather than a collection
-        of disconnected vendor tasks.
-      </p>
+      <div>
+        <p>
+          Our work spans engineering, infrastructure,
+          automation, design and digital growth. That
+          breadth means connected problems can be
+          treated as one operating challenge instead
+          of being handed between unrelated vendors.
+        </p>
 
-      <p>
-        Responsibility remains visible throughout.
-        Technical decisions, ownership, access,
-        maintainability and future changes are treated
-        as part of delivery rather than somebody
-        else's problem after launch.
-      </p>
+        <p>
+          Technical ownership remains visible after
+          launch. Access, maintainability, future
+          changes and long-term operating cost are
+          part of delivery from the beginning.
+        </p>
 
-      <TextLink
-        href="/about/"
-        label="About LKProfessionals"
-      />
+        <a href="/about/">
+          More about LKP
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
     </div>
   </Container>
 </section>
 
 <style>
   .home-positioning {
-    background: var(--colour-ink);
-    color: rgba(255, 255, 255, 0.72);
+    background: #fff;
+
+    padding-block:
+      clamp(7rem, 14vw, 13rem);
   }
 
-  .home-positioning__grid {
+  .home-positioning__label {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 2rem;
+
+    border-top:
+      1px solid #d9dde3;
+
+    padding-top: 1rem;
+
+    color: #677486;
+
+    font-size: 0.62rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .home-positioning__statement {
+    margin-block:
+      clamp(4rem, 8vw, 7rem);
+  }
+
+  .home-positioning__statement h2 {
+    max-width: 14ch;
+
+    margin: 0;
+
+    color: #0d1b2d;
+
+    font-family: var(--font-serif);
+
+    font-size:
+      clamp(3.3rem, 7.6vw, 7.6rem);
+
+    font-weight: 400;
+
+    letter-spacing: -0.066em;
+
+    line-height: 0.91;
+  }
+
+  .home-positioning__statement em {
+    display: block;
+
+    color: #3d5fc6;
+
+    font-weight: 400;
+  }
+
+  .home-positioning__detail {
     display: grid;
+
     grid-template-columns:
-      minmax(0, 1.2fr)
-      minmax(18rem, 0.65fr);
-    gap: clamp(3rem, 9vw, 9rem);
+      minmax(0, 0.72fr)
+      minmax(18rem, 0.5fr);
+
+    gap: clamp(4rem, 13vw, 13rem);
+
+    align-items: start;
+
+    margin-left:
+      clamp(0rem, 14vw, 14rem);
   }
 
-  .home-positioning .eyebrow {
-    margin-bottom: 1.5rem;
-    color: #f58a60;
-  }
-
-  .home-positioning .section-heading {
-    color: var(--colour-white);
-  }
-
-  .home-positioning__content {
-    display: grid;
-    align-content: end;
-    gap: 1.4rem;
-  }
-
-  .home-positioning__content p {
+  .home-positioning__detail p {
     margin: 0;
   }
 
-  .home-positioning__content .body-large {
-    color: var(--colour-white);
+  .home-positioning__lead {
+    color: #1c2b3d;
+
+    font-size:
+      clamp(1.15rem, 2vw, 1.55rem);
+
+    line-height: 1.55;
   }
 
-  .home-positioning :global(.text-link) {
+  .home-positioning__detail > div {
+    display: grid;
+
+    gap: 1.3rem;
+
+    color: #6b7787;
+
+    font-size: 0.85rem;
+
+    line-height: 1.75;
+  }
+
+  .home-positioning__detail a {
     width: fit-content;
+
+    display: inline-flex;
+
+    gap: 0.6rem;
+
     margin-top: 1rem;
-    color: var(--colour-white);
+
+    border-bottom:
+      1px solid #0d1b2d;
+
+    padding-bottom: 0.25rem;
+
+    color: #0d1b2d;
+
+    font-size: 0.72rem;
+    font-weight: 750;
   }
 
-  @media (max-width: 50rem) {
-    .home-positioning__grid {
+  @media (max-width: 52rem) {
+    .home-positioning__detail {
       grid-template-columns: 1fr;
+
+      margin-left: 0;
     }
   }
 </style>

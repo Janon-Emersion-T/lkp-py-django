@@ -4,148 +4,244 @@ import {
 } from "../../config/process";
 
 import Container from "../ui/Container.astro";
-import SectionHeading from "../ui/SectionHeading.astro";
-import TextLink from "../ui/TextLink.astro";
 ---
 
-<section class="home-process section-space">
+<section class="home-process">
   <Container>
-    <SectionHeading
-      eyebrow="How we work"
-      title="Seven stages from requirement to improvement."
-      description="Delivery stays structured without turning the process into theatre. Each stage exists to make decisions, ownership and progress clearer."
-      align="split"
-    />
+    <header class="home-process__heading">
+      <div>
+        <p>How we work</p>
 
-    <ol class="home-process__timeline">
+        <h2>
+          Structure without
+          <em>the theatre.</em>
+        </h2>
+      </div>
+
+      <div>
+        <p>
+          Seven stages keep decisions, ownership and
+          progress visible from first conversation
+          through long-term improvement.
+        </p>
+
+        <a href="/about/our-process/">
+          Our full process ↗
+        </a>
+      </div>
+    </header>
+
+    <ol class="home-process__stages">
       {
-        processStages.map((stage) => (
+        processStages.map((stage, index) => (
           <li>
-            <span class="home-process__number">
-              {stage.number}
-            </span>
-
-            <div>
-              <span class="home-process__short">
-                {stage.shortTitle}
-              </span>
-
-              <h3>
-                {stage.title}
-              </h3>
-
-              <p>
-                {stage.description}
-              </p>
+            <div class="home-process__stage-number">
+              {String(index + 1).padStart(2, "0")}
             </div>
+
+            <div class="home-process__stage-title">
+              <span>{stage.shortTitle}</span>
+
+              <h3>{stage.title}</h3>
+            </div>
+
+            <p>
+              {stage.description}
+            </p>
           </li>
         ))
       }
     </ol>
-
-    <div class="home-process__footer">
-      <TextLink
-        href="/about/our-process/"
-        label="See our process"
-      />
-    </div>
   </Container>
 </section>
 
 <style>
   .home-process {
-    background: var(--colour-paper);
+    background: #f7f5f0;
+
+    padding-block:
+      clamp(7rem, 13vw, 12rem);
   }
 
-  .home-process__timeline {
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--colour-line);
-    list-style: none;
-  }
-
-  .home-process__timeline li {
+  .home-process__heading {
     display: grid;
+
     grid-template-columns:
-      4rem
-      minmax(0, 1fr);
-    gap: clamp(1.5rem, 5vw, 5rem);
-    border-bottom: 1px solid var(--colour-line);
-    padding-block: 1.5rem;
+      minmax(0, 1.2fr)
+      minmax(16rem, 0.42fr);
+
+    gap: clamp(3rem, 9vw, 9rem);
+
+    align-items: end;
+
+    margin-bottom:
+      clamp(5rem, 9vw, 8rem);
   }
 
-  .home-process__number {
-    color: var(--colour-accent);
+  .home-process__heading
+  > div:first-child > p {
+    margin: 0 0 1.2rem;
+
+    color: #355bc4;
+
     font-size: 0.62rem;
     font-weight: 800;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
   }
 
-  .home-process__timeline li > div {
-    display: grid;
-    grid-template-columns:
-      minmax(8rem, 0.35fr)
-      minmax(14rem, 0.65fr)
-      minmax(18rem, 1fr);
-    gap: clamp(1rem, 4vw, 4rem);
-    align-items: start;
+  .home-process__heading h2 {
+    max-width: 11ch;
+
+    margin: 0;
+
+    color: #112033;
+
+    font-family: var(--font-serif);
+
+    font-size:
+      clamp(3.3rem, 6.8vw, 6.5rem);
+
+    font-weight: 400;
+
+    letter-spacing: -0.064em;
+
+    line-height: 0.91;
   }
 
-  .home-process__short {
-    color: var(--colour-muted);
-    font-size: 0.64rem;
+  .home-process__heading em {
+    display: block;
+
+    color: #78828e;
+
+    font-weight: 400;
+  }
+
+  .home-process__heading
+  > div:last-child {
+    color: #6c7888;
+
+    font-size: 0.82rem;
+
+    line-height: 1.75;
+  }
+
+  .home-process__heading
+  > div:last-child p {
+    margin: 0;
+  }
+
+  .home-process__heading a {
+    display: inline-block;
+
+    margin-top: 1.8rem;
+
+    border-bottom:
+      1px solid #112033;
+
+    padding-bottom: 0.2rem;
+
+    color: #112033;
+
+    font-size: 0.7rem;
     font-weight: 750;
+  }
+
+  .home-process__stages {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+
+    border-top:
+      1px solid #cfd4d9;
+  }
+
+  .home-process__stages li {
+    display: grid;
+
+    grid-template-columns:
+      3rem
+      minmax(13rem, 0.6fr)
+      minmax(18rem, 1fr);
+
+    gap: clamp(1rem, 5vw, 5rem);
+
+    align-items: start;
+
+    border-bottom:
+      1px solid #cfd4d9;
+
+    padding-block:
+      clamp(1.5rem, 3vw, 2.3rem);
+
+    transition:
+      padding-left 180ms ease;
+  }
+
+  .home-process__stages li:hover {
+    padding-left: 0.5rem;
+  }
+
+  .home-process__stage-number {
+    color: #345ac4;
+
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+
+  .home-process__stage-title span {
+    display: block;
+
+    margin-bottom: 0.45rem;
+
+    color: #8a94a1;
+
+    font-size: 0.58rem;
+    font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
-  .home-process h3 {
+  .home-process__stage-title h3 {
     margin: 0;
-    color: var(--colour-ink-strong);
+
+    color: #142237;
+
     font-family: var(--font-serif);
-    font-size: clamp(1.4rem, 2.4vw, 2rem);
+
+    font-size:
+      clamp(1.45rem, 2.6vw, 2.2rem);
+
     font-weight: 400;
+
     letter-spacing: -0.035em;
   }
 
-  .home-process p {
+  .home-process__stages li > p {
+    max-width: 46rem;
+
     margin: 0;
-    color: var(--colour-muted);
-    font-size: 0.84rem;
+
+    color: #6c7888;
+
+    font-size: 0.78rem;
+
     line-height: 1.7;
   }
 
-  .home-process__footer {
-    display: flex;
-    justify-content: flex-end;
-    padding-top: 2rem;
-  }
-
-  @media (max-width: 54rem) {
-    .home-process__timeline li > div {
-      grid-template-columns:
-        minmax(8rem, 0.3fr)
-        1fr;
-    }
-
-    .home-process p {
-      grid-column: 2;
-    }
-  }
-
-  @media (max-width: 36rem) {
-    .home-process__timeline li {
-      grid-template-columns:
-        2rem
-        1fr;
-    }
-
-    .home-process__timeline li > div {
+  @media (max-width: 52rem) {
+    .home-process__heading {
       grid-template-columns: 1fr;
     }
 
-    .home-process p {
-      grid-column: auto;
+    .home-process__stages li {
+      grid-template-columns:
+        2rem 1fr;
+    }
+
+    .home-process__stages li > p {
+      grid-column: 2;
     }
   }
 </style>

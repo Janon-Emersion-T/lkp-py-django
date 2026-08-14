@@ -4,8 +4,6 @@ import type {
 } from "../../lib/insights/types";
 
 import Container from "../ui/Container.astro";
-import SectionHeading from "../ui/SectionHeading.astro";
-import TextLink from "../ui/TextLink.astro";
 
 interface Props {
   insights: PublicInsight[];
@@ -25,69 +23,77 @@ const hrefFor = (
 
 {
   insights.length > 0 && (
-    <section class="home-insights section-space">
+    <section class="home-insights">
       <Container>
-        <SectionHeading
-          eyebrow="Insights"
-          title="Useful thinking for practical technology decisions."
-          description="Articles and tutorials covering websites, software, search, digital growth, AI and business systems."
-          align="split"
-        />
+        <div class="home-insights__heading">
+          <div>
+            <p>Thinking</p>
 
-        <div class="home-insights__list">
+            <h2>
+              Useful, not
+              <em>performative.</em>
+            </h2>
+          </div>
+
+          <a href="/insights/">
+            All insights ↗
+          </a>
+        </div>
+
+        <div class="home-insights__layout">
           {
             insights.map((insight, index) => (
-              <article>
-                <span class="home-insights__number">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-
-                <div>
-                  <p class="home-insights__meta">
+              <article
+                class:list={[
+                  "home-insight",
+                  index === 0
+                    && "home-insight--lead",
+                ]}
+              >
+                <div class="home-insight__meta">
+                  <span>
                     {
                       insight.category_name
                       ?? "Insights"
                     }
-
-                    {
-                      insight.reading_time_minutes
-                      ? ` · ${insight.reading_time_minutes} min read`
-                      : ""
-                    }
-                  </p>
-
-                  <h3>
-                    <a href={hrefFor(insight)}>
-                      {insight.title}
-                    </a>
-                  </h3>
+                  </span>
 
                   {
-                    insight.excerpt && (
-                      <p class="home-insights__excerpt">
-                        {insight.excerpt}
-                      </p>
+                    insight.reading_time_minutes && (
+                      <span>
+                        {
+                          insight
+                            .reading_time_minutes
+                        } min
+                      </span>
                     )
                   }
                 </div>
 
+                <h3>
+                  <a href={hrefFor(insight)}>
+                    {insight.title}
+                  </a>
+                </h3>
+
+                {
+                  insight.excerpt && (
+                    <p>
+                      {insight.excerpt}
+                    </p>
+                  )
+                }
+
                 <a
+                  class="home-insight__link"
                   href={hrefFor(insight)}
-                  class="home-insights__arrow"
-                  aria-label={`Read ${insight.title}`}
                 >
-                  →
+                  Read article
+                  <span aria-hidden="true">↗</span>
                 </a>
               </article>
             ))
           }
-        </div>
-
-        <div class="home-insights__footer">
-          <TextLink
-            href="/insights/"
-            label="Explore all insights"
-          />
         </div>
       </Container>
     </section>
@@ -96,77 +102,186 @@ const hrefFor = (
 
 <style>
   .home-insights {
-    background: var(--colour-white);
+    background: #fff;
+
+    padding-block:
+      clamp(7rem, 13vw, 12rem);
   }
 
-  .home-insights__list {
-    border-top: 1px solid var(--colour-line);
+  .home-insights__heading {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 3rem;
+
+    align-items: end;
+
+    margin-bottom:
+      clamp(4rem, 8vw, 7rem);
   }
 
-  .home-insights article {
-    display: grid;
-    grid-template-columns:
-      3rem
-      minmax(0, 1fr)
-      auto;
-    gap: clamp(1.5rem, 4vw, 4rem);
-    border-bottom: 1px solid var(--colour-line);
-    padding-block: clamp(1.75rem, 3vw, 2.5rem);
-  }
+  .home-insights__heading p {
+    margin: 0 0 1rem;
 
-  .home-insights__number {
-    color: var(--colour-accent);
+    color: #3459c4;
+
     font-size: 0.62rem;
     font-weight: 800;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
   }
 
-  .home-insights__meta {
-    margin: 0 0 0.6rem;
-    color: var(--colour-muted);
-    font-size: 0.6rem;
+  .home-insights__heading h2 {
+    max-width: 10ch;
+
+    margin: 0;
+
+    color: #112033;
+
+    font-family: var(--font-serif);
+
+    font-size:
+      clamp(3.2rem, 6.4vw, 6.2rem);
+
+    font-weight: 400;
+
+    letter-spacing: -0.064em;
+
+    line-height: 0.91;
+  }
+
+  .home-insights__heading em {
+    display: block;
+
+    color: #7b8591;
+
+    font-weight: 400;
+  }
+
+  .home-insights__heading > a {
+    border-bottom:
+      1px solid #112033;
+
+    padding-bottom: 0.2rem;
+
+    font-size: 0.7rem;
+    font-weight: 750;
+  }
+
+  .home-insights__layout {
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1.2fr)
+      repeat(2, minmax(0, 0.55fr));
+
+    gap: clamp(2rem, 5vw, 5rem);
+  }
+
+  .home-insight {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 25rem;
+
+    border-top:
+      1px solid #d1d6dc;
+
+    padding-top: 1.2rem;
+  }
+
+  .home-insight--lead {
+    min-height: 31rem;
+  }
+
+  .home-insight__meta {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    color: #7a8695;
+
+    font-size: 0.58rem;
     letter-spacing: 0.07em;
     text-transform: uppercase;
   }
 
-  .home-insights h3 {
-    max-width: 26ch;
-    margin: 0;
-    color: var(--colour-ink-strong);
+  .home-insight h3 {
+    margin: auto 0 0;
+
+    color: #122136;
+
     font-family: var(--font-serif);
-    font-size: clamp(1.6rem, 3vw, 2.5rem);
+
+    font-size:
+      clamp(2rem, 3.7vw, 3.6rem);
+
     font-weight: 400;
-    letter-spacing: -0.035em;
-    line-height: 1.05;
+
+    letter-spacing: -0.045em;
+
+    line-height: 1;
   }
 
-  .home-insights__excerpt {
-    max-width: 46rem;
-    margin: 0.9rem 0 0;
-    color: var(--colour-muted);
-    font-size: 0.8rem;
-    line-height: 1.7;
+  .home-insight:not(.home-insight--lead)
+  h3 {
+    font-size:
+      clamp(1.7rem, 2.8vw, 2.6rem);
   }
 
-  .home-insights__arrow {
-    color: var(--colour-accent-dark);
-    font-size: 1.3rem;
+  .home-insight > p {
+    margin: 1rem 0 0;
+
+    color: #6d7988;
+
+    font-size: 0.78rem;
+
+    line-height: 1.65;
   }
 
-  .home-insights__footer {
-    display: flex;
-    justify-content: flex-end;
-    padding-top: 2rem;
+  .home-insight__link {
+    display: inline-flex;
+
+    width: fit-content;
+
+    gap: 0.55rem;
+
+    margin-top: 1.6rem;
+
+    font-size: 0.68rem;
+    font-weight: 750;
+  }
+
+  @media (max-width: 58rem) {
+    .home-insights__layout {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+
+    .home-insight--lead {
+      grid-column: 1 / -1;
+    }
   }
 
   @media (max-width: 38rem) {
-    .home-insights article {
-      grid-template-columns:
-        2rem
-        minmax(0, 1fr);
+    .home-insights__heading {
+      align-items: flex-start;
+      flex-direction: column;
     }
 
-    .home-insights__arrow {
-      display: none;
+    .home-insights__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .home-insight--lead {
+      grid-column: auto;
+    }
+
+    .home-insight {
+      min-height: 21rem;
     }
   }
 </style>

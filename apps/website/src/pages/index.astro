@@ -2,14 +2,12 @@
 import Layout from "../layouts/Layout.astro";
 
 import HomeHero from "../components/home/HomeHero.astro";
-import HomeProof from "../components/home/HomeProof.astro";
 import HomePositioning from "../components/home/HomePositioning.astro";
 import HomeServices from "../components/home/HomeServices.astro";
 import HomeFeaturedWork from "../components/home/HomeFeaturedWork.astro";
 import HomeIndustries from "../components/home/HomeIndustries.astro";
 import HomeProcess from "../components/home/HomeProcess.astro";
 import HomeWhyLkp from "../components/home/HomeWhyLkp.astro";
-import HomeTestimonials from "../components/home/HomeTestimonials.astro";
 import HomeInsights from "../components/home/HomeInsights.astro";
 
 import {
@@ -20,18 +18,12 @@ import {
   getPublicInsights,
 } from "../lib/insights/api";
 
-import {
-  getTestimonials,
-} from "../lib/testimonials/api";
-
 const [
   allProjects,
   allInsights,
-  allTestimonials,
 ] = await Promise.all([
   getPortfolioProjects(),
   getPublicInsights(),
-  getTestimonials(),
 ]);
 
 const featuredProjects = [
@@ -66,31 +58,6 @@ const featuredInsights = [
   )
   .slice(0, 3);
 
-const featuredTestimonials = [
-  ...allTestimonials.filter(
-    (testimonial) =>
-      testimonial.is_featured
-      && testimonial.is_verified,
-  ),
-  ...allTestimonials.filter(
-    (testimonial) =>
-      testimonial.is_featured,
-  ),
-  ...allTestimonials.filter(
-    (testimonial) =>
-      testimonial.is_verified,
-  ),
-  ...allTestimonials,
-]
-  .filter(
-    (testimonial, index, items) =>
-      items.findIndex(
-        (item) =>
-          item.id === testimonial.id,
-      ) === index,
-  )
-  .slice(0, 3);
-
 const structuredData = [
   {
     "@context": "https://schema.org",
@@ -117,25 +84,19 @@ const structuredData = [
 >
   <HomeHero />
 
-  <HomeProof />
+  <HomeFeaturedWork
+    projects={featuredProjects}
+  />
 
   <HomePositioning />
 
   <HomeServices />
 
-  <HomeFeaturedWork
-    projects={featuredProjects}
-  />
-
   <HomeIndustries />
-
-  <HomeProcess />
 
   <HomeWhyLkp />
 
-  <HomeTestimonials
-    testimonials={featuredTestimonials}
-  />
+  <HomeProcess />
 
   <HomeInsights
     insights={featuredInsights}

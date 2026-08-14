@@ -4,192 +4,553 @@ import type {
 } from "../../lib/portfolio/types";
 
 import Container from "../ui/Container.astro";
-import SectionHeading from "../ui/SectionHeading.astro";
-import TextLink from "../ui/TextLink.astro";
 
 interface Props {
   projects: PortfolioProject[];
 }
 
 const { projects } = Astro.props;
+
+const lead = projects[0];
+const supporting = projects.slice(1, 3);
 ---
 
-<section class="home-work section-space">
+<section class="home-work">
   <Container>
-    <SectionHeading
-      eyebrow="Selected work"
-      title="The outcome matters more than the deliverable."
-      description="A selection of published LKProfessionals work across websites, software, applications, growth and business technology."
-      align="split"
-    />
+    <header class="home-work__heading">
+      <div>
+        <p>Selected work</p>
+
+        <h2>
+          Built for the
+          <em>real operation.</em>
+        </h2>
+      </div>
+
+      <a href="/case-studies/">
+        Explore case studies
+        <span aria-hidden="true">↗</span>
+      </a>
+    </header>
 
     {
-      projects.length > 0 ? (
-        <div class="home-work__list">
-          {
-            projects.map((project, index) => (
-              <article class="home-work__item">
-                <span class="home-work__number">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+      lead ? (
+        <>
+          <article class="home-work__lead">
+            <a
+              class="home-work__visual"
+              href={`/case-studies/${lead.slug}/`}
+            >
+              {
+                lead.featured_image_url ? (
+                  <img
+                    src={lead.featured_image_url}
+                    alt=""
+                    loading="eager"
+                  />
+                ) : (
+                  <div class="home-work__visual-fallback">
+                    <span>
+                      {lead.industry_name ?? "Technology"}
+                    </span>
 
-                <div class="home-work__main">
-                  <div class="home-work__meta">
-                    {
-                      project.client_name && (
-                        <span>
-                          {project.client_name}
-                        </span>
-                      )
-                    }
-
-                    {
-                      project.industry_name && (
-                        <span>
-                          {project.industry_name}
-                        </span>
-                      )
-                    }
+                    <strong>
+                      {lead.title}
+                    </strong>
                   </div>
+                )
+              }
 
-                  <h3>
-                    {project.title}
-                  </h3>
+              <span class="home-work__visual-index">
+                01
+              </span>
+            </a>
 
-                  {
-                    project.short_description && (
-                      <p>
-                        {project.short_description}
-                      </p>
-                    )
-                  }
-                </div>
+            <div class="home-work__lead-copy">
+              <div class="home-work__meta">
+                {
+                  lead.client_name && (
+                    <span>{lead.client_name}</span>
+                  )
+                }
 
-                <a
-                  class="home-work__link"
-                  href={`/case-studies/${project.slug}/`}
-                >
-                  View case study
-                  <span aria-hidden="true">
-                    →
-                  </span>
+                {
+                  lead.industry_name && (
+                    <span>{lead.industry_name}</span>
+                  )
+                }
+              </div>
+
+              <h3>
+                <a href={`/case-studies/${lead.slug}/`}>
+                  {lead.title}
                 </a>
-              </article>
-            ))
+              </h3>
+
+              {
+                lead.short_description && (
+                  <p>
+                    {lead.short_description}
+                  </p>
+                )
+              }
+
+              <a
+                class="home-work__case-link"
+                href={`/case-studies/${lead.slug}/`}
+              >
+                Read the case study
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+
+          {
+            supporting.length > 0 && (
+              <div class="home-work__supporting">
+                {
+                  supporting.map((project, index) => (
+                    <article class="home-work__support">
+                      <div class="home-work__support-top">
+                        <span>
+                          {String(index + 2).padStart(2, "0")}
+                        </span>
+
+                        <span>
+                          {project.industry_name ?? "Project"}
+                        </span>
+                      </div>
+
+                      <h3>
+                        <a
+                          href={`/case-studies/${project.slug}/`}
+                        >
+                          {project.title}
+                        </a>
+                      </h3>
+
+                      {
+                        project.short_description && (
+                          <p>
+                            {project.short_description}
+                          </p>
+                        )
+                      }
+
+                      <a
+                        class="home-work__support-link"
+                        href={`/case-studies/${project.slug}/`}
+                      >
+                        View project
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                    </article>
+                  ))
+                }
+              </div>
+            )
           }
-        </div>
+        </>
       ) : (
         <div class="home-work__empty">
+          <span>Work archive</span>
+
+          <h3>
+            Case studies are being prepared for publication.
+          </h3>
+
           <p>
-            Published case studies will appear here
-            as completed work is released through the
+            Completed work will appear here as projects
+            are documented and released through the
             LKProfessionals case-study system.
           </p>
+
+          <a href="/case-studies/">
+            Visit case studies →
+          </a>
         </div>
       )
     }
-
-    <div class="home-work__footer">
-      <TextLink
-        href="/case-studies/"
-        label="View all case studies"
-      />
-    </div>
   </Container>
 </section>
 
 <style>
   .home-work {
-    background: var(--colour-paper);
+    background: #f4f2ec;
+
+    padding-block:
+      clamp(6rem, 12vw, 11rem);
   }
 
-  .home-work__list {
-    border-top: 1px solid var(--colour-line);
-  }
-
-  .home-work__item {
+  .home-work__heading {
     display: grid;
+
     grid-template-columns:
-      3rem
       minmax(0, 1fr)
       auto;
-    gap: clamp(1.5rem, 4vw, 4rem);
-    align-items: center;
-    border-bottom: 1px solid var(--colour-line);
-    padding-block: clamp(2rem, 4vw, 3rem);
+
+    gap: 3rem;
+
+    align-items: end;
+
+    margin-bottom:
+      clamp(3rem, 6vw, 5rem);
   }
 
-  .home-work__number {
-    color: var(--colour-accent);
-    font-size: 0.65rem;
+  .home-work__heading p {
+    margin: 0 0 1rem;
+
+    color: #254cb8;
+
+    font-size: 0.64rem;
     font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .home-work__heading h2 {
+    max-width: 12ch;
+
+    margin: 0;
+
+    color: #101b2a;
+
+    font-family: var(--font-serif);
+
+    font-size:
+      clamp(3.4rem, 7vw, 6.8rem);
+
+    font-weight: 400;
+
+    letter-spacing: -0.065em;
+
+    line-height: 0.9;
+  }
+
+  .home-work__heading h2 em {
+    display: block;
+
+    color: #576578;
+
+    font-weight: 400;
+  }
+
+  .home-work__heading > a {
+    display: inline-flex;
+
+    gap: 0.6rem;
+
+    align-items: center;
+
+    border-bottom:
+      1px solid #101b2a;
+
+    padding-bottom: 0.25rem;
+
+    font-size: 0.72rem;
+    font-weight: 750;
+  }
+
+  .home-work__lead {
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1.45fr)
+      minmax(19rem, 0.55fr);
+
+    gap: clamp(2rem, 5vw, 5rem);
+
+    align-items: end;
+  }
+
+  .home-work__visual {
+    position: relative;
+
+    display: block;
+
+    min-height:
+      clamp(24rem, 50vw, 42rem);
+
+    overflow: hidden;
+
+    background: #10233d;
+  }
+
+  .home-work__visual img {
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    inset: 0;
+
+    object-fit: cover;
+
+    transition:
+      transform 700ms cubic-bezier(.2,.75,.25,1);
+  }
+
+  .home-work__visual:hover img {
+    transform: scale(1.025);
+  }
+
+  .home-work__visual-fallback {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    padding:
+      clamp(2rem, 5vw, 4rem);
+
+    background:
+      radial-gradient(
+        circle at 76% 22%,
+        rgba(69, 99, 255, 0.36),
+        transparent 19rem
+      ),
+      linear-gradient(
+        135deg,
+        #071529,
+        #15345f
+      );
+
+    color: #fff;
+  }
+
+  .home-work__visual-fallback span {
+    font-size: 0.65rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .home-work__visual-fallback strong {
+    max-width: 10ch;
+
+    font-family: var(--font-serif);
+
+    font-size:
+      clamp(2.8rem, 6vw, 5.5rem);
+
+    font-weight: 400;
+
+    letter-spacing: -0.055em;
+
+    line-height: 0.92;
+  }
+
+  .home-work__visual-index {
+    position: absolute;
+
+    right: 1rem;
+    bottom: 1rem;
+
+    display: grid;
+
+    width: 3rem;
+    height: 3rem;
+
+    place-items: center;
+
+    background: #fff;
+
+    color: #0d1c31;
+
+    font-size: 0.64rem;
+    font-weight: 800;
+  }
+
+  .home-work__lead-copy {
+    padding-bottom:
+      clamp(1rem, 3vw, 2.5rem);
   }
 
   .home-work__meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem 1.2rem;
-    margin-bottom: 0.65rem;
-    color: var(--colour-muted);
-    font-size: 0.6rem;
-    letter-spacing: 0.07em;
+
+    gap: 0.5rem 1.2rem;
+
+    margin-bottom: 1.1rem;
+
+    color: #6c7888;
+
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
-  .home-work h3 {
+  .home-work__meta span + span::before {
+    margin-right: 1.2rem;
+
+    content: "·";
+  }
+
+  .home-work__lead h3,
+  .home-work__support h3 {
     margin: 0;
-    color: var(--colour-ink-strong);
+
+    color: #101b2a;
+
     font-family: var(--font-serif);
-    font-size: clamp(1.8rem, 3.5vw, 3rem);
+
     font-weight: 400;
-    letter-spacing: -0.04em;
+
+    letter-spacing: -0.045em;
+
     line-height: 1;
   }
 
-  .home-work__main > p {
-    max-width: 44rem;
-    margin: 1rem 0 0;
-    color: var(--colour-muted);
+  .home-work__lead h3 {
+    font-size:
+      clamp(2.6rem, 5vw, 4.7rem);
   }
 
-  .home-work__link {
+  .home-work__lead-copy > p {
+    max-width: 33rem;
+
+    margin: 1.4rem 0 0;
+
+    color: #667384;
+
+    line-height: 1.75;
+  }
+
+  .home-work__case-link,
+  .home-work__support-link {
     display: inline-flex;
-    gap: 0.55rem;
-    border-bottom: 1px solid currentColor;
-    padding-bottom: 0.2rem;
-    font-size: 0.76rem;
+
+    gap: 0.6rem;
+
+    margin-top: 2rem;
+
+    font-size: 0.72rem;
     font-weight: 750;
-    white-space: nowrap;
+  }
+
+  .home-work__supporting {
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: clamp(3rem, 7vw, 7rem);
+
+    margin-top:
+      clamp(5rem, 10vw, 9rem);
+
+    margin-left:
+      clamp(0rem, 12vw, 12rem);
+  }
+
+  .home-work__support {
+    border-top:
+      1px solid #bec3c7;
+
+    padding-top: 1.2rem;
+  }
+
+  .home-work__support-top {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    margin-bottom:
+      clamp(3rem, 7vw, 6rem);
+
+    color: #768190;
+
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .home-work__support h3 {
+    max-width: 13ch;
+
+    font-size:
+      clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .home-work__support > p {
+    max-width: 32rem;
+
+    margin: 1.2rem 0 0;
+
+    color: #687585;
+
+    font-size: 0.82rem;
+
+    line-height: 1.7;
   }
 
   .home-work__empty {
-    border-top: 1px solid var(--colour-line);
-    border-bottom: 1px solid var(--colour-line);
-    padding-block: 3rem;
-    color: var(--colour-muted);
-  }
+    max-width: 55rem;
 
-  .home-work__empty p {
-    max-width: 42rem;
-    margin: 0;
-  }
+    margin-left: 18%;
 
-  .home-work__footer {
-    display: flex;
-    justify-content: flex-end;
+    border-top:
+      1px solid #bec3c7;
+
     padding-top: 2rem;
   }
 
-  @media (max-width: 44rem) {
-    .home-work__item {
-      grid-template-columns:
-        2rem
-        minmax(0, 1fr);
+  .home-work__empty > span {
+    color: #254cb8;
+
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .home-work__empty h3 {
+    margin: 2rem 0 0;
+
+    font-family: var(--font-serif);
+
+    font-size:
+      clamp(2.5rem, 5vw, 4.5rem);
+
+    font-weight: 400;
+
+    letter-spacing: -0.05em;
+  }
+
+  .home-work__empty p {
+    max-width: 38rem;
+
+    color: #687585;
+  }
+
+  @media (max-width: 58rem) {
+    .home-work__lead {
+      grid-template-columns: 1fr;
     }
 
-    .home-work__link {
-      grid-column: 2;
+    .home-work__supporting {
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .home-work__heading {
+      grid-template-columns: 1fr;
+    }
+
+    .home-work__heading > a {
       width: fit-content;
+    }
+
+    .home-work__supporting {
+      grid-template-columns: 1fr;
+    }
+
+    .home-work__empty {
+      margin-left: 0;
     }
   }
 </style>

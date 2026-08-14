@@ -4,130 +4,264 @@ import {
 } from "../../config/industries";
 
 import Container from "../ui/Container.astro";
-import SectionHeading from "../ui/SectionHeading.astro";
-import TextLink from "../ui/TextLink.astro";
 ---
 
-<section class="home-industries section-space">
+<section class="home-industries">
   <Container>
-    <SectionHeading
-      eyebrow="Industries"
-      title="Technology shaped around the operation."
-      description="Different organisations carry different workflows, constraints and responsibilities. We adapt the technology to that context rather than forcing every business into the same template."
-      align="split"
-    />
+    <div class="home-industries__top">
+      <div>
+        <p>Industries</p>
 
-    <div class="home-industries__grid">
+        <h2>
+          Context changes
+          <em>the right answer.</em>
+        </h2>
+      </div>
+
+      <div>
+        <p>
+          Technology for a hotel, school, construction
+          company or finance operation cannot be treated
+          as the same problem with a different logo.
+        </p>
+
+        <a href="/industries/">
+          Explore industries ↗
+        </a>
+      </div>
+    </div>
+
+    <div class="home-industries__directory">
       {
-        industries.map((industry) => (
+        industries.map((industry, index) => (
           <a
             href={industry.href}
             class="home-industry"
           >
-            <span>
-              {industry.number}
+            <span class="home-industry__number">
+              {String(index + 1).padStart(2, "0")}
             </span>
 
-            <div>
-              <h3>
-                {industry.title}
-              </h3>
+            <h3>
+              {industry.title}
+            </h3>
 
-              <p>
-                {industry.areas.join(" · ")}
-              </p>
-            </div>
+            <p>
+              {industry.areas
+                .slice(0, 3)
+                .join(" · ")}
+            </p>
 
-            <span aria-hidden="true">
-              →
+            <span
+              class="home-industry__arrow"
+              aria-hidden="true"
+            >
+              ↗
             </span>
           </a>
         ))
       }
-    </div>
-
-    <div class="home-industries__footer">
-      <TextLink
-        href="/industries/"
-        label="Explore industries"
-      />
     </div>
   </Container>
 </section>
 
 <style>
   .home-industries {
-    background: var(--colour-white);
+    background: #fff;
+
+    padding-block:
+      clamp(7rem, 13vw, 12rem);
   }
 
-  .home-industries__grid {
+  .home-industries__top {
     display: grid;
+
     grid-template-columns:
-      repeat(3, minmax(0, 1fr));
-    border-top: 1px solid var(--colour-line);
-    border-left: 1px solid var(--colour-line);
+      minmax(0, 1.2fr)
+      minmax(17rem, 0.48fr);
+
+    gap: clamp(3rem, 8vw, 8rem);
+
+    align-items: end;
+
+    margin-bottom:
+      clamp(5rem, 9vw, 8rem);
+  }
+
+  .home-industries__top > div:first-child > p {
+    margin: 0 0 1.2rem;
+
+    color: #3459c4;
+
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .home-industries h2 {
+    max-width: 11ch;
+
+    margin: 0;
+
+    color: #101c2c;
+
+    font-family: var(--font-serif);
+
+    font-size:
+      clamp(3.3rem, 6.8vw, 6.6rem);
+
+    font-weight: 400;
+
+    letter-spacing: -0.064em;
+
+    line-height: 0.91;
+  }
+
+  .home-industries h2 em {
+    display: block;
+
+    color: #7a8490;
+
+    font-weight: 400;
+  }
+
+  .home-industries__top > div:last-child {
+    color: #687585;
+
+    font-size: 0.84rem;
+
+    line-height: 1.75;
+  }
+
+  .home-industries__top > div:last-child p {
+    margin: 0;
+  }
+
+  .home-industries__top a {
+    display: inline-block;
+
+    margin-top: 1.8rem;
+
+    border-bottom:
+      1px solid #101c2c;
+
+    padding-bottom: 0.2rem;
+
+    color: #101c2c;
+
+    font-size: 0.72rem;
+    font-weight: 750;
+  }
+
+  .home-industries__directory {
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    column-gap:
+      clamp(3rem, 8vw, 8rem);
   }
 
   .home-industry {
-    min-height: 12rem;
+    position: relative;
+
     display: grid;
+
     grid-template-columns:
-      auto
+      2.5rem
       minmax(0, 1fr)
       auto;
+
     gap: 1rem;
-    align-items: start;
-    border-right: 1px solid var(--colour-line);
-    border-bottom: 1px solid var(--colour-line);
-    padding: 1.5rem;
-    transition:
-      background-color 160ms ease,
-      color 160ms ease;
+
+    align-items: baseline;
+
+    border-top:
+      1px solid #d5dae0;
+
+    padding-block:
+      clamp(1.5rem, 3vw, 2.3rem);
   }
 
-  .home-industry:hover {
-    background: var(--colour-soft-blue);
+  .home-industry:nth-last-child(-n + 2) {
+    border-bottom:
+      1px solid #d5dae0;
   }
 
-  .home-industry > span:first-child {
-    color: var(--colour-accent);
-    font-size: 0.62rem;
-    font-weight: 800;
+  .home-industry__number {
+    color: #8a95a3;
+
+    font-size: 0.58rem;
   }
 
   .home-industry h3 {
     margin: 0;
-    color: var(--colour-ink-strong);
+
+    color: #142235;
+
     font-family: var(--font-serif);
-    font-size: clamp(1.35rem, 2.2vw, 1.9rem);
+
+    font-size:
+      clamp(1.7rem, 3vw, 2.7rem);
+
     font-weight: 400;
-    letter-spacing: -0.035em;
-    line-height: 1.05;
+
+    letter-spacing: -0.04em;
+
+    transition:
+      transform 180ms ease,
+      color 180ms ease;
   }
 
   .home-industry p {
-    margin: 0.8rem 0 0;
-    color: var(--colour-muted);
-    font-size: 0.72rem;
-    line-height: 1.6;
+    grid-column: 2;
+
+    margin: 0.5rem 0 0;
+
+    color: #7a8695;
+
+    font-size: 0.65rem;
+
+    line-height: 1.55;
   }
 
-  .home-industries__footer {
-    display: flex;
-    justify-content: flex-end;
-    padding-top: 2rem;
+  .home-industry__arrow {
+    color: #2e56c2;
+
+    transition:
+      transform 180ms ease;
   }
 
-  @media (max-width: 58rem) {
-    .home-industries__grid {
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-    }
+  .home-industry:hover h3 {
+    transform: translateX(0.35rem);
+
+    color: #3158c4;
   }
 
-  @media (max-width: 36rem) {
-    .home-industries__grid {
+  .home-industry:hover
+  .home-industry__arrow {
+    transform:
+      translate(0.15rem, -0.15rem);
+  }
+
+  @media (max-width: 54rem) {
+    .home-industries__top {
       grid-template-columns: 1fr;
+    }
+
+    .home-industries__directory {
+      grid-template-columns: 1fr;
+    }
+
+    .home-industry:nth-last-child(-n + 2) {
+      border-bottom: 0;
+    }
+
+    .home-industry:last-child {
+      border-bottom:
+        1px solid #d5dae0;
     }
   }
 </style>
