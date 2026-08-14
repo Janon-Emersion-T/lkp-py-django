@@ -1,0 +1,566 @@
+---
+import {
+  getPortfolioProjects,
+} from "../../lib/portfolio/api";
+
+interface Props {
+  serviceSlug: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  emptyTitle: string;
+}
+
+const {
+  serviceSlug,
+  eyebrow,
+  title,
+  description,
+  emptyTitle,
+} = Astro.props;
+
+const projects =
+  await getPortfolioProjects(serviceSlug);
+
+const caseStudies =
+  projects.filter(
+    (project) =>
+      Boolean(
+        project.slug
+        && project.title,
+      ),
+  );
+---
+
+<section
+  class="discipline-cases"
+  aria-labelledby={`case-directory-${serviceSlug}`}
+>
+  <div class="site-container">
+    <header class="discipline-cases__heading">
+      <div>
+        <p>{eyebrow}</p>
+
+        <h2 id={`case-directory-${serviceSlug}`}>
+          {title}
+        </h2>
+      </div>
+
+      <p>{description}</p>
+    </header>
+
+    {
+      caseStudies.length > 0 ? (
+        <div class="discipline-cases__list">
+          {
+            caseStudies.map(
+              (caseStudy, index) => {
+                const technologies =
+                  Array.isArray(
+                    caseStudy.technologies,
+                  )
+                    ? caseStudy.technologies.slice(
+                        0,
+                        6,
+                      )
+                    : [];
+
+                const metrics =
+                  Array.isArray(
+                    caseStudy.metrics,
+                  )
+                    ? caseStudy.metrics.slice(
+                        0,
+                        3,
+                      )
+                    : [];
+
+                const showDuration =
+                  Boolean(
+                    caseStudy.project_duration,
+                  )
+                  && metrics.length < 3;
+
+                return (
+                  <article class="discipline-case">
+                    <div class="discipline-case__index">
+                      <span>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+
+                    <div class="discipline-case__main">
+                      <div class="discipline-case__meta">
+                        {
+                          caseStudy.client_name && (
+                            <span>
+                              {caseStudy.client_name}
+                            </span>
+                          )
+                        }
+
+                        {
+                          caseStudy.location && (
+                            <span>
+                              {caseStudy.location}
+                            </span>
+                          )
+                        }
+                      </div>
+
+                      <h3>
+                        {caseStudy.title}
+                      </h3>
+
+                      {
+                        caseStudy.short_description && (
+                          <p>
+                            {caseStudy.short_description}
+                          </p>
+                        )
+                      }
+
+                      {
+                        technologies.length > 0 && (
+                          <div class="discipline-case__technologies">
+                            {
+                              technologies.map(
+                                (technology) => (
+                                  <span>
+                                    {technology.name}
+                                  </span>
+                                ),
+                              )
+                            }
+                          </div>
+                        )
+                      }
+                    </div>
+
+                    {
+                      (
+                        metrics.length > 0
+                        || showDuration
+                      ) && (
+                        <div class="discipline-case__metrics">
+                          {
+                            metrics.map(
+                              (metric) => (
+                                <div>
+                                  <strong>
+                                    {metric.value}
+                                  </strong>
+
+                                  <span>
+                                    {metric.label}
+                                  </span>
+                                </div>
+                              ),
+                            )
+                          }
+
+                          {
+                            showDuration && (
+                              <div>
+                                <strong>
+                                  {
+                                    caseStudy
+                                      .project_duration
+                                  }
+                                </strong>
+
+                                <span>
+                                  Project duration
+                                </span>
+                              </div>
+                            )
+                          }
+                        </div>
+                      )
+                    }
+
+                    <a
+                      class="discipline-case__link"
+                      href={`/case-studies/${caseStudy.slug}/`}
+                      aria-label={`Read ${caseStudy.title}`}
+                    >
+                      <span>
+                        Read case study
+                      </span>
+
+                      <svg
+                        aria-hidden="true"
+                        viewBox="0 0 20 20"
+                        width="19"
+                        height="19"
+                      >
+                        <path
+                          d="M3 10h14M12 5l5 5-5 5"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.5"
+                        />
+                      </svg>
+                    </a>
+                  </article>
+                );
+              },
+            )
+          }
+        </div>
+      ) : (
+        <div class="discipline-cases__empty">
+          <span>
+            Current archive
+          </span>
+
+          <h3>
+            {emptyTitle}
+          </h3>
+
+          <p>
+            Published work will appear here after
+            projects are completed, documented and
+            released through the LKProfessionals
+            Case Studies system.
+          </p>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .discipline-cases {
+    background: #ffffff;
+
+    padding-block:
+      clamp(5rem, 10vw, 9rem);
+  }
+
+  .discipline-cases__heading {
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(15rem, 0.38fr);
+
+    align-items: end;
+
+    gap: clamp(2rem, 7vw, 6rem);
+
+    margin-bottom:
+      clamp(3rem, 6vw, 5rem);
+  }
+
+  .discipline-cases__heading
+    > div > p {
+    margin: 0 0 1rem;
+
+    color: #0b2f8f;
+
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .discipline-cases__heading h2 {
+    max-width: 13ch;
+
+    margin: 0;
+
+    color: #0b1e3a;
+
+    font-family: var(--font-serif);
+
+    font-size:
+      clamp(2.8rem, 5vw, 4.8rem);
+
+    font-weight: 400;
+
+    letter-spacing: -0.05em;
+
+    line-height: 0.98;
+  }
+
+  .discipline-cases__heading
+    > p {
+    margin: 0;
+
+    color: #69768a;
+
+    font-size: 0.78rem;
+
+    line-height: 1.8;
+  }
+
+  .discipline-cases__list {
+    border-top:
+      1px solid #d8e0e9;
+  }
+
+  .discipline-case {
+    display: grid;
+
+    grid-template-columns:
+      3.5rem
+      minmax(0, 1fr)
+      minmax(10rem, 0.32fr)
+      2rem;
+
+    gap:
+      clamp(1.5rem, 4vw, 3.5rem);
+
+    align-items: start;
+
+    border-bottom:
+      1px solid #d8e0e9;
+
+    padding-block:
+      clamp(2rem, 4vw, 3rem);
+  }
+
+  .discipline-case__index {
+    color: #8490a1;
+
+    font-family:
+      var(--font-serif);
+
+    font-size: 0.8rem;
+  }
+
+  .discipline-case__meta {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 0.6rem 1.2rem;
+
+    margin-bottom: 0.75rem;
+
+    color: #7b8798;
+
+    font-size: 0.63rem;
+
+    letter-spacing: 0.06em;
+
+    text-transform: uppercase;
+  }
+
+  .discipline-case__meta
+    span + span::before {
+    margin-right: 1.2rem;
+
+    color: #b2bbc7;
+
+    content: "·";
+  }
+
+  .discipline-case h3 {
+    margin: 0;
+
+    color: #0b1e3a;
+
+    font-family:
+      var(--font-serif);
+
+    font-size:
+      clamp(1.8rem, 3vw, 2.8rem);
+
+    font-weight: 400;
+
+    letter-spacing: -0.035em;
+
+    line-height: 1.05;
+  }
+
+  .discipline-case__main > p {
+    max-width: 44rem;
+
+    margin:
+      1rem 0 0;
+
+    color: #627186;
+
+    font-size: 0.76rem;
+
+    line-height: 1.8;
+  }
+
+  .discipline-case__technologies {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 0.45rem;
+
+    margin-top: 1.3rem;
+  }
+
+  .discipline-case__technologies span {
+    border:
+      1px solid #d8e0e9;
+
+    padding:
+      0.35rem 0.6rem;
+
+    color: #526278;
+
+    font-size: 0.58rem;
+
+    letter-spacing: 0.03em;
+  }
+
+  .discipline-case__metrics {
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .discipline-case__metrics div {
+    border-left:
+      1px solid #ccd6e2;
+
+    padding-left: 1rem;
+  }
+
+  .discipline-case__metrics strong {
+    display: block;
+
+    color: #0b2f8f;
+
+    font-family:
+      var(--font-serif);
+
+    font-size: 1.45rem;
+
+    font-weight: 400;
+  }
+
+  .discipline-case__metrics span {
+    display: block;
+
+    margin-top: 0.25rem;
+
+    color: #7a8797;
+
+    font-size: 0.58rem;
+
+    line-height: 1.4;
+  }
+
+  .discipline-case__link {
+    display: flex;
+
+    justify-content: flex-end;
+
+    color: #0b2f8f;
+  }
+
+  .discipline-case__link > span {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    overflow: hidden;
+
+    clip:
+      rect(0 0 0 0);
+
+    white-space: nowrap;
+  }
+
+  .discipline-cases__empty {
+    border-top:
+      1px solid #d8e0e9;
+
+    border-bottom:
+      1px solid #d8e0e9;
+
+    padding-block:
+      clamp(3rem, 6vw, 5rem);
+  }
+
+  .discipline-cases__empty > span {
+    color: #0b2f8f;
+
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .discipline-cases__empty h3 {
+    max-width: 22ch;
+
+    margin: 1rem 0 0;
+
+    color: #0b1e3a;
+
+    font-family:
+      var(--font-serif);
+
+    font-size:
+      clamp(2rem, 4vw, 3.5rem);
+
+    font-weight: 400;
+
+    letter-spacing: -0.04em;
+  }
+
+  .discipline-cases__empty p {
+    max-width: 40rem;
+
+    margin: 1rem 0 0;
+
+    color: #69768a;
+
+    font-size: 0.76rem;
+
+    line-height: 1.8;
+  }
+
+  @media (max-width: 58rem) {
+    .discipline-cases__heading {
+      grid-template-columns: 1fr;
+    }
+
+    .discipline-case {
+      grid-template-columns:
+        2rem
+        minmax(0, 1fr)
+        1.5rem;
+    }
+
+    .discipline-case__metrics {
+      grid-column: 2 / -1;
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(8rem, 1fr)
+        );
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .discipline-case {
+      grid-template-columns:
+        1fr;
+    }
+
+    .discipline-case__index {
+      display: none;
+    }
+
+    .discipline-case__metrics {
+      grid-column: auto;
+    }
+
+    .discipline-case__link {
+      justify-content:
+        flex-start;
+    }
+  }
+</style>
