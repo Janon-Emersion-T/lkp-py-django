@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'apps.insights.apps.InsightsConfig',
     'apps.case_studies.apps.CaseStudiesConfig',
     'apps.testimonials.apps.TestimonialsConfig',
+    'apps.resources.apps.ResourcesConfig',
     'apps.careers.apps.CareersConfig',
     'apps.newsletter.apps.NewsletterConfig',
     'apps.enquiries.apps.EnquiriesConfig',

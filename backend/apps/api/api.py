@@ -31,6 +31,7 @@ from apps.industries.api import router as industries_router
 from apps.insights.api import router as insights_router
 from apps.case_studies.api import router as case_studies_router
 from apps.testimonials.api import router as testimonials_router
+from apps.resources.api import router as resources_router
 from apps.careers.api import router as careers_router
 from apps.newsletter.api import router as newsletter_router
 from apps.enquiries.api import router as enquiries_router
@@ -389,6 +390,7 @@ api.add_router("/insights", insights_router)
 api.add_router("/case-studies", case_studies_router)
 
 api.add_router("/testimonials", testimonials_router)
+api.add_router("/resources", resources_router)
 api.add_router("/careers", careers_router)
 
 api.add_router("/newsletter", newsletter_router)

@@ -1,0 +1,284 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import ResourcesNav from "../../components/resources/ResourcesNav.astro";
+
+import {
+  getResource,
+} from "../../lib/resources/api";
+
+const { slug } = Astro.params;
+
+const resource =
+  slug
+    ? await getResource(slug)
+    : null;
+
+if (!resource) {
+  Astro.response.status = 404;
+}
+
+const title =
+  resource?.seo?.meta_title
+  || resource?.title
+  || "Resource not found";
+
+const description =
+  resource?.seo?.meta_description
+  || resource?.excerpt
+  || "LKProfessionals resource.";
+
+const canonicalPath =
+  resource
+    ? `/resources/${resource.slug}/`
+    : "/resources/";
+
+const sections =
+  resource?.content?.sections ?? [];
+
+const categoryPaths = {
+  download: "/resources/downloads",
+  guide: "/resources/guides",
+  checklist: "/resources/checklists",
+  template: "/resources/templates",
+};
+
+const activePath =
+  resource
+    ? categoryPaths[resource.resource_type]
+    : "/resources";
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  noindex={!resource}
+  structuredData={
+    resource?.seo?.structured_data
+  }
+>
+  {
+    resource ? (
+      <>
+        <ResourcesNav activePath={activePath} />
+
+        <article class="resource-detail">
+          <header class="site-container resource-detail__header">
+            <p class="resource-detail__eyebrow">
+              Resources / {resource.resource_type}
+            </p>
+
+            <h1>{resource.title}</h1>
+
+            {
+              resource.excerpt && (
+                <p class="resource-detail__excerpt">
+                  {resource.excerpt}
+                </p>
+              )
+            }
+
+            <div class="resource-detail__meta">
+              <span>
+                {resource.resource_type}
+              </span>
+
+              {
+                resource.download_count !== undefined && (
+                  <span>
+                    {resource.download_count}
+                    {" "}downloads
+                  </span>
+                )
+              }
+            </div>
+          </header>
+
+          {
+            resource.featured_image_url && (
+              <div class="site-container resource-detail__image">
+                <img
+                  src={resource.featured_image_url}
+                  alt=""
+                />
+              </div>
+            )
+          }
+
+          <div class="site-container resource-detail__body">
+            {
+              resource.content?.intro && (
+                <p class="resource-detail__intro">
+                  {resource.content.intro}
+                </p>
+              )
+            }
+
+            {
+              sections.map((section) => (
+                <section>
+                  {
+                    section.heading && (
+                      <h2>
+                        {section.heading}
+                      </h2>
+                    )
+                  }
+
+                  {
+                    section.body && (
+                      <p>{section.body}</p>
+                    )
+                  }
+                </section>
+              ))
+            }
+
+            {
+              resource.resource_url && (
+                <div class="resource-detail__download">
+                  <a
+                    href={resource.resource_url}
+                    target={
+                      resource.external_url
+                        ? "_blank"
+                        : undefined
+                    }
+                    rel={
+                      resource.external_url
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
+                  >
+                    Access resource
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              )
+            }
+          </div>
+        </article>
+      </>
+    ) : (
+      <section class="resource-detail__not-found">
+        <div class="site-container">
+          <p>404</p>
+          <h1>Resource not found.</h1>
+
+          <a href="/resources/">
+            Return to Resources
+          </a>
+        </div>
+      </section>
+    )
+  }
+</Layout>
+
+<style>
+  .resource-detail {
+    background: #f7f9fc;
+  }
+
+  .resource-detail__header {
+    max-width: 62rem;
+    padding-block:
+      clamp(5rem, 10vw, 9rem)
+      clamp(3rem, 6vw, 5rem);
+  }
+
+  .resource-detail__eyebrow {
+    margin: 0 0 1.2rem;
+    color: #0b2f8f;
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .resource-detail h1 {
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 7vw, 6.8rem);
+    font-weight: 400;
+    letter-spacing: -0.06em;
+    line-height: 0.95;
+  }
+
+  .resource-detail__excerpt {
+    max-width: 48rem;
+    margin: 2rem 0 0;
+    color: #6d798b;
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .resource-detail__meta {
+    display: flex;
+    gap: 1.5rem;
+    border-top: 1px solid #d5dde7;
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    color: #758195;
+    font-size: 0.68rem;
+    text-transform: capitalize;
+  }
+
+  .resource-detail__image img {
+    width: 100%;
+    max-height: 42rem;
+    object-fit: cover;
+  }
+
+  .resource-detail__body {
+    max-width: 48rem;
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .resource-detail__intro {
+    margin: 0 0 3rem;
+    color: #293b53;
+    font-family: var(--font-serif);
+    font-size: clamp(1.45rem, 2.5vw, 2rem);
+    line-height: 1.45;
+  }
+
+  .resource-detail__body section {
+    border-top: 1px solid #d9e0e9;
+    padding-block: 3rem;
+  }
+
+  .resource-detail__body h2 {
+    margin: 0;
+    color: #0b1e3a;
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+  }
+
+  .resource-detail__body section p {
+    margin: 1.2rem 0 0;
+    color: #53647a;
+    line-height: 1.9;
+  }
+
+  .resource-detail__download {
+    border-top: 1px solid #d8e0e9;
+    padding-top: 2rem;
+  }
+
+  .resource-detail__download a {
+    display: inline-flex;
+    gap: 0.7rem;
+    border-bottom: 1px solid #0b2f8f;
+    padding-bottom: 0.2rem;
+    color: #0b2f8f;
+    font-weight: 750;
+  }
+
+  .resource-detail__not-found {
+    padding-block: 8rem;
+  }
+</style>

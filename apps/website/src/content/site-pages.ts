@@ -10,61 +10,6 @@ export interface SitePage {
 
 export const sitePages: SitePage[] = [
   {
-    title: "Resources",
-    path: "resources",
-    eyebrow: "Resources",
-    summary:
-      "Practical material supporting better technology and digital business decisions.",
-    parentPath: null,
-    childPaths: [
-      "resources/downloads",
-      "resources/guides",
-      "resources/checklists",
-      "resources/templates",
-    ],
-    noindex: false,
-  },
-  {
-    title: "Downloads",
-    path: "resources/downloads",
-    eyebrow: "Resources",
-    summary:
-      "Learn more about downloads within the LKProfessionals resources section.",
-    parentPath: "resources",
-    childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Guides",
-    path: "resources/guides",
-    eyebrow: "Resources",
-    summary:
-      "Learn more about guides within the LKProfessionals resources section.",
-    parentPath: "resources",
-    childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Checklists",
-    path: "resources/checklists",
-    eyebrow: "Resources",
-    summary:
-      "Learn more about checklists within the LKProfessionals resources section.",
-    parentPath: "resources",
-    childPaths: [],
-    noindex: false,
-  },
-  {
-    title: "Templates",
-    path: "resources/templates",
-    eyebrow: "Resources",
-    summary:
-      "Learn more about templates within the LKProfessionals resources section.",
-    parentPath: "resources",
-    childPaths: [],
-    noindex: false,
-  },
-  {
     title: "Book a Consultation",
     path: "book-a-consultation",
     eyebrow: "Consultation",

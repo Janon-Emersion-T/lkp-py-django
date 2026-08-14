@@ -1,0 +1,94 @@
+---
+interface Props {
+  activePath: string;
+}
+
+const { activePath } = Astro.props;
+
+const links = [
+  {
+    label: "All Resources",
+    href: "/resources",
+  },
+  {
+    label: "Downloads",
+    href: "/resources/downloads",
+  },
+  {
+    label: "Guides",
+    href: "/resources/guides",
+  },
+  {
+    label: "Checklists",
+    href: "/resources/checklists",
+  },
+  {
+    label: "Templates",
+    href: "/resources/templates",
+  },
+];
+---
+
+<nav
+  class="resources-nav"
+  aria-label="Resource categories"
+>
+  <div class="site-container resources-nav__inner">
+    {
+      links.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            "resources-nav__link",
+            activePath === link.href
+              && "resources-nav__link--active",
+          ]}
+          aria-current={
+            activePath === link.href
+              ? "page"
+              : undefined
+          }
+        >
+          {link.label}
+        </a>
+      ))
+    }
+  </div>
+</nav>
+
+<style>
+  .resources-nav {
+    border-bottom: 1px solid #d8e0e9;
+    background: #fff;
+  }
+
+  .resources-nav__inner {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .resources-nav__inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .resources-nav__link {
+    flex: 0 0 auto;
+    border-bottom: 2px solid transparent;
+    padding: 1rem 1rem 0.85rem;
+    color: #6d798b;
+    font-size: 0.72rem;
+    font-weight: 750;
+    white-space: nowrap;
+  }
+
+  .resources-nav__link:first-child {
+    padding-left: 0;
+  }
+
+  .resources-nav__link:hover,
+  .resources-nav__link--active {
+    border-bottom-color: #0b2f8f;
+    color: #0b2f8f;
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import ResourcesNav from "../../components/resources/ResourcesNav.astro";
+import ResourcesHero from "../../components/resources/ResourcesHero.astro";
+import ResourcesList from "../../components/resources/ResourcesList.astro";
+
+import {
+  getResources,
+} from "../../lib/resources/api";
+
+const resources = await getResources();
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "LKProfessionals Resources",
+  url: "https://lkprofessionals.com/resources/",
+  description:
+    "Practical guides, downloads, checklists and templates from LKProfessionals.",
+};
+---
+
+<Layout
+  title="Resources"
+  description="Practical guides, downloads, checklists and templates from LKProfessionals."
+  canonicalPath="/resources/"
+  structuredData={schema}
+>
+  <ResourcesNav activePath="/resources" />
+
+  <ResourcesHero
+    title="Practical resources for getting work done."
+    description="Guides, checklists, templates and downloadable material built around real technology and business work."
+  />
+
+  <ResourcesList resources={resources} />
+</Layout>
